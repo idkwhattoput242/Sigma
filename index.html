@@ -30,6 +30,7 @@
         .circle-buttons {
             display: flex;
             justify-content: center;
+            align-items: center;
             gap: 18px;
             margin-bottom: 10px;
         }
@@ -43,19 +44,68 @@
             background: white;
             color: black;
             border: none;
+
             font-size: 32px;
             font-weight: bold;
             font-family: Arial, sans-serif;
+
             display: flex;
             align-items: center;
             justify-content: center;
+
             cursor: pointer;
-            transition: 0.2s;
+            overflow: hidden;
+            white-space: nowrap;
+
+            transition:
+                width 0.25s ease,
+                background 0.2s ease,
+                transform 0.2s ease,
+                border-radius 0.25s ease;
         }
 
         .circle-button:hover {
             background: #ddd;
             transform: scale(1.08);
+            border-radius: 40px;
+        }
+
+        /* Hide letter when hovered */
+
+        .circle-button .letter {
+            display: block;
+        }
+
+        .circle-button .name {
+            display: none;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .circle-button:hover .letter {
+            display: none;
+        }
+
+        .circle-button:hover .name {
+            display: block;
+        }
+
+        /* Individual hover sizes */
+
+        .games-button:hover {
+            width: 130px;
+        }
+
+        .movies-button:hover {
+            width: 135px;
+        }
+
+        .changelog-button:hover {
+            width: 155px;
+        }
+
+        .settings-button:hover {
+            width: 140px;
         }
 
         /* Version */
@@ -170,23 +220,39 @@
         <div class="circle-buttons">
 
             <!-- Games -->
-            <button class="circle-button" onclick="location.href='games.html'">
-                G
+            <button
+                class="circle-button games-button"
+                onclick="location.href='games.html'"
+            >
+                <span class="letter">G</span>
+                <span class="name">Games</span>
             </button>
 
             <!-- Movies -->
-            <button class="circle-button" onclick="location.href='movies.html'">
-                M
+            <button
+                class="circle-button movies-button"
+                onclick="location.href='movies.html'"
+            >
+                <span class="letter">M</span>
+                <span class="name">Movies</span>
             </button>
 
             <!-- Changelogs -->
-            <button class="circle-button" onclick="location.href='changelogs.html'">
-                C
+            <button
+                class="circle-button changelog-button"
+                onclick="location.href='changelogs.html'"
+            >
+                <span class="letter">C</span>
+                <span class="name">Changelogs</span>
             </button>
 
             <!-- Settings -->
-            <button class="circle-button" onclick="location.href='settings.html'">
-                S
+            <button
+                class="circle-button settings-button"
+                onclick="location.href='settings.html'"
+            >
+                <span class="letter">S</span>
+                <span class="name">Settings</span>
             </button>
 
         </div>
