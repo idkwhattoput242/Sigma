@@ -25,7 +25,9 @@
             margin-bottom: 30px;
         }
 
-        /* Circle Buttons */
+        /* =========================
+           CIRCLE BUTTONS
+           ========================= */
 
         .circle-buttons {
             display: flex;
@@ -40,6 +42,7 @@
             height: 75px;
             padding: 0;
             margin: 5px;
+
             border-radius: 50%;
             background: white;
             color: black;
@@ -70,8 +73,6 @@
             border-radius: 40px;
         }
 
-        /* Hide letter when hovered */
-
         .circle-button .letter {
             display: block;
         }
@@ -90,8 +91,6 @@
             display: block;
         }
 
-        /* Individual hover sizes */
-
         .games-button:hover {
             width: 130px;
         }
@@ -108,25 +107,36 @@
             width: 140px;
         }
 
-        /* Version */
+
+        /* =========================
+           VERSION
+           ========================= */
 
         .version {
             position: fixed;
             bottom: 15px;
             right: 15px;
+
             color: #777;
             font-size: 14px;
         }
 
-        /* Quick Settings Overlay */
+
+        /* =========================
+           SIGMA-STYLE QUICK SETTINGS
+           ========================= */
 
         .quick-settings {
             display: none;
+
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.65);
+
+            background: rgba(0, 0, 0, 0.45);
+
             justify-content: center;
             align-items: center;
+
             z-index: 9999;
         }
 
@@ -134,78 +144,178 @@
             display: flex;
         }
 
+
+        /* Main white ClickGUI */
+
         .quick-settings-box {
-            width: 320px;
-            background: #111;
-            border: 1px solid #444;
-            border-radius: 12px;
+            width: 360px;
+
+            background: white;
+            color: black;
+
+            border-radius: 6px;
+
             padding: 25px;
-            color: white;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+
+            box-shadow:
+                0 15px 50px rgba(0, 0, 0, 0.65);
+
+            animation: clickguiOpen 0.2s ease-out;
         }
+
+
+        /* Title */
 
         .quick-settings-box h2 {
-            margin-top: 0;
-            margin-bottom: 25px;
+            margin: 0 0 22px 0;
+
+            font-size: 25px;
+            font-weight: bold;
+
+            color: black;
         }
 
+
+        /* Individual settings */
+
         .quick-setting {
-            background: #222;
-            border: 1px solid #444;
-            border-radius: 8px;
-            padding: 14px;
+            background: #f2f2f2;
+
+            border: 1px solid #ddd;
+
+            border-radius: 5px;
+
+            padding: 15px;
+
             margin-bottom: 10px;
+
             display: flex;
             justify-content: space-between;
             align-items: center;
+
+            color: black;
+
+            transition:
+                background 0.15s ease,
+                transform 0.15s ease;
         }
 
-        .hint {
-            color: #777;
-            font-size: 13px;
-            margin-bottom: 0;
+        .quick-setting:hover {
+            background: #e7e7e7;
+
+            transform: translateX(3px);
         }
+
+
+        /* Setting text */
+
+        .quick-setting span {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+
+        /* =========================
+           TOGGLE SWITCH
+           ========================= */
 
         .switch {
             position: relative;
-            width: 50px;
-            height: 26px;
+
+            width: 48px;
+            height: 25px;
         }
 
         .switch input {
             opacity: 0;
+
             width: 0;
             height: 0;
         }
 
+
+        /* Toggle background */
+
         .slider {
             position: absolute;
             inset: 0;
-            background: #555;
-            border-radius: 30px;
+
+            background: #cfcfcf;
+
+            border-radius: 20px;
+
             cursor: pointer;
+
             transition: 0.2s;
         }
+
+
+        /* Toggle circle */
 
         .slider:before {
             content: "";
+
             position: absolute;
-            width: 20px;
-            height: 20px;
+
+            width: 19px;
+            height: 19px;
+
             left: 3px;
             bottom: 3px;
+
             background: white;
+
             border-radius: 50%;
+
+            box-shadow:
+                0 1px 4px rgba(0, 0, 0, 0.25);
+
             transition: 0.2s;
         }
 
+
+        /* Enabled */
+
         input:checked + .slider {
-            background: #777;
+            background: #111;
         }
 
         input:checked + .slider:before {
-            transform: translateX(24px);
+            transform: translateX(23px);
         }
+
+
+        /* Hint */
+
+        .hint {
+            margin: 18px 0 0 0;
+
+            color: #777;
+
+            font-size: 13px;
+
+            text-align: center;
+        }
+
+
+        /* =========================
+           OPEN ANIMATION
+           ========================= */
+
+        @keyframes clickguiOpen {
+
+            from {
+                opacity: 0;
+                transform: scale(0.92);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+        }
+
     </style>
 </head>
 
@@ -220,6 +330,7 @@
         <div class="circle-buttons">
 
             <!-- Games -->
+
             <button
                 class="circle-button games-button"
                 onclick="location.href='games.html'"
@@ -228,7 +339,9 @@
                 <span class="name">Games</span>
             </button>
 
+
             <!-- Movies -->
+
             <button
                 class="circle-button movies-button"
                 onclick="location.href='movies.html'"
@@ -237,7 +350,9 @@
                 <span class="name">Movies</span>
             </button>
 
+
             <!-- Changelogs -->
+
             <button
                 class="circle-button changelog-button"
                 onclick="location.href='changelogs.html'"
@@ -246,7 +361,9 @@
                 <span class="name">Changelogs</span>
             </button>
 
+
             <!-- Settings -->
+
             <button
                 class="circle-button settings-button"
                 onclick="location.href='settings.html'"
@@ -260,16 +377,21 @@
     </div>
 
 
-    <div class="version">Beta 2.1</div>
+    <div class="version">
+        Beta 2.1
+    </div>
 
 
-    <!-- Quick Settings Overlay -->
+    <!-- =========================
+         QUICK SETTINGS
+         ========================= -->
 
     <div id="quickSettings" class="quick-settings">
 
         <div class="quick-settings-box">
 
             <h2>Settings</h2>
+
 
             <!-- No Tab Close -->
 
@@ -278,8 +400,14 @@
                 <span>No Tab Close</span>
 
                 <label class="switch">
-                    <input type="checkbox" id="quickNoTabClose">
+
+                    <input
+                        type="checkbox"
+                        id="quickNoTabClose"
+                    >
+
                     <span class="slider"></span>
+
                 </label>
 
             </div>
@@ -292,14 +420,22 @@
                 <span>Full Screen</span>
 
                 <label class="switch">
-                    <input type="checkbox" id="quickFullscreen">
+
+                    <input
+                        type="checkbox"
+                        id="quickFullscreen"
+                    >
+
                     <span class="slider"></span>
+
                 </label>
 
             </div>
 
 
-            <p class="hint">Press P to close</p>
+            <p class="hint">
+                Press P to close
+            </p>
 
         </div>
 
@@ -307,6 +443,10 @@
 
 
     <script>
+
+        /* =========================
+           QUICK SETTINGS
+           ========================= */
 
         const quickSettings =
             document.getElementById("quickSettings");
@@ -318,30 +458,22 @@
             document.getElementById("quickFullscreen");
 
 
-        /* Load saved No Tab Close setting */
-
-        if (localStorage.getItem("noTabClose") === "true") {
-
-            quickNoTabClose.checked = true;
-
-            enableNoTabClose();
-
-        }
-
-
-        /* No Tab Close */
+        /* =========================
+           NO TAB CLOSE
+           ========================= */
 
         function enableNoTabClose() {
 
-            window.onbeforeunload = function(event) {
+            window.onbeforeunload =
+                function(event) {
 
-                event.preventDefault();
+                    event.preventDefault();
 
-                event.returnValue = "";
+                    event.returnValue = "";
 
-                return "";
+                    return "";
 
-            };
+                };
 
         }
 
@@ -353,53 +485,85 @@
         }
 
 
-        quickNoTabClose.addEventListener("change", function() {
+        /* Load saved setting */
 
-            if (this.checked) {
+        if (
+            localStorage.getItem("noTabClose")
+            === "true"
+        ) {
 
-                localStorage.setItem(
-                    "noTabClose",
-                    "true"
-                );
+            quickNoTabClose.checked = true;
 
-                enableNoTabClose();
+            enableNoTabClose();
 
-            } else {
-
-                localStorage.setItem(
-                    "noTabClose",
-                    "false"
-                );
-
-                disableNoTabClose();
-
-            }
-
-        });
+        }
 
 
-        /* Full Screen */
+        /* Save setting */
 
-        quickFullscreen.addEventListener("change", function() {
+        quickNoTabClose.addEventListener(
+            "change",
+            function() {
 
-            if (this.checked) {
+                if (this.checked) {
 
-                document.documentElement.requestFullscreen();
+                    localStorage.setItem(
+                        "noTabClose",
+                        "true"
+                    );
 
-            } else {
+                    enableNoTabClose();
 
-                if (document.fullscreenElement) {
+                } else {
 
-                    document.exitFullscreen();
+                    localStorage.setItem(
+                        "noTabClose",
+                        "false"
+                    );
+
+                    disableNoTabClose();
 
                 }
 
             }
+        );
 
-        });
+
+        /* =========================
+           FULL SCREEN
+           ========================= */
+
+        quickFullscreen.addEventListener(
+            "change",
+            function() {
+
+                if (this.checked) {
+
+                    if (
+                        document.documentElement
+                            .requestFullscreen
+                    ) {
+
+                        document.documentElement
+                            .requestFullscreen();
+
+                    }
+
+                } else {
+
+                    if (document.fullscreenElement) {
+
+                        document.exitFullscreen();
+
+                    }
+
+                }
+
+            }
+        );
 
 
-        /* Keep Full Screen toggle synced */
+        /* Keep Full Screen synced */
 
         document.addEventListener(
             "fullscreenchange",
@@ -412,30 +576,48 @@
         );
 
 
-        /* Press P to open/close settings */
+        /* =========================
+           P KEY
+           ========================= */
 
-        document.addEventListener("keydown", function(event) {
+        document.addEventListener(
+            "keydown",
+            function(event) {
 
-            if (event.key.toLowerCase() === "p") {
+                if (
+                    event.key.toLowerCase() === "p"
+                ) {
 
-                quickSettings.classList.toggle("show");
+                    quickSettings.classList.toggle(
+                        "show"
+                    );
 
-            }
-
-        });
-
-
-        /* Click outside settings to close */
-
-        quickSettings.addEventListener("click", function(event) {
-
-            if (event.target === quickSettings) {
-
-                quickSettings.classList.remove("show");
+                }
 
             }
+        );
 
-        });
+
+        /* =========================
+           CLICK OUTSIDE TO CLOSE
+           ========================= */
+
+        quickSettings.addEventListener(
+            "click",
+            function(event) {
+
+                if (
+                    event.target === quickSettings
+                ) {
+
+                    quickSettings.classList.remove(
+                        "show"
+                    );
+
+                }
+
+            }
+        );
 
     </script>
 
