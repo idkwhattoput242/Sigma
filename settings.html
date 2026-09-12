@@ -6,7 +6,7 @@
     <style>
         body {
             margin: 0;
-            background: #000;
+            background: url("assets/backround.png") center center / cover no-repeat fixed;
             color: white;
             font-family: Arial, sans-serif;
 
@@ -43,6 +43,7 @@
         }
 
         /* Toggle switch */
+
         .switch {
             position: relative;
             width: 50px;
@@ -84,19 +85,66 @@
             transform: translateX(24px);
         }
 
-        button {
-            background: #222;
-            color: white;
-            border: 1px solid #555;
-            padding: 12px 30px;
-            margin-top: 25px;
-            font-size: 18px;
-            border-radius: 8px;
+        /* Back Button */
+
+        .back-button {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+
+            width: 65px;
+            height: 65px;
+
+            padding: 0;
+            margin: 0;
+
+            border-radius: 50%;
+            border: none;
+
+            background: white;
+            color: black;
+
+            font-size: 28px;
+            font-weight: bold;
+            font-family: Arial, sans-serif;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
             cursor: pointer;
+            overflow: hidden;
+            white-space: nowrap;
+
+            transition:
+                width 0.25s ease,
+                transform 0.2s ease,
+                background 0.2s ease,
+                border-radius 0.25s ease;
         }
 
-        button:hover {
-            background: #444;
+        .back-button:hover {
+            width: 115px;
+            background: #ddd;
+            transform: scale(1.08);
+            border-radius: 35px;
+        }
+
+        .back-button .back-letter {
+            display: block;
+        }
+
+        .back-button .back-text {
+            display: none;
+            font-size: 18px;
+        }
+
+        .back-button:hover .back-letter {
+            display: none;
+        }
+
+        .back-button:hover .back-text {
+            display: block;
         }
     </style>
 </head>
@@ -127,9 +175,14 @@
             </label>
         </div>
 
-        <button onclick="location.href='index.html'">Back</button>
-
     </div>
+
+    <!-- Back Button -->
+    <button class="back-button" onclick="location.href='index.html'">
+        <span class="back-letter">←</span>
+        <span class="back-text">Back</span>
+    </button>
+
 
     <script>
         /* =========================
