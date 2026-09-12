@@ -178,6 +178,7 @@
     </div>
 
     <!-- Back Button -->
+
     <button class="back-button" onclick="location.href='index.html'">
         <span class="back-letter">←</span>
         <span class="back-text">Back</span>
@@ -185,17 +186,35 @@
 
 
     <script>
+
         /* =========================
            AUTO CLOAK
            ========================= */
 
-        const autoCloak = document.getElementById("autoCloak");
+        const autoCloak =
+            document.getElementById("autoCloak");
+
 
         autoCloak.addEventListener("change", function() {
 
             if (this.checked) {
 
-                const cloakWindow = window.open("about:blank", "_blank");
+                /*
+                 * Automatically detect the current
+                 * URL instead of using a hard-coded URL.
+                 */
+
+                const currentURL =
+                    window.location.href;
+
+
+                /*
+                 * Open a blank window.
+                 */
+
+                const cloakWindow =
+                    window.open("about:blank", "_blank");
+
 
                 if (cloakWindow) {
 
@@ -204,8 +223,9 @@
                     cloakWindow.document.write(`
                         <!DOCTYPE html>
                         <html>
+
                         <head>
-                            <title>Google</title>
+                            <title>Sigma Jello</title>
 
                             <style>
                                 html, body {
@@ -214,6 +234,7 @@
                                     width: 100%;
                                     height: 100%;
                                     overflow: hidden;
+                                    background: #000;
                                 }
 
                                 iframe {
@@ -225,8 +246,14 @@
                         </head>
 
                         <body>
-                            <iframe src="https://codehs.com/sandbox/nbayoungboy69/sigma?filepath=index.html"></iframe>
+
+                            <iframe
+                                src="${currentURL}"
+                                allowfullscreen>
+                            </iframe>
+
                         </body>
+
                         </html>
                     `);
 
@@ -234,10 +261,15 @@
 
                 } else {
 
-                    alert("Your browser blocked the popup. Allow popups for this site.");
+                    alert(
+                        "Your browser blocked the popup. Allow popups for this site."
+                    );
+
                     this.checked = false;
                 }
+
             }
+
         });
 
 
@@ -245,45 +277,75 @@
            NO TAB CLOSE
            ========================= */
 
-        const noTabClose = document.getElementById("noTabClose");
+        const noTabClose =
+            document.getElementById("noTabClose");
+
 
         function enableNoTabClose() {
-            window.onbeforeunload = function(event) {
-                event.preventDefault();
-                event.returnValue = "";
-                return "";
-            };
+
+            window.onbeforeunload =
+                function(event) {
+
+                    event.preventDefault();
+
+                    event.returnValue = "";
+
+                    return "";
+
+                };
+
         }
 
+
         function disableNoTabClose() {
+
             window.onbeforeunload = null;
+
         }
 
 
         /* Load saved setting */
 
-        if (localStorage.getItem("noTabClose") === "true") {
+        if (
+            localStorage.getItem("noTabClose")
+            === "true"
+        ) {
+
             noTabClose.checked = true;
+
             enableNoTabClose();
+
         }
 
 
         /* Save setting when changed */
 
-        noTabClose.addEventListener("change", function() {
+        noTabClose.addEventListener(
+            "change",
+            function() {
 
-            if (this.checked) {
+                if (this.checked) {
 
-                localStorage.setItem("noTabClose", "true");
-                enableNoTabClose();
+                    localStorage.setItem(
+                        "noTabClose",
+                        "true"
+                    );
 
-            } else {
+                    enableNoTabClose();
 
-                localStorage.setItem("noTabClose", "false");
-                disableNoTabClose();
+                } else {
+
+                    localStorage.setItem(
+                        "noTabClose",
+                        "false"
+                    );
+
+                    disableNoTabClose();
+
+                }
 
             }
-        });
+        );
 
     </script>
 
