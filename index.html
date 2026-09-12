@@ -107,7 +107,6 @@
             width: 140px;
         }
 
-
         /* =========================
            VERSION
            ========================= */
@@ -120,7 +119,6 @@
             color: #777;
             font-size: 14px;
         }
-
 
         /* =========================
            QUICK SETTINGS
@@ -144,8 +142,7 @@
             display: flex;
         }
 
-
-        /* White Sigma-style panel */
+        /* White ClickGUI */
 
         .quick-settings-box {
             width: 360px;
@@ -163,9 +160,6 @@
             animation: clickguiOpen 0.2s ease-out;
         }
 
-
-        /* Title */
-
         .quick-settings-box h2 {
             margin: 0 0 22px 0;
 
@@ -174,9 +168,6 @@
 
             color: black;
         }
-
-
-        /* Setting rows */
 
         .quick-setting {
             background: #f2f2f2;
@@ -205,15 +196,13 @@
             transform: translateX(3px);
         }
 
-
         .quick-setting span {
             font-size: 16px;
             font-weight: bold;
         }
 
-
         /* =========================
-           TOGGLE SWITCH
+           TOGGLES
            ========================= */
 
         .switch {
@@ -272,7 +261,6 @@
             transform: translateX(23px);
         }
 
-
         /* Hint */
 
         .hint {
@@ -285,8 +273,7 @@
             text-align: center;
         }
 
-
-        /* Opening animation */
+        /* Animation */
 
         @keyframes clickguiOpen {
 
@@ -301,7 +288,6 @@
             }
 
         }
-
     </style>
 </head>
 
@@ -449,3 +435,288 @@
 
 
     <script>
+
+        /* =========================
+           ELEMENTS
+           ========================= */
+
+        const quickSettings =
+            document.getElementById("quickSettings");
+
+        const quickAutoCloak =
+            document.getElementById("quickAutoCloak");
+
+        const quickNoTabClose =
+            document.getElementById("quickNoTabClose");
+
+        const quickFullscreen =
+            document.getElementById("quickFullscreen");
+
+
+        /* =========================
+           NO TAB CLOSE FUNCTIONS
+           ========================= */
+
+        function enableNoTabClose() {
+
+            window.onbeforeunload =
+                function(event) {
+
+                    event.preventDefault();
+
+                    event.returnValue = "";
+
+                    return "";
+
+                };
+
+        }
+
+
+        function disableNoTabClose() {
+
+            window.onbeforeunload = null;
+
+        }
+
+
+        /* =========================
+           LOAD NO TAB CLOSE
+           ========================= */
+
+        if (
+            localStorage.getItem("noTabClose")
+            === "true"
+        ) {
+
+            quickNoTabClose.checked = true;
+
+            enableNoTabClose();
+
+        }
+
+
+        /* =========================
+           NO TAB CLOSE TOGGLE
+           ========================= */
+
+        quickNoTabClose.addEventListener(
+            "change",
+            function() {
+
+                if (this.checked) {
+
+                    localStorage.setItem(
+                        "noTabClose",
+                        "true"
+                    );
+
+                    enableNoTabClose();
+
+                } else {
+
+                    localStorage.setItem(
+                        "noTabClose",
+                        "false"
+                    );
+
+                    disableNoTabClose();
+
+                }
+
+            }
+        );
+
+
+        /* =========================
+           AUTO CLOAK
+           ========================= */
+
+        quickAutoCloak.addEventListener(
+            "change",
+            function() {
+
+                if (!this.checked) {
+                    return;
+                }
+
+                const currentURL =
+                    window.location.href;
+
+                const cloakWindow =
+                    window.open(
+                        "about:blank",
+                        "_blank"
+                    );
+
+                if (!cloakWindow) {
+
+                    alert(
+                        "Your browser blocked the popup. Allow popups for this site."
+                    );
+
+                    this.checked = false;
+
+                    return;
+                }
+
+                cloakWindow.document.open();
+
+                cloakWindow.document.write(`
+
+                    <!DOCTYPE html>
+
+                    <html>
+
+                    <head>
+
+                        <title>Sigma Jello</title>
+
+                        <style>
+
+                            html,
+                            body {
+
+                                margin: 0;
+                                padding: 0;
+
+                                width: 100%;
+                                height: 100%;
+
+                                overflow: hidden;
+
+                                background: black;
+
+                            }
+
+                            iframe {
+
+                                width: 100%;
+                                height: 100%;
+
+                                border: none;
+
+                            }
+
+                        </style>
+
+                    </head>
+
+                    <body>
+
+                        <iframe
+                            src="${currentURL}"
+                            allowfullscreen>
+                        </iframe>
+
+                    </body>
+
+                    </html>
+
+                `);
+
+                cloakWindow.document.close();
+
+            }
+        );
+
+
+        /* =========================
+           FULL SCREEN
+           ========================= */
+
+        quickFullscreen.addEventListener(
+            "change",
+            function() {
+
+                if (this.checked) {
+
+                    if (
+                        document.documentElement
+                            .requestFullscreen
+                    ) {
+
+                        document.documentElement
+                            .requestFullscreen();
+
+                    }
+
+                } else {
+
+                    if (document.fullscreenElement) {
+
+                        document.exitFullscreen();
+
+                    }
+
+                }
+
+            }
+        );
+
+
+        /* Keep fullscreen toggle synced */
+
+        document.addEventListener(
+            "fullscreenchange",
+            function() {
+
+                quickFullscreen.checked =
+                    !!document.fullscreenElement;
+
+            }
+        );
+
+
+        /* =========================
+           P KEY
+           ========================= */
+
+        document.addEventListener(
+            "keydown",
+            function(event) {
+
+                /*
+                 * KeyP is more reliable than
+                 * checking event.key alone.
+                 */
+
+                if (event.code === "KeyP") {
+
+                    event.preventDefault();
+
+                    quickSettings.classList.toggle(
+                        "show"
+                    );
+
+                }
+
+            }
+        );
+
+
+        /* =========================
+           CLICK OUTSIDE TO CLOSE
+           ========================= */
+
+        quickSettings.addEventListener(
+            "click",
+            function(event) {
+
+                if (
+                    event.target === quickSettings
+                ) {
+
+                    quickSettings.classList.remove(
+                        "show"
+                    );
+
+                }
+
+            }
+        );
+
+    </script>
+
+</body>
+</html>
