@@ -123,7 +123,7 @@
 
 
         /* =========================
-           SIGMA-STYLE QUICK SETTINGS
+           QUICK SETTINGS
            ========================= */
 
         .quick-settings {
@@ -145,7 +145,7 @@
         }
 
 
-        /* Main white ClickGUI */
+        /* White Sigma-style panel */
 
         .quick-settings-box {
             width: 360px;
@@ -176,7 +176,7 @@
         }
 
 
-        /* Individual settings */
+        /* Setting rows */
 
         .quick-setting {
             background: #f2f2f2;
@@ -202,12 +202,9 @@
 
         .quick-setting:hover {
             background: #e7e7e7;
-
             transform: translateX(3px);
         }
 
-
-        /* Setting text */
 
         .quick-setting span {
             font-size: 16px;
@@ -233,9 +230,6 @@
             height: 0;
         }
 
-
-        /* Toggle background */
-
         .slider {
             position: absolute;
             inset: 0;
@@ -248,9 +242,6 @@
 
             transition: 0.2s;
         }
-
-
-        /* Toggle circle */
 
         .slider:before {
             content: "";
@@ -272,9 +263,6 @@
 
             transition: 0.2s;
         }
-
-
-        /* Enabled */
 
         input:checked + .slider {
             background: #111;
@@ -298,9 +286,7 @@
         }
 
 
-        /* =========================
-           OPEN ANIMATION
-           ========================= */
+        /* Opening animation */
 
         @keyframes clickguiOpen {
 
@@ -393,6 +379,26 @@
             <h2>Settings</h2>
 
 
+            <!-- Auto Cloak -->
+
+            <div class="quick-setting">
+
+                <span>Auto Cloak</span>
+
+                <label class="switch">
+
+                    <input
+                        type="checkbox"
+                        id="quickAutoCloak"
+                    >
+
+                    <span class="slider"></span>
+
+                </label>
+
+            </div>
+
+
             <!-- No Tab Close -->
 
             <div class="quick-setting">
@@ -443,183 +449,3 @@
 
 
     <script>
-
-        /* =========================
-           QUICK SETTINGS
-           ========================= */
-
-        const quickSettings =
-            document.getElementById("quickSettings");
-
-        const quickNoTabClose =
-            document.getElementById("quickNoTabClose");
-
-        const quickFullscreen =
-            document.getElementById("quickFullscreen");
-
-
-        /* =========================
-           NO TAB CLOSE
-           ========================= */
-
-        function enableNoTabClose() {
-
-            window.onbeforeunload =
-                function(event) {
-
-                    event.preventDefault();
-
-                    event.returnValue = "";
-
-                    return "";
-
-                };
-
-        }
-
-
-        function disableNoTabClose() {
-
-            window.onbeforeunload = null;
-
-        }
-
-
-        /* Load saved setting */
-
-        if (
-            localStorage.getItem("noTabClose")
-            === "true"
-        ) {
-
-            quickNoTabClose.checked = true;
-
-            enableNoTabClose();
-
-        }
-
-
-        /* Save setting */
-
-        quickNoTabClose.addEventListener(
-            "change",
-            function() {
-
-                if (this.checked) {
-
-                    localStorage.setItem(
-                        "noTabClose",
-                        "true"
-                    );
-
-                    enableNoTabClose();
-
-                } else {
-
-                    localStorage.setItem(
-                        "noTabClose",
-                        "false"
-                    );
-
-                    disableNoTabClose();
-
-                }
-
-            }
-        );
-
-
-        /* =========================
-           FULL SCREEN
-           ========================= */
-
-        quickFullscreen.addEventListener(
-            "change",
-            function() {
-
-                if (this.checked) {
-
-                    if (
-                        document.documentElement
-                            .requestFullscreen
-                    ) {
-
-                        document.documentElement
-                            .requestFullscreen();
-
-                    }
-
-                } else {
-
-                    if (document.fullscreenElement) {
-
-                        document.exitFullscreen();
-
-                    }
-
-                }
-
-            }
-        );
-
-
-        /* Keep Full Screen synced */
-
-        document.addEventListener(
-            "fullscreenchange",
-            function() {
-
-                quickFullscreen.checked =
-                    !!document.fullscreenElement;
-
-            }
-        );
-
-
-        /* =========================
-           P KEY
-           ========================= */
-
-        document.addEventListener(
-            "keydown",
-            function(event) {
-
-                if (
-                    event.key.toLowerCase() === "p"
-                ) {
-
-                    quickSettings.classList.toggle(
-                        "show"
-                    );
-
-                }
-
-            }
-        );
-
-
-        /* =========================
-           CLICK OUTSIDE TO CLOSE
-           ========================= */
-
-        quickSettings.addEventListener(
-            "click",
-            function(event) {
-
-                if (
-                    event.target === quickSettings
-                ) {
-
-                    quickSettings.classList.remove(
-                        "show"
-                    );
-
-                }
-
-            }
-        );
-
-    </script>
-
-</body>
-</html>
