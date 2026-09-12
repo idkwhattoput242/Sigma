@@ -56,19 +56,61 @@
             margin-bottom: 10px;
         }
 
-        button {
-            background: #222;
-            color: white;
-            border: 1px solid #555;
-            padding: 12px 30px;
+        /* Back Button */
+
+        .back-button {
+            width: 65px;
+            height: 65px;
+            padding: 0;
             margin-top: 30px;
-            font-size: 18px;
-            border-radius: 8px;
+
+            border-radius: 50%;
+            border: none;
+
+            background: white;
+            color: black;
+
+            font-size: 28px;
+            font-weight: bold;
+            font-family: Arial, sans-serif;
+
             cursor: pointer;
+            overflow: hidden;
+            white-space: nowrap;
+
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            transition:
+                width 0.25s ease,
+                transform 0.2s ease,
+                background 0.2s ease,
+                border-radius 0.25s ease;
         }
 
-        button:hover {
-            background: #444;
+        .back-button:hover {
+            width: 115px;
+            background: #ddd;
+            transform: scale(1.08);
+            border-radius: 35px;
+        }
+
+        .back-button .back-letter {
+            display: block;
+        }
+
+        .back-button .back-text {
+            display: none;
+            font-size: 18px;
+        }
+
+        .back-button:hover .back-letter {
+            display: none;
+        }
+
+        .back-button:hover .back-text {
+            display: block;
         }
 
         /* Quick Settings Overlay */
@@ -191,7 +233,15 @@
 
         <br>
 
-        <button onclick="location.href='index.html'">Back</button>
+        <!-- Back Button -->
+
+        <button
+            class="back-button"
+            onclick="location.href='index.html'"
+        >
+            <span class="back-letter">←</span>
+            <span class="back-text">Back</span>
+        </button>
 
     </div>
 
