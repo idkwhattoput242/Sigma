@@ -17,32 +17,85 @@
             border: none;
         }
 
-        .back {
+        /* =========================
+           BACK BUTTON
+           ========================= */
+
+        .back-button {
             position: fixed;
-            top: 15px;
-            left: 15px;
-            z-index: 10;
-            background: #222;
-            color: white;
+            bottom: 20px;
+            left: 20px;
+            z-index: 10000;
+
+            width: 65px;
+            height: 65px;
+
+            padding: 0;
+            margin: 0;
+
+            border-radius: 50%;
             border: none;
-            padding: 10px 18px;
-            border-radius: 8px;
+
+            background: white;
+            color: black;
+
+            font-size: 28px;
+            font-weight: bold;
+            font-family: Arial, sans-serif;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
             cursor: pointer;
-            font-size: 14px;
+            overflow: hidden;
+            white-space: nowrap;
+
+            transition:
+                width 0.25s ease,
+                transform 0.2s ease,
+                background 0.2s ease,
+                border-radius 0.25s ease;
         }
 
-        .back:hover {
-            background: #333;
+        .back-button:hover {
+            width: 115px;
+            background: #ddd;
+            transform: scale(1.08);
+            border-radius: 35px;
         }
 
-        /* Quick Settings Overlay */
+        .back-button .back-letter {
+            display: block;
+        }
+
+        .back-button .back-text {
+            display: none;
+            font-size: 18px;
+        }
+
+        .back-button:hover .back-letter {
+            display: none;
+        }
+
+        .back-button:hover .back-text {
+            display: block;
+        }
+
+        /* =========================
+           QUICK SETTINGS
+           ========================= */
+
         .quick-settings {
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.65);
+
+            background: rgba(0, 0, 0, 0.45);
+
             justify-content: center;
             align-items: center;
+
             z-index: 99999;
         }
 
@@ -51,41 +104,75 @@
         }
 
         .quick-settings-box {
-            width: 320px;
-            background: #111;
-            border: 1px solid #444;
-            border-radius: 12px;
+            width: 360px;
+
+            background: white;
+            color: black;
+
+            border-radius: 6px;
             padding: 25px;
-            color: white;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.65);
+
+            animation: clickguiOpen 0.2s ease-out;
         }
 
         .quick-settings-box h2 {
-            margin-top: 0;
-            margin-bottom: 25px;
+            margin: 0 0 22px 0;
+
+            font-size: 25px;
+            font-weight: bold;
+
+            color: black;
         }
 
         .quick-setting {
-            background: #222;
-            border: 1px solid #444;
-            border-radius: 8px;
-            padding: 14px;
+            background: #f2f2f2;
+
+            border: 1px solid #ddd;
+            border-radius: 5px;
+
+            padding: 15px;
             margin-bottom: 10px;
+
             display: flex;
             justify-content: space-between;
             align-items: center;
+
+            color: black;
+
+            transition:
+                background 0.15s ease,
+                transform 0.15s ease;
+        }
+
+        .quick-setting:hover {
+            background: #e7e7e7;
+            transform: translateX(3px);
+        }
+
+        .quick-setting span {
+            font-size: 16px;
+            font-weight: bold;
         }
 
         .hint {
+            margin: 18px 0 0 0;
+
             color: #777;
+
             font-size: 13px;
-            margin-bottom: 0;
+            text-align: center;
         }
+
+        /* =========================
+           TOGGLE
+           ========================= */
 
         .switch {
             position: relative;
-            width: 50px;
-            height: 26px;
+            width: 48px;
+            height: 25px;
         }
 
         .switch input {
@@ -97,39 +184,82 @@
         .slider {
             position: absolute;
             inset: 0;
-            background: #555;
-            border-radius: 30px;
+
+            background: #cfcfcf;
+
+            border-radius: 20px;
+
             cursor: pointer;
+
             transition: 0.2s;
         }
 
         .slider:before {
             content: "";
+
             position: absolute;
-            width: 20px;
-            height: 20px;
+
+            width: 19px;
+            height: 19px;
+
             left: 3px;
             bottom: 3px;
+
             background: white;
+
             border-radius: 50%;
+
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+
             transition: 0.2s;
         }
 
         input:checked + .slider {
-            background: #777;
+            background: #111;
         }
 
         input:checked + .slider:before {
-            transform: translateX(24px);
+            transform: translateX(23px);
+        }
+
+        /* =========================
+           ANIMATION
+           ========================= */
+
+        @keyframes clickguiOpen {
+            from {
+                opacity: 0;
+                transform: scale(0.92);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
     </style>
 </head>
 
 <body>
 
-    <button class="back" onclick="location.href='../../games.html'">
-        Back
+    <!-- Back to Games Page -->
+
+    <button
+        class="back-button"
+        onclick="location.href='../../games.html'">
+
+        <span class="back-letter">
+            ←
+        </span>
+
+        <span class="back-text">
+            Back
+        </span>
+
     </button>
+
+
+    <!-- Terraria -->
 
     <iframe
         class="game"
@@ -140,21 +270,31 @@
 
     <!-- Quick Settings Overlay -->
 
-    <div id="quickSettings" class="quick-settings">
+    <div
+        id="quickSettings"
+        class="quick-settings">
 
         <div class="quick-settings-box">
 
             <h2>Settings</h2>
 
+
             <!-- No Tab Close -->
 
             <div class="quick-setting">
 
-                <span>No Tab Close</span>
+                <span>
+                    No Tab Close
+                </span>
 
                 <label class="switch">
-                    <input type="checkbox" id="quickNoTabClose">
+
+                    <input
+                        type="checkbox"
+                        id="quickNoTabClose">
+
                     <span class="slider"></span>
+
                 </label>
 
             </div>
@@ -164,16 +304,26 @@
 
             <div class="quick-setting">
 
-                <span>Full Screen</span>
+                <span>
+                    Full Screen
+                </span>
 
                 <label class="switch">
-                    <input type="checkbox" id="quickFullscreen">
+
+                    <input
+                        type="checkbox"
+                        id="quickFullscreen">
+
                     <span class="slider"></span>
+
                 </label>
 
             </div>
 
-            <p class="hint">Press P to close</p>
+
+            <p class="hint">
+                Press P to close
+            </p>
 
         </div>
 
@@ -181,6 +331,10 @@
 
 
     <script>
+
+        /* =========================
+           QUICK SETTINGS
+           ========================= */
 
         const quickSettings =
             document.getElementById("quickSettings");
@@ -192,30 +346,22 @@
             document.getElementById("quickFullscreen");
 
 
-        /* Load saved No Tab Close setting */
-
-        if (localStorage.getItem("noTabClose") === "true") {
-
-            quickNoTabClose.checked = true;
-
-            enableNoTabClose();
-
-        }
-
-
-        /* No Tab Close */
+        /* =========================
+           NO TAB CLOSE
+           ========================= */
 
         function enableNoTabClose() {
 
-            window.onbeforeunload = function(event) {
+            window.onbeforeunload =
+                function(event) {
 
-                event.preventDefault();
+                    event.preventDefault();
 
-                event.returnValue = "";
+                    event.returnValue = "";
 
-                return "";
+                    return "";
 
-            };
+                };
 
         }
 
@@ -227,53 +373,87 @@
         }
 
 
-        quickNoTabClose.addEventListener("change", function() {
+        /* Load saved setting */
 
-            if (this.checked) {
+        if (
+            localStorage.getItem("noTabClose")
+            === "true"
+        ) {
 
-                localStorage.setItem(
-                    "noTabClose",
-                    "true"
-                );
+            quickNoTabClose.checked = true;
 
-                enableNoTabClose();
+            enableNoTabClose();
 
-            } else {
-
-                localStorage.setItem(
-                    "noTabClose",
-                    "false"
-                );
-
-                disableNoTabClose();
-
-            }
-
-        });
+        }
 
 
-        /* Full Screen */
+        /* Save setting */
 
-        quickFullscreen.addEventListener("change", function() {
+        quickNoTabClose.addEventListener(
+            "change",
+            function() {
 
-            if (this.checked) {
+                if (this.checked) {
 
-                document.documentElement.requestFullscreen();
+                    localStorage.setItem(
+                        "noTabClose",
+                        "true"
+                    );
 
-            } else {
+                    enableNoTabClose();
 
-                if (document.fullscreenElement) {
+                } else {
 
-                    document.exitFullscreen();
+                    localStorage.setItem(
+                        "noTabClose",
+                        "false"
+                    );
+
+                    disableNoTabClose();
 
                 }
 
             }
+        );
 
-        });
+
+        /* =========================
+           FULL SCREEN
+           ========================= */
+
+        quickFullscreen.addEventListener(
+            "change",
+            function() {
+
+                if (this.checked) {
+
+                    if (
+                        document.documentElement
+                            .requestFullscreen
+                    ) {
+
+                        document.documentElement
+                            .requestFullscreen();
+
+                    }
+
+                } else {
+
+                    if (
+                        document.fullscreenElement
+                    ) {
+
+                        document.exitFullscreen();
+
+                    }
+
+                }
+
+            }
+        );
 
 
-        /* Keep Full Screen toggle synced */
+        /* Keep Full Screen synced */
 
         document.addEventListener(
             "fullscreenchange",
@@ -286,30 +466,52 @@
         );
 
 
-        /* Press P to open/close settings */
+        /* =========================
+           P KEY CLICKGUI
+           ========================= */
 
-        document.addEventListener("keydown", function(event) {
+        window.addEventListener(
+            "keydown",
+            function(event) {
 
-            if (event.key.toLowerCase() === "p") {
+                if (event.code === "KeyP") {
 
-                quickSettings.classList.toggle("show");
+                    if (event.repeat)
+                        return;
+
+                    event.preventDefault();
+
+                    quickSettings.classList.toggle(
+                        "show"
+                    );
+
+                }
 
             }
+        );
 
-        });
 
+        /* =========================
+           CLICK OUTSIDE TO CLOSE
+           ========================= */
 
-        /* Click outside settings to close */
+        quickSettings.addEventListener(
+            "click",
+            function(event) {
 
-        quickSettings.addEventListener("click", function(event) {
+                if (
+                    event.target ===
+                    quickSettings
+                ) {
 
-            if (event.target === quickSettings) {
+                    quickSettings.classList.remove(
+                        "show"
+                    );
 
-                quickSettings.classList.remove("show");
+                }
 
             }
-
-        });
+        );
 
     </script>
 
