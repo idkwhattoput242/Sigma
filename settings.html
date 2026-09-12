@@ -26,28 +26,39 @@
         }
 
         .setting {
-            background: #222;
-            border: 1px solid #555;
-            border-radius: 8px;
+            background: white;
+            color: black;
+            border: 1px solid #ddd;
+            border-radius: 6px;
             padding: 15px 20px;
-            margin: 10px;
+            margin: 10px auto;
             width: 300px;
 
             display: flex;
             justify-content: space-between;
             align-items: center;
+
+            transition:
+                background 0.15s ease,
+                transform 0.15s ease;
+        }
+
+        .setting:hover {
+            background: #e7e7e7;
+            transform: translateX(3px);
         }
 
         .setting-name {
             font-size: 18px;
+            font-weight: bold;
         }
 
         /* Toggle switch */
 
         .switch {
             position: relative;
-            width: 50px;
-            height: 26px;
+            width: 48px;
+            height: 25px;
         }
 
         .switch input {
@@ -59,30 +70,31 @@
         .slider {
             position: absolute;
             inset: 0;
+            background: #cfcfcf;
+            border-radius: 20px;
             cursor: pointer;
-            background: #555;
-            border-radius: 30px;
             transition: 0.2s;
         }
 
         .slider:before {
             content: "";
             position: absolute;
-            width: 20px;
-            height: 20px;
+            width: 19px;
+            height: 19px;
             left: 3px;
             bottom: 3px;
             background: white;
             border-radius: 50%;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
             transition: 0.2s;
         }
 
         input:checked + .slider {
-            background: #777;
+            background: #111;
         }
 
         input:checked + .slider:before {
-            transform: translateX(24px);
+            transform: translateX(23px);
         }
 
         /* Back Button */
@@ -146,6 +158,99 @@
         .back-button:hover .back-text {
             display: block;
         }
+
+        /* Quick Settings */
+
+        .quick-settings {
+            display: none;
+            position: fixed;
+            inset: 0;
+
+            background: rgba(0, 0, 0, 0.45);
+
+            justify-content: center;
+            align-items: center;
+
+            z-index: 9999;
+        }
+
+        .quick-settings.show {
+            display: flex;
+        }
+
+        .quick-settings-box {
+            width: 360px;
+
+            background: white;
+            color: black;
+
+            border-radius: 6px;
+            padding: 25px;
+
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.65);
+
+            animation: clickguiOpen 0.2s ease-out;
+        }
+
+        .quick-settings-box h2 {
+            margin: 0 0 22px 0;
+
+            font-size: 25px;
+            font-weight: bold;
+
+            color: black;
+        }
+
+        .quick-setting {
+            background: #f2f2f2;
+
+            border: 1px solid #ddd;
+            border-radius: 5px;
+
+            padding: 15px;
+            margin-bottom: 10px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            color: black;
+
+            transition:
+                background 0.15s ease,
+                transform 0.15s ease;
+        }
+
+        .quick-setting:hover {
+            background: #e7e7e7;
+            transform: translateX(3px);
+        }
+
+        .quick-setting span {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .hint {
+            margin: 18px 0 0 0;
+
+            color: #777;
+
+            font-size: 13px;
+            text-align: center;
+        }
+
+        @keyframes clickguiOpen {
+            from {
+                opacity: 0;
+                transform: scale(0.92);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
     </style>
 </head>
 
@@ -156,33 +261,122 @@
         <h1>Settings</h1>
 
         <!-- Auto Cloak -->
+
         <div class="setting">
-            <span class="setting-name">Auto Cloak</span>
+
+            <span class="setting-name">
+                Auto Cloak
+            </span>
 
             <label class="switch">
-                <input type="checkbox" id="autoCloak">
+
+                <input
+                    type="checkbox"
+                    id="autoCloak">
+
                 <span class="slider"></span>
+
             </label>
+
         </div>
 
+
         <!-- No Tab Close -->
+
         <div class="setting">
-            <span class="setting-name">No Tab Close</span>
+
+            <span class="setting-name">
+                No Tab Close
+            </span>
 
             <label class="switch">
-                <input type="checkbox" id="noTabClose">
+
+                <input
+                    type="checkbox"
+                    id="noTabClose">
+
                 <span class="slider"></span>
+
             </label>
+
         </div>
 
     </div>
 
+
     <!-- Back Button -->
 
-    <button class="back-button" onclick="location.href='index.html'">
-        <span class="back-letter">←</span>
-        <span class="back-text">Back</span>
+    <button
+        class="back-button"
+        onclick="location.href='index.html'">
+
+        <span class="back-letter">
+            ←
+        </span>
+
+        <span class="back-text">
+            Back
+        </span>
+
     </button>
+
+
+    <!-- Quick Settings -->
+
+    <div
+        id="quickSettings"
+        class="quick-settings">
+
+        <div class="quick-settings-box">
+
+            <h2>Settings</h2>
+
+
+            <div class="quick-setting">
+
+                <span>
+                    No Tab Close
+                </span>
+
+                <label class="switch">
+
+                    <input
+                        type="checkbox"
+                        id="quickNoTabClose">
+
+                    <span class="slider"></span>
+
+                </label>
+
+            </div>
+
+
+            <div class="quick-setting">
+
+                <span>
+                    Full Screen
+                </span>
+
+                <label class="switch">
+
+                    <input
+                        type="checkbox"
+                        id="quickFullscreen">
+
+                    <span class="slider"></span>
+
+                </label>
+
+            </div>
+
+
+            <p class="hint">
+                Press P to close
+            </p>
+
+        </div>
+
+    </div>
 
 
     <script>
@@ -195,82 +389,103 @@
             document.getElementById("autoCloak");
 
 
-        autoCloak.addEventListener("change", function() {
+        autoCloak.addEventListener(
+            "change",
+            function() {
 
-            if (this.checked) {
+                if (this.checked) {
 
-                /*
-                 * Automatically detect the current
-                 * URL instead of using a hard-coded URL.
-                 */
-
-                const currentURL =
-                    window.location.href;
-
-
-                /*
-                 * Open a blank window.
-                 */
-
-                const cloakWindow =
-                    window.open("about:blank", "_blank");
+                    const siteURL =
+                        new URL(
+                            "index.html",
+                            window.location.href
+                        ).href;
 
 
-                if (cloakWindow) {
+                    const cloakWindow =
+                        window.open(
+                            "about:blank",
+                            "_blank"
+                        );
+
+
+                    if (!cloakWindow) {
+
+                        alert(
+                            "Your browser blocked the popup. Allow popups for this site."
+                        );
+
+                        this.checked = false;
+
+                        return;
+                    }
+
 
                     cloakWindow.document.open();
 
                     cloakWindow.document.write(`
+
                         <!DOCTYPE html>
+
                         <html>
 
                         <head>
-                            <title>Sigma Jello</title>
+
+                            <title>
+                                Sigma Jello
+                            </title>
 
                             <style>
-                                html, body {
+
+                                html,
+                                body {
+
                                     margin: 0;
                                     padding: 0;
+
                                     width: 100%;
                                     height: 100%;
+
                                     overflow: hidden;
-                                    background: #000;
+
+                                    background: black;
+
                                 }
 
+
                                 iframe {
+
                                     width: 100%;
                                     height: 100%;
+
                                     border: none;
+
                                 }
+
                             </style>
+
                         </head>
+
 
                         <body>
 
                             <iframe
-                                src="${currentURL}"
+                                src="${siteURL}"
                                 allowfullscreen>
                             </iframe>
 
                         </body>
 
                         </html>
+
                     `);
 
                     cloakWindow.document.close();
 
-                } else {
-
-                    alert(
-                        "Your browser blocked the popup. Allow popups for this site."
-                    );
-
-                    this.checked = false;
                 }
 
             }
-
-        });
+        );
 
 
         /* =========================
@@ -279,6 +494,18 @@
 
         const noTabClose =
             document.getElementById("noTabClose");
+
+
+        const quickSettings =
+            document.getElementById("quickSettings");
+
+
+        const quickNoTabClose =
+            document.getElementById("quickNoTabClose");
+
+
+        const quickFullscreen =
+            document.getElementById("quickFullscreen");
 
 
         function enableNoTabClose() {
@@ -313,16 +540,22 @@
 
             noTabClose.checked = true;
 
+            quickNoTabClose.checked = true;
+
             enableNoTabClose();
 
         }
 
 
-        /* Save setting when changed */
+        /* Main settings toggle */
 
         noTabClose.addEventListener(
             "change",
             function() {
+
+                quickNoTabClose.checked =
+                    this.checked;
+
 
                 if (this.checked) {
 
@@ -341,6 +574,133 @@
                     );
 
                     disableNoTabClose();
+
+                }
+
+            }
+        );
+
+
+        /* Quick settings toggle */
+
+        quickNoTabClose.addEventListener(
+            "change",
+            function() {
+
+                noTabClose.checked =
+                    this.checked;
+
+
+                if (this.checked) {
+
+                    localStorage.setItem(
+                        "noTabClose",
+                        "true"
+                    );
+
+                    enableNoTabClose();
+
+                } else {
+
+                    localStorage.setItem(
+                        "noTabClose",
+                        "false"
+                    );
+
+                    disableNoTabClose();
+
+                }
+
+            }
+        );
+
+
+        /* =========================
+           FULL SCREEN
+           ========================= */
+
+        quickFullscreen.addEventListener(
+            "change",
+            function() {
+
+                if (this.checked) {
+
+                    if (
+                        document.documentElement
+                            .requestFullscreen
+                    ) {
+
+                        document.documentElement
+                            .requestFullscreen();
+
+                    }
+
+                } else {
+
+                    if (
+                        document.fullscreenElement
+                    ) {
+
+                        document.exitFullscreen();
+
+                    }
+
+                }
+
+            }
+        );
+
+
+        document.addEventListener(
+            "fullscreenchange",
+            function() {
+
+                quickFullscreen.checked =
+                    !!document.fullscreenElement;
+
+            }
+        );
+
+
+        /* =========================
+           P KEY CLICKGUI
+           ========================= */
+
+        window.addEventListener(
+            "keydown",
+            function(event) {
+
+                if (event.code === "KeyP") {
+
+                    if (event.repeat)
+                        return;
+
+                    event.preventDefault();
+
+                    quickSettings.classList.toggle(
+                        "show"
+                    );
+
+                }
+
+            }
+        );
+
+
+        /* Close by clicking outside */
+
+        quickSettings.addEventListener(
+            "click",
+            function(event) {
+
+                if (
+                    event.target ===
+                    quickSettings
+                ) {
+
+                    quickSettings.classList.remove(
+                        "show"
+                    );
 
                 }
 
