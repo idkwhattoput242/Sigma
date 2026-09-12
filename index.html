@@ -25,22 +25,7 @@
             margin-bottom: 30px;
         }
 
-        button {
-            background: #222;
-            color: white;
-            border: 1px solid #555;
-            padding: 12px 30px;
-            margin: 5px;
-            font-size: 18px;
-            border-radius: 8px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background: #444;
-        }
-
-        /* G and M Circle Buttons */
+        /* Circle Buttons */
 
         .circle-buttons {
             display: flex;
@@ -73,27 +58,8 @@
             transform: scale(1.08);
         }
 
-        /* Changelogs button */
-        .changelog-button {
-            position: fixed;
-            bottom: 15px;
-            left: 15px;
-            background: #1a1a1a;
-            color: white;
-            border: 1px solid #333;
-            padding: 9px 14px;
-            border-radius: 7px;
-            font-size: 14px;
-            text-decoration: none;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .changelog-button:hover {
-            background: #2a2a2a;
-        }
-
         /* Version */
+
         .version {
             position: fixed;
             bottom: 15px;
@@ -103,6 +69,7 @@
         }
 
         /* Quick Settings Overlay */
+
         .quick-settings {
             display: none;
             position: fixed;
@@ -202,23 +169,30 @@
 
         <div class="circle-buttons">
 
+            <!-- Games -->
             <button class="circle-button" onclick="location.href='games.html'">
                 G
             </button>
 
+            <!-- Movies -->
             <button class="circle-button" onclick="location.href='movies.html'">
                 M
             </button>
 
-        </div>
+            <!-- Changelogs -->
+            <button class="circle-button" onclick="location.href='changelogs.html'">
+                C
+            </button>
 
-        <button onclick="location.href='settings.html'">
-            Settings
-        </button>
+            <!-- Settings -->
+            <button class="circle-button" onclick="location.href='settings.html'">
+                S
+            </button>
+
+        </div>
 
     </div>
 
-    <a href="changelogs.html" class="changelog-button">Changelogs</a>
 
     <div class="version">Beta 2.1</div>
 
