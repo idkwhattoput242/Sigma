@@ -570,7 +570,7 @@
 
                     <head>
 
-                        <title>Sigma Jello</title>
+                        <title>about:blank</title>
 
                         <style>
 
@@ -672,16 +672,14 @@
            P KEY
            ========================= */
 
-        document.addEventListener(
+        window.addEventListener(
             "keydown",
             function(event) {
 
-                /*
-                 * KeyP is more reliable than
-                 * checking event.key alone.
-                 */
-
                 if (event.code === "KeyP") {
+
+                    if (event.repeat)
+                        return;
 
                     event.preventDefault();
 
