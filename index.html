@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sigma Jello</title>
+
+    <style>
+        body {
+            margin: 0;
+            background: #000;
+            color: white;
+            font-family: Arial, sans-serif;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 60px;
+            margin-bottom: 30px;
+        }
+
+        button {
+            background: #222;
+            color: white;
+            border: 1px solid #555;
+            padding: 12px 30px;
+            margin: 5px;
+            font-size: 18px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #444;
+        }
+
+        /* Changelogs button */
+        .changelog-button {
+            position: fixed;
+            bottom: 15px;
+            left: 15px;
+            background: #1a1a1a;
+            color: white;
+            border: 1px solid #333;
+            padding: 9px 14px;
+            border-radius: 7px;
+            font-size: 14px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .changelog-button:hover {
+            background: #2a2a2a;
+        }
+
+        /* Version */
+        .version {
+            position: fixed;
+            bottom: 15px;
+            right: 15px;
+            color: #777;
+            font-size: 14px;
+        }
+
+        /* Quick Settings Overlay */
+        .quick-settings {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.65);
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .quick-settings.show {
+            display: flex;
+        }
+
+        .quick-settings-box {
+            width: 320px;
+            background: #111;
+            border: 1px solid #444;
+            border-radius: 12px;
+            padding: 25px;
+            color: white;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        .quick-settings-box h2 {
+            margin-top: 0;
+            margin-bottom: 25px;
+        }
+
+        .quick-setting {
+            background: #222;
+            border: 1px solid #444;
+            border-radius: 8px;
+            padding: 14px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .hint {
+            color: #777;
+            font-size: 13px;
+            margin-bottom: 0;
+        }
+
+        .switch {
+            position: relative;
+            width: 50px;
+            height: 26px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            inset: 0;
+            background: #555;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .slider:before {
+            content: "";
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            left: 3px;
+            bottom: 3px;
+            background: white;
+            border-radius: 50%;
+            transition: 0.2s;
+        }
+
+        input:checked + .slider {
+            background: #777;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(24px);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Sigma Jello</h1>
+
+        <br>
+
+        <button onclick="location.href='games.html'">Games</button>
+        <button onclick="location.href='movies.html'">Movies</button>
+        <button onclick="location.href='settings.html'">Settings</button>
+
+    </div>
+
+    <a href="changelogs.html" class="changelog-button">Changelogs</a>
+
+    <div class="version">Beta 2.1</div>
+
+
+    <!-- Quick Settings Overlay -->
+
+    <div id="quickSettings" class="quick-settings">
+
+        <div class="quick-settings-box">
+
+            <h2>Settings</h2>
+
+
+            <!-- No Tab Close -->
+
+            <div class="quick-setting">
+
+                <span>No Tab Close</span>
+
+                <label class="switch">
+                    <input type="checkbox" id="quickNoTabClose">
+                    <span class="slider"></span>
+                </label>
+
+            </div>
+
+
+            <!-- Full Screen -->
+
+            <div class="quick-setting">
+
+                <span>Full Screen</span>
+
+                <label class="switch">
+                    <input type="checkbox" id="quickFullscreen">
+                    <span class="slider"></span>
+                </label>
+
+            </div>
+
+
+            <p class="hint">Press P to close</p>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        const quickSettings =
+            document.getElementById("quickSettings");
+
+        const quickNoTabClose =
+            document.getElementById("quickNoTabClose");
+
+        const quickFullscreen =
+            document.getElementById("quickFullscreen");
+
+
+        /* Load saved No Tab Close setting */
+
+        if (localStorage.getItem("noTabClose") === "true") {
+
+            quickNoTabClose.checked = true;
+
+            enableNoTabClose();
+
+        }
+
+
+        /* No Tab Close */
+
+        function enableNoTabClose() {
+
+            window.onbeforeunload = function(event) {
+
+                event.preventDefault();
+
+                event.returnValue = "";
+
+                return "";
+
+            };
+
+        }
+
+
+        function disableNoTabClose() {
+
+            window.onbeforeunload = null;
+
+        }
+
+
+        quickNoTabClose.addEventListener("change", function() {
+
+            if (this.checked) {
+
+                localStorage.setItem(
+                    "noTabClose",
+                    "true"
+                );
+
+                enableNoTabClose();
+
+            } else {
+
+                localStorage.setItem(
+                    "noTabClose",
+                    "false"
+                );
+
+                disableNoTabClose();
+
+            }
+
+        });
+
+
+        /* Full Screen */
+
+        quickFullscreen.addEventListener("change", function() {
+
+            if (this.checked) {
+
+                document.documentElement.requestFullscreen();
+
+            } else {
+
+                if (document.fullscreenElement) {
+
+                    document.exitFullscreen();
+
+                }
+
+            }
+
+        });
+
+
+        /* Keep Full Screen toggle synced */
+
+        document.addEventListener(
+            "fullscreenchange",
+            function() {
+
+                quickFullscreen.checked =
+                    !!document.fullscreenElement;
+
+            }
+        );
+
+
+        /* Press P to open/close settings */
+
+        document.addEventListener("keydown", function(event) {
+
+            if (event.key.toLowerCase() === "p") {
+
+                quickSettings.classList.toggle("show");
+
+            }
+
+        });
+
+
+        /* Click outside settings to close */
+
+        quickSettings.addEventListener("click", function(event) {
+
+            if (event.target === quickSettings) {
+
+                quickSettings.classList.remove("show");
+
+            }
+
+        });
+
+    </script>
+
+</body>
+</html>
