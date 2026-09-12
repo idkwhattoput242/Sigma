@@ -40,6 +40,39 @@
             background: #444;
         }
 
+        /* G and M Circle Buttons */
+
+        .circle-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+            margin-bottom: 10px;
+        }
+
+        .circle-button {
+            width: 75px;
+            height: 75px;
+            padding: 0;
+            margin: 5px;
+            border-radius: 50%;
+            background: white;
+            color: black;
+            border: none;
+            font-size: 32px;
+            font-weight: bold;
+            font-family: Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .circle-button:hover {
+            background: #ddd;
+            transform: scale(1.08);
+        }
+
         /* Changelogs button */
         .changelog-button {
             position: fixed;
@@ -167,9 +200,21 @@
 
         <br>
 
-        <button onclick="location.href='games.html'">Games</button>
-        <button onclick="location.href='movies.html'">Movies</button>
-        <button onclick="location.href='settings.html'">Settings</button>
+        <div class="circle-buttons">
+
+            <button class="circle-button" onclick="location.href='games.html'">
+                G
+            </button>
+
+            <button class="circle-button" onclick="location.href='movies.html'">
+                M
+            </button>
+
+        </div>
+
+        <button onclick="location.href='settings.html'">
+            Settings
+        </button>
 
     </div>
 
@@ -185,7 +230,6 @@
         <div class="quick-settings-box">
 
             <h2>Settings</h2>
-
 
             <!-- No Tab Close -->
 
