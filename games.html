@@ -6,15 +6,47 @@
     <style>
         body {
             margin: 0;
-            background: url("assets/backroundjello.png") center center / cover no-repeat fixed;
+            background: #000;
             color: white;
             font-family: Arial, sans-serif;
             text-align: center;
         }
 
+
+        /* =========================
+           MOVING BACKGROUND
+        ========================= */
+
+        .background {
+            position: fixed;
+            inset: -40px;
+
+            background:
+                url("assets/backroundjello.png")
+                center center / cover no-repeat;
+
+            z-index: 0;
+
+            transform: translate(0px, 0px);
+
+            transition:
+                transform 0.15s ease-out;
+
+            pointer-events: none;
+        }
+
+
+        /* =========================
+           PAGE CONTENT
+        ========================= */
+
         h1 {
             margin-top: 30px;
+
+            position: relative;
+            z-index: 1;
         }
+
 
         /* =========================
            GAME BUTTONS
@@ -26,6 +58,9 @@
             align-items: center;
             gap: 18px;
             margin-top: 35px;
+
+            position: relative;
+            z-index: 1;
         }
 
         .game-button {
@@ -140,6 +175,8 @@
                 transform 0.2s ease,
                 background 0.2s ease,
                 border-radius 0.25s ease;
+
+            z-index: 10;
         }
 
         .back-button:hover {
@@ -197,7 +234,8 @@
             border-radius: 6px;
             padding: 25px;
 
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.65);
+            box-shadow:
+                0 15px 50px rgba(0, 0, 0, 0.65);
 
             animation: clickguiOpen 0.2s ease-out;
         }
@@ -245,7 +283,9 @@
         }
 
 
-        /* Toggle Switch */
+        /* =========================
+           TOGGLE SWITCH
+        ========================= */
 
         .switch {
             position: relative;
@@ -289,7 +329,8 @@
 
             border-radius: 50%;
 
-            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+            box-shadow:
+                0 1px 4px rgba(0, 0, 0, 0.25);
 
             transition: 0.2s;
         }
@@ -303,7 +344,9 @@
         }
 
 
-        /* Hint */
+        /* =========================
+           HINT
+        ========================= */
 
         .hint {
             margin: 18px 0 0 0;
@@ -316,7 +359,9 @@
         }
 
 
-        /* Open Animation */
+        /* =========================
+           OPEN ANIMATION
+        ========================= */
 
         @keyframes clickguiOpen {
 
@@ -336,6 +381,14 @@
 </head>
 
 <body>
+
+    <!-- Moving Background -->
+
+    <div
+        id="background"
+        class="background"
+    ></div>
+
 
     <h1>Games</h1>
 
@@ -403,7 +456,10 @@
 
     <!-- Quick Settings -->
 
-    <div id="quickSettings" class="quick-settings">
+    <div
+        id="quickSettings"
+        class="quick-settings"
+    >
 
         <div class="quick-settings-box">
 
@@ -450,6 +506,26 @@
             </div>
 
 
+            <!-- Mouse Background Movement -->
+
+            <div class="quick-setting">
+
+                <span>Mouse Background Movement</span>
+
+                <label class="switch">
+
+                    <input
+                        type="checkbox"
+                        id="quickMouseBackground"
+                    >
+
+                    <span class="slider"></span>
+
+                </label>
+
+            </div>
+
+
             <p class="hint">
                 Press P to close
             </p>
@@ -467,12 +543,10 @@
 
         function launchEaglercraft(gamePath) {
 
-            // Open a new tab at about:blank
             const gameWindow =
                 window.open("about:blank", "_blank");
 
 
-            // Check if popup was blocked
             if (!gameWindow) {
 
                 alert(
@@ -483,7 +557,6 @@
             }
 
 
-            // Get the full URL to the selected game
             const gameURL =
                 new URL(
                     gamePath,
@@ -491,7 +564,6 @@
                 ).href;
 
 
-            // Create the about:blank page
             gameWindow.document.open();
 
             gameWindow.document.write(`
@@ -567,6 +639,14 @@
         const quickFullscreen =
             document.getElementById("quickFullscreen");
 
+        const quickMouseBackground =
+            document.getElementById(
+                "quickMouseBackground"
+            );
+
+        const background =
+            document.getElementById("background");
+
 
         /* =========================
            NO TAB CLOSE
@@ -574,15 +654,16 @@
 
         function enableNoTabClose() {
 
-            window.onbeforeunload = function(event) {
+            window.onbeforeunload =
+                function(event) {
 
-                event.preventDefault();
+                    event.preventDefault();
 
-                event.returnValue = "";
+                    event.returnValue = "";
 
-                return "";
+                    return "";
 
-            };
+                };
 
         }
 
@@ -650,7 +731,7 @@
 
                     if (
                         document.documentElement
-                        .requestFullscreen
+                            .requestFullscreen
                     ) {
 
                         document.documentElement
@@ -680,6 +761,78 @@
 
                 quickFullscreen.checked =
                     !!document.fullscreenElement;
+
+            }
+        );
+
+
+        /* =========================
+           MOUSE BACKGROUND MOVEMENT
+        ========================= */
+
+        let mouseBackgroundEnabled =
+            localStorage.getItem("mouseBackground")
+            !== "false";
+
+
+        quickMouseBackground.checked =
+            mouseBackgroundEnabled;
+
+
+        document.addEventListener(
+            "mousemove",
+            function(event) {
+
+                if (!mouseBackgroundEnabled) {
+                    return;
+                }
+
+
+                const x =
+                    (event.clientX /
+                        window.innerWidth) - 0.5;
+
+                const y =
+                    (event.clientY /
+                        window.innerHeight) - 0.5;
+
+
+                const moveX =
+                    x * 35;
+
+                const moveY =
+                    y * 35;
+
+
+                background.style.transform =
+                    `translate(${moveX}px, ${moveY}px)`;
+
+            }
+        );
+
+
+        /* Save Mouse Background Setting */
+
+        quickMouseBackground.addEventListener(
+            "change",
+            function() {
+
+                mouseBackgroundEnabled =
+                    this.checked;
+
+
+                localStorage.setItem(
+                    "mouseBackground",
+                    mouseBackgroundEnabled
+                );
+
+
+                if (!mouseBackgroundEnabled) {
+
+                    background.style.transform =
+                        "translate(0px, 0px)";
+
+                }
 
             }
         );
