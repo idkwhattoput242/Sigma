@@ -73,6 +73,38 @@
             font-weight: bold;
         }
 
+        /* Sign Out Button */
+
+        .sign-out-button {
+            width: 340px;
+
+            padding: 15px 20px;
+            margin: 10px auto;
+
+            background: white;
+            color: #c00000;
+
+            border: 1px solid #ddd;
+            border-radius: 6px;
+
+            font-size: 18px;
+            font-weight: bold;
+            font-family: Arial, sans-serif;
+
+            cursor: pointer;
+
+            transition:
+                background 0.15s ease,
+                transform 0.15s ease,
+                color 0.15s ease;
+        }
+
+        .sign-out-button:hover {
+            background: #e7e7e7;
+            color: #a00000;
+            transform: translateX(3px);
+        }
+
         /* Toggle switch */
 
         .switch {
@@ -349,6 +381,16 @@
 
         </div>
 
+
+        <!-- Sign Out -->
+
+        <button
+            class="sign-out-button"
+            onclick="signOut()"
+        >
+            Sign Out
+        </button>
+
     </div>
 
 
@@ -481,6 +523,26 @@
 
         const quickMouseBackground =
             document.getElementById("quickMouseBackground");
+
+
+        /* =========================
+           SIGN OUT
+           ========================= */
+
+        function signOut() {
+
+            localStorage.removeItem(
+                "sigmaJelloUsername"
+            );
+
+            localStorage.removeItem(
+                "sigmaJelloLoggedIn"
+            );
+
+            window.location.href =
+                "index.html";
+
+        }
 
 
         /* =========================
