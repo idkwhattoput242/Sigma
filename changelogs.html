@@ -6,7 +6,7 @@
     <style>
         body {
             margin: 0;
-            background: url("assets/backround.jpg") center center / cover no-repeat fixed;
+            background: #000;
             color: white;
             font-family: Arial, sans-serif;
 
@@ -16,8 +16,32 @@
             min-height: 100vh;
         }
 
+        /* =========================
+           MOVING BACKGROUND
+        ========================= */
+
+        .background {
+            position: fixed;
+            inset: -40px;
+
+            background:
+                url("assets/backround.jpg")
+                center center / cover no-repeat;
+
+            z-index: 0;
+
+            transform: translate(0px, 0px);
+
+            transition:
+                transform 0.15s ease-out;
+
+            pointer-events: none;
+        }
+
         .container {
             text-align: center;
+            position: relative;
+            z-index: 1;
         }
 
         h1 {
@@ -93,6 +117,8 @@
                 transform 0.2s ease,
                 background 0.2s ease,
                 border-radius 0.25s ease;
+
+            z-index: 10;
         }
 
         .back-button:hover {
@@ -150,7 +176,8 @@
             border-radius: 6px;
             padding: 25px;
 
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.65);
+            box-shadow:
+                0 15px 50px rgba(0, 0, 0, 0.65);
 
             animation: clickguiOpen 0.2s ease-out;
         }
@@ -242,7 +269,8 @@
 
             border-radius: 50%;
 
-            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+            box-shadow:
+                0 1px 4px rgba(0, 0, 0, 0.25);
 
             transition: 0.2s;
         }
@@ -290,15 +318,30 @@
 
 <body>
 
+    <!-- Moving Background -->
+
+    <div
+        id="background"
+        class="background"
+    ></div>
+
+
+    <!-- Changelog Content -->
+
     <div class="container">
 
         <h1>Sigma Jello</h1>
 
+
         <!-- VERSION 2.01 ALPHA -->
 
-        <div class="version">Version 2.01 Alpha</div>
+        <div class="version">
+            Version 2.01 Alpha
+        </div>
 
-        <div class="date">September 13, 2026</div>
+        <div class="date">
+            September 13, 2026
+        </div>
 
         <div class="description">
             Added Eaglercraft 1.8 and temporary login button.
@@ -312,9 +355,13 @@
 
         <!-- VERSION 2.0 ALPHA -->
 
-        <div class="version">Version 2.0 Alpha</div>
+        <div class="version">
+            Version 2.0 Alpha
+        </div>
 
-        <div class="date">September 12, 2026</div>
+        <div class="date">
+            September 12, 2026
+        </div>
 
         <div class="description">
             Made the Sigma Jello website.
@@ -350,11 +397,15 @@
 
     <!-- Quick Settings -->
 
-    <div id="quickSettings" class="quick-settings">
+    <div
+        id="quickSettings"
+        class="quick-settings"
+    >
 
         <div class="quick-settings-box">
 
             <h2>Settings</h2>
+
 
             <div class="quick-setting">
 
@@ -403,6 +454,10 @@
 
     <script>
 
+        /* =========================
+           ELEMENTS
+        ========================= */
+
         const quickSettings =
             document.getElementById("quickSettings");
 
@@ -412,18 +467,26 @@
         const quickFullscreen =
             document.getElementById("quickFullscreen");
 
+        const background =
+            document.getElementById("background");
+
+
+        /* =========================
+           NO TAB CLOSE
+        ========================= */
 
         function enableNoTabClose() {
 
-            window.onbeforeunload = function(event) {
+            window.onbeforeunload =
+                function(event) {
 
-                event.preventDefault();
+                    event.preventDefault();
 
-                event.returnValue = "";
+                    event.returnValue = "";
 
-                return "";
+                    return "";
 
-            };
+                };
 
         }
 
@@ -475,6 +538,10 @@
         );
 
 
+        /* =========================
+           FULL SCREEN
+        ========================= */
+
         quickFullscreen.addEventListener(
             "change",
             function() {
@@ -483,7 +550,7 @@
 
                     if (
                         document.documentElement
-                        .requestFullscreen
+                            .requestFullscreen
                     ) {
 
                         document.documentElement
@@ -516,6 +583,51 @@
         );
 
 
+        /* =========================
+           MOUSE BACKGROUND MOVEMENT
+        ========================= */
+
+        let mouseBackgroundEnabled =
+            localStorage.getItem("mouseBackground")
+            !== "false";
+
+
+        document.addEventListener(
+            "mousemove",
+            function(event) {
+
+                if (!mouseBackgroundEnabled) {
+                    return;
+                }
+
+
+                const x =
+                    (event.clientX /
+                        window.innerWidth) - 0.5;
+
+                const y =
+                    (event.clientY /
+                        window.innerHeight) - 0.5;
+
+
+                const moveX =
+                    x * 35;
+
+                const moveY =
+                    y * 35;
+
+
+                background.style.transform =
+                    `translate(${moveX}px, ${moveY}px)`;
+
+            }
+        );
+
+
+        /* =========================
+           P = QUICK SETTINGS
+        ========================= */
+
         window.addEventListener(
             "keydown",
             function(event) {
@@ -535,6 +647,10 @@
             }
         );
 
+
+        /* =========================
+           CLICK OUTSIDE TO CLOSE
+        ========================= */
 
         quickSettings.addEventListener(
             "click",
