@@ -6,7 +6,7 @@
     <style>
         body {
             margin: 0;
-            background: url("assets/backround.jpg") center center / cover no-repeat fixed;
+            background: #000;
             color: white;
             font-family: Arial, sans-serif;
 
@@ -16,8 +16,28 @@
             min-height: 100vh;
         }
 
+        /* Moving Background */
+
+        .background {
+            position: fixed;
+            inset: -40px;
+
+            background: url("assets/backround.jpg")
+                center center / cover no-repeat;
+
+            z-index: 0;
+
+            transform: translate(0px, 0px);
+
+            transition: transform 0.15s ease-out;
+
+            pointer-events: none;
+        }
+
         .container {
             text-align: center;
+            position: relative;
+            z-index: 1;
         }
 
         h1 {
@@ -133,6 +153,8 @@
                 transform 0.2s ease,
                 background 0.2s ease,
                 border-radius 0.25s ease;
+
+            z-index: 10;
         }
 
         .back-button:hover {
@@ -256,6 +278,11 @@
 
 <body>
 
+    <!-- Background -->
+
+    <div id="background" class="background"></div>
+
+
     <div class="container">
 
         <h1>Settings</h1>
@@ -301,6 +328,27 @@
 
         </div>
 
+
+        <!-- Mouse Background Movement -->
+
+        <div class="setting">
+
+            <span class="setting-name">
+                Mouse Background Movement
+            </span>
+
+            <label class="switch">
+
+                <input
+                    type="checkbox"
+                    id="mouseBackground">
+
+                <span class="slider"></span>
+
+            </label>
+
+        </div>
+
     </div>
 
 
@@ -332,6 +380,8 @@
             <h2>Settings</h2>
 
 
+            <!-- No Tab Close -->
+
             <div class="quick-setting">
 
                 <span>
@@ -350,6 +400,8 @@
 
             </div>
 
+
+            <!-- Full Screen -->
 
             <div class="quick-setting">
 
@@ -370,6 +422,27 @@
             </div>
 
 
+            <!-- Mouse Background Movement -->
+
+            <div class="quick-setting">
+
+                <span>
+                    Mouse Background Movement
+                </span>
+
+                <label class="switch">
+
+                    <input
+                        type="checkbox"
+                        id="quickMouseBackground">
+
+                    <span class="slider"></span>
+
+                </label>
+
+            </div>
+
+
             <p class="hint">
                 Press P to close
             </p>
@@ -382,12 +455,37 @@
     <script>
 
         /* =========================
-           AUTO CLOAK
+           ELEMENTS
            ========================= */
+
+        const background =
+            document.getElementById("background");
 
         const autoCloak =
             document.getElementById("autoCloak");
 
+        const noTabClose =
+            document.getElementById("noTabClose");
+
+        const mouseBackground =
+            document.getElementById("mouseBackground");
+
+        const quickSettings =
+            document.getElementById("quickSettings");
+
+        const quickNoTabClose =
+            document.getElementById("quickNoTabClose");
+
+        const quickFullscreen =
+            document.getElementById("quickFullscreen");
+
+        const quickMouseBackground =
+            document.getElementById("quickMouseBackground");
+
+
+        /* =========================
+           AUTO CLOAK
+           ========================= */
 
         autoCloak.addEventListener(
             "change",
@@ -492,22 +590,6 @@
            NO TAB CLOSE
            ========================= */
 
-        const noTabClose =
-            document.getElementById("noTabClose");
-
-
-        const quickSettings =
-            document.getElementById("quickSettings");
-
-
-        const quickNoTabClose =
-            document.getElementById("quickNoTabClose");
-
-
-        const quickFullscreen =
-            document.getElementById("quickFullscreen");
-
-
         function enableNoTabClose() {
 
             window.onbeforeunload =
@@ -608,6 +690,118 @@
                     );
 
                     disableNoTabClose();
+
+                }
+
+            }
+        );
+
+
+        /* =========================
+           MOUSE BACKGROUND MOVEMENT
+           ========================= */
+
+        let mouseBackgroundEnabled =
+            localStorage.getItem("mouseBackground")
+            !== "false";
+
+
+        mouseBackground.checked =
+            mouseBackgroundEnabled;
+
+
+        quickMouseBackground.checked =
+            mouseBackgroundEnabled;
+
+
+        document.addEventListener(
+            "mousemove",
+            function(event) {
+
+                if (!mouseBackgroundEnabled)
+                    return;
+
+
+                const x =
+                    (event.clientX / window.innerWidth)
+                    - 0.5;
+
+
+                const y =
+                    (event.clientY / window.innerHeight)
+                    - 0.5;
+
+
+                const moveX =
+                    x * 35;
+
+
+                const moveY =
+                    y * 35;
+
+
+                background.style.transform =
+                    `translate(${moveX}px, ${moveY}px)`;
+
+            }
+        );
+
+
+        /* Main settings toggle */
+
+        mouseBackground.addEventListener(
+            "change",
+            function() {
+
+                mouseBackgroundEnabled =
+                    this.checked;
+
+
+                quickMouseBackground.checked =
+                    this.checked;
+
+
+                localStorage.setItem(
+                    "mouseBackground",
+                    mouseBackgroundEnabled
+                );
+
+
+                if (!mouseBackgroundEnabled) {
+
+                    background.style.transform =
+                        "translate(0px, 0px)";
+
+                }
+
+            }
+        );
+
+
+        /* Quick settings toggle */
+
+        quickMouseBackground.addEventListener(
+            "change",
+            function() {
+
+                mouseBackgroundEnabled =
+                    this.checked;
+
+
+                mouseBackground.checked =
+                    this.checked;
+
+
+                localStorage.setItem(
+                    "mouseBackground",
+                    mouseBackgroundEnabled
+                );
+
+
+                if (!mouseBackgroundEnabled) {
+
+                    background.style.transform =
+                        "translate(0px, 0px)";
 
                 }
 
