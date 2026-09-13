@@ -141,9 +141,6 @@
             display: flex;
         }
 
-
-        /* White ClickGUI */
-
         .quick-settings-box {
             width: 360px;
 
@@ -297,9 +294,9 @@
 
         <h1>Sigma Jello</h1>
 
-        <div class="version">Version 2.1 Beta</div>
+        <div class="version">Version 2.0 Alpha</div>
 
-        <div class="date">September 11, 2026</div>
+        <div class="date">September 12, 2026</div>
 
         <div class="description">
             Made the Sigma Jello website.
@@ -315,6 +312,8 @@
             <li>Added Full Screen setting</li>
             <li>Added Games and Movies sections</li>
             <li>Added Settings page</li>
+            <li>Improved cloaking</li>
+            <li>Added Eaglercraft 1.5.2</li>
         </ul>
 
     </div>
@@ -339,9 +338,6 @@
 
             <h2>Settings</h2>
 
-
-            <!-- No Tab Close -->
-
             <div class="quick-setting">
 
                 <span>No Tab Close</span>
@@ -359,8 +355,6 @@
 
             </div>
 
-
-            <!-- Full Screen -->
 
             <div class="quick-setting">
 
@@ -401,10 +395,6 @@
             document.getElementById("quickFullscreen");
 
 
-        /* =========================
-           NO TAB CLOSE
-        ========================= */
-
         function enableNoTabClose() {
 
             window.onbeforeunload = function(event) {
@@ -427,8 +417,6 @@
         }
 
 
-        /* Load saved setting */
-
         if (
             localStorage.getItem("noTabClose")
             === "true"
@@ -440,8 +428,6 @@
 
         }
 
-
-        /* Save setting */
 
         quickNoTabClose.addEventListener(
             "change",
@@ -470,10 +456,6 @@
             }
         );
 
-
-        /* =========================
-           FULL SCREEN
-        ========================= */
 
         quickFullscreen.addEventListener(
             "change",
@@ -505,8 +487,6 @@
         );
 
 
-        /* Sync Full Screen */
-
         document.addEventListener(
             "fullscreenchange",
             function() {
@@ -517,10 +497,6 @@
             }
         );
 
-
-        /* =========================
-           P KEY
-        ========================= */
 
         window.addEventListener(
             "keydown",
@@ -541,10 +517,6 @@
             }
         );
 
-
-        /* =========================
-           CLICK OUTSIDE
-        ========================= */
 
         quickSettings.addEventListener(
             "click",
