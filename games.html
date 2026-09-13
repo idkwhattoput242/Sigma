@@ -83,8 +83,14 @@
             display: block;
         }
 
-        .eaglercraft-button:hover {
-            width: 210px;
+        /* Eaglercraft 1.5 */
+        .eaglercraft-15-button:hover {
+            width: 180px;
+        }
+
+        /* Eaglercraft 1.8 */
+        .eaglercraft-18-button:hover {
+            width: 180px;
         }
 
         .btd5-button:hover {
@@ -341,11 +347,22 @@
         <!-- Eaglercraft 1.5.2 -->
 
         <button
-            class="game-button eaglercraft-button"
-            onclick="launchEaglercraft()"
+            class="game-button eaglercraft-15-button"
+            onclick="launchEaglercraft('assets/jello/1.5.2.html')"
         >
-            <span class="game-letter">E</span>
-            <span class="game-name">Eaglercraft 1.5.2</span>
+            <span class="game-letter">1.5</span>
+            <span class="game-name">1.5 Eaglercraft</span>
+        </button>
+
+
+        <!-- Eaglercraft 1.8.8 -->
+
+        <button
+            class="game-button eaglercraft-18-button"
+            onclick="launchEaglercraft('assets/jello/1.8.html')"
+        >
+            <span class="game-letter">1.8</span>
+            <span class="game-name">1.8 Eaglercraft</span>
         </button>
 
 
@@ -448,23 +465,14 @@
            EAGLERCRAFT LAUNCHER
         ========================= */
 
-        function launchEaglercraft() {
+        function launchEaglercraft(gamePath) {
 
-            /*
-             * Open a new tab at about:blank.
-             * Because this happens directly from the
-             * button click, browsers should allow it.
-             */
-
+            // Open a new tab at about:blank
             const gameWindow =
                 window.open("about:blank", "_blank");
 
 
-            /*
-             * If the browser blocked the new tab,
-             * tell the user what happened.
-             */
-
+            // Check if popup was blocked
             if (!gameWindow) {
 
                 alert(
@@ -472,35 +480,19 @@
                 );
 
                 return;
-
             }
 
 
-            /*
-             * Find the Eaglercraft file relative
-             * to the current Sigma Jello website.
-             *
-             * This works on:
-             * GitHub Pages
-             * Cloudflare Pages
-             * Netlify
-             * localhost
-             * custom domains
-             */
-
+            // Get the full URL to the selected game
             const gameURL =
                 new URL(
-                    "assets/jello/1.5.2.html",
+                    gamePath,
                     window.location.href
                 ).href;
 
 
-            /*
-             * Create the about:blank page.
-             */
-
+            // Create the about:blank page
             gameWindow.document.open();
-
 
             gameWindow.document.write(`
 
@@ -529,7 +521,6 @@
 
                         }
 
-
                         iframe {
 
                             width: 100%;
@@ -545,7 +536,6 @@
 
                 </head>
 
-
                 <body>
 
                     <iframe
@@ -558,7 +548,6 @@
                 </html>
 
             `);
-
 
             gameWindow.document.close();
 
