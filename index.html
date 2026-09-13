@@ -60,7 +60,6 @@
                 0 3px 12px rgba(0, 0, 0, 0.45);
         }
 
-
         /* =========================
            CIRCLE BUTTONS
            ========================= */
@@ -143,7 +142,6 @@
             width: 140px;
         }
 
-
         /* =========================
            VERSION
            ========================= */
@@ -159,29 +157,6 @@
 
             z-index: 2;
         }
-
-
-        /* =========================
-           USERNAME
-           ========================= */
-
-        .hello-user {
-            position: fixed;
-
-            top: 20px;
-            left: 20px;
-
-            color: white;
-
-            font-size: 20px;
-            font-weight: bold;
-
-            z-index: 3;
-
-            text-shadow:
-                0 2px 10px rgba(0, 0, 0, 0.7);
-        }
-
 
         /* =========================
            LOGIN BUTTON
@@ -206,7 +181,7 @@
 
             cursor: pointer;
 
-            z-index: 3;
+            z-index: 2;
 
             transition:
                 background 0.2s ease,
@@ -218,6 +193,25 @@
             transform: scale(1.08);
         }
 
+        /* =========================
+           HELLO USER
+           ========================= */
+
+        .hello-user {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+
+            color: white;
+
+            font-size: 20px;
+            font-weight: bold;
+
+            z-index: 3;
+
+            text-shadow:
+                0 2px 10px rgba(0, 0, 0, 0.7);
+        }
 
         /* =========================
            LOGIN POPUP
@@ -229,7 +223,7 @@
             position: fixed;
             inset: 0;
 
-            background: rgba(0, 0, 0, 0.55);
+            background: rgba(0, 0, 0, 0.45);
 
             justify-content: center;
             align-items: center;
@@ -244,97 +238,81 @@
         .login-popup-box {
             position: relative;
 
-            width: 330px;
+            width: 300px;
 
-            background: #101010;
-            color: white;
+            background: white;
+            color: black;
 
-            border: 1px solid #333;
-
-            border-radius: 6px;
+            border-radius: 8px;
 
             padding: 30px;
 
             box-shadow:
-                0 15px 60px rgba(0, 0, 0, 0.85);
+                0 15px 50px rgba(0, 0, 0, 0.65);
 
             animation: loginPopupOpen 0.2s ease-out;
         }
 
         .login-popup-box h2 {
-            margin: 0 0 6px 0;
+            margin: 0 0 12px 0;
 
-            font-size: 30px;
+            font-size: 26px;
             font-weight: bold;
-
-            color: white;
-
-            letter-spacing: -1px;
         }
 
         .login-subtitle {
-            margin: 0 0 25px 0;
+            margin: 0 0 20px 0 !important;
 
-            font-size: 13px;
-
-            color: #888;
+            font-size: 14px !important;
+            color: #777 !important;
         }
 
         .username-label {
             display: block;
 
-            margin-bottom: 8px;
-
-            color: #ddd;
+            margin-bottom: 7px;
 
             font-size: 14px;
             font-weight: bold;
+
+            color: #222;
         }
 
         .username-input {
             width: 100%;
-
             box-sizing: border-box;
 
-            padding: 13px 14px;
+            padding: 12px;
 
-            background: #080808;
-            color: white;
+            background: #f5f5f5;
+            color: black;
 
-            border: 1px solid #333;
-            border-radius: 4px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
 
             outline: none;
 
             font-size: 16px;
             font-family: Arial, sans-serif;
-
-            transition:
-                border 0.15s ease,
-                background 0.15s ease;
         }
 
         .username-input:focus {
-            border-color: white;
-            background: #111;
-        }
-
-        .username-input::placeholder {
-            color: #666;
+            border-color: #111;
+            background: white;
         }
 
         .sign-in-button {
             width: 100%;
 
-            margin-top: 15px;
+            margin-top: 12px;
 
-            padding: 13px;
+            padding: 12px;
+
+            background: #111;
+            color: white;
 
             border: none;
-            border-radius: 4px;
-
-            background: white;
-            color: black;
+            border-radius: 5px;
 
             font-size: 16px;
             font-weight: bold;
@@ -342,12 +320,12 @@
             cursor: pointer;
 
             transition:
-                background 0.15s ease,
-                transform 0.15s ease;
+                background 0.2s ease,
+                transform 0.2s ease;
         }
 
         .sign-in-button:hover {
-            background: #ddd;
+            background: #333;
             transform: translateY(-2px);
         }
 
@@ -356,11 +334,10 @@
 
             margin-top: 10px;
 
-            color: #ff6b6b;
+            color: #d00000;
 
             font-size: 13px;
-
-            text-align: center;
+            font-weight: bold;
         }
 
         .close-login {
@@ -375,8 +352,8 @@
             border: none;
             border-radius: 50%;
 
-            background: #222;
-            color: white;
+            background: #eee;
+            color: black;
 
             font-size: 18px;
             font-weight: bold;
@@ -389,10 +366,9 @@
         }
 
         .close-login:hover {
-            background: #333;
+            background: #ddd;
             transform: scale(1.08);
         }
-
 
         /* =========================
            QUICK SETTINGS
@@ -473,7 +449,6 @@
             font-weight: bold;
         }
 
-
         /* =========================
            TOGGLES
            ========================= */
@@ -534,7 +509,6 @@
             transform: translateX(23px);
         }
 
-
         /* =========================
            HINT
            ========================= */
@@ -548,7 +522,6 @@
 
             text-align: center;
         }
-
 
         /* =========================
            ANIMATIONS
@@ -590,11 +563,6 @@
     <!-- MOVING BACKGROUND -->
 
     <div id="background" class="background"></div>
-
-
-    <!-- HELLO USER -->
-
-    <div id="helloUser" class="hello-user"></div>
 
 
     <div class="container">
@@ -643,6 +611,11 @@
         </div>
 
     </div>
+
+
+    <!-- HELLO USER -->
+
+    <div id="helloUser" class="hello-user"></div>
 
 
     <!-- LOGIN BUTTON -->
@@ -725,7 +698,6 @@
 
             <h2>Settings</h2>
 
-
             <!-- Auto Cloak -->
 
             <div class="quick-setting">
@@ -744,7 +716,6 @@
                 </label>
 
             </div>
-
 
             <!-- No Tab Close -->
 
@@ -765,7 +736,6 @@
 
             </div>
 
-
             <!-- Full Screen -->
 
             <div class="quick-setting">
@@ -785,7 +755,6 @@
 
             </div>
 
-
             <!-- Mouse Background Movement -->
 
             <div class="quick-setting">
@@ -804,7 +773,6 @@
                 </label>
 
             </div>
-
 
             <p class="hint">
                 Press P to close
@@ -868,7 +836,9 @@
             loginError.style.display = "none";
 
             setTimeout(function() {
+
                 usernameInput.focus();
+
             }, 50);
 
         }
@@ -895,6 +865,7 @@
                 usernameInput.focus();
 
                 return;
+
             }
 
 
@@ -924,6 +895,7 @@
                     "sigmaJelloUsername"
                 );
 
+
             const loggedIn =
                 localStorage.getItem(
                     "sigmaJelloLoggedIn"
@@ -935,27 +907,29 @@
                 helloUser.textContent =
                     "Hello " + username;
 
-                loginButton.textContent =
-                    "Logged In";
+                helloUser.style.display =
+                    "block";
+
+                loginButton.style.display =
+                    "none";
 
             } else {
 
                 helloUser.textContent = "";
 
-                loginButton.textContent =
-                    "Log In";
+                helloUser.style.display =
+                    "none";
+
+                loginButton.style.display =
+                    "block";
 
             }
 
         }
 
 
-        /* Load saved username */
-
         updateUserDisplay();
 
-
-        /* Enter key signs in */
 
         usernameInput.addEventListener(
             "keydown",
@@ -971,8 +945,6 @@
         );
 
 
-        /* Hide error while typing */
-
         usernameInput.addEventListener(
             "input",
             function() {
@@ -984,15 +956,11 @@
         );
 
 
-        /* Close login by clicking outside */
-
         loginPopup.addEventListener(
             "click",
             function(event) {
 
-                if (
-                    event.target === loginPopup
-                ) {
+                if (event.target === loginPopup) {
 
                     closeLoginPopup();
 
