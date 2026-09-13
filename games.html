@@ -450,11 +450,21 @@
 
         function launchEaglercraft() {
 
-            // Open a new about:blank tab
+            /*
+             * Open a new tab at about:blank.
+             * Because this happens directly from the
+             * button click, browsers should allow it.
+             */
+
             const gameWindow =
                 window.open("about:blank", "_blank");
 
-            // Check if the browser blocked the new tab
+
+            /*
+             * If the browser blocked the new tab,
+             * tell the user what happened.
+             */
+
             if (!gameWindow) {
 
                 alert(
@@ -462,18 +472,21 @@
                 );
 
                 return;
+
             }
 
 
-            // Automatically create the correct URL
-            // based on where the website is hosted.
-            //
-            // Works with:
-            // GitHub Pages
-            // Cloudflare Pages
-            // Netlify
-            // localhost
-            // Custom domains
+            /*
+             * Find the Eaglercraft file relative
+             * to the current Sigma Jello website.
+             *
+             * This works on:
+             * GitHub Pages
+             * Cloudflare Pages
+             * Netlify
+             * localhost
+             * custom domains
+             */
 
             const gameURL =
                 new URL(
@@ -482,20 +495,22 @@
                 ).href;
 
 
-            // Create the about:blank page
+            /*
+             * Create the about:blank page.
+             */
 
             gameWindow.document.open();
 
+
             gameWindow.document.write(`
+
                 <!DOCTYPE html>
 
                 <html>
 
                 <head>
 
-                    <title>
-                        Eaglercraft 1.5.2
-                    </title>
+                    <title>about:blank</title>
 
                     <style>
 
@@ -535,13 +550,15 @@
 
                     <iframe
                         src="${gameURL}"
-                        allowfullscreen
-                    ></iframe>
+                        allowfullscreen>
+                    </iframe>
 
                 </body>
 
                 </html>
+
             `);
+
 
             gameWindow.document.close();
 
@@ -568,16 +585,15 @@
 
         function enableNoTabClose() {
 
-            window.onbeforeunload =
-                function(event) {
+            window.onbeforeunload = function(event) {
 
-                    event.preventDefault();
+                event.preventDefault();
 
-                    event.returnValue = "";
+                event.returnValue = "";
 
-                    return "";
+                return "";
 
-                };
+            };
 
         }
 
