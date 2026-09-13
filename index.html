@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Sigma Jello</title>
+    <title>Jello</title>
 
     <style>
         body {
             margin: 0;
-            background: #000;
+            background: url("assets/backround.jpg") center center / cover no-repeat fixed;
             color: white;
             font-family: Arial, sans-serif;
 
@@ -14,41 +14,23 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-
-            overflow: hidden;
         }
-
-
-        /* =========================
-           MOVING BACKGROUND
-           ========================= */
-
-        .background {
-            position: fixed;
-            inset: -40px;
-
-            background: url("assets/backround.jpg")
-                center center / cover no-repeat;
-
-            z-index: -1;
-
-            transform: translate(0px, 0px);
-
-            transition: transform 0.15s ease-out;
-
-            pointer-events: none;
-        }
-
 
         .container {
             text-align: center;
         }
 
         h1 {
-            font-size: 60px;
+            font-size: 68px;
             margin-bottom: 30px;
-        }
 
+            font-family: "Arial Black", Arial, sans-serif;
+            font-weight: 900;
+            letter-spacing: -3px;
+
+            text-shadow:
+                0 3px 12px rgba(0, 0, 0, 0.45);
+        }
 
         /* =========================
            CIRCLE BUTTONS
@@ -408,9 +390,7 @@
         }
 
 
-        /* =========================
-           HINT
-           ========================= */
+        /* Hint */
 
         .hint {
             margin: 18px 0 0 0;
@@ -460,26 +440,13 @@
 
 <body>
 
-
-    <!-- =========================
-         BACKGROUND
-         ========================= -->
-
-    <div
-        id="background"
-        class="background">
-    </div>
-
-
     <div class="container">
 
-        <h1>Sigma Jello</h1>
+        <h1>Jello</h1>
 
         <br>
 
         <div class="circle-buttons">
-
-            <!-- Games -->
 
             <button
                 class="circle-button games-button"
@@ -490,8 +457,6 @@
             </button>
 
 
-            <!-- Movies -->
-
             <button
                 class="circle-button movies-button"
                 onclick="location.href='movies.html'"
@@ -501,8 +466,6 @@
             </button>
 
 
-            <!-- Changelogs -->
-
             <button
                 class="circle-button changelog-button"
                 onclick="location.href='changelogs.html'"
@@ -511,8 +474,6 @@
                 <span class="name">Changelogs</span>
             </button>
 
-
-            <!-- Settings -->
 
             <button
                 class="circle-button settings-button"
@@ -527,9 +488,7 @@
     </div>
 
 
-    <!-- =========================
-         LOGIN BUTTON
-         ========================= -->
+    <!-- LOGIN BUTTON -->
 
     <button
         class="login-button"
@@ -539,18 +498,14 @@
     </button>
 
 
-    <!-- =========================
-         VERSION
-         ========================= -->
+    <!-- VERSION -->
 
     <div class="version">
         Alpha 2.01
     </div>
 
 
-    <!-- =========================
-         LOGIN POPUP
-         ========================= -->
+    <!-- LOGIN POPUP -->
 
     <div id="loginPopup" class="login-popup">
 
@@ -572,9 +527,7 @@
     </div>
 
 
-    <!-- =========================
-         QUICK SETTINGS
-         ========================= -->
+    <!-- QUICK SETTINGS -->
 
     <div id="quickSettings" class="quick-settings">
 
@@ -582,8 +535,6 @@
 
             <h2>Settings</h2>
 
-
-            <!-- Auto Cloak -->
 
             <div class="quick-setting">
 
@@ -603,28 +554,6 @@
             </div>
 
 
-            <!-- Mouse Background Movement -->
-
-            <div class="quick-setting">
-
-                <span>Mouse Background Movement</span>
-
-                <label class="switch">
-
-                    <input
-                        type="checkbox"
-                        id="quickMouseBackground"
-                    >
-
-                    <span class="slider"></span>
-
-                </label>
-
-            </div>
-
-
-            <!-- No Tab Close -->
-
             <div class="quick-setting">
 
                 <span>No Tab Close</span>
@@ -642,8 +571,6 @@
 
             </div>
 
-
-            <!-- Full Screen -->
 
             <div class="quick-setting">
 
@@ -674,18 +601,11 @@
 
     <script>
 
-        /* =========================
-           ELEMENTS
-           ========================= */
-
         const quickSettings =
             document.getElementById("quickSettings");
 
         const quickAutoCloak =
             document.getElementById("quickAutoCloak");
-
-        const quickMouseBackground =
-            document.getElementById("quickMouseBackground");
 
         const quickNoTabClose =
             document.getElementById("quickNoTabClose");
@@ -696,119 +616,30 @@
         const loginPopup =
             document.getElementById("loginPopup");
 
-        const background =
-            document.getElementById("background");
 
-
-        /* =========================
-           LOGIN POPUP
-           ========================= */
+        /* LOGIN */
 
         function openLoginPopup() {
-
             loginPopup.classList.add("show");
-
         }
-
 
         function closeLoginPopup() {
-
             loginPopup.classList.remove("show");
-
         }
-
-
-        /* Close popup by clicking outside */
 
         loginPopup.addEventListener(
             "click",
             function(event) {
 
                 if (event.target === loginPopup) {
-
                     closeLoginPopup();
-
                 }
 
             }
         );
 
 
-        /* =========================
-           MOUSE BACKGROUND MOVEMENT
-           ========================= */
-
-        let mouseBackgroundEnabled =
-            localStorage.getItem("mouseBackground")
-            !== "false";
-
-
-        quickMouseBackground.checked =
-            mouseBackgroundEnabled;
-
-
-        document.addEventListener(
-            "mousemove",
-            function(event) {
-
-                if (!mouseBackgroundEnabled) {
-
-                    return;
-
-                }
-
-
-                const x =
-                    (event.clientX / window.innerWidth)
-                    - 0.5;
-
-                const y =
-                    (event.clientY / window.innerHeight)
-                    - 0.5;
-
-
-                const moveX =
-                    x * 35;
-
-                const moveY =
-                    y * 35;
-
-
-                background.style.transform =
-                    `translate(${moveX}px, ${moveY}px)`;
-
-            }
-        );
-
-
-        quickMouseBackground.addEventListener(
-            "change",
-            function() {
-
-                mouseBackgroundEnabled =
-                    this.checked;
-
-
-                localStorage.setItem(
-                    "mouseBackground",
-                    mouseBackgroundEnabled
-                );
-
-
-                if (!mouseBackgroundEnabled) {
-
-                    background.style.transform =
-                        "translate(0px, 0px)";
-
-                }
-
-            }
-        );
-
-
-        /* =========================
-           NO TAB CLOSE FUNCTIONS
-           ========================= */
+        /* NO TAB CLOSE */
 
         function enableNoTabClose() {
 
@@ -825,17 +656,10 @@
 
         }
 
-
         function disableNoTabClose() {
-
             window.onbeforeunload = null;
-
         }
 
-
-        /* =========================
-           LOAD NO TAB CLOSE
-           ========================= */
 
         if (
             localStorage.getItem("noTabClose")
@@ -848,10 +672,6 @@
 
         }
 
-
-        /* =========================
-           NO TAB CLOSE TOGGLE
-           ========================= */
 
         quickNoTabClose.addEventListener(
             "change",
@@ -881,9 +701,7 @@
         );
 
 
-        /* =========================
-           AUTO CLOAK
-           ========================= */
+        /* AUTO CLOAK */
 
         quickAutoCloak.addEventListener(
             "change",
@@ -974,9 +792,7 @@
         );
 
 
-        /* =========================
-           FULL SCREEN
-           ========================= */
+        /* FULL SCREEN */
 
         quickFullscreen.addEventListener(
             "change",
@@ -1008,8 +824,6 @@
         );
 
 
-        /* Keep fullscreen toggle synced */
-
         document.addEventListener(
             "fullscreenchange",
             function() {
@@ -1021,9 +835,7 @@
         );
 
 
-        /* =========================
-           P KEY
-           ========================= */
+        /* P KEY */
 
         window.addEventListener(
             "keydown",
@@ -1046,9 +858,7 @@
         );
 
 
-        /* =========================
-           CLICK OUTSIDE TO CLOSE SETTINGS
-           ========================= */
+        /* CLICK OUTSIDE */
 
         quickSettings.addEventListener(
             "click",
