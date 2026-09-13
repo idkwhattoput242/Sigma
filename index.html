@@ -6,7 +6,7 @@
     <style>
         body {
             margin: 0;
-            background: url("assets/backround.jpg") center center / cover no-repeat fixed;
+            background: #000;
             color: white;
             font-family: Arial, sans-serif;
 
@@ -16,21 +16,50 @@
             height: 100vh;
         }
 
+        /* =========================
+           MOVING BACKGROUND
+           ========================= */
+
+        .background {
+            position: fixed;
+            inset: -40px;
+
+            background:
+                url("assets/backround.jpg")
+                center center / cover no-repeat;
+
+            z-index: 0;
+
+            transform: translate(0px, 0px);
+
+            transition:
+                transform 0.15s ease-out;
+
+            pointer-events: none;
+        }
+
         .container {
             text-align: center;
+            position: relative;
+            z-index: 1;
         }
+
+        /* =========================
+           TITLE
+           ========================= */
 
         h1 {
             font-size: 68px;
             margin-bottom: 30px;
 
-            font-family: "Arial Black", Arial, sans-serif;
-            font-weight: 900;
+            font-family: Arial, sans-serif;
+            font-weight: 500;
             letter-spacing: -3px;
 
             text-shadow:
                 0 3px 12px rgba(0, 0, 0, 0.45);
         }
+
 
         /* =========================
            CIRCLE BUTTONS
@@ -127,6 +156,8 @@
             color: white;
             font-size: 14px;
             font-weight: bold;
+
+            z-index: 2;
         }
 
 
@@ -152,6 +183,8 @@
             font-family: Arial, sans-serif;
 
             cursor: pointer;
+
+            z-index: 2;
 
             transition:
                 background 0.2s ease,
@@ -390,7 +423,9 @@
         }
 
 
-        /* Hint */
+        /* =========================
+           HINT
+           ========================= */
 
         .hint {
             margin: 18px 0 0 0;
@@ -439,6 +474,11 @@
 </head>
 
 <body>
+
+    <!-- MOVING BACKGROUND -->
+
+    <div id="background" class="background"></div>
+
 
     <div class="container">
 
@@ -536,6 +576,8 @@
             <h2>Settings</h2>
 
 
+            <!-- Auto Cloak -->
+
             <div class="quick-setting">
 
                 <span>Auto Cloak</span>
@@ -553,6 +595,8 @@
 
             </div>
 
+
+            <!-- No Tab Close -->
 
             <div class="quick-setting">
 
@@ -572,6 +616,8 @@
             </div>
 
 
+            <!-- Full Screen -->
+
             <div class="quick-setting">
 
                 <span>Full Screen</span>
@@ -581,6 +627,26 @@
                     <input
                         type="checkbox"
                         id="quickFullscreen"
+                    >
+
+                    <span class="slider"></span>
+
+                </label>
+
+            </div>
+
+
+            <!-- Mouse Background Movement -->
+
+            <div class="quick-setting">
+
+                <span>Mouse Background Movement</span>
+
+                <label class="switch">
+
+                    <input
+                        type="checkbox"
+                        id="quickMouseBackground"
                     >
 
                     <span class="slider"></span>
@@ -601,6 +667,10 @@
 
     <script>
 
+        /* =========================
+           ELEMENTS
+           ========================= */
+
         const quickSettings =
             document.getElementById("quickSettings");
 
@@ -613,11 +683,19 @@
         const quickFullscreen =
             document.getElementById("quickFullscreen");
 
+        const quickMouseBackground =
+            document.getElementById("quickMouseBackground");
+
         const loginPopup =
             document.getElementById("loginPopup");
 
+        const background =
+            document.getElementById("background");
 
-        /* LOGIN */
+
+        /* =========================
+           LOGIN
+           ========================= */
 
         function openLoginPopup() {
             loginPopup.classList.add("show");
@@ -639,7 +717,9 @@
         );
 
 
-        /* NO TAB CLOSE */
+        /* =========================
+           NO TAB CLOSE
+           ========================= */
 
         function enableNoTabClose() {
 
@@ -657,7 +737,9 @@
         }
 
         function disableNoTabClose() {
+
             window.onbeforeunload = null;
+
         }
 
 
@@ -701,7 +783,9 @@
         );
 
 
-        /* AUTO CLOAK */
+        /* =========================
+           AUTO CLOAK
+           ========================= */
 
         quickAutoCloak.addEventListener(
             "change",
@@ -792,7 +876,9 @@
         );
 
 
-        /* FULL SCREEN */
+        /* =========================
+           FULL SCREEN
+           ========================= */
 
         quickFullscreen.addEventListener(
             "change",
@@ -835,7 +921,74 @@
         );
 
 
-        /* P KEY */
+        /* =========================
+           MOUSE BACKGROUND MOVEMENT
+           ========================= */
+
+        let mouseBackgroundEnabled =
+            localStorage.getItem("mouseBackground")
+            !== "false";
+
+
+        quickMouseBackground.checked =
+            mouseBackgroundEnabled;
+
+
+        document.addEventListener(
+            "mousemove",
+            function(event) {
+
+                if (!mouseBackgroundEnabled) {
+                    return;
+                }
+
+                const x =
+                    (event.clientX / window.innerWidth)
+                    - 0.5;
+
+                const y =
+                    (event.clientY / window.innerHeight)
+                    - 0.5;
+
+                const moveX =
+                    x * 35;
+
+                const moveY =
+                    y * 35;
+
+                background.style.transform =
+                    `translate(${moveX}px, ${moveY}px)`;
+
+            }
+        );
+
+
+        quickMouseBackground.addEventListener(
+            "change",
+            function() {
+
+                mouseBackgroundEnabled =
+                    this.checked;
+
+                localStorage.setItem(
+                    "mouseBackground",
+                    mouseBackgroundEnabled
+                );
+
+                if (!mouseBackgroundEnabled) {
+
+                    background.style.transform =
+                        "translate(0px, 0px)";
+
+                }
+
+            }
+        );
+
+
+        /* =========================
+           P KEY
+           ========================= */
 
         window.addEventListener(
             "keydown",
@@ -858,7 +1011,9 @@
         );
 
 
-        /* CLICK OUTSIDE */
+        /* =========================
+           CLICK OUTSIDE
+           ========================= */
 
         quickSettings.addEventListener(
             "click",
