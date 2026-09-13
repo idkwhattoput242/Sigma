@@ -1,48 +1,82 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Sigma Jello Launcher</title>
+    <title>Loading...</title>
 
-    <style>
-        body {
-            margin: 0;
-            background: #000;
-            color: white;
-            font-family: Arial, sans-serif;
+    <script>
+        function launch() {
 
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            // Open a new tab at about:blank
+            const newWindow = window.open("about:blank", "_blank");
+
+            // Check if the browser blocked the popup
+            if (!newWindow) {
+                document.body.innerHTML =
+                    "<h2>Please allow pop-ups for this site.</h2>";
+                return;
+            }
+
+            // Find index.html relative to the launcher
+            const indexURL = new URL(
+                "index.html",
+                window.location.href
+            ).href;
+
+            // Put index.html inside the about:blank tab
+            newWindow.document.open();
+
+            newWindow.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Sigma Jello</title>
+
+                    <style>
+                        html, body {
+                            margin: 0;
+                            padding: 0;
+                            width: 100%;
+                            height: 100%;
+                            overflow: hidden;
+                            background: black;
+                        }
+
+                        iframe {
+                            width: 100%;
+                            height: 100%;
+                            border: none;
+                            display: block;
+                        }
+                    </style>
+                </head>
+
+                <body>
+
+                    <iframe
+                        src="${indexURL}"
+                        allowfullscreen>
+                    </iframe>
+
+                </body>
+                </html>
+            `);
+
+            newWindow.document.close();
+
+
+            // Send the original launcher tab to Google
+            window.location.href = "https://www.google.com";
         }
 
-        .container {
-            text-align: center;
-        }
 
-        h1 {
-            font-size: 50px;
-        }
-
-        p {
-            color: #aaa;
-        }
-    </style>
+        // Launch automatically when the page loads
+        window.onload = launch;
+    </script>
 </head>
 
 <body>
 
-    <div class="container">
-        <h1>Launching...</h1>
-        <p>Opening Sigma Jello</p>
-    </div>
-
-    <script>
-        const url =
-            "https://codehs.com/sandbox/j3fliscool/new-sandbox-program-6/embed/?display_mode=displayOnly&show_file_tree=False";
-
-        window.open(url, "_blank");
-    </script>
+    <h2>Launching Sigma Jello...</h2>
 
 </body>
 </html>
