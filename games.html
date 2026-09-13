@@ -16,10 +16,9 @@
             margin-top: 30px;
         }
 
-
         /* =========================
            GAME BUTTONS
-        ========================= */
+           ========================= */
 
         .game-buttons {
             display: flex;
@@ -84,9 +83,19 @@
             display: block;
         }
 
+        /* Eaglercraft */
+
+        .eaglercraft-button:hover {
+            width: 210px;
+        }
+
+        /* BTD5 */
+
         .btd5-button:hover {
             width: 160px;
         }
+
+        /* Terraria */
 
         .terraria-button:hover {
             width: 130px;
@@ -95,7 +104,7 @@
 
         /* =========================
            BACK BUTTON
-        ========================= */
+           ========================= */
 
         .back-button {
             position: fixed;
@@ -160,7 +169,7 @@
 
         /* =========================
            QUICK SETTINGS
-        ========================= */
+           ========================= */
 
         .quick-settings {
             display: none;
@@ -202,9 +211,6 @@
             color: black;
         }
 
-
-        /* Setting Rows */
-
         .quick-setting {
             background: #f2f2f2;
 
@@ -236,7 +242,9 @@
         }
 
 
-        /* Toggle Switch */
+        /* =========================
+           TOGGLE SWITCH
+           ========================= */
 
         .switch {
             position: relative;
@@ -294,7 +302,9 @@
         }
 
 
-        /* Hint */
+        /* =========================
+           HINT
+           ========================= */
 
         .hint {
             margin: 18px 0 0 0;
@@ -307,7 +317,9 @@
         }
 
 
-        /* Open Animation */
+        /* =========================
+           OPEN ANIMATION
+           ========================= */
 
         @keyframes clickguiOpen {
 
@@ -322,7 +334,6 @@
             }
 
         }
-
     </style>
 </head>
 
@@ -331,9 +342,22 @@
     <h1>Games</h1>
 
 
-    <!-- Game Buttons -->
+    <!-- =========================
+         GAME BUTTONS
+         ========================= -->
 
     <div class="game-buttons">
+
+        <!-- Eaglercraft 1.5.2 -->
+
+        <button
+            class="game-button eaglercraft-button"
+            onclick="location.href='assets/jello/1.5.2/index.html'"
+        >
+            <span class="game-letter">E</span>
+            <span class="game-name">Eaglercraft 1.5.2</span>
+        </button>
+
 
         <!-- Bloons TD 5 -->
 
@@ -359,7 +383,9 @@
     </div>
 
 
-    <!-- Back Button -->
+    <!-- =========================
+         BACK BUTTON
+         ========================= -->
 
     <button
         class="back-button"
@@ -370,7 +396,9 @@
     </button>
 
 
-    <!-- Quick Settings -->
+    <!-- =========================
+         QUICK SETTINGS
+         ========================= -->
 
     <div id="quickSettings" class="quick-settings">
 
@@ -430,6 +458,10 @@
 
     <script>
 
+        /* =========================
+           ELEMENTS
+           ========================= */
+
         const quickSettings =
             document.getElementById("quickSettings");
 
@@ -442,19 +474,20 @@
 
         /* =========================
            NO TAB CLOSE
-        ========================= */
+           ========================= */
 
         function enableNoTabClose() {
 
-            window.onbeforeunload = function(event) {
+            window.onbeforeunload =
+                function(event) {
 
-                event.preventDefault();
+                    event.preventDefault();
 
-                event.returnValue = "";
+                    event.returnValue = "";
 
-                return "";
+                    return "";
 
-            };
+                };
 
         }
 
@@ -512,7 +545,7 @@
 
         /* =========================
            FULL SCREEN
-        ========================= */
+           ========================= */
 
         quickFullscreen.addEventListener(
             "change",
@@ -522,7 +555,7 @@
 
                     if (
                         document.documentElement
-                        .requestFullscreen
+                            .requestFullscreen
                     ) {
 
                         document.documentElement
@@ -559,7 +592,7 @@
 
         /* =========================
            P KEY
-        ========================= */
+           ========================= */
 
         window.addEventListener(
             "keydown",
@@ -583,7 +616,7 @@
 
         /* =========================
            CLICK OUTSIDE
-        ========================= */
+           ========================= */
 
         quickSettings.addEventListener(
             "click",
