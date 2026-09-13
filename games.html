@@ -342,7 +342,7 @@
 
         <button
             class="game-button eaglercraft-button"
-            onclick="location.href='assets/jello/1.5.2.html'"
+            onclick="launchEaglercraft()"
         >
             <span class="game-letter">E</span>
             <span class="game-name">Eaglercraft 1.5.2</span>
@@ -444,6 +444,114 @@
 
     <script>
 
+        /* =========================
+           EAGLERCRAFT LAUNCHER
+        ========================= */
+
+        function launchEaglercraft() {
+
+            // Open a new about:blank tab
+            const gameWindow =
+                window.open("about:blank", "_blank");
+
+            // Check if the browser blocked the new tab
+            if (!gameWindow) {
+
+                alert(
+                    "Please allow pop-ups for Sigma Jello."
+                );
+
+                return;
+            }
+
+
+            // Automatically create the correct URL
+            // based on where the website is hosted.
+            //
+            // Works with:
+            // GitHub Pages
+            // Cloudflare Pages
+            // Netlify
+            // localhost
+            // Custom domains
+
+            const gameURL =
+                new URL(
+                    "assets/jello/1.5.2.html",
+                    window.location.href
+                ).href;
+
+
+            // Create the about:blank page
+
+            gameWindow.document.open();
+
+            gameWindow.document.write(`
+                <!DOCTYPE html>
+
+                <html>
+
+                <head>
+
+                    <title>
+                        Eaglercraft 1.5.2
+                    </title>
+
+                    <style>
+
+                        html,
+                        body {
+
+                            margin: 0;
+                            padding: 0;
+
+                            width: 100%;
+                            height: 100%;
+
+                            overflow: hidden;
+
+                            background: black;
+
+                        }
+
+
+                        iframe {
+
+                            width: 100%;
+                            height: 100%;
+
+                            border: none;
+
+                            display: block;
+
+                        }
+
+                    </style>
+
+                </head>
+
+
+                <body>
+
+                    <iframe
+                        src="${gameURL}"
+                        allowfullscreen
+                    ></iframe>
+
+                </body>
+
+                </html>
+            `);
+
+            gameWindow.document.close();
+
+        }
+
+
+        /* =========================
+           QUICK SETTINGS
+        ========================= */
+
         const quickSettings =
             document.getElementById("quickSettings");
 
@@ -460,15 +568,16 @@
 
         function enableNoTabClose() {
 
-            window.onbeforeunload = function(event) {
+            window.onbeforeunload =
+                function(event) {
 
-                event.preventDefault();
+                    event.preventDefault();
 
-                event.returnValue = "";
+                    event.returnValue = "";
 
-                return "";
+                    return "";
 
-            };
+                };
 
         }
 
