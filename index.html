@@ -107,6 +107,7 @@
             width: 140px;
         }
 
+
         /* =========================
            VERSION
            ========================= */
@@ -116,9 +117,130 @@
             bottom: 15px;
             right: 15px;
 
-            color: #777;
+            color: white;
             font-size: 14px;
+            font-weight: bold;
         }
+
+
+        /* =========================
+           LOGIN BUTTON
+           ========================= */
+
+        .login-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+
+            padding: 12px 22px;
+
+            background: white;
+            color: black;
+
+            border: none;
+            border-radius: 25px;
+
+            font-size: 16px;
+            font-weight: bold;
+            font-family: Arial, sans-serif;
+
+            cursor: pointer;
+
+            transition:
+                background 0.2s ease,
+                transform 0.2s ease;
+        }
+
+        .login-button:hover {
+            background: #ddd;
+            transform: scale(1.08);
+        }
+
+
+        /* =========================
+           LOGIN POPUP
+           ========================= */
+
+        .login-popup {
+            display: none;
+
+            position: fixed;
+            inset: 0;
+
+            background: rgba(0, 0, 0, 0.45);
+
+            justify-content: center;
+            align-items: center;
+
+            z-index: 10000;
+        }
+
+        .login-popup.show {
+            display: flex;
+        }
+
+        .login-popup-box {
+            position: relative;
+
+            width: 300px;
+
+            background: white;
+            color: black;
+
+            border-radius: 8px;
+
+            padding: 30px;
+
+            box-shadow:
+                0 15px 50px rgba(0, 0, 0, 0.65);
+
+            animation: loginPopupOpen 0.2s ease-out;
+        }
+
+        .login-popup-box h2 {
+            margin: 0 0 12px 0;
+
+            font-size: 26px;
+            font-weight: bold;
+        }
+
+        .login-popup-box p {
+            margin: 0;
+
+            font-size: 18px;
+            color: #555;
+        }
+
+        .close-login {
+            position: absolute;
+
+            top: 10px;
+            right: 12px;
+
+            width: 30px;
+            height: 30px;
+
+            border: none;
+            border-radius: 50%;
+
+            background: #eee;
+            color: black;
+
+            font-size: 18px;
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition:
+                background 0.2s ease,
+                transform 0.2s ease;
+        }
+
+        .close-login:hover {
+            background: #ddd;
+            transform: scale(1.08);
+        }
+
 
         /* =========================
            QUICK SETTINGS
@@ -201,6 +323,7 @@
             font-weight: bold;
         }
 
+
         /* =========================
            TOGGLES
            ========================= */
@@ -261,6 +384,7 @@
             transform: translateX(23px);
         }
 
+
         /* Hint */
 
         .hint {
@@ -273,7 +397,10 @@
             text-align: center;
         }
 
-        /* Animation */
+
+        /* =========================
+           ANIMATIONS
+           ========================= */
 
         @keyframes clickguiOpen {
 
@@ -288,6 +415,21 @@
             }
 
         }
+
+        @keyframes loginPopupOpen {
+
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+        }
+
     </style>
 </head>
 
@@ -349,8 +491,48 @@
     </div>
 
 
+    <!-- =========================
+         LOGIN BUTTON
+         ========================= -->
+
+    <button
+        class="login-button"
+        onclick="openLoginPopup()"
+    >
+        Log In
+    </button>
+
+
+    <!-- =========================
+         VERSION
+         ========================= -->
+
     <div class="version">
-        Sigma 2.0 Alpha
+        Alpha 2.01
+    </div>
+
+
+    <!-- =========================
+         LOGIN POPUP
+         ========================= -->
+
+    <div id="loginPopup" class="login-popup">
+
+        <div class="login-popup-box">
+
+            <button
+                class="close-login"
+                onclick="closeLoginPopup()"
+            >
+                ×
+            </button>
+
+            <h2>Log In</h2>
+
+            <p>Coming Soon</p>
+
+        </div>
+
     </div>
 
 
@@ -451,6 +633,43 @@
 
         const quickFullscreen =
             document.getElementById("quickFullscreen");
+
+        const loginPopup =
+            document.getElementById("loginPopup");
+
+
+        /* =========================
+           LOGIN POPUP
+           ========================= */
+
+        function openLoginPopup() {
+
+            loginPopup.classList.add("show");
+
+        }
+
+
+        function closeLoginPopup() {
+
+            loginPopup.classList.remove("show");
+
+        }
+
+
+        /* Close popup by clicking outside */
+
+        loginPopup.addEventListener(
+            "click",
+            function(event) {
+
+                if (event.target === loginPopup) {
+
+                    closeLoginPopup();
+
+                }
+
+            }
+        );
 
 
         /* =========================
@@ -694,7 +913,7 @@
 
 
         /* =========================
-           CLICK OUTSIDE TO CLOSE
+           CLICK OUTSIDE TO CLOSE SETTINGS
            ========================= */
 
         quickSettings.addEventListener(
