@@ -6,7 +6,7 @@
     <style>
         body {
             margin: 0;
-            background: url("assets/backround.jpg") center center / cover no-repeat fixed;
+            background: #000;
             color: white;
             font-family: Arial, sans-serif;
 
@@ -14,7 +14,31 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+
+            overflow: hidden;
         }
+
+
+        /* =========================
+           MOVING BACKGROUND
+           ========================= */
+
+        .background {
+            position: fixed;
+            inset: -40px;
+
+            background: url("assets/backround.jpg")
+                center center / cover no-repeat;
+
+            z-index: -1;
+
+            transform: translate(0px, 0px);
+
+            transition: transform 0.15s ease-out;
+
+            pointer-events: none;
+        }
+
 
         .container {
             text-align: center;
@@ -24,6 +48,7 @@
             font-size: 60px;
             margin-bottom: 30px;
         }
+
 
         /* =========================
            CIRCLE BUTTONS
@@ -264,8 +289,6 @@
             display: flex;
         }
 
-        /* White ClickGUI */
-
         .quick-settings-box {
             width: 360px;
 
@@ -385,7 +408,9 @@
         }
 
 
-        /* Hint */
+        /* =========================
+           HINT
+           ========================= */
 
         .hint {
             margin: 18px 0 0 0;
@@ -434,6 +459,17 @@
 </head>
 
 <body>
+
+
+    <!-- =========================
+         BACKGROUND
+         ========================= -->
+
+    <div
+        id="background"
+        class="background">
+    </div>
+
 
     <div class="container">
 
@@ -567,6 +603,26 @@
             </div>
 
 
+            <!-- Mouse Background Movement -->
+
+            <div class="quick-setting">
+
+                <span>Mouse Background Movement</span>
+
+                <label class="switch">
+
+                    <input
+                        type="checkbox"
+                        id="quickMouseBackground"
+                    >
+
+                    <span class="slider"></span>
+
+                </label>
+
+            </div>
+
+
             <!-- No Tab Close -->
 
             <div class="quick-setting">
@@ -628,6 +684,9 @@
         const quickAutoCloak =
             document.getElementById("quickAutoCloak");
 
+        const quickMouseBackground =
+            document.getElementById("quickMouseBackground");
+
         const quickNoTabClose =
             document.getElementById("quickNoTabClose");
 
@@ -636,6 +695,9 @@
 
         const loginPopup =
             document.getElementById("loginPopup");
+
+        const background =
+            document.getElementById("background");
 
 
         /* =========================
@@ -665,6 +727,78 @@
                 if (event.target === loginPopup) {
 
                     closeLoginPopup();
+
+                }
+
+            }
+        );
+
+
+        /* =========================
+           MOUSE BACKGROUND MOVEMENT
+           ========================= */
+
+        let mouseBackgroundEnabled =
+            localStorage.getItem("mouseBackground")
+            !== "false";
+
+
+        quickMouseBackground.checked =
+            mouseBackgroundEnabled;
+
+
+        document.addEventListener(
+            "mousemove",
+            function(event) {
+
+                if (!mouseBackgroundEnabled) {
+
+                    return;
+
+                }
+
+
+                const x =
+                    (event.clientX / window.innerWidth)
+                    - 0.5;
+
+                const y =
+                    (event.clientY / window.innerHeight)
+                    - 0.5;
+
+
+                const moveX =
+                    x * 35;
+
+                const moveY =
+                    y * 35;
+
+
+                background.style.transform =
+                    `translate(${moveX}px, ${moveY}px)`;
+
+            }
+        );
+
+
+        quickMouseBackground.addEventListener(
+            "change",
+            function() {
+
+                mouseBackgroundEnabled =
+                    this.checked;
+
+
+                localStorage.setItem(
+                    "mouseBackground",
+                    mouseBackgroundEnabled
+                );
+
+
+                if (!mouseBackgroundEnabled) {
+
+                    background.style.transform =
+                        "translate(0px, 0px)";
 
                 }
 
