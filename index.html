@@ -162,6 +162,28 @@
 
 
         /* =========================
+           USERNAME
+           ========================= */
+
+        .hello-user {
+            position: fixed;
+
+            top: 20px;
+            left: 20px;
+
+            color: white;
+
+            font-size: 20px;
+            font-weight: bold;
+
+            z-index: 3;
+
+            text-shadow:
+                0 2px 10px rgba(0, 0, 0, 0.7);
+        }
+
+
+        /* =========================
            LOGIN BUTTON
            ========================= */
 
@@ -184,7 +206,7 @@
 
             cursor: pointer;
 
-            z-index: 2;
+            z-index: 3;
 
             transition:
                 background 0.2s ease,
@@ -207,7 +229,7 @@
             position: fixed;
             inset: 0;
 
-            background: rgba(0, 0, 0, 0.45);
+            background: rgba(0, 0, 0, 0.55);
 
             justify-content: center;
             align-items: center;
@@ -222,33 +244,123 @@
         .login-popup-box {
             position: relative;
 
-            width: 300px;
+            width: 330px;
 
-            background: white;
-            color: black;
+            background: #101010;
+            color: white;
 
-            border-radius: 8px;
+            border: 1px solid #333;
+
+            border-radius: 6px;
 
             padding: 30px;
 
             box-shadow:
-                0 15px 50px rgba(0, 0, 0, 0.65);
+                0 15px 60px rgba(0, 0, 0, 0.85);
 
             animation: loginPopupOpen 0.2s ease-out;
         }
 
         .login-popup-box h2 {
-            margin: 0 0 12px 0;
+            margin: 0 0 6px 0;
 
-            font-size: 26px;
+            font-size: 30px;
+            font-weight: bold;
+
+            color: white;
+
+            letter-spacing: -1px;
+        }
+
+        .login-subtitle {
+            margin: 0 0 25px 0;
+
+            font-size: 13px;
+
+            color: #888;
+        }
+
+        .username-label {
+            display: block;
+
+            margin-bottom: 8px;
+
+            color: #ddd;
+
+            font-size: 14px;
             font-weight: bold;
         }
 
-        .login-popup-box p {
-            margin: 0;
+        .username-input {
+            width: 100%;
 
-            font-size: 18px;
-            color: #555;
+            box-sizing: border-box;
+
+            padding: 13px 14px;
+
+            background: #080808;
+            color: white;
+
+            border: 1px solid #333;
+            border-radius: 4px;
+
+            outline: none;
+
+            font-size: 16px;
+            font-family: Arial, sans-serif;
+
+            transition:
+                border 0.15s ease,
+                background 0.15s ease;
+        }
+
+        .username-input:focus {
+            border-color: white;
+            background: #111;
+        }
+
+        .username-input::placeholder {
+            color: #666;
+        }
+
+        .sign-in-button {
+            width: 100%;
+
+            margin-top: 15px;
+
+            padding: 13px;
+
+            border: none;
+            border-radius: 4px;
+
+            background: white;
+            color: black;
+
+            font-size: 16px;
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition:
+                background 0.15s ease,
+                transform 0.15s ease;
+        }
+
+        .sign-in-button:hover {
+            background: #ddd;
+            transform: translateY(-2px);
+        }
+
+        .login-error {
+            display: none;
+
+            margin-top: 10px;
+
+            color: #ff6b6b;
+
+            font-size: 13px;
+
+            text-align: center;
         }
 
         .close-login {
@@ -263,8 +375,8 @@
             border: none;
             border-radius: 50%;
 
-            background: #eee;
-            color: black;
+            background: #222;
+            color: white;
 
             font-size: 18px;
             font-weight: bold;
@@ -277,7 +389,7 @@
         }
 
         .close-login:hover {
-            background: #ddd;
+            background: #333;
             transform: scale(1.08);
         }
 
@@ -480,6 +592,11 @@
     <div id="background" class="background"></div>
 
 
+    <!-- HELLO USER -->
+
+    <div id="helloUser" class="hello-user"></div>
+
+
     <div class="container">
 
         <h1>Jello</h1>
@@ -531,6 +648,7 @@
     <!-- LOGIN BUTTON -->
 
     <button
+        id="loginButton"
         class="login-button"
         onclick="openLoginPopup()"
     >
@@ -560,7 +678,39 @@
 
             <h2>Log In</h2>
 
-            <p>Coming Soon</p>
+            <p class="login-subtitle">
+                Enter a username to continue
+            </p>
+
+            <label
+                class="username-label"
+                for="usernameInput"
+            >
+                Username
+            </label>
+
+            <input
+                id="usernameInput"
+                class="username-input"
+                type="text"
+                maxlength="20"
+                placeholder="Enter username"
+                autocomplete="off"
+            >
+
+            <button
+                class="sign-in-button"
+                onclick="signIn()"
+            >
+                Sign In
+            </button>
+
+            <div
+                id="loginError"
+                class="login-error"
+            >
+                Please enter a username.
+            </div>
 
         </div>
 
@@ -689,6 +839,18 @@
         const loginPopup =
             document.getElementById("loginPopup");
 
+        const usernameInput =
+            document.getElementById("usernameInput");
+
+        const loginError =
+            document.getElementById("loginError");
+
+        const loginButton =
+            document.getElementById("loginButton");
+
+        const helloUser =
+            document.getElementById("helloUser");
+
         const background =
             document.getElementById("background");
 
@@ -698,19 +860,142 @@
            ========================= */
 
         function openLoginPopup() {
+
             loginPopup.classList.add("show");
+
+            usernameInput.value = "";
+
+            loginError.style.display = "none";
+
+            setTimeout(function() {
+                usernameInput.focus();
+            }, 50);
+
         }
 
+
         function closeLoginPopup() {
+
             loginPopup.classList.remove("show");
+
         }
+
+
+        function signIn() {
+
+            const username =
+                usernameInput.value.trim();
+
+
+            if (!username) {
+
+                loginError.style.display =
+                    "block";
+
+                usernameInput.focus();
+
+                return;
+            }
+
+
+            localStorage.setItem(
+                "sigmaJelloUsername",
+                username
+            );
+
+
+            localStorage.setItem(
+                "sigmaJelloLoggedIn",
+                "true"
+            );
+
+
+            updateUserDisplay();
+
+            closeLoginPopup();
+
+        }
+
+
+        function updateUserDisplay() {
+
+            const username =
+                localStorage.getItem(
+                    "sigmaJelloUsername"
+                );
+
+            const loggedIn =
+                localStorage.getItem(
+                    "sigmaJelloLoggedIn"
+                ) === "true";
+
+
+            if (loggedIn && username) {
+
+                helloUser.textContent =
+                    "Hello " + username;
+
+                loginButton.textContent =
+                    "Logged In";
+
+            } else {
+
+                helloUser.textContent = "";
+
+                loginButton.textContent =
+                    "Log In";
+
+            }
+
+        }
+
+
+        /* Load saved username */
+
+        updateUserDisplay();
+
+
+        /* Enter key signs in */
+
+        usernameInput.addEventListener(
+            "keydown",
+            function(event) {
+
+                if (event.key === "Enter") {
+
+                    signIn();
+
+                }
+
+            }
+        );
+
+
+        /* Hide error while typing */
+
+        usernameInput.addEventListener(
+            "input",
+            function() {
+
+                loginError.style.display =
+                    "none";
+
+            }
+        );
+
+
+        /* Close login by clicking outside */
 
         loginPopup.addEventListener(
             "click",
             function(event) {
 
-                if (event.target === loginPopup) {
+                if (
+                    event.target === loginPopup
+                ) {
+
                     closeLoginPopup();
+
                 }
 
             }
@@ -735,6 +1020,7 @@
                 };
 
         }
+
 
         function disableNoTabClose() {
 
