@@ -137,28 +137,20 @@
             stroke-linejoin: round;
         }
 
-        /* Games */
-
         .games-button .icon svg {
             width: 42px;
             height: 42px;
         }
-
-        /* Music */
 
         .music-button .icon svg {
             width: 40px;
             height: 40px;
         }
 
-        /* Changelogs */
-
         .changelog-button .icon svg {
             width: 36px;
             height: 40px;
         }
-
-        /* Settings */
 
         .settings-button .icon svg {
             width: 40px;
@@ -504,6 +496,38 @@
         }
 
         /* =========================
+           JELLO MUSIC BUTTON
+           ========================= */
+
+        .music-open-button {
+            width: 100%;
+
+            padding: 14px;
+
+            margin-top: 4px;
+
+            background: #111;
+            color: white;
+
+            border: none;
+            border-radius: 5px;
+
+            font-size: 16px;
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition:
+                background 0.2s ease,
+                transform 0.2s ease;
+        }
+
+        .music-open-button:hover {
+            background: #333;
+            transform: translateY(-2px);
+        }
+
+        /* =========================
            TOGGLES
            ========================= */
 
@@ -564,6 +588,268 @@
         }
 
         /* =========================
+           MUSIC POPUP
+           ========================= */
+
+        .music-popup {
+            display: none;
+
+            position: fixed;
+            inset: 0;
+
+            background: rgba(0, 0, 0, 0.45);
+
+            justify-content: center;
+            align-items: center;
+
+            z-index: 11000;
+        }
+
+        .music-popup.show {
+            display: flex;
+        }
+
+        .music-box {
+            position: relative;
+
+            width: 420px;
+            max-width: calc(100vw - 40px);
+            max-height: 80vh;
+
+            background: white;
+            color: black;
+
+            border-radius: 10px;
+
+            padding: 25px;
+
+            box-sizing: border-box;
+
+            box-shadow:
+                0 20px 60px rgba(0, 0, 0, 0.7);
+
+            animation: musicPopupOpen 0.2s ease-out;
+        }
+
+        .music-box h2 {
+            margin: 0;
+
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .music-close {
+            position: absolute;
+
+            top: 12px;
+            right: 12px;
+
+            width: 32px;
+            height: 32px;
+
+            border: none;
+            border-radius: 50%;
+
+            background: #eee;
+            color: black;
+
+            font-size: 20px;
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition:
+                background 0.2s ease,
+                transform 0.2s ease;
+        }
+
+        .music-close:hover {
+            background: #ddd;
+            transform: scale(1.08);
+        }
+
+        .music-now-playing {
+            margin-top: 20px;
+
+            padding: 14px;
+
+            background: #f2f2f2;
+
+            border-radius: 6px;
+
+            text-align: center;
+
+            font-size: 15px;
+            font-weight: bold;
+
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .music-progress {
+            width: 100%;
+
+            margin-top: 15px;
+
+            cursor: pointer;
+        }
+
+        .music-time {
+            display: flex;
+            justify-content: space-between;
+
+            margin-top: 5px;
+
+            font-size: 11px;
+            color: #777;
+        }
+
+        .music-controls {
+            display: flex;
+
+            justify-content: center;
+            align-items: center;
+
+            gap: 8px;
+
+            margin-top: 15px;
+        }
+
+        .music-control {
+            width: 42px;
+            height: 38px;
+
+            border: none;
+            border-radius: 6px;
+
+            background: #eee;
+            color: black;
+
+            font-size: 17px;
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition:
+                background 0.15s ease,
+                transform 0.15s ease;
+        }
+
+        .music-control:hover {
+            background: #ddd;
+            transform: scale(1.05);
+        }
+
+        .music-play {
+            width: 50px;
+            height: 44px;
+
+            background: #111;
+            color: white;
+        }
+
+        .music-play:hover {
+            background: #333;
+        }
+
+        .music-options {
+            display: flex;
+
+            align-items: center;
+            gap: 10px;
+
+            margin-top: 15px;
+        }
+
+        .music-options span {
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .music-volume {
+            flex: 1;
+        }
+
+        .music-search {
+            width: 100%;
+            box-sizing: border-box;
+
+            margin-top: 18px;
+
+            padding: 11px;
+
+            background: #f5f5f5;
+            color: black;
+
+            border: 1px solid #ccc;
+            border-radius: 5px;
+
+            outline: none;
+
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+        }
+
+        .music-search:focus {
+            border-color: #111;
+            background: white;
+        }
+
+        .music-list {
+            margin-top: 12px;
+
+            max-height: 180px;
+
+            overflow-y: auto;
+
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .music-song {
+            padding: 10px 12px;
+
+            background: white;
+
+            border-bottom: 1px solid #eee;
+
+            cursor: pointer;
+
+            font-size: 13px;
+
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+
+            transition:
+                background 0.15s ease;
+        }
+
+        .music-song:last-child {
+            border-bottom: none;
+        }
+
+        .music-song:hover {
+            background: #f0f0f0;
+        }
+
+        .music-song.active {
+            background: #111;
+            color: white;
+        }
+
+        .music-empty {
+            padding: 15px;
+
+            text-align: center;
+
+            color: #777;
+
+            font-size: 13px;
+        }
+
+        /* =========================
            HINT
            ========================= */
 
@@ -582,7 +868,6 @@
            ========================= */
 
         @keyframes clickguiOpen {
-
             from {
                 opacity: 0;
                 transform: scale(0.92);
@@ -592,11 +877,9 @@
                 opacity: 1;
                 transform: scale(1);
             }
-
         }
 
         @keyframes loginPopupOpen {
-
             from {
                 opacity: 0;
                 transform: scale(0.9);
@@ -606,9 +889,19 @@
                 opacity: 1;
                 transform: scale(1);
             }
-
         }
 
+        @keyframes musicPopupOpen {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
     </style>
 </head>
 
@@ -896,7 +1189,7 @@
 
             <h2>Settings</h2>
 
-            <!-- Auto Cloak -->
+            <!-- AUTO CLOAK -->
 
             <div class="quick-setting">
 
@@ -915,7 +1208,7 @@
 
             </div>
 
-            <!-- No Tab Close -->
+            <!-- NO TAB CLOSE -->
 
             <div class="quick-setting">
 
@@ -934,7 +1227,7 @@
 
             </div>
 
-            <!-- Full Screen -->
+            <!-- FULL SCREEN -->
 
             <div class="quick-setting">
 
@@ -953,7 +1246,7 @@
 
             </div>
 
-            <!-- Mouse Background Movement -->
+            <!-- MOUSE BACKGROUND MOVEMENT -->
 
             <div class="quick-setting">
 
@@ -972,6 +1265,15 @@
 
             </div>
 
+            <!-- JELLO MUSIC -->
+
+            <button
+                class="music-open-button"
+                onclick="openMusicPopup()"
+            >
+                Jello Music
+            </button>
+
             <p class="hint">
                 Press P to close
             </p>
@@ -979,6 +1281,137 @@
         </div>
 
     </div>
+
+
+    <!-- =========================
+         JELLO MUSIC POPUP
+         ========================= -->
+
+    <div
+        id="musicPopup"
+        class="music-popup"
+    >
+
+        <div class="music-box">
+
+            <button
+                class="music-close"
+                onclick="closeMusicPopup()"
+            >
+                ×
+            </button>
+
+            <h2>Jello Music</h2>
+
+            <div
+                id="musicNowPlaying"
+                class="music-now-playing"
+            >
+                Nothing playing
+            </div>
+
+            <input
+                id="musicProgress"
+                class="music-progress"
+                type="range"
+                min="0"
+                max="100"
+                value="0"
+            >
+
+            <div class="music-time">
+
+                <span id="musicCurrentTime">
+                    0:00
+                </span>
+
+                <span id="musicDuration">
+                    0:00
+                </span>
+
+            </div>
+
+            <div class="music-controls">
+
+                <button
+                    id="musicPrevious"
+                    class="music-control"
+                    title="Previous"
+                >
+                    ⏮
+                </button>
+
+                <button
+                    id="musicPlay"
+                    class="music-control music-play"
+                    title="Play / Pause"
+                >
+                    ▶
+                </button>
+
+                <button
+                    id="musicNext"
+                    class="music-control"
+                    title="Next"
+                >
+                    ⏭
+                </button>
+
+                <button
+                    id="musicShuffle"
+                    class="music-control"
+                    title="Shuffle"
+                >
+                    🔀
+                </button>
+
+                <button
+                    id="musicRepeat"
+                    class="music-control"
+                    title="Repeat"
+                >
+                    🔁
+                </button>
+
+            </div>
+
+            <div class="music-options">
+
+                <span>Volume</span>
+
+                <input
+                    id="musicVolume"
+                    class="music-volume"
+                    type="range"
+                    min="0"
+                    max="1"
+                    step="0.01"
+                    value="1"
+                >
+
+            </div>
+
+            <input
+                id="musicSearch"
+                class="music-search"
+                type="text"
+                placeholder="Search songs..."
+                autocomplete="off"
+            >
+
+            <div
+                id="musicList"
+                class="music-list"
+            ></div>
+
+        </div>
+
+    </div>
+
+
+    <!-- AUDIO -->
+
+    <audio id="musicAudio"></audio>
 
 
     <script>
@@ -1439,23 +1872,420 @@
 
 
         /* =========================
-           P KEY
+           MUSIC PLAYER
            ========================= */
 
-        window.addEventListener(
-            "keydown",
-            function(event) {
+        const musicPopup =
+            document.getElementById("musicPopup");
 
-                if (event.code === "KeyP") {
+        const musicAudio =
+            document.getElementById("musicAudio");
 
-                    if (event.repeat)
-                        return;
+        const musicNowPlaying =
+            document.getElementById("musicNowPlaying");
 
-                    event.preventDefault();
+        const musicProgress =
+            document.getElementById("musicProgress");
 
-                    quickSettings.classList.toggle(
-                        "show"
+        const musicCurrentTime =
+            document.getElementById("musicCurrentTime");
+
+        const musicDuration =
+            document.getElementById("musicDuration");
+
+        const musicPlay =
+            document.getElementById("musicPlay");
+
+        const musicPrevious =
+            document.getElementById("musicPrevious");
+
+        const musicNext =
+            document.getElementById("musicNext");
+
+        const musicShuffle =
+            document.getElementById("musicShuffle");
+
+        const musicRepeat =
+            document.getElementById("musicRepeat");
+
+        const musicVolume =
+            document.getElementById("musicVolume");
+
+        const musicSearch =
+            document.getElementById("musicSearch");
+
+        const musicList =
+            document.getElementById("musicList");
+
+
+        const songs = [
+
+            "1. Bad Boy OG.mp3",
+            "1. Matt Hardy 999 OG.mp3",
+            "10. Boomerang.mp3",
+            "10. Nuketown OG.mp3",
+            "11. Blue Cash.mp3",
+            "2. Back And Forth (Stumblin_).mp3",
+            "2. Baguettes.mp3",
+            "2. Tell Me You Love Me OG.mp3",
+            "3. Bity.mp3",
+            "3. Trifling.mp3",
+            "3. Vicehurt (R.I.P. Jahseh).mp3",
+            "4. Hey Mister.mp3",
+            "4. Infrared.mp3",
+            "4. No Jumper (I Wonder Why).mp3",
+            "5. Knuck If You Buck.mp3",
+            "6. 2 Seats (Both Sides).mp3",
+            "6. Takeover.mp3",
+            "6. Wake Up!.mp3",
+            "7. Catch Up (Osama).mp3",
+            "7. Sky High.mp3",
+            "8. Knight Crawler OG.mp3",
+            "9. Bye Bye Baby.mp3",
+            "9. U Can_t Tell Me.mp3",
+            "Bottle.mp3",
+            "Burner.mp3",
+            "Cake - Juice WRLD .mp3",
+            "Call Me Whenever - Juice WRLD .mp3",
+            "Cursed.mp3",
+            "Dark Tints - Juice WRLD.mp3",
+            "Elevate - Juice WRLD.mp3",
+            "Emotional Overdose.mp3",
+            "Fall in love - Juice WRLD.mp3",
+            "Happy Life - Juice WRLD.mp3",
+            "Hypnotic.mp3",
+            "In The Mix (Be Here) - Juice WRLD.mp3",
+            "Tic Tac Toe - Juice WRLD.mp3",
+            "Usd - Juice WRLD.mp3",
+            "cali girl.mp3"
+
+        ];
+
+
+        let currentSongIndex = 0;
+        let isShuffle = false;
+        let isRepeat = false;
+
+
+        function formatTime(seconds) {
+
+            if (!isFinite(seconds)) {
+                return "0:00";
+            }
+
+            const minutes =
+                Math.floor(seconds / 60);
+
+            const remaining =
+                Math.floor(seconds % 60)
+                    .toString()
+                    .padStart(2, "0");
+
+            return minutes + ":" + remaining;
+
+        }
+
+
+        function loadSong(index, autoplay = false) {
+
+            if (!songs.length) {
+                return;
+            }
+
+            currentSongIndex =
+                (index + songs.length) % songs.length;
+
+            const song =
+                songs[currentSongIndex];
+
+            musicAudio.src =
+                "music/" +
+                encodeURIComponent(song);
+
+            musicNowPlaying.textContent =
+                song.replace(".mp3", "");
+
+            renderMusicList();
+
+            if (autoplay) {
+
+                musicAudio.play().catch(function() {});
+
+            }
+
+            updateMusicPlayButton();
+
+        }
+
+
+        function playPauseMusic() {
+
+            if (!musicAudio.src) {
+
+                loadSong(currentSongIndex, true);
+
+                return;
+
+            }
+
+            if (musicAudio.paused) {
+
+                musicAudio.play().catch(function() {});
+
+            } else {
+
+                musicAudio.pause();
+
+            }
+
+        }
+
+
+        function updateMusicPlayButton() {
+
+            musicPlay.textContent =
+                musicAudio.paused ? "▶" : "❚❚";
+
+        }
+
+
+        function playNextSong() {
+
+            if (isShuffle && songs.length > 1) {
+
+                let nextIndex;
+
+                do {
+
+                    nextIndex =
+                        Math.floor(
+                            Math.random() * songs.length
+                        );
+
+                } while (
+                    nextIndex === currentSongIndex
+                );
+
+                loadSong(nextIndex, true);
+
+            } else {
+
+                loadSong(
+                    currentSongIndex + 1,
+                    true
+                );
+
+            }
+
+        }
+
+
+        function playPreviousSong() {
+
+            if (musicAudio.currentTime > 3) {
+
+                musicAudio.currentTime = 0;
+
+                return;
+
+            }
+
+            loadSong(
+                currentSongIndex - 1,
+                true
+            );
+
+        }
+
+
+        function renderMusicList() {
+
+            const search =
+                musicSearch.value
+                    .toLowerCase()
+                    .trim();
+
+            musicList.innerHTML = "";
+
+            const filteredSongs =
+                songs
+                    .map(function(song, index) {
+
+                        return {
+                            song: song,
+                            index: index
+                        };
+
+                    })
+                    .filter(function(item) {
+
+                        return item.song
+                            .toLowerCase()
+                            .includes(search);
+
+                    });
+
+
+            if (!filteredSongs.length) {
+
+                musicList.innerHTML =
+                    '<div class="music-empty">No songs found</div>';
+
+                return;
+
+            }
+
+
+            filteredSongs.forEach(function(item) {
+
+                const songElement =
+                    document.createElement("div");
+
+                songElement.className =
+                    "music-song";
+
+                if (
+                    item.index === currentSongIndex
+                ) {
+
+                    songElement.classList.add(
+                        "active"
                     );
+
+                }
+
+                songElement.textContent =
+                    item.song.replace(".mp3", "");
+
+                songElement.onclick =
+                    function() {
+
+                        loadSong(
+                            item.index,
+                            true
+                        );
+
+                    };
+
+                musicList.appendChild(
+                    songElement
+                );
+
+            });
+
+        }
+
+
+        function openMusicPopup() {
+
+            quickSettings.classList.remove(
+                "show"
+            );
+
+            musicPopup.classList.add(
+                "show"
+            );
+
+            if (!musicAudio.src) {
+
+                loadSong(
+                    currentSongIndex,
+                    false
+                );
+
+            }
+
+        }
+
+
+        function closeMusicPopup() {
+
+            musicPopup.classList.remove(
+                "show"
+            );
+
+        }
+
+
+        musicPlay.addEventListener(
+            "click",
+            playPauseMusic
+        );
+
+
+        musicPrevious.addEventListener(
+            "click",
+            playPreviousSong
+        );
+
+
+        musicNext.addEventListener(
+            "click",
+            playNextSong
+        );
+
+
+        musicShuffle.addEventListener(
+            "click",
+            function() {
+
+                isShuffle =
+                    !isShuffle;
+
+                musicShuffle.style.background =
+                    isShuffle ? "#111" : "#eee";
+
+                musicShuffle.style.color =
+                    isShuffle ? "white" : "black";
+
+            }
+        );
+
+
+        musicRepeat.addEventListener(
+            "click",
+            function() {
+
+                isRepeat =
+                    !isRepeat;
+
+                musicRepeat.style.background =
+                    isRepeat ? "#111" : "#eee";
+
+                musicRepeat.style.color =
+                    isRepeat ? "white" : "black";
+
+            }
+        );
+
+
+        musicAudio.addEventListener(
+            "play",
+            updateMusicPlayButton
+        );
+
+
+        musicAudio.addEventListener(
+            "pause",
+            updateMusicPlayButton
+        );
+
+
+        musicAudio.addEventListener(
+            "ended",
+            function() {
+
+                if (isRepeat) {
+
+                    musicAudio.currentTime = 0;
+
+                    musicAudio.play().catch(
+                        function() {}
+                    );
+
+                } else {
+
+                    playNextSong();
 
                 }
 
@@ -1463,8 +2293,140 @@
         );
 
 
+        musicAudio.addEventListener(
+            "loadedmetadata",
+            function() {
+
+                musicDuration.textContent =
+                    formatTime(
+                        musicAudio.duration
+                    );
+
+            }
+        );
+
+
+        musicAudio.addEventListener(
+            "timeupdate",
+            function() {
+
+                if (
+                    musicAudio.duration &&
+                    isFinite(musicAudio.duration)
+                ) {
+
+                    musicProgress.value =
+                        (
+                            musicAudio.currentTime /
+                            musicAudio.duration
+                        ) * 100;
+
+                }
+
+                musicCurrentTime.textContent =
+                    formatTime(
+                        musicAudio.currentTime
+                    );
+
+            }
+        );
+
+
+        musicProgress.addEventListener(
+            "input",
+            function() {
+
+                if (
+                    musicAudio.duration &&
+                    isFinite(musicAudio.duration)
+                ) {
+
+                    musicAudio.currentTime =
+                        (
+                            this.value / 100
+                        ) *
+                        musicAudio.duration;
+
+                }
+
+            }
+        );
+
+
+        musicVolume.addEventListener(
+            "input",
+            function() {
+
+                musicAudio.volume =
+                    this.value;
+
+            }
+        );
+
+
+        musicSearch.addEventListener(
+            "input",
+            renderMusicList
+        );
+
+
+        musicPopup.addEventListener(
+            "click",
+            function(event) {
+
+                if (
+                    event.target === musicPopup
+                ) {
+
+                    closeMusicPopup();
+
+                }
+
+            }
+        );
+
+
+        renderMusicList();
+
+
         /* =========================
-           CLICK OUTSIDE
+           P KEY
+           ========================= */
+
+        window.addEventListener(
+            "keydown",
+            function(event) {
+
+                if (event.code !== "KeyP") {
+                    return;
+                }
+
+                if (event.repeat) {
+                    return;
+                }
+
+                event.preventDefault();
+
+
+                if (musicPopup.classList.contains("show")) {
+
+                    closeMusicPopup();
+
+                    return;
+
+                }
+
+
+                quickSettings.classList.toggle(
+                    "show"
+                );
+
+            }
+        );
+
+
+        /* =========================
+           CLICK OUTSIDE QUICK SETTINGS
            ========================= */
 
         quickSettings.addEventListener(
