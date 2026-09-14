@@ -1,19 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Changelogs - Sigma Jello</title>
+    <title>Changelogs - Sigma Jello</title>
 <style>
+    * {
+        box-sizing: border-box;
+    }
+
     body {
         margin: 0;
         background: #000;
         color: white;
         font-family: Arial, sans-serif;
 
+        min-height: 100vh;
+
         display: flex;
         justify-content: center;
-        align-items: center;
-        min-height: 100vh;
+        align-items: flex-start;
+
+        padding: 80px 20px;
     }
+
 
     /* =========================
        MOVING BACKGROUND
@@ -37,44 +45,197 @@
         pointer-events: none;
     }
 
+
+    /* =========================
+       CONTAINER
+    ========================= */
+
     .container {
-        text-align: center;
+        width: 100%;
+        max-width: 760px;
+
         position: relative;
         z-index: 1;
     }
 
-    h1 {
-        font-size: 50px;
-        margin-bottom: 10px;
+
+    /* =========================
+       HEADER
+    ========================= */
+
+    .header {
+        text-align: center;
+        margin-bottom: 45px;
+    }
+
+    .header h1 {
+        font-size: 52px;
+        margin: 0;
+
+        font-weight: bold;
+        letter-spacing: 1px;
+    }
+
+    .header p {
+        margin: 10px 0 0;
+
+        color: #999;
+
+        font-size: 15px;
+        letter-spacing: 1px;
+    }
+
+
+    /* =========================
+       CHANGELOG CARDS
+    ========================= */
+
+    .changelog {
+        background: rgba(10, 10, 10, 0.88);
+
+        border: 1px solid rgba(255, 255, 255, 0.12);
+
+        border-radius: 12px;
+
+        padding: 28px 30px;
+
+        margin-bottom: 25px;
+
+        box-shadow:
+            0 12px 40px rgba(0, 0, 0, 0.45);
+
+        backdrop-filter: blur(8px);
+
+        transition:
+            transform 0.2s ease,
+            border-color 0.2s ease,
+            box-shadow 0.2s ease;
+    }
+
+    .changelog:hover {
+        transform: translateY(-3px);
+
+        border-color:
+            rgba(255, 255, 255, 0.25);
+
+        box-shadow:
+            0 16px 45px rgba(0, 0, 0, 0.55);
+    }
+
+
+    /* =========================
+       VERSION HEADER
+    ========================= */
+
+    .version-header {
+        display: flex;
+
+        justify-content: space-between;
+        align-items: center;
+
+        gap: 20px;
+
+        margin-bottom: 8px;
     }
 
     .version {
-        font-size: 28px;
-        margin-top: 25px;
+        font-size: 27px;
+        font-weight: bold;
     }
+
+    .version-badge {
+        background: white;
+        color: black;
+
+        font-size: 12px;
+        font-weight: bold;
+
+        padding: 6px 10px;
+
+        border-radius: 20px;
+
+        white-space: nowrap;
+    }
+
+
+    /* =========================
+       DATE
+    ========================= */
 
     .date {
-        color: #aaa;
-        font-size: 16px;
-        margin-bottom: 15px;
+        color: #888;
+
+        font-size: 14px;
+
+        margin-bottom: 20px;
     }
+
+
+    /* =========================
+       DESCRIPTION
+    ========================= */
 
     .description {
-        font-size: 18px;
         color: #ddd;
+
+        font-size: 16px;
+
+        line-height: 1.6;
+
+        margin-bottom: 18px;
     }
 
+
+    /* =========================
+       FEATURES
+    ========================= */
+
     .features {
-        text-align: left;
-        display: inline-block;
-        margin-top: 15px;
-        padding-left: 25px;
+        list-style: none;
+
+        padding: 0;
+        margin: 0;
     }
 
     .features li {
-        font-size: 18px;
-        color: #ddd;
-        margin-bottom: 10px;
+        position: relative;
+
+        color: #ccc;
+
+        font-size: 15px;
+
+        padding:
+            9px 0 9px 25px;
+
+        border-top:
+            1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .features li:first-child {
+        border-top: none;
+    }
+
+    .features li::before {
+        content: "+";
+
+        position: absolute;
+
+        left: 2px;
+
+        color: white;
+
+        font-weight: bold;
+
+        font-size: 17px;
+    }
+
+
+    /* =========================
+       OLD VERSIONS
+    ========================= */
+
+    .old-version {
+        opacity: 0.9;
     }
 
 
@@ -84,6 +245,7 @@
 
     .back-button {
         position: fixed;
+
         bottom: 20px;
         left: 20px;
 
@@ -101,9 +263,11 @@
 
         font-size: 28px;
         font-weight: bold;
+
         font-family: Arial, sans-serif;
 
         cursor: pointer;
+
         overflow: hidden;
         white-space: nowrap;
 
@@ -122,8 +286,11 @@
 
     .back-button:hover {
         width: 115px;
+
         background: #ddd;
+
         transform: scale(1.08);
+
         border-radius: 35px;
     }
 
@@ -133,6 +300,7 @@
 
     .back-button .back-text {
         display: none;
+
         font-size: 18px;
     }
 
@@ -151,10 +319,12 @@
 
     .quick-settings {
         display: none;
+
         position: fixed;
         inset: 0;
 
-        background: rgba(0, 0, 0, 0.45);
+        background:
+            rgba(0, 0, 0, 0.45);
 
         justify-content: center;
         align-items: center;
@@ -173,16 +343,19 @@
         color: black;
 
         border-radius: 6px;
+
         padding: 25px;
 
         box-shadow:
             0 15px 50px rgba(0, 0, 0, 0.65);
 
-        animation: clickguiOpen 0.2s ease-out;
+        animation:
+            clickguiOpen 0.2s ease-out;
     }
 
     .quick-settings-box h2 {
-        margin: 0 0 22px 0;
+        margin:
+            0 0 22px 0;
 
         font-size: 25px;
         font-weight: bold;
@@ -191,18 +364,23 @@
     }
 
 
-    /* Setting Rows */
+    /* =========================
+       SETTING ROWS
+    ========================= */
 
     .quick-setting {
         background: #f2f2f2;
 
         border: 1px solid #ddd;
+
         border-radius: 5px;
 
         padding: 15px;
+
         margin-bottom: 10px;
 
         display: flex;
+
         justify-content: space-between;
         align-items: center;
 
@@ -215,7 +393,9 @@
 
     .quick-setting:hover {
         background: #e7e7e7;
-        transform: translateX(3px);
+
+        transform:
+            translateX(3px);
     }
 
     .quick-setting span {
@@ -224,7 +404,9 @@
     }
 
 
-    /* Toggle Switch */
+    /* =========================
+       TOGGLE SWITCH
+    ========================= */
 
     .switch {
         position: relative;
@@ -279,14 +461,18 @@
     }
 
     input:checked + .slider:before {
-        transform: translateX(23px);
+        transform:
+            translateX(23px);
     }
 
 
-    /* Hint */
+    /* =========================
+       HINT
+    ========================= */
 
     .hint {
-        margin: 18px 0 0 0;
+        margin:
+            18px 0 0 0;
 
         color: #777;
 
@@ -296,18 +482,55 @@
     }
 
 
-    /* Open Animation */
+    /* =========================
+       ANIMATION
+    ========================= */
 
     @keyframes clickguiOpen {
 
         from {
             opacity: 0;
-            transform: scale(0.92);
+
+            transform:
+                scale(0.92);
         }
 
         to {
             opacity: 1;
-            transform: scale(1);
+
+            transform:
+                scale(1);
+        }
+
+    }
+
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 600px) {
+
+        body {
+            padding:
+                50px 15px 100px;
+        }
+
+        .header h1 {
+            font-size: 42px;
+        }
+
+        .changelog {
+            padding:
+                22px 20px;
+        }
+
+        .version-header {
+            align-items: flex-start;
+        }
+
+        .version {
+            font-size: 23px;
         }
 
     }
@@ -332,82 +555,180 @@
 
 <div class="container">
 
-    <h1>Sigma Jello</h1>
+    <div class="header">
+
+        <h1>Sigma Jello</h1>
+
+        <p>
+            Changelogs and updates
+        </p>
+
+    </div>
 
 
     <!-- VERSION 2.0.2 ALPHA -->
 
-    <div class="version">
-        Version 2.0.2 Alpha
-    </div>
+    <div class="changelog">
 
-    <div class="date">
-        September 14, 2026
-    </div>
+        <div class="version-header">
 
-    <div class="description">
-        Updated Jello Music, added NZP, and attempted
-        to improve Bloons TD 5 compatibility.
-    </div>
+            <div class="version">
+                Version 2.0.2 Alpha
+            </div>
 
-    <ul class="features">
-        <li>Updated Jello Music</li>
-        <li>Added NZP</li>
-        <li>Attempted to fix Bloons TD 5</li>
-    </ul>
+            <div class="version-badge">
+                LATEST
+            </div>
+
+        </div>
+
+        <div class="date">
+            September 14, 2026
+        </div>
+
+        <div class="description">
+            Updated Jello Music, added NZP,
+            and attempted to improve
+            Bloons TD 5 compatibility.
+        </div>
+
+        <ul class="features">
+
+            <li>
+                Updated Jello Music
+            </li>
+
+            <li>
+                Added NZP
+            </li>
+
+            <li>
+                Attempted to fix Bloons TD 5
+            </li>
+
+        </ul>
+
+    </div>
 
 
     <!-- VERSION 2.01 ALPHA -->
 
-    <div class="version">
-        Version 2.01 Alpha
-    </div>
+    <div class="changelog old-version">
 
-    <div class="date">
-        September 13, 2026
-    </div>
+        <div class="version-header">
 
-    <div class="description">
-        Added new features and improvements to Sigma Jello.
-    </div>
+            <div class="version">
+                Version 2.01 Alpha
+            </div>
 
-    <ul class="features">
-        <li>Added login system</li>
-        <li>Added Jello logo</li>
-        <li>Added animated background</li>
-        <li>Added Eaglercraft 1.8</li>
-        <li>Added Jello Music</li>
-        <li>Added temporary login button</li>
-    </ul>
+        </div>
+
+        <div class="date">
+            September 13, 2026
+        </div>
+
+        <div class="description">
+            Added the login system and
+            expanded the site's core features.
+        </div>
+
+        <ul class="features">
+
+            <li>
+                Added login system
+            </li>
+
+            <li>
+                Added Jello logo
+            </li>
+
+            <li>
+                Added animated background
+            </li>
+
+            <li>
+                Added Eaglercraft 1.8
+            </li>
+
+            <li>
+                Added temporary login button
+            </li>
+
+        </ul>
+
+    </div>
 
 
     <!-- VERSION 2.0 ALPHA -->
 
-    <div class="version">
-        Version 2.0 Alpha
-    </div>
+    <div class="changelog old-version">
 
-    <div class="date">
-        September 12, 2026
-    </div>
+        <div class="version-header">
 
-    <div class="description">
-        Made the Sigma Jello website.
-    </div>
+            <div class="version">
+                Version 2.0 Alpha
+            </div>
 
-    <ul class="features">
-        <li>Updated backgrounds</li>
-        <li>Updated GUI</li>
-        <li>Added Terraria</li>
-        <li>Added Bloons TD 5</li>
-        <li>Added Quick Settings by pressing P</li>
-        <li>Added No Tab Close setting</li>
-        <li>Added Full Screen setting</li>
-        <li>Added Games and Movies sections</li>
-        <li>Added Settings page</li>
-        <li>Improved cloaking</li>
-        <li>Added Eaglercraft 1.5.2</li>
-    </ul>
+        </div>
+
+        <div class="date">
+            September 12, 2026
+        </div>
+
+        <div class="description">
+            Created the foundation of
+            the Sigma Jello website.
+        </div>
+
+        <ul class="features">
+
+            <li>
+                Updated backgrounds
+            </li>
+
+            <li>
+                Updated GUI
+            </li>
+
+            <li>
+                Added Terraria
+            </li>
+
+            <li>
+                Added Bloons TD 5
+            </li>
+
+            <li>
+                Added Quick Settings
+            </li>
+
+            <li>
+                Added No Tab Close setting
+            </li>
+
+            <li>
+                Added Full Screen setting
+            </li>
+
+            <li>
+                Added Games and Movies sections
+            </li>
+
+            <li>
+                Added Settings page
+            </li>
+
+            <li>
+                Improved cloaking
+            </li>
+
+            <li>
+                Added Eaglercraft 1.5.2
+            </li>
+
+        </ul>
+
+    </div>
 
 </div>
 
@@ -418,8 +739,15 @@
     class="back-button"
     onclick="location.href='index.html'"
 >
-    <span class="back-letter">←</span>
-    <span class="back-text">Back</span>
+
+    <span class="back-letter">
+        ←
+    </span>
+
+    <span class="back-text">
+        Back
+    </span>
+
 </button>
 
 
@@ -432,12 +760,16 @@
 
     <div class="quick-settings-box">
 
-        <h2>Settings</h2>
+        <h2>
+            Settings
+        </h2>
 
 
         <div class="quick-setting">
 
-            <span>No Tab Close</span>
+            <span>
+                No Tab Close
+            </span>
 
             <label class="switch">
 
@@ -455,7 +787,9 @@
 
         <div class="quick-setting">
 
-            <span>Full Screen</span>
+            <span>
+                Full Screen
+            </span>
 
             <label class="switch">
 
@@ -487,16 +821,24 @@
     ========================= */
 
     const quickSettings =
-        document.getElementById("quickSettings");
+        document.getElementById(
+            "quickSettings"
+        );
 
     const quickNoTabClose =
-        document.getElementById("quickNoTabClose");
+        document.getElementById(
+            "quickNoTabClose"
+        );
 
     const quickFullscreen =
-        document.getElementById("quickFullscreen");
+        document.getElementById(
+            "quickFullscreen"
+        );
 
     const background =
-        document.getElementById("background");
+        document.getElementById(
+            "background"
+        );
 
 
     /* =========================
@@ -527,11 +869,13 @@
 
 
     if (
-        localStorage.getItem("noTabClose")
-        === "true"
+        localStorage.getItem(
+            "noTabClose"
+        ) === "true"
     ) {
 
-        quickNoTabClose.checked = true;
+        quickNoTabClose.checked =
+            true;
 
         enableNoTabClose();
 
@@ -588,7 +932,9 @@
 
             } else {
 
-                if (document.fullscreenElement) {
+                if (
+                    document.fullscreenElement
+                ) {
 
                     document.exitFullscreen();
 
@@ -616,8 +962,9 @@
     ========================= */
 
     let mouseBackgroundEnabled =
-        localStorage.getItem("mouseBackground")
-        !== "false";
+        localStorage.getItem(
+            "mouseBackground"
+        ) !== "false";
 
 
     document.addEventListener(
@@ -628,7 +975,6 @@
                 return;
             }
 
-
             const x =
                 (event.clientX /
                     window.innerWidth) - 0.5;
@@ -637,13 +983,11 @@
                 (event.clientY /
                     window.innerHeight) - 0.5;
 
-
             const moveX =
                 x * 35;
 
             const moveY =
                 y * 35;
-
 
             background.style.transform =
                 `translate(${moveX}px, ${moveY}px)`;
@@ -660,9 +1004,13 @@
         "keydown",
         function(event) {
 
-            if (event.code === "KeyP") {
+            if (
+                event.code === "KeyP"
+            ) {
 
-                if (event.repeat) return;
+                if (event.repeat) {
+                    return;
+                }
 
                 event.preventDefault();
 
@@ -685,7 +1033,8 @@
         function(event) {
 
             if (
-                event.target === quickSettings
+                event.target ===
+                quickSettings
             ) {
 
                 quickSettings.classList.remove(
