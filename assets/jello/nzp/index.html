@@ -16,11 +16,15 @@
     <link rel="icon" href="nzportable.ico">
 
     <style>
-        html, body {
+
+        html,
+        body {
             background-color: #000000;
             color: #808080;
+
             height: 100%;
             width: 100%;
+
             margin: 0;
             padding: 0;
         }
@@ -38,8 +42,6 @@
             margin: 0;
         }
 
-        /* The canvas must not have any border or padding,
-           or mouse coordinates will be wrong. */
         canvas.emscripten {
             border: 0px none;
             width: 100%;
@@ -47,10 +49,164 @@
             padding: 0;
             margin: 0;
         }
+
+
+        /* =========================
+           BACK BUTTON
+        ========================= */
+
+        .back-button {
+            position: fixed;
+
+            bottom: 20px;
+            left: 20px;
+
+            width: 65px;
+            height: 65px;
+
+            padding: 0;
+            margin: 0;
+
+            border: none;
+            border-radius: 50%;
+
+            background: white;
+            color: black;
+
+            font-size: 28px;
+            font-weight: bold;
+            font-family: Arial, sans-serif;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            cursor: pointer;
+
+            overflow: hidden;
+            white-space: nowrap;
+
+            z-index: 99999;
+
+            transition:
+                width 0.25s ease,
+                transform 0.2s ease,
+                background 0.2s ease,
+                border-radius 0.25s ease;
+        }
+
+        .back-button:hover {
+            width: 115px;
+
+            background: #ddd;
+
+            transform: scale(1.08);
+
+            border-radius: 35px;
+        }
+
+        .back-button .back-letter {
+            display: block;
+        }
+
+        .back-button .back-text {
+            display: none;
+
+            font-size: 18px;
+        }
+
+        .back-button:hover .back-letter {
+            display: none;
+        }
+
+        .back-button:hover .back-text {
+            display: block;
+        }
+
+
+        /* =========================
+           MUSIC BUTTON
+        ========================= */
+
+        .music-button {
+            position: fixed;
+
+            bottom: 20px;
+            right: 20px;
+
+            width: 65px;
+            height: 65px;
+
+            padding: 0;
+            margin: 0;
+
+            border: none;
+            border-radius: 50%;
+
+            background: white;
+            color: black;
+
+            font-size: 28px;
+            font-weight: bold;
+            font-family: Arial, sans-serif;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            cursor: pointer;
+
+            overflow: hidden;
+            white-space: nowrap;
+
+            z-index: 99999;
+
+            transition:
+                width 0.25s ease,
+                transform 0.2s ease,
+                background 0.2s ease,
+                border-radius 0.25s ease;
+        }
+
+        .music-button:hover {
+            width: 145px;
+
+            background: #ddd;
+
+            transform: scale(1.08);
+
+            border-radius: 35px;
+        }
+
+        .music-button .music-letter {
+            display: block;
+        }
+
+        .music-button .music-text {
+            display: none;
+
+            font-size: 18px;
+        }
+
+        .music-button:hover .music-letter {
+            display: none;
+        }
+
+        .music-button:hover .music-text {
+            display: block;
+        }
+
     </style>
 </head>
 
-<body ondrop="gotdrop(event);" ondragover="event.preventDefault()">
+<body
+    ondrop="gotdrop(event);"
+    ondragover="event.preventDefault()"
+>
+
+    <!-- =========================
+         NZP
+    ========================= -->
 
     <div class="emscripten" id="status">
         Please allow/unblock our javascript to play.
@@ -65,7 +221,12 @@
         Drop Zone
     </div>
 
-    <button type="button" onclick="begin()" id="begin" hidden="1">
+    <button
+        type="button"
+        onclick="begin()"
+        id="begin"
+        hidden="1"
+    >
         Click To Begin!
     </button>
 
@@ -85,10 +246,41 @@
         hidden="1"
     ></canvas>
 
+
+    <!-- =========================
+         BACK BUTTON
+    ========================= -->
+
+    <button
+        class="back-button"
+        onclick="goBackToGames()"
+    >
+        <span class="back-letter">←</span>
+        <span class="back-text">Back</span>
+    </button>
+
+
+    <!-- =========================
+         MUSIC BUTTON
+    ========================= -->
+
+    <button
+        class="music-button"
+        onclick="openJelloMusic()"
+    >
+        <span class="music-letter">M</span>
+        <span class="music-text">Jello Music</span>
+    </button>
+
+
     <script type="text/javascript">
 
-        // Connect to canvas
+        /* =========================
+           NZP ENGINE
+        ========================= */
+
         var Module = {
+
             files:
             {
                 "default.fmf": "default.fmf",
@@ -106,20 +298,24 @@
                 console.log(text);
             },
 
-            canvas: document.getElementById('canvas'),
+            canvas:
+                document.getElementById("canvas"),
 
             setStatus: function(text)
             {
                 if (Module.setStatus.interval)
                     clearInterval(Module.setStatus.interval);
 
-                var m = text.match(/([^(]+)\((\d+(\.\d+)?)\/(\d+)\)/);
+                var m =
+                    text.match(
+                        /([^(]+)\((\d+(\.\d+)?)\/(\d+)\)/
+                    );
 
                 var statusElement =
-                    document.getElementById('status');
+                    document.getElementById("status");
 
                 var progressElement =
-                    document.getElementById('progress');
+                    document.getElementById("progress");
 
                 if (m)
                 {
@@ -137,11 +333,14 @@
                 {
                     progressElement.value = null;
                     progressElement.max = null;
+
                     progressElement.hidden = true;
                 }
 
                 statusElement.innerHTML = text;
-                statusElement.hidden = text.length == 0;
+
+                statusElement.hidden =
+                    text.length == 0;
             },
 
             totalDependencies: 0,
@@ -149,16 +348,23 @@
             monitorRunDependencies: function(left)
             {
                 this.totalDependencies =
-                    Math.max(this.totalDependencies, left);
+                    Math.max(
+                        this.totalDependencies,
+                        left
+                    );
 
                 Module.setStatus(
                     left
-                        ? 'Preparing... (' +
-                          (this.totalDependencies - left) +
-                          '/' +
+                        ? "Preparing... (" +
+                          (
+                              this.totalDependencies -
+                              left
+                          ) +
+                          "/" +
                           this.totalDependencies +
-                          ')'
-                        : 'All downloads complete.'
+                          ")"
+
+                        : "All downloads complete."
                 );
             },
 
@@ -166,7 +372,9 @@
             [
                 function()
                 {
-                    if (Module["sched"] === undefined)
+                    if (
+                        Module["sched"] === undefined
+                    )
                     {
                         alert(
                             "Unable to initialise. You may need to restart your browser. " +
@@ -182,6 +390,10 @@
         };
 
 
+        /* =========================
+           START NZP
+        ========================= */
+
         function begin()
         {
             if (Module.began)
@@ -189,31 +401,38 @@
 
             Module.began = true;
 
-            document.getElementById('dropzone').hidden = true;
-            document.getElementById('begin').hidden = true;
+            document.getElementById(
+                "dropzone"
+            ).hidden = true;
 
-            Module.setStatus('Downloading...');
+            document.getElementById(
+                "begin"
+            ).hidden = true;
 
-            // Load the NZP WebGL engine.
-            var s = document.createElement('script');
+            Module.setStatus(
+                "Downloading..."
+            );
+
+            var s =
+                document.createElement("script");
 
             s.setAttribute(
-                'src',
-                'ftewebgl.js'
+                "src",
+                "ftewebgl.js"
             );
 
             s.setAttribute(
-                'type',
-                'text/javascript'
+                "type",
+                "text/javascript"
             );
 
             s.setAttribute(
-                'charset',
-                'utf-8'
+                "charset",
+                "utf-8"
             );
 
             s.addEventListener(
-                'error',
+                "error",
                 function()
                 {
                     alert(
@@ -231,7 +450,10 @@
         }
 
 
-        // Stuff to facilitate our drag+drop filesystem support
+        /* =========================
+           FILE PATH HANDLING
+        ========================= */
+
         function fixupfilepath(fname, path)
         {
             if (path != "")
@@ -239,19 +461,26 @@
 
             var ext =
                 fname.substr(
-                    fname.lastIndexOf('.') + 1
+                    fname.lastIndexOf(".") + 1
                 );
 
-            if (ext == 'fmf' || ext == 'kpf')
+            if (
+                ext == "fmf" ||
+                ext == "kpf"
+            )
+            {
                 return fname;
+            }
 
             if (
-                ext == 'bsp' ||
-                ext == 'map' ||
-                ext == 'lit' ||
-                ext == 'lux'
+                ext == "bsp" ||
+                ext == "map" ||
+                ext == "lit" ||
+                ext == "lux"
             )
+            {
                 return "id1/maps/" + fname;
+            }
 
             return "id1/" + fname;
         }
@@ -262,14 +491,14 @@
             if (Module.began)
                 return;
 
-            Module.setStatus('');
+            Module.setStatus("");
 
             document.getElementById(
-                'dropzone'
+                "dropzone"
             ).hidden = false;
 
             document.getElementById(
-                'begin'
+                "begin"
             ).hidden = false;
 
             var nt =
@@ -292,20 +521,27 @@
                 )
                 {
                     var sz =
-                        Module.files[keys[i]].byteLength;
+                        Module.files[keys[i]]
+                        .byteLength;
 
                     if (sz > 512 * 1024)
+                    {
                         sz =
                             (sz / (1024 * 1024)) +
                             "mb";
+                    }
                     else if (sz > 512)
+                    {
                         sz =
                             (sz / 1024) +
                             "kb";
+                    }
                     else
+                    {
                         sz =
                             sz +
                             " bytes";
+                    }
 
                     nt +=
                         "    " +
@@ -329,7 +565,7 @@
                 " files)";
 
             document.getElementById(
-                'dropzone'
+                "dropzone"
             ).innerHTML = nt;
         }
 
@@ -353,6 +589,7 @@
                         buf =>
                         {
                             Module.files[n] = buf;
+
                             showfiles();
                         }
                     );
@@ -413,7 +650,8 @@
                     }
                 }
                 else if (
-                    ev.dataTransfer.items[i].kind === 'file'
+                    ev.dataTransfer.items[i].kind ===
+                    "file"
                 )
                 {
                     var f =
@@ -432,6 +670,7 @@
                         buf =>
                         {
                             Module.files[n] = buf;
+
                             showfiles();
                         }
                     );
@@ -441,6 +680,103 @@
             showfiles();
         }
 
+
+        /* =========================
+           BACK TO GAMES
+        ========================= */
+
+        function goBackToGames()
+        {
+            window.location.href =
+                "../../games.html";
+        }
+
+
+        /* =========================
+           JELLO MUSIC
+        ========================= */
+
+        var musicWindow = null;
+
+
+        function openJelloMusic()
+        {
+            /*
+             * NZP is located at:
+             *
+             * assets/jello/nzp/index.html
+             *
+             * So ../../.. reaches the site root:
+             *
+             * assets/jello/nzp
+             *       ../   -> assets/jello
+             *       ../../ -> assets
+             *       ../../../ -> site root
+             */
+
+            var musicURL =
+                new URL(
+                    "../../../music.html",
+                    window.location.href
+                ).href;
+
+
+            /*
+             * Reuse the same Jello Music window
+             * if it is already open.
+             */
+
+            if (
+                musicWindow &&
+                !musicWindow.closed
+            )
+            {
+                musicWindow.focus();
+                return;
+            }
+
+
+            musicWindow =
+                window.open(
+                    musicURL,
+                    "jelloMusicPlayer",
+                    "popup=yes,width=1000,height=750"
+                );
+
+
+            if (!musicWindow)
+            {
+                alert(
+                    "Please allow pop-ups for Jello Music."
+                );
+            }
+        }
+
+
+        /* =========================
+           P KEY
+        ========================= */
+
+        window.addEventListener(
+            "keydown",
+            function(event)
+            {
+                if (
+                    event.code === "KeyP" &&
+                    !event.repeat
+                )
+                {
+                    event.preventDefault();
+
+                    openJelloMusic();
+                }
+            }
+        );
+
+
+        /* =========================
+           STARTUP
+        ========================= */
 
         if (
             window.location.hash != "" ||
