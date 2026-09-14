@@ -389,15 +389,41 @@
                 name="movie"
                 value="flash/Bloons-Tower-Defense-5.swf">
 
-            <param name="quality" value="high">
-            <param name="bgcolor" value="#000000">
-            <param name="play" value="true">
-            <param name="loop" value="true">
-            <param name="wmode" value="window">
-            <param name="scale" value="default">
-            <param name="menu" value="true">
-            <param name="devicefont" value="false">
-            <param name="allowScriptAccess" value="sameDomain">
+            <param
+                name="quality"
+                value="high">
+
+            <param
+                name="bgcolor"
+                value="#000000">
+
+            <param
+                name="play"
+                value="true">
+
+            <param
+                name="loop"
+                value="true">
+
+            <param
+                name="wmode"
+                value="window">
+
+            <param
+                name="scale"
+                value="default">
+
+            <param
+                name="menu"
+                value="true">
+
+            <param
+                name="devicefont"
+                value="false">
+
+            <param
+                name="allowScriptAccess"
+                value="sameDomain">
 
         </object>
 
@@ -539,22 +565,42 @@
             document.getElementById("musicFrame");
 
 
+        /*
+         * Open Jello Music.
+         *
+         * The iframe is only loaded the first time.
+         * After that it stays loaded so the music
+         * doesn't restart when the popup is reopened.
+         */
+
         function openMusicPopup() {
 
             quickSettings.classList.remove("show");
 
-            musicFrame.src = "../../music.html";
+            if (
+                musicFrame.getAttribute("src")
+                === "about:blank"
+            ) {
+
+                musicFrame.src = "../../music.html";
+
+            }
 
             musicPopup.classList.add("show");
 
         }
 
 
+        /*
+         * Close ONLY the popup.
+         *
+         * Do NOT unload the iframe.
+         * Music will continue playing.
+         */
+
         function closeMusicPopup() {
 
             musicPopup.classList.remove("show");
-
-            musicFrame.src = "about:blank";
 
         }
 
@@ -713,7 +759,11 @@
                     event.preventDefault();
 
 
-                    /* Close music first */
+                    /*
+                     * If music is open,
+                     * P only closes the popup.
+                     * Music keeps playing.
+                     */
 
                     if (
                         musicPopup.classList.contains(
