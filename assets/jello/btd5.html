@@ -2,26 +2,129 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bloons Tower Defense 5</title>
 
-    <script src="https://agi.armorgames.com/ruffle/ruffle.js"></script>
+    <!-- Ruffle Flash Emulator -->
+    <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
 
     <style>
-        html, body {
-            height: 100%;
-            background-color: #000000;
-        }
-
+        html,
         body {
+            width: 100%;
+            height: 100%;
             margin: 0;
             padding: 0;
             overflow: hidden;
+            background: #000;
             font-family: Arial, sans-serif;
         }
 
         #flashContent {
+            position: fixed;
+            inset: 0;
+
             width: 100%;
             height: 100%;
+
+            background: #000;
+        }
+
+        #ruffle-player {
+            width: 100%;
+            height: 100%;
+
+            display: block;
+        }
+
+        /* =========================
+           LOADING SCREEN
+           ========================= */
+
+        #loading {
+            position: fixed;
+            inset: 0;
+
+            z-index: 5000;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #000;
+            color: white;
+
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        #loading.hidden {
+            display: none;
+        }
+
+        /* =========================
+           ERROR SCREEN
+           ========================= */
+
+        #error {
+            position: fixed;
+            inset: 0;
+
+            z-index: 6000;
+
+            display: none;
+
+            align-items: center;
+            justify-content: center;
+
+            background: #000;
+            color: white;
+
+            text-align: center;
+        }
+
+        #error.show {
+            display: flex;
+        }
+
+        .error-box {
+            width: min(500px, 85vw);
+
+            padding: 30px;
+
+            background: #111;
+
+            border: 1px solid #333;
+            border-radius: 10px;
+
+            box-shadow:
+                0 15px 50px rgba(0, 0, 0, 0.7);
+        }
+
+        .error-box h2 {
+            margin-top: 0;
+        }
+
+        .error-box p {
+            color: #aaa;
+            line-height: 1.5;
+        }
+
+        .retry-button {
+            border: none;
+            border-radius: 6px;
+
+            padding: 10px 20px;
+
+            background: white;
+            color: black;
+
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .retry-button:hover {
+            background: #ddd;
         }
 
         /* =========================
@@ -32,6 +135,7 @@
             position: fixed;
             bottom: 20px;
             left: 20px;
+
             z-index: 10000;
 
             width: 65px;
@@ -95,6 +199,7 @@
 
         .quick-settings {
             display: none;
+
             position: fixed;
             inset: 0;
 
@@ -119,7 +224,8 @@
             border-radius: 6px;
             padding: 25px;
 
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.65);
+            box-shadow:
+                0 15px 50px rgba(0, 0, 0, 0.65);
 
             animation: clickguiOpen 0.2s ease-out;
         }
@@ -163,6 +269,10 @@
             font-weight: bold;
         }
 
+        /* =========================
+           MUSIC BUTTON
+           ========================= */
+
         .music-open-button {
             border: none;
             border-radius: 5px;
@@ -202,12 +312,14 @@
 
         .switch {
             position: relative;
+
             width: 48px;
             height: 25px;
         }
 
         .switch input {
             opacity: 0;
+
             width: 0;
             height: 0;
         }
@@ -240,7 +352,8 @@
 
             border-radius: 50%;
 
-            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+            box-shadow:
+                0 1px 4px rgba(0, 0, 0, 0.25);
 
             transition: 0.2s;
         }
@@ -357,7 +470,59 @@
 
 <body>
 
-    <!-- Back to Games Page -->
+    <!-- =========================
+         LOADING
+         ========================= -->
+
+    <div id="loading">
+        Loading Bloons TD 5...
+    </div>
+
+
+    <!-- =========================
+         ERROR
+         ========================= -->
+
+    <div id="error">
+
+        <div class="error-box">
+
+            <h2>Unable to load Bloons TD 5</h2>
+
+            <p>
+                Ruffle could not load the Flash game.
+                Make sure the SWF file is located at:
+            </p>
+
+            <p>
+                <strong>
+                    assets/jello/flash/Bloons-Tower-Defense-5.swf
+                </strong>
+            </p>
+
+            <button
+                class="retry-button"
+                onclick="loadGame()">
+
+                Retry
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         BTD5
+         ========================= -->
+
+    <div id="flashContent"></div>
+
+
+    <!-- =========================
+         BACK BUTTON
+         ========================= -->
 
     <button
         class="back-button"
@@ -374,63 +539,9 @@
     </button>
 
 
-    <!-- BTD5 -->
-
-    <div id="flashContent">
-
-        <object
-            type="application/x-shockwave-flash"
-            data="flash/Bloons-Tower-Defense-5.swf"
-            width="100%"
-            height="100%"
-        >
-
-            <param
-                name="movie"
-                value="flash/Bloons-Tower-Defense-5.swf">
-
-            <param
-                name="quality"
-                value="high">
-
-            <param
-                name="bgcolor"
-                value="#000000">
-
-            <param
-                name="play"
-                value="true">
-
-            <param
-                name="loop"
-                value="true">
-
-            <param
-                name="wmode"
-                value="window">
-
-            <param
-                name="scale"
-                value="default">
-
-            <param
-                name="menu"
-                value="true">
-
-            <param
-                name="devicefont"
-                value="false">
-
-            <param
-                name="allowScriptAccess"
-                value="sameDomain">
-
-        </object>
-
-    </div>
-
-
-    <!-- Quick Settings Overlay -->
+    <!-- =========================
+         QUICK SETTINGS
+         ========================= -->
 
     <div
         id="quickSettings"
@@ -511,7 +622,9 @@
     </div>
 
 
-    <!-- Jello Music Popup -->
+    <!-- =========================
+         MUSIC POPUP
+         ========================= -->
 
     <div
         id="musicPopup"
@@ -541,17 +654,135 @@
     <script>
 
         /* =========================
+           RUFFLE BTD5 PLAYER
+           ========================= */
+
+        async function loadGame() {
+
+            const loading =
+                document.getElementById("loading");
+
+            const error =
+                document.getElementById("error");
+
+            const container =
+                document.getElementById("flashContent");
+
+            loading.classList.remove("hidden");
+            error.classList.remove("show");
+
+            container.innerHTML = "";
+
+            try {
+
+                /*
+                 * Get the newest Ruffle player.
+                 */
+
+                const ruffle =
+                    window.RufflePlayer.newest();
+
+                /*
+                 * Create a Ruffle player.
+                 */
+
+                const player =
+                    ruffle.createPlayer();
+
+                player.id = "ruffle-player";
+
+                player.style.width = "100%";
+                player.style.height = "100%";
+
+                container.appendChild(player);
+
+
+                /*
+                 * Load BTD5.
+                 *
+                 * Because this page is:
+                 *
+                 * assets/jello/btd5.html
+                 *
+                 * the SWF is:
+                 *
+                 * assets/jello/flash/
+                 * Bloons-Tower-Defense-5.swf
+                 */
+
+                await player.ruffle().load({
+                    url: "flash/Bloons-Tower-Defense-5.swf",
+
+                    autoplay: "on",
+
+                    letterbox: "fullscreen",
+
+                    backgroundColor: "#000000",
+
+                    compatibilityRules: true,
+
+                    allowScriptAccess: true,
+
+                    allowNetworking: "all",
+
+                    upgradeToHttps: true
+                });
+
+
+                loading.classList.add("hidden");
+
+                console.log(
+                    "Bloons TD 5 loaded with Ruffle."
+                );
+
+            } catch (errorObject) {
+
+                console.error(
+                    "Ruffle failed to load BTD5:",
+                    errorObject
+                );
+
+                loading.classList.add("hidden");
+
+                error.classList.add("show");
+
+            }
+
+        }
+
+
+        /*
+         * Start the game after the page loads.
+         */
+
+        window.addEventListener(
+            "load",
+            function() {
+
+                loadGame();
+
+            }
+        );
+
+
+        /* =========================
            QUICK SETTINGS
            ========================= */
 
         const quickSettings =
-            document.getElementById("quickSettings");
+            document.getElementById(
+                "quickSettings"
+            );
 
         const quickNoTabClose =
-            document.getElementById("quickNoTabClose");
+            document.getElementById(
+                "quickNoTabClose"
+            );
 
         const quickFullscreen =
-            document.getElementById("quickFullscreen");
+            document.getElementById(
+                "quickFullscreen"
+            );
 
 
         /* =========================
@@ -559,53 +790,47 @@
            ========================= */
 
         const musicPopup =
-            document.getElementById("musicPopup");
+            document.getElementById(
+                "musicPopup"
+            );
 
         const musicFrame =
-            document.getElementById("musicFrame");
+            document.getElementById(
+                "musicFrame"
+            );
 
-
-        /*
-         * Open Jello Music.
-         *
-         * The iframe is only loaded the first time.
-         * After that it stays loaded so the music
-         * doesn't restart when the popup is reopened.
-         */
 
         function openMusicPopup() {
 
-            quickSettings.classList.remove("show");
+            quickSettings.classList.remove(
+                "show"
+            );
 
             if (
                 musicFrame.getAttribute("src")
                 === "about:blank"
             ) {
 
-                musicFrame.src = "../../music.html";
+                musicFrame.src =
+                    "../../music.html";
 
             }
 
-            musicPopup.classList.add("show");
+            musicPopup.classList.add(
+                "show"
+            );
 
         }
 
-
-        /*
-         * Close ONLY the popup.
-         *
-         * Do NOT unload the iframe.
-         * Music will continue playing.
-         */
 
         function closeMusicPopup() {
 
-            musicPopup.classList.remove("show");
+            musicPopup.classList.remove(
+                "show"
+            );
 
         }
 
-
-        /* Click outside music popup */
 
         musicPopup.addEventListener(
             "click",
@@ -650,11 +875,10 @@
         }
 
 
-        /* Load saved setting */
-
         if (
-            localStorage.getItem("noTabClose")
-            === "true"
+            localStorage.getItem(
+                "noTabClose"
+            ) === "true"
         ) {
 
             quickNoTabClose.checked = true;
@@ -663,8 +887,6 @@
 
         }
 
-
-        /* Save setting */
 
         quickNoTabClose.addEventListener(
             "change",
@@ -730,8 +952,6 @@
         );
 
 
-        /* Keep Full Screen synced */
-
         document.addEventListener(
             "fullscreenchange",
             function() {
@@ -751,19 +971,14 @@
             "keydown",
             function(event) {
 
-                if (event.code === "KeyP") {
+                if (
+                    event.code === "KeyP"
+                ) {
 
                     if (event.repeat)
                         return;
 
                     event.preventDefault();
-
-
-                    /*
-                     * If music is open,
-                     * P only closes the popup.
-                     * Music keeps playing.
-                     */
 
                     if (
                         musicPopup.classList.contains(
@@ -777,9 +992,6 @@
 
                     }
 
-
-                    /* Otherwise toggle settings */
-
                     quickSettings.classList.toggle(
                         "show"
                     );
@@ -791,7 +1003,7 @@
 
 
         /* =========================
-           CLICK OUTSIDE TO CLOSE
+           CLICK OUTSIDE SETTINGS
            ========================= */
 
         quickSettings.addEventListener(
