@@ -9,91 +9,54 @@
             background: #000;
             color: white;
             font-family: Arial, sans-serif;
-
             min-height: 100vh;
             overflow-x: hidden;
         }
 
-        /* =========================
-           MOVING BACKGROUND
-        ========================= */
-
         .background {
             position: fixed;
             inset: -40px;
-
             background:
                 url("assets/backroundjello.png")
                 center center / cover no-repeat;
-
             z-index: 0;
-
             transform: translate(0px, 0px);
-
-            transition:
-                transform 0.15s ease-out;
-
+            transition: transform 0.15s ease-out;
             pointer-events: none;
         }
-
-        /* =========================
-           MUSIC CONTAINER
-        ========================= */
 
         .music-container {
             position: relative;
             z-index: 1;
-
             width: 850px;
             max-width: calc(100% - 40px);
-
             margin: 0 auto;
             padding: 70px 0 120px;
         }
-
-        /* =========================
-           TITLE
-        ========================= */
 
         .title {
             font-size: 55px;
             font-weight: 500;
             letter-spacing: -3px;
-
             margin: 0 0 30px;
-
             text-align: center;
-
-            text-shadow:
-                0 3px 12px rgba(0, 0, 0, 0.5);
+            text-shadow: 0 3px 12px rgba(0, 0, 0, 0.5);
         }
-
-        /* =========================
-           PLAYER
-        ========================= */
 
         .player {
             background: rgba(255, 255, 255, 0.95);
             color: black;
-
             border-radius: 10px;
-
             padding: 25px;
-
-            box-shadow:
-                0 15px 50px rgba(0, 0, 0, 0.65);
-
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.65);
             margin-bottom: 20px;
         }
 
         .now-playing {
             text-align: center;
-
             font-size: 22px;
             font-weight: bold;
-
             margin-bottom: 20px;
-
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -102,86 +65,59 @@
         .time-row {
             display: flex;
             justify-content: space-between;
-
             font-size: 12px;
             color: #666;
-
             margin-bottom: 5px;
         }
 
         .progress {
             width: 100%;
             height: 7px;
-
             appearance: none;
             -webkit-appearance: none;
-
             background: #ddd;
-
             border-radius: 10px;
-
             cursor: pointer;
         }
 
         .progress::-webkit-slider-thumb {
             appearance: none;
             -webkit-appearance: none;
-
             width: 16px;
             height: 16px;
-
             background: #111;
-
             border-radius: 50%;
-
             cursor: pointer;
         }
 
         .progress::-moz-range-thumb {
             width: 16px;
             height: 16px;
-
             background: #111;
-
             border: none;
             border-radius: 50%;
-
             cursor: pointer;
         }
 
-        /* =========================
-           CONTROLS
-        ========================= */
-
         .controls {
             display: flex;
-
             justify-content: center;
             align-items: center;
-
             gap: 12px;
-
             margin-top: 20px;
         }
 
         .control-button {
             width: 48px;
             height: 48px;
-
             border: none;
             border-radius: 50%;
-
             background: #eee;
             color: black;
-
             font-size: 18px;
             font-weight: bold;
-
             cursor: pointer;
-
-            transition:
-                background 0.15s ease,
-                transform 0.15s ease;
+            transition: background 0.15s ease, transform 0.15s ease;
         }
 
         .control-button:hover {
@@ -192,10 +128,8 @@
         .play-button {
             width: 60px;
             height: 60px;
-
             background: #111;
             color: white;
-
             font-size: 23px;
         }
 
@@ -208,18 +142,11 @@
             color: white;
         }
 
-        /* =========================
-           VOLUME
-        ========================= */
-
         .volume-container {
             display: flex;
-
             align-items: center;
             justify-content: center;
-
             gap: 10px;
-
             margin-top: 18px;
         }
 
@@ -231,62 +158,35 @@
             width: 130px;
         }
 
-        /* =========================
-           SEARCH
-        ========================= */
-
         .search {
             width: 100%;
             box-sizing: border-box;
-
             padding: 14px 16px;
-
             margin-bottom: 15px;
-
             border: none;
             outline: none;
-
             border-radius: 7px;
-
             background: white;
             color: black;
-
             font-size: 16px;
-
-            box-shadow:
-                0 8px 30px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
         }
-
-        /* =========================
-           SONG LIST
-        ========================= */
 
         .song-list {
             background: rgba(255, 255, 255, 0.95);
             color: black;
-
             border-radius: 10px;
-
             padding: 10px;
-
-            box-shadow:
-                0 15px 50px rgba(0, 0, 0, 0.65);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.65);
         }
 
         .song {
             display: flex;
-
             align-items: center;
-
             padding: 14px 16px;
-
             border-radius: 6px;
-
             cursor: pointer;
-
-            transition:
-                background 0.15s ease,
-                transform 0.15s ease;
+            transition: background 0.15s ease, transform 0.15s ease;
         }
 
         .song:hover {
@@ -301,9 +201,7 @@
 
         .song-number {
             width: 40px;
-
             color: #888;
-
             font-size: 14px;
         }
 
@@ -313,53 +211,37 @@
 
         .song-name {
             flex: 1;
-
             font-size: 15px;
             font-weight: bold;
-
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
         }
 
-        /* =========================
-           BACK BUTTON
-        ========================= */
-
         .back-button {
             position: fixed;
             bottom: 20px;
             left: 20px;
-
             width: 65px;
             height: 65px;
-
             padding: 0;
-
             border-radius: 50%;
             border: none;
-
             background: white;
             color: black;
-
             font-size: 28px;
             font-weight: bold;
-
             display: flex;
             align-items: center;
             justify-content: center;
-
             cursor: pointer;
-
             overflow: hidden;
             white-space: nowrap;
-
             transition:
                 width 0.25s ease,
                 transform 0.2s ease,
                 background 0.2s ease,
                 border-radius 0.25s ease;
-
             z-index: 10;
         }
 
@@ -387,21 +269,13 @@
             display: block;
         }
 
-        /* =========================
-           QUICK SETTINGS
-        ========================= */
-
         .quick-settings {
             display: none;
-
             position: fixed;
             inset: 0;
-
             background: rgba(0, 0, 0, 0.45);
-
             justify-content: center;
             align-items: center;
-
             z-index: 9999;
         }
 
@@ -411,45 +285,29 @@
 
         .quick-settings-box {
             width: 360px;
-
             background: white;
             color: black;
-
             border-radius: 6px;
-
             padding: 25px;
-
-            box-shadow:
-                0 15px 50px rgba(0, 0, 0, 0.65);
-
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.65);
             animation: clickguiOpen 0.2s ease-out;
         }
 
         .quick-settings-box h2 {
             margin: 0 0 22px;
-
             font-size: 25px;
         }
 
         .quick-setting {
             background: #f2f2f2;
-
             border: 1px solid #ddd;
-
             border-radius: 5px;
-
             padding: 15px;
-
             margin-bottom: 10px;
-
             display: flex;
-
             justify-content: space-between;
             align-items: center;
-
-            transition:
-                background 0.15s ease,
-                transform 0.15s ease;
+            transition: background 0.15s ease, transform 0.15s ease;
         }
 
         .quick-setting:hover {
@@ -462,20 +320,14 @@
             font-weight: bold;
         }
 
-        /* =========================
-           TOGGLE
-        ========================= */
-
         .switch {
             position: relative;
-
             width: 48px;
             height: 25px;
         }
 
         .switch input {
             opacity: 0;
-
             width: 0;
             height: 0;
         }
@@ -483,31 +335,21 @@
         .slider {
             position: absolute;
             inset: 0;
-
             background: #cfcfcf;
-
             border-radius: 20px;
-
             cursor: pointer;
-
             transition: 0.2s;
         }
 
         .slider:before {
             content: "";
-
             position: absolute;
-
             width: 19px;
             height: 19px;
-
             left: 3px;
             bottom: 3px;
-
             background: white;
-
             border-radius: 50%;
-
             transition: 0.2s;
         }
 
@@ -519,23 +361,12 @@
             transform: translateX(23px);
         }
 
-        /* =========================
-           HINT
-        ========================= */
-
         .hint {
             margin: 18px 0 0;
-
             color: #777;
-
             font-size: 13px;
-
             text-align: center;
         }
-
-        /* =========================
-           ANIMATION
-        ========================= */
 
         @keyframes clickguiOpen {
             from {
@@ -548,10 +379,6 @@
                 transform: scale(1);
             }
         }
-
-        /* =========================
-           MOBILE
-        ========================= */
 
         @media (max-width: 700px) {
 
@@ -567,23 +394,13 @@
             .player {
                 padding: 18px;
             }
-
         }
-
     </style>
 </head>
 
 <body>
 
-    <!-- MOVING BACKGROUND -->
-
-    <div
-        id="background"
-        class="background"
-    ></div>
-
-
-    <!-- MUSIC -->
+    <div id="background" class="background"></div>
 
     <div class="music-container">
 
@@ -591,31 +408,16 @@
             Jello Music
         </h1>
 
-
-        <!-- PLAYER -->
-
         <div class="player">
 
-            <div
-                id="nowPlaying"
-                class="now-playing"
-            >
+            <div id="nowPlaying" class="now-playing">
                 Select a song
             </div>
 
-
             <div class="time-row">
-
-                <span id="currentTime">
-                    0:00
-                </span>
-
-                <span id="duration">
-                    0:00
-                </span>
-
+                <span id="currentTime">0:00</span>
+                <span id="duration">0:00</span>
             </div>
-
 
             <input
                 id="progress"
@@ -625,7 +427,6 @@
                 max="100"
                 value="0"
             >
-
 
             <div class="controls">
 
@@ -671,12 +472,9 @@
 
             </div>
 
-
             <div class="volume-container">
 
-                <span>
-                    🔊
-                </span>
+                <span>🔊</span>
 
                 <input
                     id="volume"
@@ -692,9 +490,6 @@
 
         </div>
 
-
-        <!-- SEARCH -->
-
         <input
             id="search"
             class="search"
@@ -703,23 +498,11 @@
             autocomplete="off"
         >
 
-
-        <!-- SONG LIST -->
-
-        <div
-            id="songList"
-            class="song-list"
-        ></div>
+        <div id="songList" class="song-list"></div>
 
     </div>
 
-
-    <!-- AUDIO -->
-
     <audio id="audio"></audio>
-
-
-    <!-- BACK BUTTON -->
 
     <button
         class="back-button"
@@ -729,20 +512,11 @@
         <span class="back-text">Back</span>
     </button>
 
-
-    <!-- QUICK SETTINGS -->
-
-    <div
-        id="quickSettings"
-        class="quick-settings"
-    >
+    <div id="quickSettings" class="quick-settings">
 
         <div class="quick-settings-box">
 
             <h2>Settings</h2>
-
-
-            <!-- No Tab Close -->
 
             <div class="quick-setting">
 
@@ -761,9 +535,6 @@
 
             </div>
 
-
-            <!-- Full Screen -->
-
             <div class="quick-setting">
 
                 <span>Full Screen</span>
@@ -780,9 +551,6 @@
                 </label>
 
             </div>
-
-
-            <!-- Mouse Background Movement -->
 
             <div class="quick-setting">
 
@@ -801,24 +569,13 @@
 
             </div>
 
-
-            <p class="hint">
-                Press P to close
-            </p>
-
         </div>
 
     </div>
 
-
     <script>
 
-        /* =========================
-           SONGS
-        ========================= */
-
         const songs = [
-
             "1. Bad Boy OG.mp3",
             "1. Matt Hardy 999 OG.mp3",
             "10. Boomerang.mp3",
@@ -857,71 +614,32 @@
             "Tic Tac Toe - Juice WRLD.mp3",
             "Usd - Juice WRLD.mp3",
             "cali girl.mp3"
-
         ];
 
-
-        /* =========================
-           ELEMENTS
-        ========================= */
-
-        const audio =
-            document.getElementById("audio");
-
-        const songList =
-            document.getElementById("songList");
-
-        const search =
-            document.getElementById("search");
-
-        const nowPlaying =
-            document.getElementById("nowPlaying");
-
-        const playButton =
-            document.getElementById("playButton");
-
-        const previousButton =
-            document.getElementById("previousButton");
-
-        const nextButton =
-            document.getElementById("nextButton");
-
-        const shuffleButton =
-            document.getElementById("shuffleButton");
-
-        const repeatButton =
-            document.getElementById("repeatButton");
-
-        const progress =
-            document.getElementById("progress");
-
-        const currentTime =
-            document.getElementById("currentTime");
-
-        const duration =
-            document.getElementById("duration");
-
-        const volume =
-            document.getElementById("volume");
-
+        const audio = document.getElementById("audio");
+        const songList = document.getElementById("songList");
+        const search = document.getElementById("search");
+        const nowPlaying = document.getElementById("nowPlaying");
+        const playButton = document.getElementById("playButton");
+        const previousButton = document.getElementById("previousButton");
+        const nextButton = document.getElementById("nextButton");
+        const shuffleButton = document.getElementById("shuffleButton");
+        const repeatButton = document.getElementById("repeatButton");
+        const progress = document.getElementById("progress");
+        const currentTime = document.getElementById("currentTime");
+        const duration = document.getElementById("duration");
+        const volume = document.getElementById("volume");
 
         let currentIndex = 0;
         let isShuffle = false;
         let isRepeat = false;
 
-
-        /* =========================
-           FORMAT TIME
-        ========================= */
-
         function formatTime(seconds) {
-
             if (!Number.isFinite(seconds)) {
                 return "0:00";
             }
 
-            const minutes =
-                Math.floor(seconds / 60);
+            const minutes = Math.floor(seconds / 60);
 
             const remaining =
                 Math.floor(seconds % 60)
@@ -929,13 +647,7 @@
                     .padStart(2, "0");
 
             return minutes + ":" + remaining;
-
         }
-
-
-        /* =========================
-           SONG LIST
-        ========================= */
 
         function renderSongs(filter = "") {
 
@@ -943,85 +655,51 @@
 
             const filteredSongs =
                 songs.filter(function(song) {
-
-                    return song
-                        .toLowerCase()
-                        .includes(
-                            filter.toLowerCase()
-                        );
-
+                    return song.toLowerCase().includes(
+                        filter.toLowerCase()
+                    );
                 });
 
+            filteredSongs.forEach(function(song) {
 
-            filteredSongs.forEach(
-                function(song) {
+                const originalIndex =
+                    songs.indexOf(song);
 
-                    const originalIndex =
-                        songs.indexOf(song);
+                const item =
+                    document.createElement("div");
 
-                    const item =
-                        document.createElement("div");
+                item.className = "song";
 
-                    item.className = "song";
-
-
-                    if (
-                        originalIndex === currentIndex
-                    ) {
-
-                        item.classList.add("playing");
-
-                    }
-
-
-                    const number =
-                        document.createElement("div");
-
-                    number.className =
-                        "song-number";
-
-                    number.textContent =
-                        originalIndex + 1;
-
-
-                    const name =
-                        document.createElement("div");
-
-                    name.className =
-                        "song-name";
-
-                    name.textContent =
-                        song.replace(".mp3", "");
-
-
-                    item.appendChild(number);
-                    item.appendChild(name);
-
-
-                    item.addEventListener(
-                        "click",
-                        function() {
-
-                            loadSong(
-                                originalIndex,
-                                true
-                            );
-
-                        }
-                    );
-
-
-                    songList.appendChild(item);
-
+                if (originalIndex === currentIndex) {
+                    item.classList.add("playing");
                 }
-            );
 
+                const number =
+                    document.createElement("div");
+
+                number.className = "song-number";
+                number.textContent = originalIndex + 1;
+
+                const name =
+                    document.createElement("div");
+
+                name.className = "song-name";
+                name.textContent =
+                    song.replace(".mp3", "");
+
+                item.appendChild(number);
+                item.appendChild(name);
+
+                item.addEventListener(
+                    "click",
+                    function() {
+                        loadSong(originalIndex, true);
+                    }
+                );
+
+                songList.appendChild(item);
+            });
         }
-
-
-        /* =========================
-           LOAD SONG
-        ========================= */
 
         function loadSong(index, autoplay = false) {
 
@@ -1031,8 +709,7 @@
 
             currentIndex = index;
 
-            const song =
-                songs[currentIndex];
+            const song = songs[currentIndex];
 
             audio.src =
                 "music/" +
@@ -1041,39 +718,24 @@
             nowPlaying.textContent =
                 song.replace(".mp3", "");
 
-
             renderSongs(search.value);
-
 
             if (autoplay) {
 
                 audio.play()
                     .then(function() {
-
-                        playButton.textContent =
-                            "⏸";
-
+                        playButton.textContent = "⏸";
                     })
                     .catch(function() {
-
-                        playButton.textContent =
-                            "▶";
-
+                        playButton.textContent = "▶";
                     });
 
             } else {
 
-                playButton.textContent =
-                    "▶";
+                playButton.textContent = "▶";
 
             }
-
         }
-
-
-        /* =========================
-           PLAY / PAUSE
-        ========================= */
 
         playButton.addEventListener(
             "click",
@@ -1082,61 +744,43 @@
                 if (!audio.src) {
 
                     loadSong(0, true);
-
                     return;
 
                 }
 
-
                 if (audio.paused) {
-
                     audio.play();
-
                 } else {
-
                     audio.pause();
-
                 }
 
             }
         );
 
-
         audio.addEventListener(
             "play",
             function() {
-
-                playButton.textContent =
-                    "⏸";
-
+                playButton.textContent = "⏸";
             }
         );
-
 
         audio.addEventListener(
             "pause",
             function() {
-
-                playButton.textContent =
-                    "▶";
-
+                playButton.textContent = "▶";
             }
         );
-
-
-        /* =========================
-           NEXT
-        ========================= */
 
         function nextSong() {
 
             let nextIndex;
 
-
             if (isShuffle) {
 
                 if (songs.length <= 1) {
+
                     nextIndex = currentIndex;
+
                 } else {
 
                     do {
@@ -1158,31 +802,19 @@
                 nextIndex =
                     currentIndex + 1;
 
-                if (
-                    nextIndex >= songs.length
-                ) {
-
+                if (nextIndex >= songs.length) {
                     nextIndex = 0;
-
                 }
 
             }
 
-
             loadSong(nextIndex, true);
-
         }
-
 
         nextButton.addEventListener(
             "click",
             nextSong
         );
-
-
-        /* =========================
-           PREVIOUS
-        ========================= */
 
         previousButton.addEventListener(
             "click",
@@ -1191,76 +823,50 @@
                 if (audio.currentTime > 3) {
 
                     audio.currentTime = 0;
-
                     return;
 
                 }
 
-
                 let previousIndex =
                     currentIndex - 1;
 
-
                 if (previousIndex < 0) {
-
                     previousIndex =
                         songs.length - 1;
-
                 }
-
 
                 loadSong(
                     previousIndex,
                     true
                 );
-
             }
         );
-
-
-        /* =========================
-           SHUFFLE
-        ========================= */
 
         shuffleButton.addEventListener(
             "click",
             function() {
 
-                isShuffle =
-                    !isShuffle;
+                isShuffle = !isShuffle;
 
                 shuffleButton.classList.toggle(
                     "active",
                     isShuffle
                 );
-
             }
         );
-
-
-        /* =========================
-           REPEAT
-        ========================= */
 
         repeatButton.addEventListener(
             "click",
             function() {
 
-                isRepeat =
-                    !isRepeat;
+                isRepeat = !isRepeat;
 
                 repeatButton.classList.toggle(
                     "active",
                     isRepeat
                 );
-
             }
         );
-
-
-        /* =========================
-           SONG ENDED
-        ========================= */
 
         audio.addEventListener(
             "ended",
@@ -1269,7 +875,6 @@
                 if (isRepeat) {
 
                     audio.currentTime = 0;
-
                     audio.play();
 
                 } else {
@@ -1277,27 +882,18 @@
                     nextSong();
 
                 }
-
             }
         );
-
-
-        /* =========================
-           PROGRESS
-        ========================= */
 
         audio.addEventListener(
             "loadedmetadata",
             function() {
 
                 duration.textContent =
-                    formatTime(
-                        audio.duration
-                    );
+                    formatTime(audio.duration);
 
             }
         );
-
 
         audio.addEventListener(
             "timeupdate",
@@ -1307,22 +903,18 @@
                     return;
                 }
 
-
                 progress.value =
                     (
                         audio.currentTime /
                         audio.duration
                     ) * 100;
 
-
                 currentTime.textContent =
                     formatTime(
                         audio.currentTime
                     );
-
             }
         );
-
 
         progress.addEventListener(
             "input",
@@ -1332,20 +924,13 @@
                     return;
                 }
 
-
                 audio.currentTime =
                     (
                         Number(progress.value) /
                         100
                     ) * audio.duration;
-
             }
         );
-
-
-        /* =========================
-           VOLUME
-        ========================= */
 
         volume.addEventListener(
             "input",
@@ -1357,11 +942,6 @@
             }
         );
 
-
-        /* =========================
-           SEARCH
-        ========================= */
-
         search.addEventListener(
             "input",
             function() {
@@ -1371,11 +951,6 @@
             }
         );
 
-
-        /* =========================
-           KEYBOARD CONTROLS
-        ========================= */
-
         document.addEventListener(
             "keydown",
             function(event) {
@@ -1384,11 +959,8 @@
                     event.target.tagName ===
                     "INPUT"
                 ) {
-
                     return;
-
                 }
-
 
                 if (event.code === "Space") {
 
@@ -1397,7 +969,6 @@
                     playButton.click();
 
                 }
-
 
                 if (event.code === "ArrowRight") {
 
@@ -1408,11 +979,8 @@
                                 audio.currentTime + 5,
                                 audio.duration
                             );
-
                     }
-
                 }
-
 
                 if (event.code === "ArrowLeft") {
 
@@ -1423,55 +991,27 @@
                                 audio.currentTime - 5,
                                 0
                             );
-
                     }
-
                 }
-
             }
         );
 
-
-        /* =========================
-           INITIAL SONG LIST
-        ========================= */
-
         renderSongs();
 
-
-        /* =========================
-           QUICK SETTINGS
-        ========================= */
-
         const quickSettings =
-            document.getElementById(
-                "quickSettings"
-            );
+            document.getElementById("quickSettings");
 
         const quickNoTabClose =
-            document.getElementById(
-                "quickNoTabClose"
-            );
+            document.getElementById("quickNoTabClose");
 
         const quickFullscreen =
-            document.getElementById(
-                "quickFullscreen"
-            );
+            document.getElementById("quickFullscreen");
 
         const quickMouseBackground =
-            document.getElementById(
-                "quickMouseBackground"
-            );
+            document.getElementById("quickMouseBackground");
 
         const background =
-            document.getElementById(
-                "background"
-            );
-
-
-        /* =========================
-           NO TAB CLOSE
-        ========================= */
+            document.getElementById("background");
 
         function enableNoTabClose() {
 
@@ -1479,15 +1019,11 @@
                 function(event) {
 
                     event.preventDefault();
-
                     event.returnValue = "";
-
                     return "";
 
                 };
-
         }
-
 
         function disableNoTabClose() {
 
@@ -1495,19 +1031,15 @@
 
         }
 
-
         if (
             localStorage.getItem("noTabClose")
             === "true"
         ) {
 
-            quickNoTabClose.checked =
-                true;
-
+            quickNoTabClose.checked = true;
             enableNoTabClose();
 
         }
-
 
         quickNoTabClose.addEventListener(
             "change",
@@ -1536,11 +1068,6 @@
             }
         );
 
-
-        /* =========================
-           FULL SCREEN
-        ========================= */
-
         quickFullscreen.addEventListener(
             "change",
             function() {
@@ -1559,9 +1086,7 @@
 
                 } else {
 
-                    if (
-                        document.fullscreenElement
-                    ) {
+                    if (document.fullscreenElement) {
 
                         document.exitFullscreen();
 
@@ -1571,7 +1096,6 @@
 
             }
         );
-
 
         document.addEventListener(
             "fullscreenchange",
@@ -1583,20 +1107,13 @@
             }
         );
 
-
-        /* =========================
-           MOUSE BACKGROUND
-        ========================= */
-
         let mouseBackgroundEnabled =
             localStorage.getItem(
                 "mouseBackground"
             ) !== "false";
 
-
         quickMouseBackground.checked =
             mouseBackgroundEnabled;
-
 
         document.addEventListener(
             "mousemove",
@@ -1606,13 +1123,11 @@
                     return;
                 }
 
-
                 const x =
                     (
                         event.clientX /
                         window.innerWidth
                     ) - 0.5;
-
 
                 const y =
                     (
@@ -1620,21 +1135,14 @@
                         window.innerHeight
                     ) - 0.5;
 
-
-                const moveX =
-                    x * 35;
-
-
-                const moveY =
-                    y * 35;
-
+                const moveX = x * 35;
+                const moveY = y * 35;
 
                 background.style.transform =
                     `translate(${moveX}px, ${moveY}px)`;
 
             }
         );
-
 
         quickMouseBackground.addEventListener(
             "change",
@@ -1643,12 +1151,10 @@
                 mouseBackgroundEnabled =
                     this.checked;
 
-
                 localStorage.setItem(
                     "mouseBackground",
                     mouseBackgroundEnabled
                 );
-
 
                 if (!mouseBackgroundEnabled) {
 
@@ -1659,39 +1165,6 @@
 
             }
         );
-
-
-        /* =========================
-           P KEY
-        ========================= */
-
-        window.addEventListener(
-            "keydown",
-            function(event) {
-
-                if (
-                    event.code === "KeyP"
-                ) {
-
-                    if (event.repeat) {
-                        return;
-                    }
-
-                    event.preventDefault();
-
-                    quickSettings.classList.toggle(
-                        "show"
-                    );
-
-                }
-
-            }
-        );
-
-
-        /* =========================
-           CLICK OUTSIDE
-        ========================= */
 
         quickSettings.addEventListener(
             "click",
