@@ -519,7 +519,21 @@
 
             quickSettings.classList.remove("show");
 
-            musicFrame.src = "../../music.html";
+            /*
+             * Only load music.html the first time.
+             * After that, keep the iframe alive so
+             * the music continues playing when closed.
+             */
+
+            if (
+                musicFrame.src ===
+                "about:blank" ||
+                musicFrame.src === ""
+            ) {
+
+                musicFrame.src = "../../music.html";
+
+            }
 
             musicPopup.classList.add("show");
 
@@ -528,9 +542,15 @@
 
         function closeMusicPopup() {
 
-            musicPopup.classList.remove("show");
+            /*
+             * IMPORTANT:
+             * Do NOT change the iframe source.
+             *
+             * This keeps the music playing while
+             * the popup is closed.
+             */
 
-            musicFrame.src = "about:blank";
+            musicPopup.classList.remove("show");
 
         }
 
@@ -689,7 +709,7 @@
                     event.preventDefault();
 
 
-                    /* Close music first */
+                    /* Close music popup first */
 
                     if (
                         musicPopup.classList.contains(
