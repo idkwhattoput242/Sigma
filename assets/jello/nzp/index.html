@@ -719,7 +719,7 @@
 
 
             /*
-             * If the music tab is already open,
+             * If the music window is already open,
              * reuse it.
              */
 
@@ -734,19 +734,14 @@
 
 
             /*
-             * IMPORTANT:
-             *
-             * Open an actual about:blank page.
-             *
-             * We do NOT navigate the top-level
-             * window to music.html.
+             * Open a REAL about:blank window.
              */
 
             musicWindow =
                 window.open(
                     "about:blank",
                     "jelloMusicPlayer",
-                    "width=1000,height=750"
+                    "popup=yes,width=1000,height=750"
                 );
 
 
@@ -761,8 +756,8 @@
 
 
             /*
-             * Wait until the blank document exists,
-             * then put an iframe inside it.
+             * Put music.html inside the
+             * about:blank window using an iframe.
              */
 
             musicWindow.document.open();
@@ -770,11 +765,10 @@
             musicWindow.document.write(
                 '<!doctype html>' +
                 '<html>' +
+
                 '<head>' +
 
                 '<meta charset="UTF-8">' +
-
-                '<title>Jello Music</title>' +
 
                 '<style>' +
 
@@ -815,29 +809,14 @@
 
             musicWindow.document.close();
 
+            /*
+             * Keep the top-level document title empty.
+             */
+
+            musicWindow.document.title = "";
+
             musicWindow.focus();
         }
-
-
-        /* =========================
-           P KEY
-        ========================= */
-
-        window.addEventListener(
-            "keydown",
-            function(event)
-            {
-                if (
-                    event.code === "KeyP" &&
-                    !event.repeat
-                )
-                {
-                    event.preventDefault();
-
-                    openJelloMusic();
-                }
-            }
-        );
 
 
         /* =========================
