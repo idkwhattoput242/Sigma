@@ -729,7 +729,12 @@
 
     <script>
 
+        /* =========================
+           SONG LIBRARY
+           ========================= */
+
         const songs = [
+
             "1. Bad Boy OG.mp3",
             "1. Matt Hardy 999 OG.mp3",
             "10. Boomerang.mp3",
@@ -757,12 +762,16 @@
             "Alright - Juice WRLD.mp3",
             "Anxiety.mp3",
             "Arctic Tundra - Juice WRLD.mp3",
+            "BIG D RANDY 3_ THE END.mp3",
+            "BIG D RANDY_ HOMECOMING.mp3",
             "Bottle.mp3",
             "Burner.mp3",
             "Cake - Juice WRLD .mp3",
             "Call Me Whenever - Juice WRLD .mp3",
             "Cursed.mp3",
             "Dark Tints - Juice WRLD.mp3",
+            "DigBar- BIG D RANDY.mp3",
+            "DigBar- Big D Randy 2.mp3",
             "Elevate - Juice WRLD.mp3",
             "Emotional Overdose.mp3",
             "Extra - Juice WRLD.mp3",
@@ -787,7 +796,12 @@
             "Usd - Juice WRLD.mp3",
             "cali girl.mp3",
             "juice wrld bloody blade unreleased.mp3"
+
         ];
+
+        /* =========================
+           ELEMENTS
+           ========================= */
 
         const audio = document.getElementById("audio");
         const songList = document.getElementById("songList");
@@ -821,21 +835,28 @@
             localStorage.getItem("jelloMusicRecent") || "[]"
         );
 
+        /* =========================
+           HELPERS
+           ========================= */
+
         function formatTime(seconds) {
+
             if (!Number.isFinite(seconds)) {
                 return "0:00";
             }
 
             const minutes = Math.floor(seconds / 60);
 
-            const remaining = Math.floor(seconds % 60)
-                .toString()
-                .padStart(2, "0");
+            const remaining =
+                Math.floor(seconds % 60)
+                    .toString()
+                    .padStart(2, "0");
 
             return minutes + ":" + remaining;
         }
 
         function saveFavorites() {
+
             localStorage.setItem(
                 "jelloMusicFavorites",
                 JSON.stringify(favorites)
@@ -843,6 +864,7 @@
         }
 
         function saveRecent() {
+
             localStorage.setItem(
                 "jelloMusicRecent",
                 JSON.stringify(recentSongs)
@@ -850,134 +872,205 @@
         }
 
         function isFavorite(index) {
-            return favorites.includes(songs[index]);
+
+            return favorites.includes(
+                songs[index]
+            );
         }
 
         function addRecent(index) {
+
             const song = songs[index];
 
-            recentSongs = recentSongs.filter(
-                function(item) {
-                    return item !== song;
-                }
-            );
+            recentSongs =
+                recentSongs.filter(
+                    function(item) {
+                        return item !== song;
+                    }
+                );
 
             recentSongs.unshift(song);
-            recentSongs = recentSongs.slice(0, 20);
+
+            recentSongs =
+                recentSongs.slice(0, 20);
 
             saveRecent();
         }
 
+        /* =========================
+           FILTERING
+           ========================= */
+
         function getFilteredIndexes() {
-            const query = search.value.trim().toLowerCase();
 
-            let indexes = songs.map(
-                function(song, index) {
-                    return index;
-                }
-            );
+            const query =
+                search.value.trim().toLowerCase();
 
-            if (currentFilter === "favorites") {
-                indexes = indexes.filter(
-                    function(index) {
-                        return isFavorite(index);
+            let indexes =
+                songs.map(
+                    function(song, index) {
+                        return index;
                     }
                 );
-            }
 
-            if (currentFilter === "recent") {
-                indexes = recentSongs
-                    .map(
-                        function(song) {
-                            return songs.indexOf(song);
-                        }
-                    )
-                    .filter(
+            if (currentFilter === "favorites") {
+
+                indexes =
+                    indexes.filter(
                         function(index) {
-                            return index !== -1;
+                            return isFavorite(index);
                         }
                     );
             }
 
+            if (currentFilter === "recent") {
+
+                indexes =
+                    recentSongs
+                        .map(
+                            function(song) {
+                                return songs.indexOf(song);
+                            }
+                        )
+                        .filter(
+                            function(index) {
+                                return index !== -1;
+                            }
+                        );
+            }
+
             if (query) {
-                indexes = indexes.filter(
-                    function(index) {
-                        return songs[index]
-                            .toLowerCase()
-                            .includes(query);
-                    }
-                );
+
+                indexes =
+                    indexes.filter(
+                        function(index) {
+
+                            return songs[index]
+                                .toLowerCase()
+                                .includes(query);
+
+                        }
+                    );
             }
 
             return indexes;
         }
 
+        /* =========================
+           RENDER SONGS
+           ========================= */
+
         function renderSongs() {
+
             songList.innerHTML = "";
 
-            const indexes = getFilteredIndexes();
+            const indexes =
+                getFilteredIndexes();
 
             songCount.textContent =
                 indexes.length +
-                (indexes.length === 1 ? " song" : " songs");
+                (
+                    indexes.length === 1
+                        ? " song"
+                        : " songs"
+                );
 
             playerInfo.textContent =
                 songs.length +
-                (songs.length === 1
-                    ? " song in library"
-                    : " songs in library");
+                (
+                    songs.length === 1
+                        ? " song in library"
+                        : " songs in library"
+                );
 
             if (indexes.length === 0) {
-                const empty = document.createElement("div");
 
-                empty.className = "empty-library";
+                const empty =
+                    document.createElement("div");
 
-                if (currentFilter === "favorites") {
-                    empty.textContent = "No favorite songs yet.";
-                } else if (currentFilter === "recent") {
+                empty.className =
+                    "empty-library";
+
+                if (
+                    currentFilter ===
+                    "favorites"
+                ) {
+
+                    empty.textContent =
+                        "No favorite songs yet.";
+
+                } else if (
+                    currentFilter ===
+                    "recent"
+                ) {
+
                     empty.textContent =
                         "No recently played songs yet.";
+
                 } else {
-                    empty.textContent = "No songs found.";
+
+                    empty.textContent =
+                        "No songs found.";
+
                 }
 
                 songList.appendChild(empty);
+
                 return;
             }
 
             indexes.forEach(
                 function(index) {
-                    const song = songs[index];
+
+                    const song =
+                        songs[index];
 
                     const item =
                         document.createElement("div");
 
                     item.className = "song";
 
-                    if (index === currentIndex) {
-                        item.classList.add("playing");
+                    if (
+                        index === currentIndex
+                    ) {
+
+                        item.classList.add(
+                            "playing"
+                        );
+
                     }
 
                     const number =
                         document.createElement("div");
 
-                    number.className = "song-number";
-                    number.textContent = index + 1;
+                    number.className =
+                        "song-number";
+
+                    number.textContent =
+                        index + 1;
 
                     const name =
                         document.createElement("div");
 
-                    name.className = "song-name";
+                    name.className =
+                        "song-name";
+
                     name.textContent =
-                        song.replace(/\.mp3$/i, "");
+                        song.replace(
+                            /\.mp3$/i,
+                            ""
+                        );
 
                     const favorite =
-                        document.createElement("button");
+                        document.createElement(
+                            "button"
+                        );
 
                     favorite.className =
                         "favorite-button";
 
-                    favorite.type = "button";
+                    favorite.type =
+                        "button";
 
                     favorite.title =
                         isFavorite(index)
@@ -989,33 +1082,53 @@
                             ? "★"
                             : "☆";
 
-                    if (isFavorite(index)) {
-                        favorite.classList.add("favorite");
+                    if (
+                        isFavorite(index)
+                    ) {
+
+                        favorite.classList.add(
+                            "favorite"
+                        );
+
                     }
 
                     favorite.addEventListener(
                         "click",
                         function(event) {
+
                             event.stopPropagation();
 
                             const songName =
                                 songs[index];
 
                             if (
-                                favorites.includes(songName)
+                                favorites.includes(
+                                    songName
+                                )
                             ) {
+
                                 favorites =
                                     favorites.filter(
                                         function(item) {
-                                            return item !== songName;
+                                            return (
+                                                item !==
+                                                songName
+                                            );
                                         }
                                     );
+
                             } else {
-                                favorites.push(songName);
+
+                                favorites.push(
+                                    songName
+                                );
+
                             }
 
                             saveFavorites();
+
                             renderSongs();
+
                         }
                     );
 
@@ -1026,49 +1139,84 @@
                     item.addEventListener(
                         "click",
                         function() {
-                            loadSong(index, true);
+
+                            loadSong(
+                                index,
+                                true
+                            );
+
                         }
                     );
 
                     songList.appendChild(item);
+
                 }
             );
         }
 
-        function loadSong(index, autoplay = false) {
+        /* =========================
+           LOAD SONG
+           ========================= */
+
+        function loadSong(
+            index,
+            autoplay = false
+        ) {
+
             if (!songs[index]) {
                 return;
             }
 
             currentIndex = index;
 
-            const song = songs[currentIndex];
+            const song =
+                songs[currentIndex];
 
             audio.src =
                 "music/" +
                 encodeURIComponent(song);
 
             nowPlaying.textContent =
-                song.replace(/\.mp3$/i, "");
+                song.replace(
+                    /\.mp3$/i,
+                    ""
+                );
 
             progress.value = 0;
-            currentTime.textContent = "0:00";
-            duration.textContent = "0:00";
+
+            currentTime.textContent =
+                "0:00";
+
+            duration.textContent =
+                "0:00";
 
             renderSongs();
 
             if (autoplay) {
+
                 audio.play().catch(
                     function() {
-                        playButton.textContent = "▶";
+
+                        playButton.textContent =
+                            "▶";
+
                     }
                 );
+
             } else {
-                playButton.textContent = "▶";
+
+                playButton.textContent =
+                    "▶";
+
             }
         }
 
+        /* =========================
+           NEXT / PREVIOUS
+           ========================= */
+
         function playNextSong() {
+
             if (songs.length === 0) {
                 return;
             }
@@ -1076,66 +1224,105 @@
             let nextIndex;
 
             if (shuffleMode) {
+
                 if (songs.length === 1) {
+
                     nextIndex = 0;
+
                 } else {
+
                     do {
+
                         nextIndex =
                             Math.floor(
                                 Math.random() *
                                 songs.length
                             );
+
                     } while (
-                        nextIndex === currentIndex
+                        nextIndex ===
+                        currentIndex
                     );
                 }
+
             } else {
-                nextIndex = currentIndex + 1;
+
+                nextIndex =
+                    currentIndex + 1;
 
                 if (
                     nextIndex >= songs.length ||
                     currentIndex === -1
                 ) {
+
                     nextIndex = 0;
+
                 }
             }
 
-            loadSong(nextIndex, true);
+            loadSong(
+                nextIndex,
+                true
+            );
         }
 
         function playPreviousSong() {
+
             if (songs.length === 0) {
                 return;
             }
 
             if (audio.currentTime > 3) {
+
                 audio.currentTime = 0;
+
                 return;
             }
 
-            let previousIndex = currentIndex - 1;
+            let previousIndex =
+                currentIndex - 1;
 
             if (previousIndex < 0) {
-                previousIndex = songs.length - 1;
+
+                previousIndex =
+                    songs.length - 1;
+
             }
 
-            loadSong(previousIndex, true);
+            loadSong(
+                previousIndex,
+                true
+            );
         }
+
+        /* =========================
+           PLAYER CONTROLS
+           ========================= */
 
         playButton.addEventListener(
             "click",
             function() {
+
                 if (currentIndex === -1) {
-                    loadSong(0, true);
+
+                    loadSong(
+                        0,
+                        true
+                    );
+
                     return;
                 }
 
                 if (audio.paused) {
+
                     audio.play().catch(
                         function() {}
                     );
+
                 } else {
+
                     audio.pause();
+
                 }
             }
         );
@@ -1150,10 +1337,16 @@
             playNextSong
         );
 
+        /* =========================
+           SHUFFLE
+           ========================= */
+
         shuffleButton.addEventListener(
             "click",
             function() {
-                shuffleMode = !shuffleMode;
+
+                shuffleMode =
+                    !shuffleMode;
 
                 shuffleButton.classList.toggle(
                     "active",
@@ -1164,12 +1357,18 @@
                     "jelloMusicShuffle",
                     shuffleMode
                 );
+
             }
         );
+
+        /* =========================
+           REPEAT
+           ========================= */
 
         repeatButton.addEventListener(
             "click",
             function() {
+
                 repeatMode++;
 
                 if (repeatMode > 2) {
@@ -1182,23 +1381,30 @@
                     "jelloMusicRepeat",
                     repeatMode
                 );
+
             }
         );
 
         function updateRepeatButton() {
+
             repeatButton.classList.remove(
                 "active",
                 "repeat-one"
             );
 
             if (repeatMode === 1) {
+
                 repeatButton.classList.add(
                     "active"
                 );
 
                 repeatButton.title =
                     "Repeat All";
-            } else if (repeatMode === 2) {
+
+            } else if (
+                repeatMode === 2
+            ) {
+
                 repeatButton.classList.add(
                     "active",
                     "repeat-one"
@@ -1206,60 +1412,88 @@
 
                 repeatButton.title =
                     "Repeat One";
+
             } else {
+
                 repeatButton.title =
                     "Repeat Off";
+
             }
         }
+
+        /* =========================
+           AUDIO EVENTS
+           ========================= */
 
         audio.addEventListener(
             "play",
             function() {
-                playButton.textContent = "⏸";
+
+                playButton.textContent =
+                    "⏸";
+
             }
         );
 
         audio.addEventListener(
             "pause",
             function() {
-                playButton.textContent = "▶";
+
+                playButton.textContent =
+                    "▶";
+
             }
         );
 
         audio.addEventListener(
             "ended",
             function() {
+
                 if (repeatMode === 2) {
+
                     audio.currentTime = 0;
+
                     audio.play();
+
                     return;
                 }
 
                 if (
                     repeatMode === 0 &&
                     !shuffleMode &&
-                    currentIndex === songs.length - 1
+                    currentIndex ===
+                        songs.length - 1
                 ) {
+
                     audio.currentTime = 0;
-                    playButton.textContent = "▶";
+
+                    playButton.textContent =
+                        "▶";
+
                     return;
                 }
 
                 playNextSong();
+
             }
         );
 
         audio.addEventListener(
             "loadedmetadata",
             function() {
+
                 duration.textContent =
-                    formatTime(audio.duration);
+                    formatTime(
+                        audio.duration
+                    );
+
             }
         );
 
         audio.addEventListener(
             "timeupdate",
             function() {
+
                 if (!audio.duration) {
                     return;
                 }
@@ -1274,48 +1508,70 @@
                     formatTime(
                         audio.currentTime
                     );
+
             }
         );
 
         audio.addEventListener(
             "error",
             function() {
+
                 nowPlaying.textContent =
                     "Unable to load this song";
 
-                playButton.textContent = "▶";
+                playButton.textContent =
+                    "▶";
+
             }
         );
 
         audio.addEventListener(
             "play",
             function() {
+
                 if (currentIndex !== -1) {
-                    addRecent(currentIndex);
+
+                    addRecent(
+                        currentIndex
+                    );
+
                 }
 
                 renderSongs();
+
             }
         );
+
+        /* =========================
+           PROGRESS
+           ========================= */
 
         progress.addEventListener(
             "input",
             function() {
+
                 if (!audio.duration) {
                     return;
                 }
 
                 audio.currentTime =
                     (
-                        Number(progress.value) /
-                        100
+                        Number(
+                            progress.value
+                        ) / 100
                     ) * audio.duration;
+
             }
         );
+
+        /* =========================
+           VOLUME
+           ========================= */
 
         volume.addEventListener(
             "input",
             function() {
+
                 audio.volume =
                     Number(this.value);
 
@@ -1323,44 +1579,70 @@
                     "jelloMusicVolume",
                     this.value
                 );
+
             }
         );
+
+        /* =========================
+           SEARCH
+           ========================= */
 
         search.addEventListener(
             "input",
             function() {
+
                 renderSongs();
+
             }
         );
+
+        /* =========================
+           FILTERS
+           ========================= */
 
         allFilter.addEventListener(
             "click",
             function() {
+
                 currentFilter = "all";
+
                 updateFilterButtons();
+
                 renderSongs();
+
             }
         );
 
         favoriteFilter.addEventListener(
             "click",
             function() {
-                currentFilter = "favorites";
+
+                currentFilter =
+                    "favorites";
+
                 updateFilterButtons();
+
                 renderSongs();
+
             }
         );
 
         recentFilter.addEventListener(
             "click",
             function() {
-                currentFilter = "recent";
+
+                currentFilter =
+                    "recent";
+
                 updateFilterButtons();
+
                 renderSongs();
+
             }
         );
 
         function updateFilterButtons() {
+
             allFilter.classList.toggle(
                 "active",
                 currentFilter === "all"
@@ -1377,56 +1659,77 @@
             );
         }
 
-        /*
-         * KEYBOARD CONTROLS
-         *
-         * Space = play/pause
-         * Left = back 5 seconds
-         * Right = forward 5 seconds
-         *
-         * P intentionally does NOTHING here.
-         */
+        /* =========================
+           KEYBOARD CONTROLS
+           ========================= */
 
         document.addEventListener(
             "keydown",
             function(event) {
+
                 if (
-                    event.target.tagName === "INPUT" ||
-                    event.target.tagName === "BUTTON"
+                    event.target.tagName ===
+                        "INPUT" ||
+                    event.target.tagName ===
+                        "BUTTON"
                 ) {
+
                     return;
+
                 }
 
-                if (event.code === "Space") {
+                if (
+                    event.code === "Space"
+                ) {
+
                     event.preventDefault();
+
                     playButton.click();
+
                 }
 
-                if (event.code === "ArrowRight") {
+                if (
+                    event.code ===
+                    "ArrowRight"
+                ) {
+
                     if (audio.duration) {
+
                         audio.currentTime =
                             Math.min(
                                 audio.currentTime + 5,
                                 audio.duration
                             );
+
                     }
                 }
 
-                if (event.code === "ArrowLeft") {
+                if (
+                    event.code ===
+                    "ArrowLeft"
+                ) {
+
                     if (audio.duration) {
+
                         audio.currentTime =
                             Math.max(
                                 audio.currentTime - 5,
                                 0
                             );
+
                     }
                 }
+
+                /*
+                 * P intentionally does nothing.
+                 */
+
             }
         );
 
-        /*
-         * RESTORE MUSIC SETTINGS
-         */
+        /* =========================
+           RESTORE SETTINGS
+           ========================= */
 
         const savedVolume =
             localStorage.getItem(
@@ -1434,10 +1737,17 @@
             );
 
         if (savedVolume !== null) {
-            volume.value = savedVolume;
-            audio.volume = Number(savedVolume);
+
+            volume.value =
+                savedVolume;
+
+            audio.volume =
+                Number(savedVolume);
+
         } else {
+
             audio.volume = 1;
+
         }
 
         const savedShuffle =
@@ -1445,12 +1755,16 @@
                 "jelloMusicShuffle"
             );
 
-        if (savedShuffle === "true") {
+        if (
+            savedShuffle === "true"
+        ) {
+
             shuffleMode = true;
 
             shuffleButton.classList.add(
                 "active"
             );
+
         }
 
         const savedRepeat =
@@ -1459,14 +1773,17 @@
             );
 
         if (savedRepeat !== null) {
-            repeatMode = Number(savedRepeat);
+
+            repeatMode =
+                Number(savedRepeat);
+
         }
 
         updateRepeatButton();
 
-        /*
-         * QUICK SETTINGS
-         */
+        /* =========================
+           QUICK SETTINGS
+           ========================= */
 
         const quickSettings =
             document.getElementById(
@@ -1494,16 +1811,23 @@
             );
 
         function enableNoTabClose() {
+
             window.onbeforeunload =
                 function(event) {
+
                     event.preventDefault();
+
                     event.returnValue = "";
+
                     return "";
+
                 };
         }
 
         function disableNoTabClose() {
+
             window.onbeforeunload = null;
+
         }
 
         if (
@@ -1511,59 +1835,89 @@
                 "noTabClose"
             ) === "true"
         ) {
-            quickNoTabClose.checked = true;
+
+            quickNoTabClose.checked =
+                true;
+
             enableNoTabClose();
+
         }
 
         quickNoTabClose.addEventListener(
             "change",
             function() {
+
                 if (this.checked) {
+
                     localStorage.setItem(
                         "noTabClose",
                         "true"
                     );
 
                     enableNoTabClose();
+
                 } else {
+
                     localStorage.setItem(
                         "noTabClose",
                         "false"
                     );
 
                     disableNoTabClose();
+
                 }
+
             }
         );
+
+        /* =========================
+           FULL SCREEN
+           ========================= */
 
         quickFullscreen.addEventListener(
             "change",
             function() {
+
                 if (this.checked) {
+
                     if (
                         document.documentElement
                             .requestFullscreen
                     ) {
+
                         document.documentElement
                             .requestFullscreen();
+
                     }
+
                 } else {
+
                     if (
                         document.fullscreenElement
                     ) {
+
                         document.exitFullscreen();
+
                     }
+
                 }
+
             }
         );
 
         document.addEventListener(
             "fullscreenchange",
             function() {
+
                 quickFullscreen.checked =
                     !!document.fullscreenElement;
+
             }
         );
+
+        /* =========================
+           MOUSE BACKGROUND
+           ========================= */
 
         let mouseBackgroundEnabled =
             localStorage.getItem(
@@ -1576,8 +1930,13 @@
         document.addEventListener(
             "mousemove",
             function(event) {
-                if (!mouseBackgroundEnabled) {
+
+                if (
+                    !mouseBackgroundEnabled
+                ) {
+
                     return;
+
                 }
 
                 const x =
@@ -1592,17 +1951,22 @@
                         window.innerHeight
                     ) - 0.5;
 
-                const moveX = x * 35;
-                const moveY = y * 35;
+                const moveX =
+                    x * 35;
+
+                const moveY =
+                    y * 35;
 
                 background.style.transform =
                     `translate(${moveX}px, ${moveY}px)`;
+
             }
         );
 
         quickMouseBackground.addEventListener(
             "change",
             function() {
+
                 mouseBackgroundEnabled =
                     this.checked;
 
@@ -1611,27 +1975,43 @@
                     mouseBackgroundEnabled
                 );
 
-                if (!mouseBackgroundEnabled) {
+                if (
+                    !mouseBackgroundEnabled
+                ) {
+
                     background.style.transform =
                         "translate(0px, 0px)";
+
                 }
+
             }
         );
+
+        /* =========================
+           CLOSE SETTINGS
+           ========================= */
 
         quickSettings.addEventListener(
             "click",
             function(event) {
-                if (event.target === quickSettings) {
+
+                if (
+                    event.target ===
+                    quickSettings
+                ) {
+
                     quickSettings.classList.remove(
                         "show"
                     );
+
                 }
+
             }
         );
 
-        /*
-         * START
-         */
+        /* =========================
+           START
+           ========================= */
 
         renderSongs();
 
