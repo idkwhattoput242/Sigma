@@ -729,13 +729,6 @@
 
     <script>
 
-        /*
-         * SONG LIBRARY
-         *
-         * Add your MP3 filename here whenever
-         * you add another file to /music/.
-         */
-
         const songs = [
             "1. Bad Boy OG.mp3",
             "1. Matt Hardy 999 OG.mp3",
@@ -760,6 +753,10 @@
             "8. Knight Crawler OG.mp3",
             "9. Bye Bye Baby.mp3",
             "9. U Can_t Tell Me.mp3",
+
+            "Alright - Juice WRLD.mp3",
+            "Anxiety.mp3",
+            "Arctic Tundra - Juice WRLD.mp3",
             "Bottle.mp3",
             "Burner.mp3",
             "Cake - Juice WRLD .mp3",
@@ -768,117 +765,77 @@
             "Dark Tints - Juice WRLD.mp3",
             "Elevate - Juice WRLD.mp3",
             "Emotional Overdose.mp3",
+            "Extra - Juice WRLD.mp3",
             "Fall in love - Juice WRLD.mp3",
+            "Haha - Juice WRLD.mp3",
             "Happy Life - Juice WRLD.mp3",
+            "High Again.mp3",
             "Hypnotic.mp3",
             "In The Mix (Be Here) - Juice WRLD.mp3",
+            "Jack and Jill - Juice WRLD.mp3",
+            "Juice WRLD - Rental.mp3",
+            "Juice WRLD- Underworld Unreleased Song _ Rap _ EDM _ Hiphop Music _ Rip999 _ LLJW.mp3",
+            "Lost My Mind - Juice WRLD.mp3",
+            "Na na na - Juice Wrld.mp3",
+            "Never Switch.mp3",
+            "Purple Moncler.mp3",
+            "Purple Rain - Juice WRLD.mp3",
+            "Scarface (Feat. Gunna).mp3",
+            "Singalong.mp3",
+            "Swear - Juice WRLD.mp3",
             "Tic Tac Toe - Juice WRLD.mp3",
             "Usd - Juice WRLD.mp3",
-            "cali girl.mp3"
+            "cali girl.mp3",
+            "juice wrld bloody blade unreleased.mp3"
         ];
 
-        const audio =
-            document.getElementById("audio");
-
-        const songList =
-            document.getElementById("songList");
-
-        const search =
-            document.getElementById("search");
-
-        const nowPlaying =
-            document.getElementById("nowPlaying");
-
-        const playButton =
-            document.getElementById("playButton");
-
-        const previousButton =
-            document.getElementById("previousButton");
-
-        const nextButton =
-            document.getElementById("nextButton");
-
-        const shuffleButton =
-            document.getElementById("shuffleButton");
-
-        const repeatButton =
-            document.getElementById("repeatButton");
-
-        const progress =
-            document.getElementById("progress");
-
-        const currentTime =
-            document.getElementById("currentTime");
-
-        const duration =
-            document.getElementById("duration");
-
-        const volume =
-            document.getElementById("volume");
-
-        const songCount =
-            document.getElementById("songCount");
-
-        const playerInfo =
-            document.getElementById("playerInfo");
-
-        const allFilter =
-            document.getElementById("allFilter");
-
-        const favoriteFilter =
-            document.getElementById("favoriteFilter");
-
-        const recentFilter =
-            document.getElementById("recentFilter");
+        const audio = document.getElementById("audio");
+        const songList = document.getElementById("songList");
+        const search = document.getElementById("search");
+        const nowPlaying = document.getElementById("nowPlaying");
+        const playButton = document.getElementById("playButton");
+        const previousButton = document.getElementById("previousButton");
+        const nextButton = document.getElementById("nextButton");
+        const shuffleButton = document.getElementById("shuffleButton");
+        const repeatButton = document.getElementById("repeatButton");
+        const progress = document.getElementById("progress");
+        const currentTime = document.getElementById("currentTime");
+        const duration = document.getElementById("duration");
+        const volume = document.getElementById("volume");
+        const songCount = document.getElementById("songCount");
+        const playerInfo = document.getElementById("playerInfo");
+        const allFilter = document.getElementById("allFilter");
+        const favoriteFilter = document.getElementById("favoriteFilter");
+        const recentFilter = document.getElementById("recentFilter");
 
         let currentIndex = -1;
-
         let shuffleMode = false;
-
-        /*
-         * Repeat modes:
-         * 0 = off
-         * 1 = repeat all
-         * 2 = repeat one
-         */
-
         let repeatMode = 0;
-
         let currentFilter = "all";
 
-        let favorites =
-            JSON.parse(
-                localStorage.getItem(
-                    "jelloMusicFavorites"
-                ) || "[]"
-            );
+        let favorites = JSON.parse(
+            localStorage.getItem("jelloMusicFavorites") || "[]"
+        );
 
-        let recentSongs =
-            JSON.parse(
-                localStorage.getItem(
-                    "jelloMusicRecent"
-                ) || "[]"
-            );
+        let recentSongs = JSON.parse(
+            localStorage.getItem("jelloMusicRecent") || "[]"
+        );
 
         function formatTime(seconds) {
-
             if (!Number.isFinite(seconds)) {
                 return "0:00";
             }
 
-            const minutes =
-                Math.floor(seconds / 60);
+            const minutes = Math.floor(seconds / 60);
 
-            const remaining =
-                Math.floor(seconds % 60)
-                    .toString()
-                    .padStart(2, "0");
+            const remaining = Math.floor(seconds % 60)
+                .toString()
+                .padStart(2, "0");
 
             return minutes + ":" + remaining;
         }
 
         function saveFavorites() {
-
             localStorage.setItem(
                 "jelloMusicFavorites",
                 JSON.stringify(favorites)
@@ -886,7 +843,6 @@
         }
 
         function saveRecent() {
-
             localStorage.setItem(
                 "jelloMusicRecent",
                 JSON.stringify(recentSongs)
@@ -894,99 +850,76 @@
         }
 
         function isFavorite(index) {
-
-            return favorites.includes(
-                songs[index]
-            );
+            return favorites.includes(songs[index]);
         }
 
         function addRecent(index) {
-
             const song = songs[index];
 
-            recentSongs =
-                recentSongs.filter(
-                    function(item) {
-                        return item !== song;
-                    }
-                );
+            recentSongs = recentSongs.filter(
+                function(item) {
+                    return item !== song;
+                }
+            );
 
             recentSongs.unshift(song);
-
-            recentSongs =
-                recentSongs.slice(0, 20);
+            recentSongs = recentSongs.slice(0, 20);
 
             saveRecent();
         }
 
         function getFilteredIndexes() {
+            const query = search.value.trim().toLowerCase();
 
-            const query =
-                search.value
-                    .trim()
-                    .toLowerCase();
-
-            let indexes =
-                songs.map(
-                    function(song, index) {
-                        return index;
-                    }
-                );
+            let indexes = songs.map(
+                function(song, index) {
+                    return index;
+                }
+            );
 
             if (currentFilter === "favorites") {
-
-                indexes =
-                    indexes.filter(
-                        function(index) {
-                            return isFavorite(index);
-                        }
-                    );
-
+                indexes = indexes.filter(
+                    function(index) {
+                        return isFavorite(index);
+                    }
+                );
             }
 
             if (currentFilter === "recent") {
-
-                indexes =
-                    recentSongs
-                        .map(
-                            function(song) {
-                                return songs.indexOf(song);
-                            }
-                        )
-                        .filter(
-                            function(index) {
-                                return index !== -1;
-                            }
-                        );
+                indexes = recentSongs
+                    .map(
+                        function(song) {
+                            return songs.indexOf(song);
+                        }
+                    )
+                    .filter(
+                        function(index) {
+                            return index !== -1;
+                        }
+                    );
             }
 
             if (query) {
-
-                indexes =
-                    indexes.filter(
-                        function(index) {
-                            return songs[index]
-                                .toLowerCase()
-                                .includes(query);
-                        }
-                    );
+                indexes = indexes.filter(
+                    function(index) {
+                        return songs[index]
+                            .toLowerCase()
+                            .includes(query);
+                    }
+                );
             }
 
             return indexes;
         }
 
         function renderSongs() {
-
             songList.innerHTML = "";
 
-            const indexes =
-                getFilteredIndexes();
+            const indexes = getFilteredIndexes();
 
             songCount.textContent =
                 indexes.length +
-                (indexes.length === 1
-                    ? " song"
-                    : " songs");
+                (indexes.length === 1 ? " song" : " songs");
 
             playerInfo.textContent =
                 songs.length +
@@ -995,40 +928,25 @@
                     : " songs in library");
 
             if (indexes.length === 0) {
+                const empty = document.createElement("div");
 
-                const empty =
-                    document.createElement("div");
-
-                empty.className =
-                    "empty-library";
+                empty.className = "empty-library";
 
                 if (currentFilter === "favorites") {
-
-                    empty.textContent =
-                        "No favorite songs yet.";
-
-                } else if (
-                    currentFilter === "recent"
-                ) {
-
+                    empty.textContent = "No favorite songs yet.";
+                } else if (currentFilter === "recent") {
                     empty.textContent =
                         "No recently played songs yet.";
-
                 } else {
-
-                    empty.textContent =
-                        "No songs found.";
-
+                    empty.textContent = "No songs found.";
                 }
 
                 songList.appendChild(empty);
-
                 return;
             }
 
             indexes.forEach(
                 function(index) {
-
                     const song = songs[index];
 
                     const item =
@@ -1043,18 +961,13 @@
                     const number =
                         document.createElement("div");
 
-                    number.className =
-                        "song-number";
-
-                    number.textContent =
-                        index + 1;
+                    number.className = "song-number";
+                    number.textContent = index + 1;
 
                     const name =
                         document.createElement("div");
 
-                    name.className =
-                        "song-name";
-
+                    name.className = "song-name";
                     name.textContent =
                         song.replace(/\.mp3$/i, "");
 
@@ -1083,36 +996,26 @@
                     favorite.addEventListener(
                         "click",
                         function(event) {
-
                             event.stopPropagation();
 
                             const songName =
                                 songs[index];
 
                             if (
-                                favorites.includes(
-                                    songName
-                                )
+                                favorites.includes(songName)
                             ) {
-
                                 favorites =
                                     favorites.filter(
                                         function(item) {
                                             return item !== songName;
                                         }
                                     );
-
                             } else {
-
-                                favorites.push(
-                                    songName
-                                );
-
+                                favorites.push(songName);
                             }
 
                             saveFavorites();
                             renderSongs();
-
                         }
                     );
 
@@ -1123,34 +1026,23 @@
                     item.addEventListener(
                         "click",
                         function() {
-
-                            loadSong(
-                                index,
-                                true
-                            );
-
+                            loadSong(index, true);
                         }
                     );
 
                     songList.appendChild(item);
-
                 }
             );
         }
 
-        function loadSong(
-            index,
-            autoplay = false
-        ) {
-
+        function loadSong(index, autoplay = false) {
             if (!songs[index]) {
                 return;
             }
 
             currentIndex = index;
 
-            const song =
-                songs[currentIndex];
+            const song = songs[currentIndex];
 
             audio.src =
                 "music/" +
@@ -1166,25 +1058,17 @@
             renderSongs();
 
             if (autoplay) {
-
-                audio.play()
-                    .catch(
-                        function() {
-                            playButton.textContent =
-                                "▶";
-                        }
-                    );
-
+                audio.play().catch(
+                    function() {
+                        playButton.textContent = "▶";
+                    }
+                );
             } else {
-
                 playButton.textContent = "▶";
-
             }
-
         }
 
         function playNextSong() {
-
             if (songs.length === 0) {
                 return;
             }
@@ -1192,102 +1076,67 @@
             let nextIndex;
 
             if (shuffleMode) {
-
                 if (songs.length === 1) {
-
                     nextIndex = 0;
-
                 } else {
-
                     do {
-
                         nextIndex =
                             Math.floor(
                                 Math.random() *
                                 songs.length
                             );
-
                     } while (
                         nextIndex === currentIndex
                     );
-
                 }
-
             } else {
-
-                nextIndex =
-                    currentIndex + 1;
+                nextIndex = currentIndex + 1;
 
                 if (
                     nextIndex >= songs.length ||
                     currentIndex === -1
                 ) {
-
                     nextIndex = 0;
-
                 }
-
             }
 
-            loadSong(
-                nextIndex,
-                true
-            );
+            loadSong(nextIndex, true);
         }
 
         function playPreviousSong() {
-
             if (songs.length === 0) {
                 return;
             }
 
             if (audio.currentTime > 3) {
-
                 audio.currentTime = 0;
                 return;
-
             }
 
-            let previousIndex =
-                currentIndex - 1;
+            let previousIndex = currentIndex - 1;
 
             if (previousIndex < 0) {
-
-                previousIndex =
-                    songs.length - 1;
-
+                previousIndex = songs.length - 1;
             }
 
-            loadSong(
-                previousIndex,
-                true
-            );
+            loadSong(previousIndex, true);
         }
 
         playButton.addEventListener(
             "click",
             function() {
-
                 if (currentIndex === -1) {
-
                     loadSong(0, true);
                     return;
-
                 }
 
                 if (audio.paused) {
-
-                    audio.play()
-                        .catch(
-                            function() {}
-                        );
-
+                    audio.play().catch(
+                        function() {}
+                    );
                 } else {
-
                     audio.pause();
-
                 }
-
             }
         );
 
@@ -1304,9 +1153,7 @@
         shuffleButton.addEventListener(
             "click",
             function() {
-
-                shuffleMode =
-                    !shuffleMode;
+                shuffleMode = !shuffleMode;
 
                 shuffleButton.classList.toggle(
                     "active",
@@ -1317,14 +1164,12 @@
                     "jelloMusicShuffle",
                     shuffleMode
                 );
-
             }
         );
 
         repeatButton.addEventListener(
             "click",
             function() {
-
                 repeatMode++;
 
                 if (repeatMode > 2) {
@@ -1337,28 +1182,23 @@
                     "jelloMusicRepeat",
                     repeatMode
                 );
-
             }
         );
 
         function updateRepeatButton() {
-
             repeatButton.classList.remove(
                 "active",
                 "repeat-one"
             );
 
             if (repeatMode === 1) {
-
                 repeatButton.classList.add(
                     "active"
                 );
 
                 repeatButton.title =
                     "Repeat All";
-
             } else if (repeatMode === 2) {
-
                 repeatButton.classList.add(
                     "active",
                     "repeat-one"
@@ -1366,46 +1206,32 @@
 
                 repeatButton.title =
                     "Repeat One";
-
             } else {
-
                 repeatButton.title =
                     "Repeat Off";
-
             }
-
         }
 
         audio.addEventListener(
             "play",
             function() {
-
-                playButton.textContent =
-                    "⏸";
-
+                playButton.textContent = "⏸";
             }
         );
 
         audio.addEventListener(
             "pause",
             function() {
-
-                playButton.textContent =
-                    "▶";
-
+                playButton.textContent = "▶";
             }
         );
 
         audio.addEventListener(
             "ended",
             function() {
-
                 if (repeatMode === 2) {
-
                     audio.currentTime = 0;
-
                     audio.play();
-
                     return;
                 }
 
@@ -1414,31 +1240,26 @@
                     !shuffleMode &&
                     currentIndex === songs.length - 1
                 ) {
-
                     audio.currentTime = 0;
                     playButton.textContent = "▶";
                     return;
                 }
 
                 playNextSong();
-
             }
         );
 
         audio.addEventListener(
             "loadedmetadata",
             function() {
-
                 duration.textContent =
                     formatTime(audio.duration);
-
             }
         );
 
         audio.addEventListener(
             "timeupdate",
             function() {
-
                 if (!audio.duration) {
                     return;
                 }
@@ -1453,42 +1274,33 @@
                     formatTime(
                         audio.currentTime
                     );
-
             }
         );
 
         audio.addEventListener(
             "error",
             function() {
-
                 nowPlaying.textContent =
                     "Unable to load this song";
 
-                playButton.textContent =
-                    "▶";
-
+                playButton.textContent = "▶";
             }
         );
 
         audio.addEventListener(
             "play",
             function() {
-
                 if (currentIndex !== -1) {
-
                     addRecent(currentIndex);
-
                 }
 
                 renderSongs();
-
             }
         );
 
         progress.addEventListener(
             "input",
             function() {
-
                 if (!audio.duration) {
                     return;
                 }
@@ -1498,14 +1310,12 @@
                         Number(progress.value) /
                         100
                     ) * audio.duration;
-
             }
         );
 
         volume.addEventListener(
             "input",
             function() {
-
                 audio.volume =
                     Number(this.value);
 
@@ -1513,57 +1323,44 @@
                     "jelloMusicVolume",
                     this.value
                 );
-
             }
         );
 
         search.addEventListener(
             "input",
             function() {
-
                 renderSongs();
-
             }
         );
 
         allFilter.addEventListener(
             "click",
             function() {
-
                 currentFilter = "all";
-
                 updateFilterButtons();
                 renderSongs();
-
             }
         );
 
         favoriteFilter.addEventListener(
             "click",
             function() {
-
                 currentFilter = "favorites";
-
                 updateFilterButtons();
                 renderSongs();
-
             }
         );
 
         recentFilter.addEventListener(
             "click",
             function() {
-
                 currentFilter = "recent";
-
                 updateFilterButtons();
                 renderSongs();
-
             }
         );
 
         function updateFilterButtons() {
-
             allFilter.classList.toggle(
                 "active",
                 currentFilter === "all"
@@ -1578,7 +1375,6 @@
                 "active",
                 currentFilter === "recent"
             );
-
         }
 
         /*
@@ -1594,52 +1390,37 @@
         document.addEventListener(
             "keydown",
             function(event) {
-
                 if (
-                    event.target.tagName ===
-                    "INPUT" ||
-                    event.target.tagName ===
-                    "BUTTON"
+                    event.target.tagName === "INPUT" ||
+                    event.target.tagName === "BUTTON"
                 ) {
                     return;
                 }
 
                 if (event.code === "Space") {
-
                     event.preventDefault();
-
                     playButton.click();
-
                 }
 
                 if (event.code === "ArrowRight") {
-
                     if (audio.duration) {
-
                         audio.currentTime =
                             Math.min(
                                 audio.currentTime + 5,
                                 audio.duration
                             );
-
                     }
-
                 }
 
                 if (event.code === "ArrowLeft") {
-
                     if (audio.duration) {
-
                         audio.currentTime =
                             Math.max(
                                 audio.currentTime - 5,
                                 0
                             );
-
                     }
-
                 }
-
             }
         );
 
@@ -1653,17 +1434,10 @@
             );
 
         if (savedVolume !== null) {
-
-            volume.value =
-                savedVolume;
-
-            audio.volume =
-                Number(savedVolume);
-
+            volume.value = savedVolume;
+            audio.volume = Number(savedVolume);
         } else {
-
             audio.volume = 1;
-
         }
 
         const savedShuffle =
@@ -1672,13 +1446,11 @@
             );
 
         if (savedShuffle === "true") {
-
             shuffleMode = true;
 
             shuffleButton.classList.add(
                 "active"
             );
-
         }
 
         const savedRepeat =
@@ -1687,10 +1459,7 @@
             );
 
         if (savedRepeat !== null) {
-
-            repeatMode =
-                Number(savedRepeat);
-
+            repeatMode = Number(savedRepeat);
         }
 
         updateRepeatButton();
@@ -1725,23 +1494,16 @@
             );
 
         function enableNoTabClose() {
-
             window.onbeforeunload =
                 function(event) {
-
                     event.preventDefault();
                     event.returnValue = "";
-
                     return "";
-
                 };
-
         }
 
         function disableNoTabClose() {
-
             window.onbeforeunload = null;
-
         }
 
         if (
@@ -1749,79 +1511,57 @@
                 "noTabClose"
             ) === "true"
         ) {
-
-            quickNoTabClose.checked =
-                true;
-
+            quickNoTabClose.checked = true;
             enableNoTabClose();
-
         }
 
         quickNoTabClose.addEventListener(
             "change",
             function() {
-
                 if (this.checked) {
-
                     localStorage.setItem(
                         "noTabClose",
                         "true"
                     );
 
                     enableNoTabClose();
-
                 } else {
-
                     localStorage.setItem(
                         "noTabClose",
                         "false"
                     );
 
                     disableNoTabClose();
-
                 }
-
             }
         );
 
         quickFullscreen.addEventListener(
             "change",
             function() {
-
                 if (this.checked) {
-
                     if (
                         document.documentElement
                             .requestFullscreen
                     ) {
-
                         document.documentElement
                             .requestFullscreen();
-
                     }
-
                 } else {
-
                     if (
                         document.fullscreenElement
                     ) {
-
                         document.exitFullscreen();
-
                     }
-
                 }
-
             }
         );
 
         document.addEventListener(
             "fullscreenchange",
             function() {
-
                 quickFullscreen.checked =
                     !!document.fullscreenElement;
-
             }
         );
 
@@ -1836,7 +1576,6 @@
         document.addEventListener(
             "mousemove",
             function(event) {
-
                 if (!mouseBackgroundEnabled) {
                     return;
                 }
@@ -1858,14 +1597,12 @@
 
                 background.style.transform =
                     `translate(${moveX}px, ${moveY}px)`;
-
             }
         );
 
         quickMouseBackground.addEventListener(
             "change",
             function() {
-
                 mouseBackgroundEnabled =
                     this.checked;
 
@@ -1875,30 +1612,20 @@
                 );
 
                 if (!mouseBackgroundEnabled) {
-
                     background.style.transform =
                         "translate(0px, 0px)";
-
                 }
-
             }
         );
 
         quickSettings.addEventListener(
             "click",
             function(event) {
-
-                if (
-                    event.target ===
-                    quickSettings
-                ) {
-
+                if (event.target === quickSettings) {
                     quickSettings.classList.remove(
                         "show"
                     );
-
                 }
-
             }
         );
 
