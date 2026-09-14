@@ -687,8 +687,20 @@
 
         function goBackToGames()
         {
+            /*
+             * Current page:
+             *
+             * assets/jello/nzp/index.html
+             *
+             * ../../../ = site root
+             *
+             * Therefore:
+             *
+             * ../../../games.html
+             */
+
             window.location.href =
-                "../../games.html";
+                "../../../games.html";
         }
 
 
@@ -702,16 +714,15 @@
         function openJelloMusic()
         {
             /*
-             * NZP is located at:
+             * Current page:
              *
              * assets/jello/nzp/index.html
              *
-             * So ../../.. reaches the site root:
+             * ../../../ = site root
              *
-             * assets/jello/nzp
-             *       ../   -> assets/jello
-             *       ../../ -> assets
-             *       ../../../ -> site root
+             * Therefore:
+             *
+             * ../../../music.html
              */
 
             var musicURL =
@@ -722,8 +733,8 @@
 
 
             /*
-             * Reuse the same Jello Music window
-             * if it is already open.
+             * If Jello Music is already open,
+             * reuse it instead of creating another one.
              */
 
             if (
@@ -736,20 +747,45 @@
             }
 
 
+            /*
+             * Create a new browsing context.
+             *
+             * It starts as about:blank and then
+             * loads music.html.
+             */
+
             musicWindow =
                 window.open(
-                    musicURL,
+                    "",
                     "jelloMusicPlayer",
                     "popup=yes,width=1000,height=750"
                 );
 
+
+            /*
+             * Popup blocked
+             */
 
             if (!musicWindow)
             {
                 alert(
                     "Please allow pop-ups for Jello Music."
                 );
+
+                return;
             }
+
+
+            /*
+             * Load Jello Music into the
+             * about:blank window.
+             */
+
+            musicWindow.location.href =
+                musicURL;
+
+
+            musicWindow.focus();
         }
 
 
