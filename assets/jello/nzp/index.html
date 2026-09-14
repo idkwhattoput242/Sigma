@@ -687,18 +687,6 @@
 
         function goBackToGames()
         {
-            /*
-             * Current page:
-             *
-             * assets/jello/nzp/index.html
-             *
-             * ../../../ = site root
-             *
-             * Therefore:
-             *
-             * ../../../games.html
-             */
-
             window.location.href =
                 "../../../games.html";
         }
@@ -714,15 +702,13 @@
         function openJelloMusic()
         {
             /*
-             * Current page:
+             * NZP location:
              *
              * assets/jello/nzp/index.html
              *
-             * ../../../ = site root
+             * Site root:
              *
-             * Therefore:
-             *
-             * ../../../music.html
+             * ../../../
              */
 
             var musicURL =
@@ -733,8 +719,8 @@
 
 
             /*
-             * If Jello Music is already open,
-             * reuse it instead of creating another one.
+             * If the music tab is already open,
+             * reuse it.
              */
 
             if (
@@ -748,23 +734,21 @@
 
 
             /*
-             * Create a new browsing context.
+             * IMPORTANT:
              *
-             * It starts as about:blank and then
-             * loads music.html.
+             * Open an actual about:blank page.
+             *
+             * We do NOT navigate the top-level
+             * window to music.html.
              */
 
             musicWindow =
                 window.open(
-                    "",
+                    "about:blank",
                     "jelloMusicPlayer",
-                    "popup=yes,width=1000,height=750"
+                    "width=1000,height=750"
                 );
 
-
-            /*
-             * Popup blocked
-             */
 
             if (!musicWindow)
             {
@@ -777,13 +761,59 @@
 
 
             /*
-             * Load Jello Music into the
-             * about:blank window.
+             * Wait until the blank document exists,
+             * then put an iframe inside it.
              */
 
-            musicWindow.location.href =
-                musicURL;
+            musicWindow.document.open();
 
+            musicWindow.document.write(
+                '<!doctype html>' +
+                '<html>' +
+                '<head>' +
+
+                '<meta charset="UTF-8">' +
+
+                '<title>Jello Music</title>' +
+
+                '<style>' +
+
+                'html, body {' +
+                    'margin: 0;' +
+                    'padding: 0;' +
+                    'width: 100%;' +
+                    'height: 100%;' +
+                    'overflow: hidden;' +
+                    'background: #000;' +
+                '}' +
+
+                'iframe {' +
+                    'display: block;' +
+                    'width: 100%;' +
+                    'height: 100%;' +
+                    'border: 0;' +
+                '}' +
+
+                '</style>' +
+
+                '</head>' +
+
+                '<body>' +
+
+                '<iframe ' +
+                    'src="' +
+                    musicURL.replace(/"/g, '&quot;') +
+                    '" ' +
+                    'allow="autoplay; fullscreen" ' +
+                    'title="Jello Music">' +
+                '</iframe>' +
+
+                '</body>' +
+
+                '</html>'
+            );
+
+            musicWindow.document.close();
 
             musicWindow.focus();
         }
