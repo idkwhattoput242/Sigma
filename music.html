@@ -4,6 +4,10 @@
     <title>Jello Music</title>
 
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
             background: #000;
@@ -28,38 +32,55 @@
         .music-container {
             position: relative;
             z-index: 1;
-            width: 850px;
-            max-width: calc(100% - 40px);
+            width: 900px;
+            max-width: calc(100% - 30px);
             margin: 0 auto;
-            padding: 70px 0 120px;
+            padding: 55px 0 120px;
         }
 
         .title {
-            font-size: 55px;
+            font-size: 58px;
             font-weight: 500;
             letter-spacing: -3px;
             margin: 0 0 30px;
             text-align: center;
-            text-shadow: 0 3px 12px rgba(0, 0, 0, 0.5);
+            text-shadow: 0 3px 15px rgba(0, 0, 0, 0.65);
         }
 
         .player {
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.96);
             color: black;
-            border-radius: 10px;
-            padding: 25px;
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.65);
-            margin-bottom: 20px;
+            border-radius: 12px;
+            padding: 28px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.7);
+            margin-bottom: 18px;
+        }
+
+        .now-playing-label {
+            text-align: center;
+            color: #777;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
         }
 
         .now-playing {
             text-align: center;
-            font-size: 22px;
+            font-size: 23px;
             font-weight: bold;
             margin-bottom: 20px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+        }
+
+        .player-info {
+            text-align: center;
+            color: #777;
+            font-size: 13px;
+            margin-top: 10px;
         }
 
         .time-row {
@@ -104,7 +125,7 @@
             justify-content: center;
             align-items: center;
             gap: 12px;
-            margin-top: 20px;
+            margin-top: 22px;
         }
 
         .control-button {
@@ -117,7 +138,9 @@
             font-size: 18px;
             font-weight: bold;
             cursor: pointer;
-            transition: background 0.15s ease, transform 0.15s ease;
+            transition:
+                background 0.15s ease,
+                transform 0.15s ease;
         }
 
         .control-button:hover {
@@ -126,8 +149,8 @@
         }
 
         .play-button {
-            width: 60px;
-            height: 60px;
+            width: 62px;
+            height: 62px;
             background: #111;
             color: white;
             font-size: 23px;
@@ -138,8 +161,21 @@
         }
 
         .active {
-            background: #111;
-            color: white;
+            background: #111 !important;
+            color: white !important;
+        }
+
+        .repeat-one {
+            position: relative;
+        }
+
+        .repeat-one::after {
+            content: "1";
+            position: absolute;
+            right: 7px;
+            bottom: 5px;
+            font-size: 10px;
+            font-weight: bold;
         }
 
         .volume-container {
@@ -147,7 +183,7 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
-            margin-top: 18px;
+            margin-top: 20px;
         }
 
         .volume-container span {
@@ -155,25 +191,70 @@
         }
 
         .volume {
-            width: 130px;
+            width: 150px;
+        }
+
+        .library-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 18px 0 10px;
+            color: white;
+        }
+
+        .library-title {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .song-count {
+            font-size: 13px;
+            color: #ccc;
         }
 
         .search {
             width: 100%;
-            box-sizing: border-box;
             padding: 14px 16px;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             border: none;
             outline: none;
-            border-radius: 7px;
+            border-radius: 8px;
             background: white;
             color: black;
             font-size: 16px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
+        }
+
+        .filters {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+
+        .filter-button {
+            border: none;
+            border-radius: 7px;
+            padding: 9px 14px;
+            background: rgba(255, 255, 255, 0.9);
+            color: black;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.15s ease, transform 0.15s ease;
+        }
+
+        .filter-button:hover {
+            background: white;
+            transform: translateY(-1px);
+        }
+
+        .filter-button.active {
+            background: #111;
+            color: white;
         }
 
         .song-list {
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.96);
             color: black;
             border-radius: 10px;
             padding: 10px;
@@ -183,10 +264,12 @@
         .song {
             display: flex;
             align-items: center;
-            padding: 14px 16px;
-            border-radius: 6px;
+            padding: 13px 12px;
+            border-radius: 7px;
             cursor: pointer;
-            transition: background 0.15s ease, transform 0.15s ease;
+            transition:
+                background 0.15s ease,
+                transform 0.15s ease;
         }
 
         .song:hover {
@@ -200,9 +283,10 @@
         }
 
         .song-number {
-            width: 40px;
+            width: 38px;
             color: #888;
-            font-size: 14px;
+            font-size: 13px;
+            flex-shrink: 0;
         }
 
         .song.playing .song-number {
@@ -216,6 +300,42 @@
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+        }
+
+        .favorite-button {
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: transparent;
+            color: #777;
+            font-size: 19px;
+            cursor: pointer;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .favorite-button:hover {
+            background: rgba(0, 0, 0, 0.08);
+            color: black;
+        }
+
+        .song.playing .favorite-button {
+            color: #aaa;
+        }
+
+        .favorite-button.favorite {
+            color: black;
+        }
+
+        .song.playing .favorite-button.favorite {
+            color: white;
+        }
+
+        .empty-library {
+            text-align: center;
+            padding: 35px 15px;
+            color: #777;
+            font-size: 15px;
         }
 
         .back-button {
@@ -285,9 +405,10 @@
 
         .quick-settings-box {
             width: 360px;
+            max-width: calc(100% - 30px);
             background: white;
             color: black;
-            border-radius: 6px;
+            border-radius: 7px;
             padding: 25px;
             box-shadow: 0 15px 50px rgba(0, 0, 0, 0.65);
             animation: clickguiOpen 0.2s ease-out;
@@ -361,13 +482,6 @@
             transform: translateX(23px);
         }
 
-        .hint {
-            margin: 18px 0 0;
-            color: #777;
-            font-size: 13px;
-            text-align: center;
-        }
-
         @keyframes clickguiOpen {
             from {
                 opacity: 0;
@@ -383,8 +497,8 @@
         @media (max-width: 700px) {
 
             .music-container {
-                width: calc(100% - 25px);
-                padding-top: 35px;
+                width: calc(100% - 20px);
+                padding-top: 30px;
             }
 
             .title {
@@ -393,6 +507,31 @@
 
             .player {
                 padding: 18px;
+            }
+
+            .controls {
+                gap: 7px;
+            }
+
+            .control-button {
+                width: 43px;
+                height: 43px;
+            }
+
+            .play-button {
+                width: 55px;
+                height: 55px;
+            }
+
+            .back-button {
+                width: 55px;
+                height: 55px;
+                bottom: 12px;
+                left: 12px;
+            }
+
+            .back-button:hover {
+                width: 105px;
             }
         }
     </style>
@@ -404,11 +543,13 @@
 
     <div class="music-container">
 
-        <h1 class="title">
-            Jello Music
-        </h1>
+        <h1 class="title">Jello Music</h1>
 
         <div class="player">
+
+            <div class="now-playing-label">
+                Now Playing
+            </div>
 
             <div id="nowPlaying" class="now-playing">
                 Select a song
@@ -434,46 +575,35 @@
                     id="shuffleButton"
                     class="control-button"
                     title="Shuffle"
-                >
-                    🔀
-                </button>
+                >🔀</button>
 
                 <button
                     id="previousButton"
                     class="control-button"
                     title="Previous"
-                >
-                    ⏮
-                </button>
+                >⏮</button>
 
                 <button
                     id="playButton"
                     class="control-button play-button"
                     title="Play"
-                >
-                    ▶
-                </button>
+                >▶</button>
 
                 <button
                     id="nextButton"
                     class="control-button"
                     title="Next"
-                >
-                    ⏭
-                </button>
+                >⏭</button>
 
                 <button
                     id="repeatButton"
                     class="control-button"
                     title="Repeat"
-                >
-                    🔁
-                </button>
+                >🔁</button>
 
             </div>
 
             <div class="volume-container">
-
                 <span>🔊</span>
 
                 <input
@@ -485,9 +615,17 @@
                     step="0.01"
                     value="1"
                 >
-
             </div>
 
+            <div id="playerInfo" class="player-info">
+                0 songs
+            </div>
+
+        </div>
+
+        <div class="library-header">
+            <span class="library-title">Library</span>
+            <span id="songCount" class="song-count">0 songs</span>
         </div>
 
         <input
@@ -498,11 +636,36 @@
             autocomplete="off"
         >
 
+        <div class="filters">
+
+            <button
+                id="allFilter"
+                class="filter-button active"
+            >
+                All Songs
+            </button>
+
+            <button
+                id="favoriteFilter"
+                class="filter-button"
+            >
+                ★ Favorites
+            </button>
+
+            <button
+                id="recentFilter"
+                class="filter-button"
+            >
+                Recently Played
+            </button>
+
+        </div>
+
         <div id="songList" class="song-list"></div>
 
     </div>
 
-    <audio id="audio"></audio>
+    <audio id="audio" preload="metadata"></audio>
 
     <button
         class="back-button"
@@ -523,14 +686,11 @@
                 <span>No Tab Close</span>
 
                 <label class="switch">
-
                     <input
                         type="checkbox"
                         id="quickNoTabClose"
                     >
-
                     <span class="slider"></span>
-
                 </label>
 
             </div>
@@ -540,14 +700,11 @@
                 <span>Full Screen</span>
 
                 <label class="switch">
-
                     <input
                         type="checkbox"
                         id="quickFullscreen"
                     >
-
                     <span class="slider"></span>
-
                 </label>
 
             </div>
@@ -557,14 +714,11 @@
                 <span>Mouse Background Movement</span>
 
                 <label class="switch">
-
                     <input
                         type="checkbox"
                         id="quickMouseBackground"
                     >
-
                     <span class="slider"></span>
-
                 </label>
 
             </div>
@@ -574,6 +728,13 @@
     </div>
 
     <script>
+
+        /*
+         * SONG LIBRARY
+         *
+         * Add your MP3 filename here whenever
+         * you add another file to /music/.
+         */
 
         const songs = [
             "1. Bad Boy OG.mp3",
@@ -616,30 +777,97 @@
             "cali girl.mp3"
         ];
 
-        const audio = document.getElementById("audio");
-        const songList = document.getElementById("songList");
-        const search = document.getElementById("search");
-        const nowPlaying = document.getElementById("nowPlaying");
-        const playButton = document.getElementById("playButton");
-        const previousButton = document.getElementById("previousButton");
-        const nextButton = document.getElementById("nextButton");
-        const shuffleButton = document.getElementById("shuffleButton");
-        const repeatButton = document.getElementById("repeatButton");
-        const progress = document.getElementById("progress");
-        const currentTime = document.getElementById("currentTime");
-        const duration = document.getElementById("duration");
-        const volume = document.getElementById("volume");
+        const audio =
+            document.getElementById("audio");
 
-        let currentIndex = 0;
-        let isShuffle = false;
-        let isRepeat = false;
+        const songList =
+            document.getElementById("songList");
+
+        const search =
+            document.getElementById("search");
+
+        const nowPlaying =
+            document.getElementById("nowPlaying");
+
+        const playButton =
+            document.getElementById("playButton");
+
+        const previousButton =
+            document.getElementById("previousButton");
+
+        const nextButton =
+            document.getElementById("nextButton");
+
+        const shuffleButton =
+            document.getElementById("shuffleButton");
+
+        const repeatButton =
+            document.getElementById("repeatButton");
+
+        const progress =
+            document.getElementById("progress");
+
+        const currentTime =
+            document.getElementById("currentTime");
+
+        const duration =
+            document.getElementById("duration");
+
+        const volume =
+            document.getElementById("volume");
+
+        const songCount =
+            document.getElementById("songCount");
+
+        const playerInfo =
+            document.getElementById("playerInfo");
+
+        const allFilter =
+            document.getElementById("allFilter");
+
+        const favoriteFilter =
+            document.getElementById("favoriteFilter");
+
+        const recentFilter =
+            document.getElementById("recentFilter");
+
+        let currentIndex = -1;
+
+        let shuffleMode = false;
+
+        /*
+         * Repeat modes:
+         * 0 = off
+         * 1 = repeat all
+         * 2 = repeat one
+         */
+
+        let repeatMode = 0;
+
+        let currentFilter = "all";
+
+        let favorites =
+            JSON.parse(
+                localStorage.getItem(
+                    "jelloMusicFavorites"
+                ) || "[]"
+            );
+
+        let recentSongs =
+            JSON.parse(
+                localStorage.getItem(
+                    "jelloMusicRecent"
+                ) || "[]"
+            );
 
         function formatTime(seconds) {
+
             if (!Number.isFinite(seconds)) {
                 return "0:00";
             }
 
-            const minutes = Math.floor(seconds / 60);
+            const minutes =
+                Math.floor(seconds / 60);
 
             const remaining =
                 Math.floor(seconds % 60)
@@ -649,59 +877,271 @@
             return minutes + ":" + remaining;
         }
 
-        function renderSongs(filter = "") {
+        function saveFavorites() {
 
-            songList.innerHTML = "";
+            localStorage.setItem(
+                "jelloMusicFavorites",
+                JSON.stringify(favorites)
+            );
+        }
 
-            const filteredSongs =
-                songs.filter(function(song) {
-                    return song.toLowerCase().includes(
-                        filter.toLowerCase()
-                    );
-                });
+        function saveRecent() {
 
-            filteredSongs.forEach(function(song) {
+            localStorage.setItem(
+                "jelloMusicRecent",
+                JSON.stringify(recentSongs)
+            );
+        }
 
-                const originalIndex =
-                    songs.indexOf(song);
+        function isFavorite(index) {
 
-                const item =
-                    document.createElement("div");
+            return favorites.includes(
+                songs[index]
+            );
+        }
 
-                item.className = "song";
+        function addRecent(index) {
 
-                if (originalIndex === currentIndex) {
-                    item.classList.add("playing");
-                }
+            const song = songs[index];
 
-                const number =
-                    document.createElement("div");
-
-                number.className = "song-number";
-                number.textContent = originalIndex + 1;
-
-                const name =
-                    document.createElement("div");
-
-                name.className = "song-name";
-                name.textContent =
-                    song.replace(".mp3", "");
-
-                item.appendChild(number);
-                item.appendChild(name);
-
-                item.addEventListener(
-                    "click",
-                    function() {
-                        loadSong(originalIndex, true);
+            recentSongs =
+                recentSongs.filter(
+                    function(item) {
+                        return item !== song;
                     }
                 );
 
-                songList.appendChild(item);
-            });
+            recentSongs.unshift(song);
+
+            recentSongs =
+                recentSongs.slice(0, 20);
+
+            saveRecent();
         }
 
-        function loadSong(index, autoplay = false) {
+        function getFilteredIndexes() {
+
+            const query =
+                search.value
+                    .trim()
+                    .toLowerCase();
+
+            let indexes =
+                songs.map(
+                    function(song, index) {
+                        return index;
+                    }
+                );
+
+            if (currentFilter === "favorites") {
+
+                indexes =
+                    indexes.filter(
+                        function(index) {
+                            return isFavorite(index);
+                        }
+                    );
+
+            }
+
+            if (currentFilter === "recent") {
+
+                indexes =
+                    recentSongs
+                        .map(
+                            function(song) {
+                                return songs.indexOf(song);
+                            }
+                        )
+                        .filter(
+                            function(index) {
+                                return index !== -1;
+                            }
+                        );
+            }
+
+            if (query) {
+
+                indexes =
+                    indexes.filter(
+                        function(index) {
+                            return songs[index]
+                                .toLowerCase()
+                                .includes(query);
+                        }
+                    );
+            }
+
+            return indexes;
+        }
+
+        function renderSongs() {
+
+            songList.innerHTML = "";
+
+            const indexes =
+                getFilteredIndexes();
+
+            songCount.textContent =
+                indexes.length +
+                (indexes.length === 1
+                    ? " song"
+                    : " songs");
+
+            playerInfo.textContent =
+                songs.length +
+                (songs.length === 1
+                    ? " song in library"
+                    : " songs in library");
+
+            if (indexes.length === 0) {
+
+                const empty =
+                    document.createElement("div");
+
+                empty.className =
+                    "empty-library";
+
+                if (currentFilter === "favorites") {
+
+                    empty.textContent =
+                        "No favorite songs yet.";
+
+                } else if (
+                    currentFilter === "recent"
+                ) {
+
+                    empty.textContent =
+                        "No recently played songs yet.";
+
+                } else {
+
+                    empty.textContent =
+                        "No songs found.";
+
+                }
+
+                songList.appendChild(empty);
+
+                return;
+            }
+
+            indexes.forEach(
+                function(index) {
+
+                    const song = songs[index];
+
+                    const item =
+                        document.createElement("div");
+
+                    item.className = "song";
+
+                    if (index === currentIndex) {
+                        item.classList.add("playing");
+                    }
+
+                    const number =
+                        document.createElement("div");
+
+                    number.className =
+                        "song-number";
+
+                    number.textContent =
+                        index + 1;
+
+                    const name =
+                        document.createElement("div");
+
+                    name.className =
+                        "song-name";
+
+                    name.textContent =
+                        song.replace(/\.mp3$/i, "");
+
+                    const favorite =
+                        document.createElement("button");
+
+                    favorite.className =
+                        "favorite-button";
+
+                    favorite.type = "button";
+
+                    favorite.title =
+                        isFavorite(index)
+                            ? "Remove favorite"
+                            : "Add favorite";
+
+                    favorite.textContent =
+                        isFavorite(index)
+                            ? "★"
+                            : "☆";
+
+                    if (isFavorite(index)) {
+                        favorite.classList.add("favorite");
+                    }
+
+                    favorite.addEventListener(
+                        "click",
+                        function(event) {
+
+                            event.stopPropagation();
+
+                            const songName =
+                                songs[index];
+
+                            if (
+                                favorites.includes(
+                                    songName
+                                )
+                            ) {
+
+                                favorites =
+                                    favorites.filter(
+                                        function(item) {
+                                            return item !== songName;
+                                        }
+                                    );
+
+                            } else {
+
+                                favorites.push(
+                                    songName
+                                );
+
+                            }
+
+                            saveFavorites();
+                            renderSongs();
+
+                        }
+                    );
+
+                    item.appendChild(number);
+                    item.appendChild(name);
+                    item.appendChild(favorite);
+
+                    item.addEventListener(
+                        "click",
+                        function() {
+
+                            loadSong(
+                                index,
+                                true
+                            );
+
+                        }
+                    );
+
+                    songList.appendChild(item);
+
+                }
+            );
+        }
+
+        function loadSong(
+            index,
+            autoplay = false
+        ) {
 
             if (!songs[index]) {
                 return;
@@ -709,77 +1149,53 @@
 
             currentIndex = index;
 
-            const song = songs[currentIndex];
+            const song =
+                songs[currentIndex];
 
             audio.src =
                 "music/" +
                 encodeURIComponent(song);
 
             nowPlaying.textContent =
-                song.replace(".mp3", "");
+                song.replace(/\.mp3$/i, "");
 
-            renderSongs(search.value);
+            progress.value = 0;
+            currentTime.textContent = "0:00";
+            duration.textContent = "0:00";
+
+            renderSongs();
 
             if (autoplay) {
 
                 audio.play()
-                    .then(function() {
-                        playButton.textContent = "⏸";
-                    })
-                    .catch(function() {
-                        playButton.textContent = "▶";
-                    });
+                    .catch(
+                        function() {
+                            playButton.textContent =
+                                "▶";
+                        }
+                    );
 
             } else {
 
                 playButton.textContent = "▶";
 
             }
+
         }
 
-        playButton.addEventListener(
-            "click",
-            function() {
+        function playNextSong() {
 
-                if (!audio.src) {
-
-                    loadSong(0, true);
-                    return;
-
-                }
-
-                if (audio.paused) {
-                    audio.play();
-                } else {
-                    audio.pause();
-                }
-
+            if (songs.length === 0) {
+                return;
             }
-        );
-
-        audio.addEventListener(
-            "play",
-            function() {
-                playButton.textContent = "⏸";
-            }
-        );
-
-        audio.addEventListener(
-            "pause",
-            function() {
-                playButton.textContent = "▶";
-            }
-        );
-
-        function nextSong() {
 
             let nextIndex;
 
-            if (isShuffle) {
+            if (shuffleMode) {
 
-                if (songs.length <= 1) {
+                if (songs.length === 1) {
 
-                    nextIndex = currentIndex;
+                    nextIndex = 0;
 
                 } else {
 
@@ -802,56 +1218,106 @@
                 nextIndex =
                     currentIndex + 1;
 
-                if (nextIndex >= songs.length) {
+                if (
+                    nextIndex >= songs.length ||
+                    currentIndex === -1
+                ) {
+
                     nextIndex = 0;
+
                 }
 
             }
 
-            loadSong(nextIndex, true);
+            loadSong(
+                nextIndex,
+                true
+            );
         }
 
-        nextButton.addEventListener(
-            "click",
-            nextSong
-        );
+        function playPreviousSong() {
 
-        previousButton.addEventListener(
+            if (songs.length === 0) {
+                return;
+            }
+
+            if (audio.currentTime > 3) {
+
+                audio.currentTime = 0;
+                return;
+
+            }
+
+            let previousIndex =
+                currentIndex - 1;
+
+            if (previousIndex < 0) {
+
+                previousIndex =
+                    songs.length - 1;
+
+            }
+
+            loadSong(
+                previousIndex,
+                true
+            );
+        }
+
+        playButton.addEventListener(
             "click",
             function() {
 
-                if (audio.currentTime > 3) {
+                if (currentIndex === -1) {
 
-                    audio.currentTime = 0;
+                    loadSong(0, true);
                     return;
 
                 }
 
-                let previousIndex =
-                    currentIndex - 1;
+                if (audio.paused) {
 
-                if (previousIndex < 0) {
-                    previousIndex =
-                        songs.length - 1;
+                    audio.play()
+                        .catch(
+                            function() {}
+                        );
+
+                } else {
+
+                    audio.pause();
+
                 }
 
-                loadSong(
-                    previousIndex,
-                    true
-                );
             }
+        );
+
+        previousButton.addEventListener(
+            "click",
+            playPreviousSong
+        );
+
+        nextButton.addEventListener(
+            "click",
+            playNextSong
         );
 
         shuffleButton.addEventListener(
             "click",
             function() {
 
-                isShuffle = !isShuffle;
+                shuffleMode =
+                    !shuffleMode;
 
                 shuffleButton.classList.toggle(
                     "active",
-                    isShuffle
+                    shuffleMode
                 );
+
+                localStorage.setItem(
+                    "jelloMusicShuffle",
+                    shuffleMode
+                );
+
             }
         );
 
@@ -859,12 +1325,74 @@
             "click",
             function() {
 
-                isRepeat = !isRepeat;
+                repeatMode++;
 
-                repeatButton.classList.toggle(
-                    "active",
-                    isRepeat
+                if (repeatMode > 2) {
+                    repeatMode = 0;
+                }
+
+                updateRepeatButton();
+
+                localStorage.setItem(
+                    "jelloMusicRepeat",
+                    repeatMode
                 );
+
+            }
+        );
+
+        function updateRepeatButton() {
+
+            repeatButton.classList.remove(
+                "active",
+                "repeat-one"
+            );
+
+            if (repeatMode === 1) {
+
+                repeatButton.classList.add(
+                    "active"
+                );
+
+                repeatButton.title =
+                    "Repeat All";
+
+            } else if (repeatMode === 2) {
+
+                repeatButton.classList.add(
+                    "active",
+                    "repeat-one"
+                );
+
+                repeatButton.title =
+                    "Repeat One";
+
+            } else {
+
+                repeatButton.title =
+                    "Repeat Off";
+
+            }
+
+        }
+
+        audio.addEventListener(
+            "play",
+            function() {
+
+                playButton.textContent =
+                    "⏸";
+
+            }
+        );
+
+        audio.addEventListener(
+            "pause",
+            function() {
+
+                playButton.textContent =
+                    "▶";
+
             }
         );
 
@@ -872,16 +1400,28 @@
             "ended",
             function() {
 
-                if (isRepeat) {
+                if (repeatMode === 2) {
 
                     audio.currentTime = 0;
+
                     audio.play();
 
-                } else {
-
-                    nextSong();
-
+                    return;
                 }
+
+                if (
+                    repeatMode === 0 &&
+                    !shuffleMode &&
+                    currentIndex === songs.length - 1
+                ) {
+
+                    audio.currentTime = 0;
+                    playButton.textContent = "▶";
+                    return;
+                }
+
+                playNextSong();
+
             }
         );
 
@@ -913,6 +1453,35 @@
                     formatTime(
                         audio.currentTime
                     );
+
+            }
+        );
+
+        audio.addEventListener(
+            "error",
+            function() {
+
+                nowPlaying.textContent =
+                    "Unable to load this song";
+
+                playButton.textContent =
+                    "▶";
+
+            }
+        );
+
+        audio.addEventListener(
+            "play",
+            function() {
+
+                if (currentIndex !== -1) {
+
+                    addRecent(currentIndex);
+
+                }
+
+                renderSongs();
+
             }
         );
 
@@ -929,6 +1498,7 @@
                         Number(progress.value) /
                         100
                     ) * audio.duration;
+
             }
         );
 
@@ -939,6 +1509,11 @@
                 audio.volume =
                     Number(this.value);
 
+                localStorage.setItem(
+                    "jelloMusicVolume",
+                    this.value
+                );
+
             }
         );
 
@@ -946,10 +1521,75 @@
             "input",
             function() {
 
-                renderSongs(this.value);
+                renderSongs();
 
             }
         );
+
+        allFilter.addEventListener(
+            "click",
+            function() {
+
+                currentFilter = "all";
+
+                updateFilterButtons();
+                renderSongs();
+
+            }
+        );
+
+        favoriteFilter.addEventListener(
+            "click",
+            function() {
+
+                currentFilter = "favorites";
+
+                updateFilterButtons();
+                renderSongs();
+
+            }
+        );
+
+        recentFilter.addEventListener(
+            "click",
+            function() {
+
+                currentFilter = "recent";
+
+                updateFilterButtons();
+                renderSongs();
+
+            }
+        );
+
+        function updateFilterButtons() {
+
+            allFilter.classList.toggle(
+                "active",
+                currentFilter === "all"
+            );
+
+            favoriteFilter.classList.toggle(
+                "active",
+                currentFilter === "favorites"
+            );
+
+            recentFilter.classList.toggle(
+                "active",
+                currentFilter === "recent"
+            );
+
+        }
+
+        /*
+         * KEYBOARD CONTROLS
+         *
+         * Space = play/pause
+         * Left = back 5 seconds
+         * Right = forward 5 seconds
+         *
+         * P intentionally does NOTHING here.
+         */
 
         document.addEventListener(
             "keydown",
@@ -957,7 +1597,9 @@
 
                 if (
                     event.target.tagName ===
-                    "INPUT"
+                    "INPUT" ||
+                    event.target.tagName ===
+                    "BUTTON"
                 ) {
                     return;
                 }
@@ -979,7 +1621,9 @@
                                 audio.currentTime + 5,
                                 audio.duration
                             );
+
                     }
+
                 }
 
                 if (event.code === "ArrowLeft") {
@@ -991,27 +1635,94 @@
                                 audio.currentTime - 5,
                                 0
                             );
+
                     }
+
                 }
+
             }
         );
 
-        renderSongs();
+        /*
+         * RESTORE MUSIC SETTINGS
+         */
+
+        const savedVolume =
+            localStorage.getItem(
+                "jelloMusicVolume"
+            );
+
+        if (savedVolume !== null) {
+
+            volume.value =
+                savedVolume;
+
+            audio.volume =
+                Number(savedVolume);
+
+        } else {
+
+            audio.volume = 1;
+
+        }
+
+        const savedShuffle =
+            localStorage.getItem(
+                "jelloMusicShuffle"
+            );
+
+        if (savedShuffle === "true") {
+
+            shuffleMode = true;
+
+            shuffleButton.classList.add(
+                "active"
+            );
+
+        }
+
+        const savedRepeat =
+            localStorage.getItem(
+                "jelloMusicRepeat"
+            );
+
+        if (savedRepeat !== null) {
+
+            repeatMode =
+                Number(savedRepeat);
+
+        }
+
+        updateRepeatButton();
+
+        /*
+         * QUICK SETTINGS
+         */
 
         const quickSettings =
-            document.getElementById("quickSettings");
+            document.getElementById(
+                "quickSettings"
+            );
 
         const quickNoTabClose =
-            document.getElementById("quickNoTabClose");
+            document.getElementById(
+                "quickNoTabClose"
+            );
 
         const quickFullscreen =
-            document.getElementById("quickFullscreen");
+            document.getElementById(
+                "quickFullscreen"
+            );
 
         const quickMouseBackground =
-            document.getElementById("quickMouseBackground");
+            document.getElementById(
+                "quickMouseBackground"
+            );
 
         const background =
-            document.getElementById("background");
+            document.getElementById(
+                "background"
+            );
 
         function enableNoTabClose() {
 
@@ -1020,9 +1731,11 @@
 
                     event.preventDefault();
                     event.returnValue = "";
+
                     return "";
 
                 };
+
         }
 
         function disableNoTabClose() {
@@ -1032,11 +1745,14 @@
         }
 
         if (
-            localStorage.getItem("noTabClose")
-            === "true"
+            localStorage.getItem(
+                "noTabClose"
+            ) === "true"
         ) {
 
-            quickNoTabClose.checked = true;
+            quickNoTabClose.checked =
+                true;
+
             enableNoTabClose();
 
         }
@@ -1086,7 +1802,9 @@
 
                 } else {
 
-                    if (document.fullscreenElement) {
+                    if (
+                        document.fullscreenElement
+                    ) {
 
                         document.exitFullscreen();
 
@@ -1183,6 +1901,12 @@
 
             }
         );
+
+        /*
+         * START
+         */
+
+        renderSongs();
 
     </script>
 
