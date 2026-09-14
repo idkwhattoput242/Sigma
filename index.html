@@ -195,7 +195,7 @@
         .version {
             position: fixed;
             bottom: 15px;
-            right: 15px;
+            left: 15px;
 
             color: white;
             font-size: 14px;
@@ -1255,7 +1255,7 @@
     <!-- VERSION -->
 
     <div class="version">
-        Alpha 2.01
+        Alpha 2.0.2
     </div>
 
 
@@ -1709,11 +1709,6 @@
             );
 
 
-            /*
-             * Create the total-time counter
-             * the first time the user signs in.
-             */
-
             if (
                 localStorage.getItem(
                     "sigmaJelloTotalTime"
@@ -1727,10 +1722,6 @@
 
             }
 
-
-            /*
-             * Store when this session started.
-             */
 
             localStorage.setItem(
                 "sigmaJelloLastVisit",
@@ -1773,11 +1764,6 @@
                 helloUser.onclick =
                     openProfilePopup;
 
-
-                /*
-                 * Make sure older accounts
-                 * get a timer.
-                 */
 
                 if (
                     localStorage.getItem(
@@ -1822,11 +1808,6 @@
 
         }
 
-
-        /*
-         * Update the user's accumulated
-         * time on Jello.
-         */
 
         function updateTotalTime() {
 
@@ -1978,11 +1959,6 @@
 
         function openProfilePopup() {
 
-            /*
-             * Save the newest elapsed time
-             * before displaying the profile.
-             */
-
             updateTotalTime();
 
 
@@ -2032,11 +2008,6 @@
 
         updateUserDisplay();
 
-
-        /*
-         * Keep the timer updated while
-         * the user is on the page.
-         */
 
         setInterval(
             function() {
@@ -2100,11 +2071,6 @@
             }
         );
 
-
-        /*
-         * Save the latest time before
-         * leaving the page.
-         */
 
         window.addEventListener(
             "beforeunload",
