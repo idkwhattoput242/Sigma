@@ -257,6 +257,17 @@
 
             text-shadow:
                 0 2px 10px rgba(0, 0, 0, 0.7);
+
+            cursor: pointer;
+
+            transition:
+                transform 0.2s ease,
+                opacity 0.2s ease;
+        }
+
+        .hello-user:hover {
+            transform: scale(1.05);
+            opacity: 0.85;
         }
 
         /* =========================
@@ -414,6 +425,112 @@
         .close-login:hover {
             background: #ddd;
             transform: scale(1.08);
+        }
+
+        /* =========================
+           USER PROFILE POPUP
+           ========================= */
+
+        .profile-popup {
+            display: none;
+
+            position: fixed;
+            inset: 0;
+
+            background: rgba(0, 0, 0, 0.45);
+
+            justify-content: center;
+            align-items: center;
+
+            z-index: 12000;
+        }
+
+        .profile-popup.show {
+            display: flex;
+        }
+
+        .profile-box {
+            width: 320px;
+            max-width: calc(100vw - 40px);
+
+            background: white;
+            color: black;
+
+            border-radius: 10px;
+
+            padding: 28px;
+
+            box-sizing: border-box;
+
+            box-shadow:
+                0 20px 60px rgba(0, 0, 0, 0.7);
+
+            animation: profilePopupOpen 0.2s ease-out;
+        }
+
+        .profile-box h2 {
+            margin: 0 0 20px 0;
+
+            font-size: 26px;
+            font-weight: bold;
+        }
+
+        .profile-info {
+            background: #f2f2f2;
+
+            border: 1px solid #ddd;
+
+            border-radius: 6px;
+
+            padding: 15px;
+
+            margin-bottom: 10px;
+        }
+
+        .profile-info-label {
+            font-size: 12px;
+
+            color: #777;
+
+            font-weight: bold;
+
+            margin-bottom: 5px;
+        }
+
+        .profile-info-value {
+            font-size: 18px;
+
+            font-weight: bold;
+
+            word-break: break-word;
+        }
+
+        .profile-close {
+            width: 100%;
+
+            margin-top: 10px;
+
+            padding: 12px;
+
+            background: #111;
+            color: white;
+
+            border: none;
+            border-radius: 5px;
+
+            font-size: 15px;
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition:
+                background 0.2s ease,
+                transform 0.2s ease;
+        }
+
+        .profile-close:hover {
+            background: #333;
+            transform: translateY(-2px);
         }
 
         /* =========================
@@ -902,6 +1019,18 @@
                 transform: scale(1);
             }
         }
+
+        @keyframes profilePopupOpen {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
     </style>
 </head>
 
@@ -1106,7 +1235,10 @@
 
     <!-- HELLO USER -->
 
-    <div id="helloUser" class="hello-user"></div>
+    <div
+        id="helloUser"
+        class="hello-user"
+    ></div>
 
 
     <!-- LOGIN BUTTON -->
@@ -1175,6 +1307,61 @@
             >
                 Please enter a username.
             </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- USER PROFILE POPUP -->
+
+    <div
+        id="profilePopup"
+        class="profile-popup"
+    >
+
+        <div class="profile-box">
+
+            <h2 id="profileTitle">
+                Profile
+            </h2>
+
+            <div class="profile-info">
+
+                <div class="profile-info-label">
+                    Username
+                </div>
+
+                <div
+                    id="profileUsername"
+                    class="profile-info-value"
+                >
+                    -
+                </div>
+
+            </div>
+
+            <div class="profile-info">
+
+                <div class="profile-info-label">
+                    Time on Jello
+                </div>
+
+                <div
+                    id="profileTime"
+                    class="profile-info-value"
+                >
+                    0 seconds
+                </div>
+
+            </div>
+
+            <button
+                class="profile-close"
+                onclick="closeProfilePopup()"
+            >
+                Close
+            </button>
 
         </div>
 
@@ -1283,9 +1470,7 @@
     </div>
 
 
-    <!-- =========================
-         JELLO MUSIC POPUP
-         ========================= -->
+    <!-- JELLO MUSIC POPUP -->
 
     <div
         id="musicPopup"
@@ -1453,6 +1638,18 @@
         const background =
             document.getElementById("background");
 
+        const profilePopup =
+            document.getElementById("profilePopup");
+
+        const profileTitle =
+            document.getElementById("profileTitle");
+
+        const profileUsername =
+            document.getElementById("profileUsername");
+
+        const profileTime =
+            document.getElementById("profileTime");
+
 
         /* =========================
            LOGIN
@@ -1512,6 +1709,35 @@
             );
 
 
+            /*
+             * Create the total-time counter
+             * the first time the user signs in.
+             */
+
+            if (
+                localStorage.getItem(
+                    "sigmaJelloTotalTime"
+                ) === null
+            ) {
+
+                localStorage.setItem(
+                    "sigmaJelloTotalTime",
+                    "0"
+                );
+
+            }
+
+
+            /*
+             * Store when this session started.
+             */
+
+            localStorage.setItem(
+                "sigmaJelloLastVisit",
+                Date.now().toString()
+            );
+
+
             updateUserDisplay();
 
             closeLoginPopup();
@@ -1544,12 +1770,50 @@
                 loginButton.style.display =
                     "none";
 
+                helloUser.onclick =
+                    openProfilePopup;
+
+
+                /*
+                 * Make sure older accounts
+                 * get a timer.
+                 */
+
+                if (
+                    localStorage.getItem(
+                        "sigmaJelloTotalTime"
+                    ) === null
+                ) {
+
+                    localStorage.setItem(
+                        "sigmaJelloTotalTime",
+                        "0"
+                    );
+
+                }
+
+
+                if (
+                    localStorage.getItem(
+                        "sigmaJelloLastVisit"
+                    ) === null
+                ) {
+
+                    localStorage.setItem(
+                        "sigmaJelloLastVisit",
+                        Date.now().toString()
+                    );
+
+                }
+
             } else {
 
                 helloUser.textContent = "";
 
                 helloUser.style.display =
                     "none";
+
+                helloUser.onclick = null;
 
                 loginButton.style.display =
                     "block";
@@ -1559,7 +1823,229 @@
         }
 
 
+        /*
+         * Update the user's accumulated
+         * time on Jello.
+         */
+
+        function updateTotalTime() {
+
+            const loggedIn =
+                localStorage.getItem(
+                    "sigmaJelloLoggedIn"
+                ) === "true";
+
+
+            if (!loggedIn) {
+                return;
+            }
+
+
+            const lastVisit =
+                Number(
+                    localStorage.getItem(
+                        "sigmaJelloLastVisit"
+                    )
+                );
+
+
+            if (!lastVisit) {
+
+                localStorage.setItem(
+                    "sigmaJelloLastVisit",
+                    Date.now().toString()
+                );
+
+                return;
+
+            }
+
+
+            const now =
+                Date.now();
+
+
+            const elapsed =
+                Math.max(
+                    0,
+                    now - lastVisit
+                );
+
+
+            const oldTotal =
+                Number(
+                    localStorage.getItem(
+                        "sigmaJelloTotalTime"
+                    )
+                ) || 0;
+
+
+            localStorage.setItem(
+                "sigmaJelloTotalTime",
+                (
+                    oldTotal + elapsed
+                ).toString()
+            );
+
+
+            localStorage.setItem(
+                "sigmaJelloLastVisit",
+                now.toString()
+            );
+
+        }
+
+
+        function formatProfileTime(seconds) {
+
+            seconds =
+                Math.floor(seconds);
+
+
+            const days =
+                Math.floor(seconds / 86400);
+
+            seconds %= 86400;
+
+
+            const hours =
+                Math.floor(seconds / 3600);
+
+            seconds %= 3600;
+
+
+            const minutes =
+                Math.floor(seconds / 60);
+
+            seconds =
+                seconds % 60;
+
+
+            let result = "";
+
+
+            if (days > 0) {
+
+                result +=
+                    days +
+                    (days === 1
+                        ? " day "
+                        : " days ");
+
+            }
+
+
+            if (hours > 0) {
+
+                result +=
+                    hours +
+                    (hours === 1
+                        ? " hour "
+                        : " hours ");
+
+            }
+
+
+            if (minutes > 0) {
+
+                result +=
+                    minutes +
+                    (minutes === 1
+                        ? " minute "
+                        : " minutes ");
+
+            }
+
+
+            if (
+                seconds > 0 ||
+                result === ""
+            ) {
+
+                result +=
+                    seconds +
+                    (seconds === 1
+                        ? " second"
+                        : " seconds");
+
+            }
+
+
+            return result.trim();
+
+        }
+
+
+        function openProfilePopup() {
+
+            /*
+             * Save the newest elapsed time
+             * before displaying the profile.
+             */
+
+            updateTotalTime();
+
+
+            const username =
+                localStorage.getItem(
+                    "sigmaJelloUsername"
+                );
+
+
+            const totalTime =
+                Number(
+                    localStorage.getItem(
+                        "sigmaJelloTotalTime"
+                    )
+                ) || 0;
+
+
+            profileTitle.textContent =
+                username + "'s Profile";
+
+
+            profileUsername.textContent =
+                username;
+
+
+            profileTime.textContent =
+                formatProfileTime(
+                    totalTime / 1000
+                );
+
+
+            profilePopup.classList.add(
+                "show"
+            );
+
+        }
+
+
+        function closeProfilePopup() {
+
+            profilePopup.classList.remove(
+                "show"
+            );
+
+        }
+
+
         updateUserDisplay();
+
+
+        /*
+         * Keep the timer updated while
+         * the user is on the page.
+         */
+
+        setInterval(
+            function() {
+
+                updateTotalTime();
+
+            },
+            1000
+        );
 
 
         usernameInput.addEventListener(
@@ -1596,6 +2082,35 @@
                     closeLoginPopup();
 
                 }
+
+            }
+        );
+
+
+        profilePopup.addEventListener(
+            "click",
+            function(event) {
+
+                if (event.target === profilePopup) {
+
+                    closeProfilePopup();
+
+                }
+
+            }
+        );
+
+
+        /*
+         * Save the latest time before
+         * leaving the page.
+         */
+
+        window.addEventListener(
+            "beforeunload",
+            function() {
+
+                updateTotalTime();
 
             }
         );
