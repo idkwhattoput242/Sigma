@@ -8,7 +8,7 @@
             margin: 0;
             background: #000;
             color: white;
-            font-family: Arial, sans-serif;
+            font-family: "Helvetica Neue", "Segoe UI", Arial, sans-serif;
 
             display: flex;
             justify-content: center;
@@ -38,6 +38,49 @@
             pointer-events: none;
         }
 
+        /* =========================
+           ANIMATED BACKGROUND DOTS
+           ========================= */
+
+        .background-dots {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+        }
+
+        .background-dots.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .background-dot {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.28);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.08);
+            animation: dotFloat var(--dot-duration) ease-in-out var(--dot-delay) infinite alternate;
+        }
+
+        @keyframes dotFloat {
+            0% {
+                transform: translate3d(0, 0, 0);
+                opacity: 0.18;
+            }
+
+            50% {
+                opacity: 0.45;
+            }
+
+            100% {
+                transform: translate3d(var(--dot-x), var(--dot-y), 0);
+                opacity: 0.2;
+            }
+        }
+
+
         .container {
             text-align: center;
             position: relative;
@@ -49,12 +92,12 @@
            ========================= */
 
         h1 {
-            font-size: 68px;
+            font-size: 70px;
             margin-bottom: 30px;
 
-            font-family: Arial, sans-serif;
-            font-weight: 500;
-            letter-spacing: -3px;
+            font-family: "Segoe UI Light", "Helvetica Neue", Arial, sans-serif;
+            font-weight: 300;
+            letter-spacing: -4px;
 
             text-shadow:
                 0 3px 12px rgba(0, 0, 0, 0.45);
@@ -73,15 +116,16 @@
         }
 
         .circle-button {
-            width: 75px;
-            height: 75px;
+            width: 76px;
+            height: 76px;
             padding: 0;
             margin: 5px;
 
             border-radius: 50%;
-            background: white;
-            color: black;
+            background: rgba(255, 255, 255, 0.96);
+            color: #333;
             border: none;
+            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.16);
 
             font-size: 32px;
             font-weight: bold;
@@ -103,9 +147,10 @@
         }
 
         .circle-button:hover {
-            background: #ddd;
+            background: rgba(255, 255, 255, 1);
             transform: scale(1.08);
             border-radius: 40px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
         }
 
         /* =========================
@@ -129,10 +174,10 @@
 
             display: block;
 
-            fill: white;
-            stroke: black;
+            fill: none;
+            stroke: #333;
 
-            stroke-width: 2.5;
+            stroke-width: 1.8;
             stroke-linecap: round;
             stroke-linejoin: round;
         }
@@ -1040,6 +1085,8 @@
 
     <div id="background" class="background"></div>
 
+    <div id="backgroundDots" class="background-dots"></div>
+
 
     <div class="container">
 
@@ -1255,7 +1302,7 @@
     <!-- VERSION -->
 
     <div class="version">
-        Alpha 2.0.2
+        5.0 beta
     </div>
 
 
@@ -1452,6 +1499,25 @@
 
             </div>
 
+            <!-- BACKGROUND DOTS -->
+
+            <div class="quick-setting">
+
+                <span>Background Dots</span>
+
+                <label class="switch">
+
+                    <input
+                        type="checkbox"
+                        id="quickBackgroundDots"
+                    >
+
+                    <span class="slider"></span>
+
+                </label>
+
+            </div>
+
             <!-- JELLO MUSIC -->
 
             <button
@@ -1637,6 +1703,12 @@
 
         const background =
             document.getElementById("background");
+
+        const backgroundDots =
+            document.getElementById("backgroundDots");
+
+        const quickBackgroundDots =
+            document.getElementById("quickBackgroundDots");
 
         const profilePopup =
             document.getElementById("profilePopup");
@@ -2282,6 +2354,120 @@
 
                 quickFullscreen.checked =
                     !!document.fullscreenElement;
+
+            }
+        );
+
+
+        /* =========================
+           ANIMATED BACKGROUND DOTS
+           ========================= */
+
+        function createBackgroundDots() {
+
+            backgroundDots.innerHTML = "";
+
+            for (let i = 0; i < 45; i++) {
+
+                const dot =
+                    document.createElement("span");
+
+                dot.className =
+                    "background-dot";
+
+                const size =
+                    Math.floor(Math.random() * 7) + 3;
+
+                const x =
+                    Math.floor(Math.random() * 80) - 40;
+
+                const y =
+                    Math.floor(Math.random() * 80) - 40;
+
+                const duration =
+                    (Math.random() * 5 + 5).toFixed(2) + "s";
+
+                const delay =
+                    (Math.random() * -8).toFixed(2) + "s";
+
+                dot.style.width =
+                    size + "px";
+
+                dot.style.height =
+                    size + "px";
+
+                dot.style.left =
+                    Math.random() * 100 + "%";
+
+                dot.style.top =
+                    Math.random() * 100 + "%";
+
+                dot.style.setProperty(
+                    "--dot-x",
+                    x + "px"
+                );
+
+                dot.style.setProperty(
+                    "--dot-y",
+                    y + "px"
+                );
+
+                dot.style.setProperty(
+                    "--dot-duration",
+                    duration
+                );
+
+                dot.style.setProperty(
+                    "--dot-delay",
+                    delay
+                );
+
+                backgroundDots.appendChild(dot);
+            }
+        }
+
+        createBackgroundDots();
+
+        let backgroundDotsEnabled =
+            localStorage.getItem("backgroundDots")
+            !== "false";
+
+        quickBackgroundDots.checked =
+            backgroundDotsEnabled;
+
+        if (!backgroundDotsEnabled) {
+
+            backgroundDots.classList.add(
+                "hidden"
+            );
+
+        }
+
+        quickBackgroundDots.addEventListener(
+            "change",
+            function() {
+
+                backgroundDotsEnabled =
+                    this.checked;
+
+                localStorage.setItem(
+                    "backgroundDots",
+                    backgroundDotsEnabled
+                );
+
+                if (backgroundDotsEnabled) {
+
+                    backgroundDots.classList.remove(
+                        "hidden"
+                    );
+
+                } else {
+
+                    backgroundDots.classList.add(
+                        "hidden"
+                    );
+
+                }
 
             }
         );
