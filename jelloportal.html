@@ -107,12 +107,75 @@
         .subtitle {
 
             margin:
-                0 0 35px;
+                0 0 25px;
 
             font-size: 16px;
 
             color:
                 rgba(255, 255, 255, 0.7);
+        }
+
+
+        /* =========================
+           ONLINE COUNTER
+           ========================= */
+
+        .online-counter {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            padding:
+                8px 14px;
+
+            margin-bottom: 30px;
+
+            background:
+                rgba(0, 0, 0, 0.45);
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.13);
+
+            border-radius: 20px;
+
+            backdrop-filter:
+                blur(8px);
+
+            -webkit-backdrop-filter:
+                blur(8px);
+
+            font-size: 13px;
+
+            color:
+                rgba(255, 255, 255, 0.75);
+        }
+
+
+        .online-dot {
+
+            width: 8px;
+
+            height: 8px;
+
+            border-radius: 50%;
+
+            background: #65e665;
+
+            box-shadow:
+                0 0 10px
+                rgba(101, 230, 101, 0.7);
+        }
+
+
+        #onlineCount {
+
+            color: white;
+
+            font-weight: bold;
         }
 
 
@@ -220,13 +283,32 @@
         }
 
 
+        .message-header {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            margin-bottom: 3px;
+        }
+
+
         .message-name {
 
             font-weight: bold;
 
             font-size: 14px;
+        }
 
-            margin-bottom: 3px;
+
+        .message-time {
+
+            font-size: 11px;
+
+            color:
+                rgba(255, 255, 255, 0.4);
         }
 
 
@@ -649,6 +731,20 @@
         </p>
 
 
+        <!-- ONLINE COUNTER -->
+
+        <div class="online-counter">
+
+            <span class="online-dot"></span>
+
+            <span>
+                <span id="onlineCount">0</span>
+                people online on Jello World
+            </span>
+
+        </div>
+
+
         <div class="portal-grid">
 
 
@@ -669,10 +765,17 @@
                     class="chat-messages"
                 >
 
-                    <div class="message">
+                    <div
+                        id="connectingMessage"
+                        class="message"
+                    >
 
-                        <div class="message-name">
-                            Jello
+                        <div class="message-header">
+
+                            <div class="message-name">
+                                Jello
+                            </div>
+
                         </div>
 
                         <div class="message-text">
@@ -733,7 +836,7 @@
                 <div class="server-list">
 
 
-                    <!-- SERVER 1 -->
+                    <!-- ARCH -->
 
                     <div class="server">
 
@@ -744,87 +847,7 @@
                             <div>
 
                                 <div class="server-name">
-                                    Example Server
-                                </div>
-
-                                <div class="server-version">
-                                    Java 1.8.9+
-                                </div>
-
-                            </div>
-
-
-                            <button
-                                class="copy-button"
-                                onclick="copyIP('play.example.com', this)"
-                            >
-                                Copy
-                            </button>
-
-
-                        </div>
-
-
-                        <div class="server-ip">
-                            play.example.com
-                        </div>
-
-
-                    </div>
-
-
-                    <!-- SERVER 2 -->
-
-                    <div class="server">
-
-
-                        <div class="server-top">
-
-
-                            <div>
-
-                                <div class="server-name">
-                                    Example SMP
-                                </div>
-
-                                <div class="server-version">
-                                    Java 1.20+
-                                </div>
-
-                            </div>
-
-
-                            <button
-                                class="copy-button"
-                                onclick="copyIP('play.example.net', this)"
-                            >
-                                Copy
-                            </button>
-
-
-                        </div>
-
-
-                        <div class="server-ip">
-                            play.example.net
-                        </div>
-
-
-                    </div>
-
-
-                    <!-- SERVER 3 -->
-
-                    <div class="server">
-
-
-                        <div class="server-top">
-
-
-                            <div>
-
-                                <div class="server-name">
-                                    EaglerCraft Server
+                                    Arch
                                 </div>
 
                                 <div class="server-version">
@@ -836,7 +859,7 @@
 
                             <button
                                 class="copy-button"
-                                onclick="copyIP('wss://example.com', this)"
+                                onclick="copyIP('wss://arch.mc', this)"
                             >
                                 Copy
                             </button>
@@ -846,7 +869,87 @@
 
 
                         <div class="server-ip">
-                            wss://example.com
+                            wss://arch.mc
+                        </div>
+
+
+                    </div>
+
+
+                    <!-- ZENTIC -->
+
+                    <div class="server">
+
+
+                        <div class="server-top">
+
+
+                            <div>
+
+                                <div class="server-name">
+                                    Zentic
+                                </div>
+
+                                <div class="server-version">
+                                    EaglerCraft
+                                </div>
+
+                            </div>
+
+
+                            <button
+                                class="copy-button"
+                                onclick="copyIP('wss://zentic.cc', this)"
+                            >
+                                Copy
+                            </button>
+
+
+                        </div>
+
+
+                        <div class="server-ip">
+                            wss://zentic.cc
+                        </div>
+
+
+                    </div>
+
+
+                    <!-- TUFF -->
+
+                    <div class="server">
+
+
+                        <div class="server-top">
+
+
+                            <div>
+
+                                <div class="server-name">
+                                    Tuff
+                                </div>
+
+                                <div class="server-version">
+                                    EaglerCraft
+                                </div>
+
+                            </div>
+
+
+                            <button
+                                class="copy-button"
+                                onclick="copyIP('wss://tuff.ws', this)"
+                            >
+                                Copy
+                            </button>
+
+
+                        </div>
+
+
+                        <div class="server-ip">
+                            wss://tuff.ws
                         </div>
 
 
@@ -929,7 +1032,11 @@
             getDatabase,
             ref,
             push,
-            onChildAdded
+            onChildAdded,
+            set,
+            onValue,
+            onDisconnect,
+            serverTimestamp
         } from
         "https://www.gstatic.com/firebasejs/12.2.1/firebase-database.js";
 
@@ -976,13 +1083,13 @@
             getDatabase(app);
 
 
+        /* =========================
+           CHAT
+           ========================= */
+
         const chatRef =
             ref(database, "jelloChat");
 
-
-        /* =========================
-           ELEMENTS
-           ========================= */
 
         const chatInput =
             document.getElementById(
@@ -1033,6 +1140,34 @@
 
 
         /* =========================
+           FORMAT TIME
+           ========================= */
+
+        function formatTime(timestamp) {
+
+            if (!timestamp) {
+
+                return "";
+
+            }
+
+
+            const date =
+                new Date(timestamp);
+
+
+            return date.toLocaleTimeString(
+                [],
+                {
+                    hour: "numeric",
+                    minute: "2-digit"
+                }
+            );
+
+        }
+
+
+        /* =========================
            SEND MESSAGE
            ========================= */
 
@@ -1043,7 +1178,9 @@
 
 
             if (!text) {
+
                 return;
+
             }
 
 
@@ -1137,38 +1274,26 @@
 
 
                 if (!data) {
+
                     return;
+
                 }
 
 
-                /*
-                 * Remove the temporary
-                 * connecting message.
-                 */
-
-                const firstMessage =
-                    chatMessages
-                    .querySelector(
-                        ".message"
+                const connecting =
+                    document.getElementById(
+                        "connectingMessage"
                     );
 
 
-                if (
-                    firstMessage &&
-                    firstMessage
-                        .querySelector(
-                            ".message-name"
-                        )
-                        ?.textContent ===
-                        "Jello"
-                ) {
+                if (connecting) {
 
-                    firstMessage.remove();
+                    connecting.remove();
 
                 }
 
 
-                /* CREATE MESSAGE */
+                /* MESSAGE */
 
                 const message =
                     document.createElement(
@@ -1178,6 +1303,18 @@
 
                 message.className =
                     "message";
+
+
+                /* HEADER */
+
+                const header =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                header.className =
+                    "message-header";
 
 
                 /* USERNAME */
@@ -1197,6 +1334,24 @@
                     "Guest";
 
 
+                /* TIME */
+
+                const time =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                time.className =
+                    "message-time";
+
+
+                time.textContent =
+                    formatTime(
+                        data.timestamp
+                    );
+
+
                 /* MESSAGE TEXT */
 
                 const messageText =
@@ -1209,20 +1364,24 @@
                     "message-text";
 
 
-                /*
-                 * textContent is used instead
-                 * of innerHTML so users cannot
-                 * inject HTML into the chat.
-                 */
-
                 messageText.textContent =
                     data.message || "";
 
 
-                /* ADD ELEMENTS */
+                /* BUILD */
+
+                header.appendChild(
+                    name
+                );
+
+
+                header.appendChild(
+                    time
+                );
+
 
                 message.appendChild(
-                    name
+                    header
                 );
 
 
@@ -1259,13 +1418,152 @@
         );
 
 
-        /* =========================
-           CONNECTION STATUS
-           ========================= */
-
         chatStatus.textContent =
             "Connected to Jello Chat";
 
+
+        /* =========================
+           JELLO WORLD PRESENCE
+           ========================= */
+
+        const onlineCount =
+            document.getElementById(
+                "onlineCount"
+            );
+
+
+        /*
+         * Create a unique ID for this
+         * browser/device.
+         */
+
+        let jelloUserID =
+            localStorage.getItem(
+                "jelloPresenceID"
+            );
+
+
+        if (!jelloUserID) {
+
+            jelloUserID =
+                crypto.randomUUID();
+
+
+            localStorage.setItem(
+                "jelloPresenceID",
+                jelloUserID
+            );
+
+        }
+
+
+        const presenceRef =
+            ref(
+                database,
+                "jelloPresence/" +
+                jelloUserID
+            );
+
+
+        const connectedRef =
+            ref(
+                database,
+                ".info/connected"
+            );
+
+
+        /* =========================
+           CONNECTION
+           ========================= */
+
+        onValue(
+
+            connectedRef,
+
+            function(snapshot) {
+
+                if (
+                    snapshot.val() === true
+                ) {
+
+                    /*
+                     * Remove the user when
+                     * they disconnect.
+                     */
+
+                    onDisconnect(
+                        presenceRef
+                    ).remove();
+
+
+                    /*
+                     * Add this user to the
+                     * online list.
+                     */
+
+                    set(
+                        presenceRef,
+                        {
+
+                            username:
+                                getUsername(),
+
+                            connectedAt:
+                                serverTimestamp()
+
+                        }
+                    );
+
+                }
+
+            }
+
+        );
+
+
+        /* =========================
+           ONLINE COUNT
+           ========================= */
+
+        const presenceListRef =
+            ref(
+                database,
+                "jelloPresence"
+            );
+
+
+        onValue(
+
+            presenceListRef,
+
+            function(snapshot) {
+
+                const users =
+                    snapshot.val();
+
+
+                if (!users) {
+
+                    onlineCount.textContent =
+                        "0";
+
+                    return;
+
+                }
+
+
+                const count =
+                    Object.keys(
+                        users
+                    ).length;
+
+
+                onlineCount.textContent =
+                    count;
+
+            }
+
+        );
 
     </script>
 
