@@ -23,10 +23,6 @@
         padding: 80px 20px;
     }
 
-    /* =========================
-       MOVING BACKGROUND
-    ========================= */
-
     .background {
         position: fixed;
         inset: -40px;
@@ -45,10 +41,6 @@
         pointer-events: none;
     }
 
-    /* =========================
-       CONTAINER
-    ========================= */
-
     .container {
         width: 100%;
         max-width: 760px;
@@ -56,10 +48,6 @@
         position: relative;
         z-index: 1;
     }
-
-    /* =========================
-       HEADER
-    ========================= */
 
     .header {
         text-align: center;
@@ -82,10 +70,6 @@
         font-size: 15px;
         letter-spacing: 1px;
     }
-
-    /* =========================
-       CHANGELOG CARDS
-    ========================= */
 
     .changelog {
         background: rgba(10, 10, 10, 0.88);
@@ -119,10 +103,6 @@
             0 16px 45px rgba(0, 0, 0, 0.55);
     }
 
-    /* =========================
-       VERSION HEADER
-    ========================= */
-
     .version-header {
         display: flex;
 
@@ -153,10 +133,6 @@
         white-space: nowrap;
     }
 
-    /* =========================
-       DATE
-    ========================= */
-
     .date {
         color: #888;
 
@@ -164,10 +140,6 @@
 
         margin-bottom: 20px;
     }
-
-    /* =========================
-       DESCRIPTION
-    ========================= */
 
     .description {
         color: #ddd;
@@ -178,10 +150,6 @@
 
         margin-bottom: 18px;
     }
-
-    /* =========================
-       FEATURES
-    ========================= */
 
     .features {
         list-style: none;
@@ -222,17 +190,9 @@
         font-size: 17px;
     }
 
-    /* =========================
-       OLD VERSIONS
-    ========================= */
-
     .old-version {
         opacity: 0.9;
     }
-
-    /* =========================
-       BACK BUTTON
-    ========================= */
 
     .back-button {
         position: fixed;
@@ -303,10 +263,6 @@
         display: block;
     }
 
-    /* =========================
-       QUICK SETTINGS
-    ========================= */
-
     .quick-settings {
         display: none;
 
@@ -353,10 +309,6 @@
         color: black;
     }
 
-    /* =========================
-       SETTING ROWS
-    ========================= */
-
     .quick-setting {
         background: #f2f2f2;
 
@@ -391,10 +343,6 @@
         font-size: 16px;
         font-weight: bold;
     }
-
-    /* =========================
-       TOGGLE SWITCH
-    ========================= */
 
     .switch {
         position: relative;
@@ -453,10 +401,6 @@
             translateX(23px);
     }
 
-    /* =========================
-       HINT
-    ========================= */
-
     .hint {
         margin:
             18px 0 0 0;
@@ -467,10 +411,6 @@
 
         text-align: center;
     }
-
-    /* =========================
-       ANIMATION
-    ========================= */
 
     @keyframes clickguiOpen {
 
@@ -489,10 +429,6 @@
         }
 
     }
-
-    /* =========================
-       MOBILE
-    ========================= */
 
     @media (max-width: 600px) {
 
@@ -526,328 +462,327 @@
 
 <body>
 
-<!-- Moving Background -->
-
 <div
     id="background"
     class="background"
 ></div>
 
-
-<!-- Changelog Content -->
-
 <div class="container">
 
-    <div class="header">
+```
+<div class="header">
 
-        <h1>Sigma Jello</h1>
+    <h1>Sigma Jello</h1>
 
-        <p>
-            Changelogs and updates
-        </p>
-
-    </div>
-
-
-    <!-- VERSION 5 BETA -->
-
-    <div class="changelog">
-
-        <div class="version-header">
-
-            <div class="version">
-                Sigma 5 Beta
-            </div>
-
-            <div class="version-badge">
-                LATEST
-            </div>
-
-        </div>
-
-        <div class="date">
-            September 14, 2026
-        </div>
-
-        <div class="description">
-            Expanded Jello with new games,
-            an improved background, and
-            improvements to Jello Music.
-        </div>
-
-        <ul class="features">
-
-            <li>
-                Added Eaglercraft 1.9
-            </li>
-
-            <li>
-                Added Eaglercraft 1.12.2
-            </li>
-
-            <li>
-                Added WebRetro
-            </li>
-
-            <li>
-                Improved background
-            </li>
-
-            <li>
-                Improved Jello Music
-            </li>
-
-        </ul>
-
-    </div>
-
-
-    <!-- VERSION 2.0.2 ALPHA -->
-
-    <div class="changelog old-version">
-
-        <div class="version-header">
-
-            <div class="version">
-                Version 2.0.2 Alpha
-            </div>
-
-        </div>
-
-        <div class="date">
-            September 14, 2026
-        </div>
-
-        <div class="description">
-            Updated Jello Music, added NZP,
-            and attempted to improve
-            Bloons TD 5 compatibility.
-        </div>
-
-        <ul class="features">
-
-            <li>
-                Updated Jello Music
-            </li>
-
-            <li>
-                Added NZP
-            </li>
-
-            <li>
-                Attempted to fix Bloons TD 5
-            </li>
-
-        </ul>
-
-    </div>
-
-
-    <!-- VERSION 2.01 ALPHA -->
-
-    <div class="changelog old-version">
-
-        <div class="version-header">
-
-            <div class="version">
-                Version 2.01 Alpha
-            </div>
-
-        </div>
-
-        <div class="date">
-            September 13, 2026
-        </div>
-
-        <div class="description">
-            Added the login system and
-            expanded the site's core features.
-        </div>
-
-        <ul class="features">
-
-            <li>
-                Added login system
-            </li>
-
-            <li>
-                Added Jello logo
-            </li>
-
-            <li>
-                Added animated background
-            </li>
-
-            <li>
-                Added Eaglercraft 1.8
-            </li>
-
-            <li>
-                Added temporary login button
-            </li>
-
-        </ul>
-
-    </div>
-
-
-    <!-- VERSION 2.0 ALPHA -->
-
-    <div class="changelog old-version">
-
-        <div class="version-header">
-
-            <div class="version">
-                Version 2.0 Alpha
-            </div>
-
-        </div>
-
-        <div class="date">
-            September 12, 2026
-        </div>
-
-        <div class="description">
-            Created the foundation of
-            the Sigma Jello website.
-        </div>
-
-        <ul class="features">
-
-            <li>
-                Updated backgrounds
-            </li>
-
-            <li>
-                Updated GUI
-            </li>
-
-            <li>
-                Added Terraria
-            </li>
-
-            <li>
-                Added Bloons TD 5
-            </li>
-
-            <li>
-                Added Quick Settings
-            </li>
-
-            <li>
-                Added No Tab Close setting
-            </li>
-
-            <li>
-                Added Full Screen setting
-            </li>
-
-            <li>
-                Added Games and Movies sections
-            </li>
-
-            <li>
-                Added Settings page
-            </li>
-
-            <li>
-                Improved cloaking
-            </li>
-
-            <li>
-                Added Eaglercraft 1.5.2
-            </li>
-
-        </ul>
-
-    </div>
+    <p>
+        Changelogs and updates
+    </p>
 
 </div>
 
 
-<!-- Back Button -->
+<!-- VERSION 5 BETA -->
+
+<div class="changelog">
+
+    <div class="version-header">
+
+        <div class="version">
+            Sigma 5 Beta
+        </div>
+
+        <div class="version-badge">
+            LATEST
+        </div>
+
+    </div>
+
+    <div class="date">
+        September 14, 2026
+    </div>
+
+    <div class="description">
+        Expanded Jello with new games,
+        an improved background, and
+        improvements to Jello Music.
+    </div>
+
+    <ul class="features">
+
+        <li>
+            Added Eaglercraft 1.9
+        </li>
+
+        <li>
+            Added Eaglercraft 1.12.2
+        </li>
+
+        <li>
+            Added Eaglercraft clients
+        </li>
+
+        <li>
+            Added Jello Portal
+        </li>
+
+        <li>
+            Added WebRetro
+        </li>
+
+        <li>
+            Improved background
+        </li>
+
+        <li>
+            Improved Jello Music
+        </li>
+
+    </ul>
+
+</div>
+
+
+<!-- VERSION 2.0.2 ALPHA -->
+
+<div class="changelog old-version">
+
+    <div class="version-header">
+
+        <div class="version">
+            Version 2.0.2 Alpha
+        </div>
+
+    </div>
+
+    <div class="date">
+        September 14, 2026
+    </div>
+
+    <div class="description">
+        Updated Jello Music, added NZP,
+        and attempted to improve
+        Bloons TD 5 compatibility.
+    </div>
+
+    <ul class="features">
+
+        <li>
+            Updated Jello Music
+        </li>
+
+        <li>
+            Added NZP
+        </li>
+
+        <li>
+            Attempted to fix Bloons TD 5
+        </li>
+
+    </ul>
+
+</div>
+
+
+<!-- VERSION 2.01 ALPHA -->
+
+<div class="changelog old-version">
+
+    <div class="version-header">
+
+        <div class="version">
+            Version 2.01 Alpha
+        </div>
+
+    </div>
+
+    <div class="date">
+        September 13, 2026
+    </div>
+
+    <div class="description">
+        Added the login system and
+        expanded the site's core features.
+    </div>
+
+    <ul class="features">
+
+        <li>
+            Added login system
+        </li>
+
+        <li>
+            Added Jello logo
+        </li>
+
+        <li>
+            Added animated background
+        </li>
+
+        <li>
+            Added Eaglercraft 1.8
+        </li>
+
+        <li>
+            Added temporary login button
+        </li>
+
+    </ul>
+
+</div>
+
+
+<!-- VERSION 2.0 ALPHA -->
+
+<div class="changelog old-version">
+
+    <div class="version-header">
+
+        <div class="version">
+            Version 2.0 Alpha
+        </div>
+
+    </div>
+
+    <div class="date">
+        September 12, 2026
+    </div>
+
+    <div class="description">
+        Created the foundation of
+        the Sigma Jello website.
+    </div>
+
+    <ul class="features">
+
+        <li>
+            Updated backgrounds
+        </li>
+
+        <li>
+            Updated GUI
+        </li>
+
+        <li>
+            Added Terraria
+        </li>
+
+        <li>
+            Added Bloons TD 5
+        </li>
+
+        <li>
+            Added Quick Settings
+        </li>
+
+        <li>
+            Added No Tab Close setting
+        </li>
+
+        <li>
+            Added Full Screen setting
+        </li>
+
+        <li>
+            Added Games and Movies sections
+        </li>
+
+        <li>
+            Added Settings page
+        </li>
+
+        <li>
+            Improved cloaking
+        </li>
+
+        <li>
+            Added Eaglercraft 1.5.2
+        </li>
+
+    </ul>
+
+</div>
+```
+
+</div>
 
 <button
-    class="back-button"
-    onclick="location.href='index.html'"
+class="back-button"
+onclick="location.href='index.html'"
+
 >
 
-    <span class="back-letter">
-        ←
-    </span>
+```
+<span class="back-letter">
+    ←
+</span>
 
-    <span class="back-text">
-        Back
-    </span>
+<span class="back-text">
+    Back
+</span>
+```
 
 </button>
-
-
-<!-- Quick Settings -->
 
 <div
     id="quickSettings"
     class="quick-settings"
 >
 
-    <div class="quick-settings-box">
+```
+<div class="quick-settings-box">
 
-        <h2>
-            Settings
-        </h2>
+    <h2>
+        Settings
+    </h2>
 
-        <div class="quick-setting">
+    <div class="quick-setting">
 
-            <span>
-                No Tab Close
-            </span>
+        <span>
+            No Tab Close
+        </span>
 
-            <label class="switch">
+        <label class="switch">
 
-                <input
-                    type="checkbox"
-                    id="quickNoTabClose"
-                >
+            <input
+                type="checkbox"
+                id="quickNoTabClose"
+            >
 
-                <span class="slider"></span>
+            <span class="slider"></span>
 
-            </label>
-
-        </div>
-
-        <div class="quick-setting">
-
-            <span>
-                Full Screen
-            </span>
-
-            <label class="switch">
-
-                <input
-                    type="checkbox"
-                    id="quickFullscreen"
-                >
-
-                <span class="slider"></span>
-
-            </label>
-
-        </div>
-
-        <p class="hint">
-            Press P to close
-        </p>
+        </label>
 
     </div>
 
+    <div class="quick-setting">
+
+        <span>
+            Full Screen
+        </span>
+
+        <label class="switch">
+
+            <input
+                type="checkbox"
+                id="quickFullscreen"
+            >
+
+            <span class="slider"></span>
+
+        </label>
+
+    </div>
+
+    <p class="hint">
+        Press P to close
+    </p>
+
+</div>
+```
+
 </div>
 
-
 <script>
-
-    /* =========================
-       ELEMENTS
-    ========================= */
 
     const quickSettings =
         document.getElementById(
@@ -869,10 +804,6 @@
             "background"
         );
 
-
-    /* =========================
-       NO TAB CLOSE
-    ========================= */
 
     function enableNoTabClose() {
 
@@ -939,10 +870,6 @@
     );
 
 
-    /* =========================
-       FULL SCREEN
-    ========================= */
-
     quickFullscreen.addEventListener(
         "change",
         function() {
@@ -986,10 +913,6 @@
     );
 
 
-    /* =========================
-       MOUSE BACKGROUND MOVEMENT
-    ========================= */
-
     let mouseBackgroundEnabled =
         localStorage.getItem(
             "mouseBackground"
@@ -1025,10 +948,6 @@
     );
 
 
-    /* =========================
-       P = QUICK SETTINGS
-    ========================= */
-
     window.addEventListener(
         "keydown",
         function(event) {
@@ -1052,10 +971,6 @@
         }
     );
 
-
-    /* =========================
-       CLICK OUTSIDE TO CLOSE
-    ========================= */
 
     quickSettings.addEventListener(
         "click",
