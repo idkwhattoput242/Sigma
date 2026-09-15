@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Sigma Jello - Games</title>
+
 <style>
     body {
         margin: 0;
@@ -64,6 +65,7 @@
     .game-button {
         width: 85px;
         height: 85px;
+
         padding: 0;
         margin: 5px;
 
@@ -116,6 +118,10 @@
         display: block;
     }
 
+    /* =========================
+       BUTTON WIDTHS
+    ========================= */
+
     .eaglercraft-15-button:hover {
         width: 180px;
     }
@@ -124,16 +130,24 @@
         width: 180px;
     }
 
-    /* Eaglercraft 1.9 */
-
     .eaglercraft-19-button:hover {
         width: 180px;
     }
 
-    /* Eaglercraft 1.12.2 */
-
     .eaglercraft-112-button:hover {
         width: 180px;
+    }
+
+    .tuff-button:hover {
+        width: 170px;
+    }
+
+    .resent-button:hover {
+        width: 140px;
+    }
+
+    .forge-button:hover {
+        width: 140px;
     }
 
     .btd5-button:hover {
@@ -158,6 +172,7 @@
 
     .back-button {
         position: fixed;
+
         bottom: 20px;
         left: 20px;
 
@@ -196,8 +211,11 @@
 
     .back-button:hover {
         width: 115px;
+
         background: #ddd;
+
         transform: scale(1.08);
+
         border-radius: 35px;
     }
 
@@ -224,6 +242,7 @@
 
     .quick-settings {
         display: none;
+
         position: fixed;
         inset: 0;
 
@@ -504,6 +523,7 @@
     }
 
 </style>
+
 </head>
 
 <body>
@@ -564,6 +584,39 @@
     >
         <span class="game-letter">1.12</span>
         <span class="game-name">1.12.2 Eaglercraft</span>
+    </button>
+
+
+    <!-- Tuff 1.12 -->
+
+    <button
+        class="game-button tuff-button"
+        onclick="launchEaglercraft('assets/jello/tuff1.12.html')"
+    >
+        <span class="game-letter">T</span>
+        <span class="game-name">Tuff 1.12</span>
+    </button>
+
+
+    <!-- Resent -->
+
+    <button
+        class="game-button resent-button"
+        onclick="launchEaglercraft('assets/jello/resent.html')"
+    >
+        <span class="game-letter">R</span>
+        <span class="game-name">Resent</span>
+    </button>
+
+
+    <!-- Forge -->
+
+    <button
+        class="game-button forge-button"
+        onclick="launchEaglercraft('assets/jello/forge.html')"
+    >
+        <span class="game-letter">F</span>
+        <span class="game-name">Forge</span>
     </button>
 
 
@@ -634,7 +687,6 @@
     <div class="quick-settings-box">
 
         <h2>Settings</h2>
-
 
         <!-- No Tab Close -->
 
@@ -994,7 +1046,6 @@
                 return;
             }
 
-
             const x =
                 (event.clientX /
                     window.innerWidth) - 0.5;
@@ -1103,6 +1154,7 @@
                 if (event.repeat) return;
 
                 event.preventDefault();
+
 
                 if (
                     musicPopup.classList.contains(
