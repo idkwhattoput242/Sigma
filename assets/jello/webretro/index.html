@@ -1235,13 +1235,55 @@
 <style>
 
     /*
-        SIGMA JELLO
-        No top header.
-        WebRetro gets the entire top of the screen.
+        =========================
+        SIGMA JELLO WEBRETRO
+        =========================
     */
 
 
-    /* BACK BUTTON */
+    /*
+        WEBRETRO MENU
+
+        Keep the original WebRetro menu,
+        but make sure it starts closed.
+    */
+
+    #menubar {
+
+        z-index: 1000 !important;
+
+    }
+
+
+    /*
+        Prevent a closed menu from blocking
+        the emulator underneath it.
+    */
+
+    #menuhider:not(:checked) ~ #menu {
+
+        pointer-events: none;
+
+    }
+
+
+    /*
+        Allow the original WebRetro menu
+        to work normally when opened.
+    */
+
+    #menuhider:checked ~ #menu {
+
+        pointer-events: auto;
+
+    }
+
+
+    /*
+        =========================
+        BACK BUTTON
+        =========================
+    */
 
     #sigmaBackButton {
 
@@ -1277,7 +1319,7 @@
         overflow: hidden;
         white-space: nowrap;
 
-        z-index: 999999;
+        z-index: 999999 !important;
 
         transition:
             width 0.25s ease,
@@ -1331,7 +1373,11 @@
     }
 
 
-    /* JELLO MUSIC BUTTON */
+    /*
+        =========================
+        JELLO MUSIC BUTTON
+        =========================
+    */
 
     #sigmaMusicButton {
 
@@ -1367,7 +1413,7 @@
         overflow: hidden;
         white-space: nowrap;
 
-        z-index: 999999;
+        z-index: 999999 !important;
 
         transition:
             width 0.25s ease,
@@ -1421,7 +1467,11 @@
     }
 
 
-    /* WEBRETRO BUTTONS */
+    /*
+        =========================
+        WEBRETRO BUTTONS
+        =========================
+    */
 
     #upload,
     #startbutton {
@@ -1453,7 +1503,11 @@
     }
 
 
-    /* SCROLLBAR */
+    /*
+        =========================
+        SCROLLBAR
+        =========================
+    */
 
     ::-webkit-scrollbar {
 
@@ -1492,16 +1546,9 @@
 <script>
 
     /*
-        This calculates the Sigma Jello homepage
-        relative to the current WebRetro location.
-
-        That means it works on:
-
-        GitHub Pages
-        Cloudflare Pages
-        Netlify
-        localhost
-        basically any normal web host.
+        =========================
+        SIGMA JELLO HOME
+        =========================
     */
 
     function getSigmaHomeURL() {
@@ -1514,10 +1561,6 @@
     }
 
 
-    /*
-        Back button
-    */
-
     function goBackToSigma() {
 
         window.location.href =
@@ -1527,12 +1570,9 @@
 
 
     /*
-        Opens Jello Music in a completely
-        separate about:blank window.
-
-        The actual music.html file is converted
-        into an absolute URL first, so hosting
-        location does not matter.
+        =========================
+        JELLO MUSIC
+        =========================
     */
 
     function openJelloMusic() {
@@ -1554,19 +1594,6 @@
 
         }
 
-
-        /*
-            WebRetro is:
-
-            /assets/jello/webretro/index.html
-
-            Therefore:
-
-            ../../../music.html
-
-            goes back to the Sigma Jello root
-            and opens music.html.
-        */
 
         const musicURL =
             new URL(
@@ -1639,9 +1666,83 @@
 
     }
 
+
+    /*
+        =========================
+        WEBRETRO MENU FIX
+        =========================
+
+        WebRetro uses #menuhider as the
+        checkbox controlling the menu.
+
+        Make sure it starts CLOSED.
+    */
+
+    function closeWebRetroMenu() {
+
+        const menuHider =
+            document.getElementById("menuhider");
+
+
+        if (menuHider) {
+
+            menuHider.checked = false;
+
+        }
+
+    }
+
+
+    /*
+        Close the menu immediately.
+    */
+
+    closeWebRetroMenu();
+
+
+    /*
+        WebRetro can initialize parts of
+        the interface after the HTML loads.
+
+        Close the menu again after loading.
+    */
+
+    window.addEventListener(
+        "load",
+        function() {
+
+            closeWebRetroMenu();
+
+        }
+    );
+
+
+    /*
+        Additional safety delays for
+        ?core=opera and other core URLs.
+    */
+
+    setTimeout(
+        function() {
+
+            closeWebRetroMenu();
+
+        },
+        500
+    );
+
+
+    setTimeout(
+        function() {
+
+            closeWebRetroMenu();
+
+        },
+        1500
+    );
+
 </script>
 
 
 </body>
-
 </html>
