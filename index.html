@@ -80,13 +80,11 @@
             }
         }
 
-
         .container {
             text-align: center;
             position: relative;
             z-index: 1;
         }
-
 
         /* =========================
            FALLING SNOW
@@ -210,12 +208,12 @@
         }
 
         /* =========================
-           ICONS
+           CLEAN JELLO ICONS
            ========================= */
 
         .icon {
-            width: 40px;
-            height: 40px;
+            width: 42px;
+            height: 42px;
 
             display: flex;
             align-items: center;
@@ -225,37 +223,40 @@
         }
 
         .icon svg {
-            width: 38px;
-            height: 38px;
+            width: 34px;
+            height: 34px;
 
             display: block;
 
             fill: none;
-            stroke: #333;
+            stroke: #222;
 
-            stroke-width: 1.8;
+            stroke-width: 2.2;
             stroke-linecap: round;
             stroke-linejoin: round;
+
+            transition:
+                transform 0.2s ease;
         }
 
         .games-button .icon svg {
-            width: 42px;
-            height: 42px;
+            width: 38px;
+            height: 38px;
         }
 
         .music-button .icon svg {
-            width: 40px;
-            height: 40px;
+            width: 35px;
+            height: 35px;
         }
 
         .changelog-button .icon svg {
-            width: 36px;
-            height: 40px;
+            width: 34px;
+            height: 34px;
         }
 
         .settings-button .icon svg {
-            width: 40px;
-            height: 40px;
+            width: 35px;
+            height: 35px;
         }
 
         .circle-button .name {
@@ -1137,8 +1138,6 @@
 
 <body>
 
-    <!-- MOVING BACKGROUND -->
-
     <div id="background" class="background"></div>
 
     <div id="backgroundDots" class="background-dots"></div>
@@ -1165,29 +1164,23 @@
                     <svg viewBox="0 0 48 48" aria-hidden="true">
 
                         <path
-                            d="M14 17h20c6 0 9 5 10 11l2 8c1 5-5 8-8 4l-5-6H15l-5 6c-3 4-9 1-8-4l2-8c1-6 4-11 10-11z"
+                            d="M15 18h18c5 0 8 4 9 9l2 8c1 4-4 7-7 4l-5-5H16l-5 5c-3 3-8 0-7-4l2-8c1-5 4-9 9-9z"
                         />
 
-                        <path
-                            d="M14 24v9"
-                            fill="none"
-                        />
+                        <path d="M16 24v8" />
 
-                        <path
-                            d="M9.5 28.5h9"
-                            fill="none"
-                        />
+                        <path d="M12 28h8" />
 
                         <circle
-                            cx="33"
+                            cx="32"
                             cy="25"
-                            r="2"
+                            r="1.8"
                         />
 
                         <circle
-                            cx="38"
+                            cx="37"
                             cy="30"
-                            r="2"
+                            r="1.8"
                         />
 
                     </svg>
@@ -1210,21 +1203,15 @@
                     <svg viewBox="0 0 48 48" aria-hidden="true">
 
                         <path
-                            d="M14 20a10 10 0 0 1 20 0v13"
-                            fill="none"
+                            d="M19 34V11l18-4v23"
                         />
 
                         <path
-                            d="M14 27h-2a4 4 0 0 0-4 4v5a4 4 0 0 0 4 4h5V27z"
+                            d="M19 34c0 4-3 7-7 7s-7-2-7-5 3-6 7-6 7 1 7 4z"
                         />
 
                         <path
-                            d="M34 27h2a4 4 0 0 1 4 4v5a4 4 0 0 1-4 4h-5V27z"
-                        />
-
-                        <path
-                            d="M19 40h10"
-                            fill="none"
+                            d="M37 30c0 4-3 7-6 7s-7-2-7-5 3-6 7-6 6 1 6 4z"
                         />
 
                     </svg>
@@ -1247,27 +1234,23 @@
                     <svg viewBox="0 0 48 48" aria-hidden="true">
 
                         <path
-                            d="M10 5h21l7 7v31H10z"
+                            d="M12 5h18l6 6v32H12z"
                         />
 
                         <path
-                            d="M31 5v8h7"
-                            fill="none"
+                            d="M30 5v7h6"
                         />
 
                         <path
-                            d="M17 22h15"
-                            fill="none"
+                            d="M18 21h12"
                         />
 
                         <path
-                            d="M17 29h15"
-                            fill="none"
+                            d="M18 28h12"
                         />
 
                         <path
-                            d="M17 36h10"
-                            fill="none"
+                            d="M18 35h8"
                         />
 
                     </svg>
@@ -1293,28 +1276,28 @@
                             d="
                                 M20 5
                                 h8
-                                l1.5 5
-                                a14 14 0 0 1 4 2.3
-                                l5-1.5
+                                l1.5 6
+                                a14 14 0 0 1 3.5 2
+                                l6-2
                                 4 7
-                                -4 3
-                                a14 14 0 0 1 0 4.6
-                                l4 3
+                                -4.5 3
+                                a14 14 0 0 1 0 4
+                                l4.5 3
                                 -4 7
-                                -5-1.5
-                                a14 14 0 0 1-4 2.3
+                                -6-2
+                                a14 14 0 0 1-3.5 2
                                 L28 43
                                 h-8
-                                l-1.5-5
-                                a14 14 0 0 1-4-2.3
-                                l-5 1.5
+                                l-1.5-6
+                                a14 14 0 0 1-3.5-2
+                                l-6 2
                                 -4-7
-                                4-3
-                                a14 14 0 0 1 0-4.6
-                                l-4-3
-                                4-7
-                                5 1.5
-                                a14 14 0 0 1 4 2.3
+                                4.5-3
+                                a14 14 0 0 1 0-4
+                                L5 18
+                                l4-7
+                                6 2
+                                a14 14 0 0 1 3.5-2
                                 z
                             "
                         />
@@ -1481,8 +1464,6 @@
 
             <h2>Settings</h2>
 
-            <!-- AUTO CLOAK -->
-
             <div class="quick-setting">
 
                 <span>Auto Cloak</span>
@@ -1499,8 +1480,6 @@
                 </label>
 
             </div>
-
-            <!-- NO TAB CLOSE -->
 
             <div class="quick-setting">
 
@@ -1519,8 +1498,6 @@
 
             </div>
 
-            <!-- FULL SCREEN -->
-
             <div class="quick-setting">
 
                 <span>Full Screen</span>
@@ -1537,8 +1514,6 @@
                 </label>
 
             </div>
-
-            <!-- MOUSE BACKGROUND MOVEMENT -->
 
             <div class="quick-setting">
 
@@ -1557,8 +1532,6 @@
 
             </div>
 
-            <!-- BACKGROUND DOTS -->
-
             <div class="quick-setting">
 
                 <span>Background Dots</span>
@@ -1576,8 +1549,6 @@
 
             </div>
 
-            <!-- FALLING SNOW -->
-
             <div class="quick-setting">
 
                 <span>Falling Snow</span>
@@ -1594,8 +1565,6 @@
                 </label>
 
             </div>
-
-            <!-- JELLO MUSIC -->
 
             <button
                 class="music-open-button"
@@ -1737,16 +1706,10 @@
     </div>
 
 
-    <!-- AUDIO -->
-
     <audio id="musicAudio"></audio>
 
 
     <script>
-
-        /* =========================
-           ELEMENTS
-           ========================= */
 
         const quickSettings =
             document.getElementById("quickSettings");
@@ -1806,10 +1769,6 @@
             document.getElementById("profileTime");
 
 
-        /* =========================
-           LOGIN
-           ========================= */
-
         function openLoginPopup() {
 
             loginPopup.classList.add("show");
@@ -1839,7 +1798,6 @@
             const username =
                 usernameInput.value.trim();
 
-
             if (!username) {
 
                 loginError.style.display =
@@ -1851,18 +1809,15 @@
 
             }
 
-
             localStorage.setItem(
                 "sigmaJelloUsername",
                 username
             );
 
-
             localStorage.setItem(
                 "sigmaJelloLoggedIn",
                 "true"
             );
-
 
             if (
                 localStorage.getItem(
@@ -1877,12 +1832,10 @@
 
             }
 
-
             localStorage.setItem(
                 "sigmaJelloLastVisit",
                 Date.now().toString()
             );
-
 
             updateUserDisplay();
 
@@ -1898,12 +1851,10 @@
                     "sigmaJelloUsername"
                 );
 
-
             const loggedIn =
                 localStorage.getItem(
                     "sigmaJelloLoggedIn"
                 ) === "true";
-
 
             if (loggedIn && username) {
 
@@ -1919,7 +1870,6 @@
                 helloUser.onclick =
                     openProfilePopup;
 
-
                 if (
                     localStorage.getItem(
                         "sigmaJelloTotalTime"
@@ -1932,7 +1882,6 @@
                     );
 
                 }
-
 
                 if (
                     localStorage.getItem(
@@ -1971,11 +1920,9 @@
                     "sigmaJelloLoggedIn"
                 ) === "true";
 
-
             if (!loggedIn) {
                 return;
             }
-
 
             const lastVisit =
                 Number(
@@ -1983,7 +1930,6 @@
                         "sigmaJelloLastVisit"
                     )
                 );
-
 
             if (!lastVisit) {
 
@@ -1996,17 +1942,14 @@
 
             }
 
-
             const now =
                 Date.now();
-
 
             const elapsed =
                 Math.max(
                     0,
                     now - lastVisit
                 );
-
 
             const oldTotal =
                 Number(
@@ -2015,14 +1958,12 @@
                     )
                 ) || 0;
 
-
             localStorage.setItem(
                 "sigmaJelloTotalTime",
                 (
                     oldTotal + elapsed
                 ).toString()
             );
-
 
             localStorage.setItem(
                 "sigmaJelloLastVisit",
@@ -2037,18 +1978,15 @@
             seconds =
                 Math.floor(seconds);
 
-
             const days =
                 Math.floor(seconds / 86400);
 
             seconds %= 86400;
 
-
             const hours =
                 Math.floor(seconds / 3600);
 
             seconds %= 3600;
-
 
             const minutes =
                 Math.floor(seconds / 60);
@@ -2056,9 +1994,7 @@
             seconds =
                 seconds % 60;
 
-
             let result = "";
-
 
             if (days > 0) {
 
@@ -2070,7 +2006,6 @@
 
             }
 
-
             if (hours > 0) {
 
                 result +=
@@ -2081,7 +2016,6 @@
 
             }
 
-
             if (minutes > 0) {
 
                 result +=
@@ -2091,7 +2025,6 @@
                         : " minutes ");
 
             }
-
 
             if (
                 seconds > 0 ||
@@ -2106,7 +2039,6 @@
 
             }
 
-
             return result.trim();
 
         }
@@ -2116,12 +2048,10 @@
 
             updateTotalTime();
 
-
             const username =
                 localStorage.getItem(
                     "sigmaJelloUsername"
                 );
-
 
             const totalTime =
                 Number(
@@ -2130,20 +2060,16 @@
                     )
                 ) || 0;
 
-
             profileTitle.textContent =
                 username + "'s Profile";
 
-
             profileUsername.textContent =
                 username;
-
 
             profileTime.textContent =
                 formatProfileTime(
                     totalTime / 1000
                 );
-
 
             profilePopup.classList.add(
                 "show"
@@ -2443,7 +2369,7 @@
 
 
         /* =========================
-           ANIMATED BACKGROUND DOTS
+           BACKGROUND DOTS
            ========================= */
 
         function createBackgroundDots() {
@@ -2554,7 +2480,6 @@
 
             }
         );
-
 
 
         /* =========================
@@ -2683,10 +2608,8 @@
             localStorage.getItem("mouseBackground")
             !== "false";
 
-
         quickMouseBackground.checked =
             mouseBackgroundEnabled;
-
 
         document.addEventListener(
             "mousemove",
