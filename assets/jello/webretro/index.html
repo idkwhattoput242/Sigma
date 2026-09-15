@@ -1,29 +1,38 @@
 <!DOCTYPE html>
 <!-- Sigma Jello WebRetro -->
 <html lang="en">
+
 <head>
+
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1">
+
+    <meta
+        name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1"
+    >
+
     <meta name="color-scheme" content="dark">
     <meta name="theme-color" content="#111111">
 
-```
-<title>Sigma Jello - WebRetro</title>
+    <title>Sigma Jello - WebRetro</title>
 
-<meta name="description" content="Sigma Jello WebRetro - Play classic games directly in your browser.">
-<meta name="robots" content="nofollow">
+    <meta
+        name="description"
+        content="Sigma Jello WebRetro - Play classic games directly in your browser."
+    >
 
-<meta property="og:title" content="Sigma Jello - WebRetro">
-<meta property="og:type" content="website">
+    <meta name="robots" content="nofollow">
 
-<link rel="stylesheet" href="assets/base.css?v=6.5">
-<link rel="stylesheet" href="assets/jswindow.css">
+    <meta property="og:title" content="Sigma Jello - WebRetro">
+    <meta property="og:type" content="website">
 
-<link rel="shortcut icon" href="assets/icons/icon204.png">
-<link rel="apple-touch-icon" href="assets/icons/iconm256.png">
+    <link rel="stylesheet" href="assets/base.css?v=6.5">
+    <link rel="stylesheet" href="assets/jswindow.css">
 
-<link rel="manifest" href="manifest.json">
-```
+    <link rel="shortcut icon" href="assets/icons/icon204.png">
+    <link rel="apple-touch-icon" href="assets/icons/iconm256.png">
+
+    <link rel="manifest" href="manifest.json">
 
 </head>
 
@@ -31,1056 +40,1392 @@
 
 <div class="main" id="mainarea">
 
-```
-<!-- Sigma Jello Header -->
-<div id="sigma-header">
-    <a href="../../../index.html" id="sigma-back">
-        ← Sigma Jello
-    </a>
 
-    <div id="sigma-title">
-        SIGMA JELLO
-        <span>WEBRETRO</span>
+    <!-- ORIGINAL WEBRETRO MENU -->
+
+    <div id="menubar">
+
+        <input type="checkbox" id="menuhider">
+
+        <label
+            for="menuhider"
+            class="menuhiderlabel">
+        </label>
+
+        <ul id="menu">
+
+            <li class="menuback">
+                <a
+                    href="."
+                    title="Back to core selection">
+                </a>
+            </li>
+
+
+            <!-- CONTROLS -->
+
+            <li>
+
+                Controls
+
+                <ul>
+
+                    <li>
+                        <a
+                            id="keybindsbutton"
+                            href="">
+                            Keybinds
+                        </a>
+                    </li>
+
+                    <li class="menu-long menu-nohover">
+
+                        Please note that these are just the bindings
+                        that are set, but in-game controls may vary.
+
+                    </li>
+
+                    <li>
+
+                        <a
+                            href=""
+                            title="Opens in new tab"
+                            onclick="
+                                window.open(
+                                    window.URL.createObjectURL(
+                                        new Blob(
+                                            [
+                                                decodeURIComponent(
+                                                    atob(
+                                                        'JTNDIURPQ1RZUEUlMjBodG1sJTNFJTNDaHRtbCUzRSUzQ2hlYWQlM0UlM0NtZXRhJTIwaHR0cC1lcXVpdiUzRCUyMnJlZnJlc2glMjIlMjBjb250ZW50JTNEJTIyMSUzQlVSTCUzRGh0dHBzJTNBJTJGJTJGcmV0cm9waWUub3JnLnVrJTJGZG9jcyUyRlJldHJvQXJjaC1Db25maWd1cmF0aW9uJTJGJTIzZGVmYXVsdC1jb3JlLWNvbnRyb2xzLWZvci1hbGwtZW11bGF0b3JzJTIyJTNFJTNDdGl0bGUlM0VSZWRpcmVjdGluZyUzQyUyRnRpdGxlJTNFJTNDJTJGaGVhZCUzRSUzQ2JvZHklM0UlM0NoMiUzRVJlZGlyZWN0aW5nLi4uJTNDJTJGaDIlM0UlM0MlMkZib2R5JTNFJTNDJTJGaHRtbCUzRQ=='
+                                                    )
+                                                )
+                                            ],
+                                            {
+                                                type: 'text/html'
+                                            }
+                                        )
+                                    )
+                                );
+                                return false;
+                            ">
+                            System Specifics
+                        </a>
+
+                    </li>
+
+                </ul>
+
+            </li>
+
+
+            <!-- SAVES -->
+
+            <li>
+
+                Saves
+
+                <ul>
+
+                    <li
+                        class="pointer disabled"
+                        id="savegame">
+                        Save Game
+                    </li>
+
+                    <li
+                        class="pointer disabled"
+                        id="resetbutton">
+                        Reset
+                    </li>
+
+                    <li
+                        class="pointer disabled"
+                        id="exportsave">
+                        Export SRAM
+                    </li>
+
+                    <li
+                        class="pointer disabled"
+                        id="importsave">
+                        Import SRAM
+                    </li>
+
+                    <li class="disabled">
+
+                        <label>
+
+                            <input
+                                type="checkbox"
+                                id="autosave"
+                                checked
+                                disabled>
+
+                            Autosave (5m)
+
+                        </label>
+
+                    </li>
+
+                    <li>
+
+                        <a
+                            id="savesbutton"
+                            href="">
+                            Recover Saves
+                        </a>
+
+                    </li>
+
+                    <li
+                        class="menu-long menu-nohover"
+                        style="width: 200px;">
+
+                        Please note that in order for the game
+                        to be saved, you must use the save feature
+                        in-game.
+
+                        <br><br>
+
+                        Saves and states are stored in your browser's IndexedDB.
+
+                    </li>
+
+                </ul>
+
+            </li>
+
+
+            <!-- STATES -->
+
+            <li>
+
+                States
+
+                <ul>
+
+                    <li
+                        class="pointer disabled"
+                        id="savestate">
+                        Save State
+                    </li>
+
+                    <li
+                        class="pointer disabled"
+                        id="loadstate">
+                        Load State
+                    </li>
+
+                    <li
+                        class="pointer disabled"
+                        id="undosavestate">
+                        Undo Save State
+                    </li>
+
+                    <li
+                        class="pointer disabled"
+                        id="undoloadstate">
+                        Undo Load State
+                    </li>
+
+                    <li
+                        class="pointer disabled"
+                        id="exportstate">
+                        Export State
+                    </li>
+
+                    <li
+                        class="pointer disabled"
+                        id="importstate">
+                        Import State
+                    </li>
+
+                    <li>
+
+                        <a
+                            id="statesbutton"
+                            href="">
+                            Recover States
+                        </a>
+
+                    </li>
+
+                </ul>
+
+            </li>
+
+
+            <!-- SCREENSHOTS -->
+
+            <li>
+
+                Screenshots
+
+                <ul>
+
+                    <li
+                        class="pointer disabled"
+                        id="takescreenshot">
+                        Take Screenshot
+                    </li>
+
+                    <li>
+
+                        <a
+                            id="screenshotsbutton"
+                            href="">
+                            Screenshots
+                        </a>
+
+                    </li>
+
+                </ul>
+
+            </li>
+
+
+            <!-- MORE -->
+
+            <li>
+
+                More
+
+                <ul>
+
+                    <li class="disabled">
+
+                        <label>
+
+                            <input
+                                type="checkbox"
+                                id="smooth"
+                                disabled>
+
+                            Smooth Scaling
+
+                        </label>
+
+                    </li>
+
+                    <li
+                        class="pointer"
+                        id="fullscreenbutton">
+                        Fullscreen
+                    </li>
+
+                    <li
+                        class="pointer"
+                        id="consolebutton">
+                        Console
+                    </li>
+
+
+                    <!-- THEME -->
+
+                    <li>
+
+                        Theme
+
+                        <ul>
+
+                            <li class="menu-nohover">
+
+                                <form
+                                    id="themeselector"
+                                    class="menuform">
+
+                                    <label>
+                                        <input
+                                            type="radio"
+                                            name="theme"
+                                            value="iodinelight">
+                                        Iodine (Light)
+                                    </label>
+
+                                    <label>
+                                        <input
+                                            type="radio"
+                                            name="theme"
+                                            value="iodinedark">
+                                        Iodine (Dark)
+                                    </label>
+
+                                    <label>
+                                        <input
+                                            type="radio"
+                                            name="theme"
+                                            value="webplayer">
+                                        Web Player
+                                    </label>
+
+                                    <label>
+                                        <input
+                                            type="radio"
+                                            name="theme"
+                                            value="webplayernavy">
+                                        Web Player (Navy)
+                                    </label>
+
+                                    <label class="disabled">
+
+                                        <input
+                                            type="radio"
+                                            name="theme"
+                                            value="emulatorjs"
+                                            disabled>
+
+                                        EmulatorJS
+
+                                    </label>
+
+                                </form>
+
+                            </li>
+
+                        </ul>
+
+                    </li>
+
+
+                    <li
+                        class="pointer disabled"
+                        id="resetbutton2">
+                        Reset
+                    </li>
+
+                    <li
+                        class="pointer disabled"
+                        id="mousegrabbutton">
+                        Mouse Grab
+                    </li>
+
+                    <li
+                        class="pointer disabled"
+                        id="gamefocusbutton">
+                        Game Focus
+                    </li>
+
+
+                    <!-- CHEATS -->
+
+                    <li>
+
+                        Cheats
+
+                        <ul class="xlmenu">
+
+                            <li>
+                                How to apply a cheat code
+                            </li>
+
+                            <li>
+                                1. Open the Menu
+                            </li>
+
+                            <li>
+                                2. Scroll down
+                            </li>
+
+                            <li>
+                                3. Click "Cheats"
+                            </li>
+
+                            <li>
+                                4. Add a new cheat
+                            </li>
+
+                            <li>
+                                5. Select the cheat
+                            </li>
+
+                            <li>
+                                6. Enter the code
+                            </li>
+
+                            <li>
+                                7. Enable the cheat
+                            </li>
+
+                            <li>
+                                8. Apply Changes
+                            </li>
+
+                        </ul>
+
+                    </li>
+
+
+                    <!-- SHADERS -->
+
+                    <li>
+
+                        Shaders
+
+                        <ul>
+
+                            <li class="disabled">
+                                Coming soon
+                            </li>
+
+                        </ul>
+
+                    </li>
+
+
+                    <!-- PRE START OPTIONS -->
+
+                    <li id="pso">
+
+                        Pre-start Options
+
+                        <ul>
+
+                            <li class="menu-nohover">
+
+                                <form
+                                    class="menuform"
+                                    data-core="a5200">
+
+                                    <label>
+                                        <input
+                                            type="checkbox"
+                                            data-opt="lowpass">
+                                        Low-pass Filter
+                                    </label>
+
+                                </form>
+
+
+                                <form
+                                    class="menuform"
+                                    data-core="mednafen_psx">
+
+                                    <label>
+                                        <input
+                                            type="checkbox"
+                                            data-opt="highres">
+                                        High Resolution
+                                    </label>
+
+                                    <label>
+                                        <input
+                                            type="checkbox"
+                                            data-opt="ditherscaling">
+                                        Dither Scaling
+                                    </label>
+
+                                    <label>
+                                        <input
+                                            type="checkbox"
+                                            data-opt="widescreen">
+                                        Widescreen Hack
+                                    </label>
+
+                                    <label>
+                                        <input
+                                            type="checkbox"
+                                            data-opt="antijitter">
+                                        PGXP Anti-jitter
+                                    </label>
+
+                                </form>
+
+
+                                <form
+                                    class="menuform"
+                                    data-core="mednafen_psx_hw">
+
+                                    <label>
+                                        <input
+                                            type="checkbox"
+                                            data-opt="softwarerenderer">
+                                        Use Software Renderer
+                                    </label>
+
+                                    <label>
+                                        <input
+                                            type="checkbox"
+                                            data-opt="highres">
+                                        High Resolution
+                                    </label>
+
+                                    <label>
+                                        <input
+                                            type="checkbox"
+                                            data-opt="ditherscaling">
+                                        Dither Scaling
+                                    </label>
+
+                                    <label>
+                                        <input
+                                            type="checkbox"
+                                            data-opt="widescreen">
+                                        Widescreen Hack
+                                    </label>
+
+                                    <label>
+                                        <input
+                                            type="checkbox"
+                                            data-opt="antijitter">
+                                        PGXP Anti-jitter
+                                    </label>
+
+                                </form>
+
+
+                                <form
+                                    class="menuform"
+                                    data-core="mednafen_vb">
+
+                                    <label>
+                                        <input
+                                            type="checkbox"
+                                            data-opt="anaglyph">
+                                        Red/Blue Anaglyph
+                                    </label>
+
+                                </form>
+
+
+                                <form
+                                    class="menuform"
+                                    data-core="mednafen_wswan">
+
+                                    <label>
+                                        <input
+                                            type="checkbox"
+                                            data-opt="75hz">
+                                        75hz Mode
+                                    </label>
+
+                                    <label>
+                                        <input
+                                            type="checkbox"
+                                            data-opt="portrait">
+                                        Portrait Orientation
+                                    </label>
+
+                                    <label>
+                                        <input
+                                            type="checkbox"
+                                            data-opt="lowpass">
+                                        Low-pass Filter
+                                    </label>
+
+                                </form>
+
+
+                                <form
+                                    class="menuform"
+                                    data-core="melonds">
+
+                                    <label>
+                                        <input
+                                            type="checkbox"
+                                            data-opt="leftright">
+                                        Left/Right
+                                    </label>
+
+                                </form>
+
+
+                                <form
+                                    class="menuform"
+                                    data-core="mgba">
+
+                                    <label>
+                                        <input
+                                            type="checkbox"
+                                            data-opt="lowpass">
+                                        Low-pass Filter
+                                    </label>
+
+                                </form>
+
+
+                                <form
+                                    class="menuform"
+                                    data-core="mupen64plus_next">
+
+                                    <label>
+                                        <input
+                                            type="checkbox"
+                                            data-opt="highres">
+                                        High Resolution
+                                    </label>
+
+                                    <label>
+                                        <input
+                                            type="checkbox"
+                                            data-opt="widescreen">
+                                        Widescreen Hack
+                                    </label>
+
+                                </form>
+
+
+                                <form
+                                    class="menuform"
+                                    data-core="o2em">
+
+                                    <label>
+                                        <input
+                                            type="checkbox"
+                                            data-opt="lowpass">
+                                        Low-pass Filter
+                                    </label>
+
+                                </form>
+
+
+                                <form
+                                    class="menuform"
+                                    data-core="parallel_n64">
+
+                                    <label>
+                                        <input
+                                            type="checkbox"
+                                            data-opt="highres">
+                                        High Resolution
+                                    </label>
+
+                                    <label>
+                                        <input
+                                            type="checkbox"
+                                            data-opt="renderer2">
+                                        Use glN64
+                                    </label>
+
+                                </form>
+
+
+                                <form
+                                    class="menuform"
+                                    data-core="prosystem">
+
+                                    <label>
+                                        <input
+                                            type="checkbox"
+                                            data-opt="lowpass">
+                                        Low-pass Filter
+                                    </label>
+
+                                </form>
+
+
+                                <form
+                                    class="menuform"
+                                    data-core="snes9x">
+
+                                    <label>
+                                        <input
+                                            type="checkbox"
+                                            data-opt="mouse">
+                                        SNES Mouse
+                                    </label>
+
+                                </form>
+
+
+                                <form
+                                    class="menuform"
+                                    data-core="stella2014">
+
+                                    <label>
+                                        <input
+                                            type="checkbox"
+                                            data-opt="lowpass">
+                                        Low-pass Filter
+                                    </label>
+
+                                </form>
+
+
+                                <form
+                                    class="menuform"
+                                    data-core="vecx">
+
+                                    <label>
+                                        <input
+                                            type="checkbox"
+                                            data-opt="softwarerenderer">
+                                        Use Software Renderer
+                                    </label>
+
+                                </form>
+
+
+                                <form
+                                    class="menuform"
+                                    data-core="virtualjaguar">
+
+                                    <label>
+                                        <input
+                                            type="checkbox"
+                                            data-opt="fastblitter">
+                                        Fast Blitter
+                                    </label>
+
+                                </form>
+
+
+                                <form
+                                    class="menuform"
+                                    data-core="yabause">
+
+                                    <label>
+                                        <input
+                                            type="checkbox"
+                                            data-opt="frameskip">
+                                        Enable Frameskip
+                                    </label>
+
+                                </form>
+
+                            </li>
+
+                        </ul>
+
+                    </li>
+
+
+                    <li
+                        class="pointer"
+                        id="downloadstandalonebutton">
+                        Download Standalone
+                    </li>
+
+                    <li>
+
+                        <a
+                            href="https://github.com/BinBashBanana/webretro"
+                            target="_blank">
+                            WebRetro GitHub
+                        </a>
+
+                    </li>
+
+                </ul>
+
+            </li>
+
+
+            <li
+                id="menubutton"
+                class="disabled">
+                Menu
+            </li>
+
+            <li
+                id="pause"
+                class="disabled">
+                Pause
+            </li>
+
+        </ul>
+
     </div>
-</div>
 
 
-<!-- ORIGINAL WEBRETRO MENU -->
-<div id="menubar">
+    <!-- CORE / ROM SELECTOR -->
 
-    <input type="checkbox" id="menuhider">
-    <label for="menuhider" class="menuhiderlabel"></label>
+    <div id="ffd">
 
-    <ul id="menu">
+        <div id="ffdcontent">
 
-        <li class="menuback">
-            <a href="." title="Back to core selection"></a>
-        </li>
+            <div id="coreselectarea">
 
-        <li>
-            Controls
-            <ul>
+                <h3>
+                    Select a Core
+                </h3>
 
-                <li>
-                    <a id="keybindsbutton" href="">Keybinds</a>
-                </li>
+                <div class="coreorderrow">
 
-                <li class="menu-long menu-nohover">
-                    Please note that these are just the bindings that are set,
-                    but in-game controls may vary.
-                </li>
-
-                <li>
-                    <a href=""
-                       title="Opens in new tab"
-                       onclick="window.open(
-                       window.URL.createObjectURL(
-                       new Blob([
-                       decodeURIComponent(
-                       atob('JTNDIURPQ1RZUEUlMjBodG1sJTNFJTNDaHRtbCUzRSUzQ2hlYWQlM0UlM0NtZXRhJTIwaHR0cC1lcXVpdiUzRCUyMnJlZnJlc2glMjIlMjBjb250ZW50JTNEJTIyMSUzQlVSTCUzRGh0dHBzJTNBJTJGJTJGcmV0cm9waWUub3JnLnVrJTJGZG9jcyUyRlJldHJvQXJjaC1Db25maWd1cmF0aW9uJTJGJTIzZGVmYXVsdC1jb3JlLWNvbnRyb2xzLWZvci1hbGwtZW11bGF0b3JzJTIyJTNFJTNDdGl0bGUlM0VSZWRpcmVjdGluZyUzQyUyRnRpdGxlJTNFJTNDJTJGaGVhZCUzRSUzQ2JvZHklM0UlM0NoMiUzRVJlZGlyZWN0aW5nLi4uJTNDJTJGaDIlM0UlM0MlMkZib2R5JTNFJTNDJTJGaHRtbCUzRQ==')
-                       )
-                       )
-                       ],
-                       {type: 'text/html'}
-                       )
-                       )
-                       );return false;">
-                        System Specifics
-                    </a>
-                </li>
-
-            </ul>
-        </li>
-
-
-        <!-- SAVES -->
-
-        <li>
-            Saves
-            <ul>
-
-                <li class="pointer disabled" id="savegame">
-                    Save Game
-                </li>
-
-                <li class="pointer disabled" id="resetbutton">
-                    Reset
-                </li>
-
-                <li class="pointer disabled" id="exportsave">
-                    Export SRAM
-                </li>
-
-                <li class="pointer disabled" id="importsave">
-                    Import SRAM
-                </li>
-
-                <li class="disabled">
-                    <label>
-                        <input type="checkbox"
-                               id="autosave"
-                               checked
-                               disabled>
-                        Autosave (5m)
+                    <label for="coreorder">
+                        Sort by:
                     </label>
-                </li>
 
-                <li>
-                    <a id="savesbutton" href="">
-                        Recover Saves
-                    </a>
-                </li>
+                    <select id="coreorder">
 
-                <li class="menu-long menu-nohover"
-                    style="width: 200px;">
+                        <option
+                            value="system"
+                            selected>
+                            System
+                        </option>
 
-                    Please note that in order for the game to be saved,
-                    you must use the save feature in-game.
+                        <option value="corename">
+                            Core name
+                        </option>
 
-                    <br><br>
+                        <option value="libraryname">
+                            Library name
+                        </option>
 
-                    Saves and states are stored in your browser's IndexedDB.
+                    </select>
 
-                </li>
+                </div>
 
-            </ul>
-        </li>
 
+                <ul class="corelistul">
 
-        <!-- STATES -->
+                    <li>
 
-        <li>
-            States
-            <ul>
+                        <a
+                            href="?core=autodetect"
+                            class="greyer">
+                            AutoDetect (Slower to load)
+                        </a>
 
-                <li class="pointer disabled" id="savestate">
-                    Save State
-                </li>
+                    </li>
 
-                <li class="pointer disabled" id="loadstate">
-                    Load State
-                </li>
+                    <span id="corelist"></span>
 
-                <li class="pointer disabled" id="undosavestate">
-                    Undo Save State
-                </li>
-
-                <li class="pointer disabled" id="undoloadstate">
-                    Undo Load State
-                </li>
-
-                <li class="pointer disabled" id="exportstate">
-                    Export State
-                </li>
-
-                <li class="pointer disabled" id="importstate">
-                    Import State
-                </li>
-
-                <li>
-                    <a id="statesbutton" href="">
-                        Recover States
-                    </a>
-                </li>
-
-            </ul>
-        </li>
-
-
-        <!-- SCREENSHOTS -->
-
-        <li>
-            Screenshots
-            <ul>
-
-                <li class="pointer disabled"
-                    id="takescreenshot">
-                    Take Screenshot
-                </li>
-
-                <li>
-                    <a id="screenshotsbutton" href="">
-                        Screenshots
-                    </a>
-                </li>
-
-            </ul>
-        </li>
-
-
-        <!-- MORE -->
-
-        <li>
-            More
-
-            <ul>
-
-                <li class="disabled">
-                    <label>
-                        <input type="checkbox"
-                               id="smooth"
-                               disabled>
-                        Smooth Scaling
-                    </label>
-                </li>
-
-                <li class="pointer"
-                    id="fullscreenbutton">
-                    Fullscreen
-                </li>
-
-                <li class="pointer"
-                    id="consolebutton">
-                    Console
-                </li>
-
-
-                <!-- THEME -->
-
-                <li>
-                    Theme
-
-                    <ul>
-
-                        <li class="menu-nohover">
-
-                            <form id="themeselector"
-                                  class="menuform">
-
-                                <label>
-                                    <input type="radio"
-                                           name="theme"
-                                           value="iodinelight">
-                                    Iodine (Light)
-                                </label>
-
-                                <label>
-                                    <input type="radio"
-                                           name="theme"
-                                           value="iodinedark">
-                                    Iodine (Dark)
-                                </label>
-
-                                <label>
-                                    <input type="radio"
-                                           name="theme"
-                                           value="webplayer">
-                                    Web Player
-                                </label>
-
-                                <label>
-                                    <input type="radio"
-                                           name="theme"
-                                           value="webplayernavy">
-                                    Web Player (Navy)
-                                </label>
-
-                                <label class="disabled">
-                                    <input type="radio"
-                                           name="theme"
-                                           value="emulatorjs"
-                                           disabled>
-                                    EmulatorJS
-                                </label>
-
-                            </form>
-
-                        </li>
-
-                    </ul>
-                </li>
-
-
-                <li class="pointer disabled"
-                    id="resetbutton2">
-                    Reset
-                </li>
-
-                <li class="pointer disabled"
-                    id="mousegrabbutton">
-                    Mouse Grab
-                </li>
-
-                <li class="pointer disabled"
-                    id="gamefocusbutton">
-                    Game Focus
-                </li>
-
-
-                <!-- CHEATS -->
-
-                <li>
-                    Cheats
-
-                    <ul class="xlmenu">
-
-                        <li>How to apply a cheat code</li>
-                        <li>1. Open the Menu</li>
-                        <li>2. Scroll down</li>
-                        <li>3. Click "Cheats"</li>
-                        <li>4. Add a new cheat</li>
-                        <li>5. Select the cheat</li>
-                        <li>6. Enter the code</li>
-                        <li>7. Enable the cheat</li>
-                        <li>8. Apply Changes</li>
-
-                    </ul>
-
-                </li>
-
-
-                <li>
-                    Shaders
-
-                    <ul>
-                        <li class="disabled">
-                            Coming soon
-                        </li>
-                    </ul>
-
-                </li>
-
-
-                <!-- PRE START OPTIONS -->
-
-                <li id="pso">
-                    Pre-start Options
-
-                    <ul>
-
-                        <li class="menu-nohover">
-
-                            <form class="menuform"
-                                  data-core="a5200">
-
-                                <label>
-                                    <input type="checkbox"
-                                           data-opt="lowpass">
-                                    Low-pass Filter
-                                </label>
-
-                            </form>
-
-
-                            <form class="menuform"
-                                  data-core="mednafen_psx">
-
-                                <label>
-                                    <input type="checkbox"
-                                           data-opt="highres">
-                                    High Resolution
-                                </label>
-
-                                <label>
-                                    <input type="checkbox"
-                                           data-opt="ditherscaling">
-                                    Dither Scaling
-                                </label>
-
-                                <label>
-                                    <input type="checkbox"
-                                           data-opt="widescreen">
-                                    Widescreen Hack
-                                </label>
-
-                                <label>
-                                    <input type="checkbox"
-                                           data-opt="antijitter">
-                                    PGXP Anti-jitter
-                                </label>
-
-                            </form>
-
-
-                            <form class="menuform"
-                                  data-core="mednafen_psx_hw">
-
-                                <label>
-                                    <input type="checkbox"
-                                           data-opt="softwarerenderer">
-                                    Use Software Renderer
-                                </label>
-
-                                <label>
-                                    <input type="checkbox"
-                                           data-opt="highres">
-                                    High Resolution
-                                </label>
-
-                                <label>
-                                    <input type="checkbox"
-                                           data-opt="ditherscaling">
-                                    Dither Scaling
-                                </label>
-
-                                <label>
-                                    <input type="checkbox"
-                                           data-opt="widescreen">
-                                    Widescreen Hack
-                                </label>
-
-                                <label>
-                                    <input type="checkbox"
-                                           data-opt="antijitter">
-                                    PGXP Anti-jitter
-                                </label>
-
-                            </form>
-
-
-                            <form class="menuform"
-                                  data-core="mednafen_vb">
-
-                                <label>
-                                    <input type="checkbox"
-                                           data-opt="anaglyph">
-                                    Red/Blue Anaglyph
-                                </label>
-
-                            </form>
-
-
-                            <form class="menuform"
-                                  data-core="mednafen_wswan">
-
-                                <label>
-                                    <input type="checkbox"
-                                           data-opt="75hz">
-                                    75hz Mode
-                                </label>
-
-                                <label>
-                                    <input type="checkbox"
-                                           data-opt="portrait">
-                                    Portrait Orientation
-                                </label>
-
-                                <label>
-                                    <input type="checkbox"
-                                           data-opt="lowpass">
-                                    Low-pass Filter
-                                </label>
-
-                            </form>
-
-
-                            <form class="menuform"
-                                  data-core="melonds">
-
-                                <label>
-                                    <input type="checkbox"
-                                           data-opt="leftright">
-                                    Left/Right
-                                </label>
-
-                            </form>
-
-
-                            <form class="menuform"
-                                  data-core="mgba">
-
-                                <label>
-                                    <input type="checkbox"
-                                           data-opt="lowpass">
-                                    Low-pass Filter
-                                </label>
-
-                            </form>
-
-
-                            <form class="menuform"
-                                  data-core="mupen64plus_next">
-
-                                <label>
-                                    <input type="checkbox"
-                                           data-opt="highres">
-                                    High Resolution
-                                </label>
-
-                                <label>
-                                    <input type="checkbox"
-                                           data-opt="widescreen">
-                                    Widescreen Hack
-                                </label>
-
-                            </form>
-
-
-                            <form class="menuform"
-                                  data-core="o2em">
-
-                                <label>
-                                    <input type="checkbox"
-                                           data-opt="lowpass">
-                                    Low-pass Filter
-                                </label>
-
-                            </form>
-
-
-                            <form class="menuform"
-                                  data-core="parallel_n64">
-
-                                <label>
-                                    <input type="checkbox"
-                                           data-opt="highres">
-                                    High Resolution
-                                </label>
-
-                                <label>
-                                    <input type="checkbox"
-                                           data-opt="renderer2">
-                                    Use glN64
-                                </label>
-
-                            </form>
-
-
-                            <form class="menuform"
-                                  data-core="prosystem">
-
-                                <label>
-                                    <input type="checkbox"
-                                           data-opt="lowpass">
-                                    Low-pass Filter
-                                </label>
-
-                            </form>
-
-
-                            <form class="menuform"
-                                  data-core="snes9x">
-
-                                <label>
-                                    <input type="checkbox"
-                                           data-opt="mouse">
-                                    SNES Mouse
-                                </label>
-
-                            </form>
-
-
-                            <form class="menuform"
-                                  data-core="stella2014">
-
-                                <label>
-                                    <input type="checkbox"
-                                           data-opt="lowpass">
-                                    Low-pass Filter
-                                </label>
-
-                            </form>
-
-
-                            <form class="menuform"
-                                  data-core="vecx">
-
-                                <label>
-                                    <input type="checkbox"
-                                           data-opt="softwarerenderer">
-                                    Use Software Renderer
-                                </label>
-
-                            </form>
-
-
-                            <form class="menuform"
-                                  data-core="virtualjaguar">
-
-                                <label>
-                                    <input type="checkbox"
-                                           data-opt="fastblitter">
-                                    Fast Blitter
-                                </label>
-
-                            </form>
-
-
-                            <form class="menuform"
-                                  data-core="yabause">
-
-                                <label>
-                                    <input type="checkbox"
-                                           data-opt="frameskip">
-                                    Enable Frameskip
-                                </label>
-
-                            </form>
-
-                        </li>
-
-                    </ul>
-
-                </li>
-
-
-                <li class="pointer"
-                    id="downloadstandalonebutton">
-                    Download Standalone
-                </li>
-
-                <li>
-                    <a href="https://github.com/BinBashBanana/webretro"
-                       target="_blank">
-                        WebRetro GitHub
-                    </a>
-                </li>
-
-            </ul>
-        </li>
-
-
-        <li id="menubutton"
-            class="disabled">
-            Menu
-        </li>
-
-        <li id="pause"
-            class="disabled">
-            Pause
-        </li>
-
-    </ul>
-</div>
-
-
-<!-- SIGMA JELLO TITLE -->
-
-<h1 id="webretrotitle">
-    SIGMA JELLO
-    <span>WEBRETRO</span>
-</h1>
-
-
-<!-- CORE / ROM SELECTOR -->
-
-<div id="ffd">
-
-    <div id="ffdcontent">
-
-        <div id="coreselectarea">
-
-            <h3>Select a Core</h3>
-
-            <div class="coreorderrow">
-
-                <label for="coreorder">
-                    Sort by:
-                </label>
-
-                <select id="coreorder">
-
-                    <option value="system" selected>
-                        System
-                    </option>
-
-                    <option value="corename">
-                        Core name
-                    </option>
-
-                    <option value="libraryname">
-                        Library name
-                    </option>
-
-                </select>
+                </ul>
 
             </div>
 
 
-            <ul class="corelistul">
+            <!-- ROM UPLOAD -->
 
-                <li>
-                    <a href="?core=autodetect"
-                       class="greyer">
-                        AutoDetect (Slower to load)
-                    </a>
-                </li>
+            <div id="uploadarea">
 
-                <span id="corelist"></span>
+                <h2>
 
-            </ul>
+                    <span id="systemname"></span>
 
-        </div>
+                    Emulator
 
+                </h2>
 
-        <!-- ROM UPLOAD -->
+                <input
+                    type="button"
+                    id="upload"
+                    value="Choose ROM File"
+                    class="uploadbutton">
 
-        <div id="uploadarea">
+                <br>
 
-            <h2>
-                <span id="systemname"></span>
-                Emulator
-            </h2>
+                <img
+                    id="googledriveupload"
+                    class="uploadbutton uploadimage"
+                    title="Google Drive Upload"
+                    src="assets/icons/googledrive.png">
 
-            <input type="button"
-                   id="upload"
-                   value="Choose ROM File"
-                   class="uploadbutton">
+                <img
+                    id="dropboxupload"
+                    class="uploadbutton uploadimage"
+                    title="Dropbox Upload"
+                    src="assets/icons/dropbox.png">
 
-            <br>
+                <img
+                    id="onedriveupload"
+                    class="uploadbutton uploadimage"
+                    title="OneDrive Upload"
+                    src="assets/icons/onedrive.png">
 
-            <img id="googledriveupload"
-                 class="uploadbutton uploadimage"
-                 title="Google Drive Upload"
-                 src="assets/icons/googledrive.png">
-
-            <img id="dropboxupload"
-                 class="uploadbutton uploadimage"
-                 title="Dropbox Upload"
-                 src="assets/icons/dropbox.png">
-
-            <img id="onedriveupload"
-                 class="uploadbutton uploadimage"
-                 title="OneDrive Upload"
-                 src="assets/icons/onedrive.png">
+            </div>
 
         </div>
 
-    </div>
 
+        <!-- SOURCE -->
 
-    <!-- SOURCE -->
+        <div class="source">
 
-    <div class="source">
-
-        <span>
-            Sigma Jello
-        </span>
-
-        <a href="https://github.com/BinBashBanana/webretro"
-           target="_blank">
-            WebRetro
-        </a>
-
-        <a href="https://github.com/libretro"
-           target="_blank">
-            Libretro
-        </a>
-
-        <a href=""
-           target="_blank"
-           id="coregithub">
-            Core Github
-        </a>
-
-        <a href="https://emscripten.org"
-           target="_blank">
-            Emscripten
-        </a>
-
-        <a href="info/"
-           target="_blank">
-            Info
-        </a>
-
-        <span id="versionindicator"></span>
-
-    </div>
-
-</div>
-
-
-<p id="updatenotice"></p>
-
-
-<input type="button"
-       id="startbutton"
-       value="Start">
-
-
-<!-- LOADING -->
-
-<div id="loadingdiv">
-
-    <p class="loadingloading">
-        Loading
-    </p>
-
-    <p id="loadingtext"></p>
-
-    <progress id="loadingbar"
-              max="1">
-    </progress>
-
-</div>
-
-
-<!-- EMULATOR CANVAS -->
-
-<canvas id="canvas"
-        class="texturePixelated">
-</canvas>
-
-
-<div id="canvasmask">
-
-    <div id="resume">
-
-        <div>
-
-            <h1>Paused</h1>
-
-            <h3>
-                Click to resume
-            </h3>
-
-        </div>
-
-    </div>
-
-    <div id="sidealertholder"></div>
-
-</div>
-
-
-<!-- MODALS -->
-
-<div id="modals">
-
-    <div id="managers">
-
-        <div class="modaltop">
-
-            <h2 id="managertitle"></h2>
-
-            <span id="managerclose">
-                &#x2716;
+            <span>
+                Sigma Jello
             </span>
 
+            <a
+                href="https://github.com/BinBashBanana/webretro"
+                target="_blank">
+                WebRetro
+            </a>
+
+            <a
+                href="https://github.com/libretro"
+                target="_blank">
+                Libretro
+            </a>
+
+            <a
+                href=""
+                target="_blank"
+                id="coregithub">
+                Core Github
+            </a>
+
+            <a
+                href="https://emscripten.org"
+                target="_blank">
+                Emscripten
+            </a>
+
+            <a
+                href="info/"
+                target="_blank">
+                Info
+            </a>
+
+            <span id="versionindicator"></span>
+
         </div>
 
+    </div>
 
-        <!-- KEYBINDS -->
 
-        <div id="keybindmanager">
+    <p id="updatenotice"></p>
 
-            <h4>
-                Click on the right column to change a key.
-                Press save when you are finished!
-            </h4>
 
-            <table class="managertableparent managertableparentshort">
+    <input
+        type="button"
+        id="startbutton"
+        value="Start">
 
-                <tbody class="managertable"
-                       id="keybindtable">
-                </tbody>
 
-            </table>
+    <!-- LOADING -->
 
-            <input type="button"
-                   id="savekeybinds"
-                   class="specialblue"
-                   value="Save">
+    <div id="loadingdiv">
 
-            <input type="button"
-                   id="resetkeybinds"
-                   value="Reset to Default">
+        <p class="loadingloading">
+            Loading
+        </p>
+
+        <p id="loadingtext"></p>
+
+        <progress
+            id="loadingbar"
+            max="1">
+        </progress>
+
+    </div>
+
+
+    <!-- EMULATOR CANVAS -->
+
+    <canvas
+        id="canvas"
+        class="texturePixelated">
+    </canvas>
+
+
+    <div id="canvasmask">
+
+        <div id="resume">
+
+            <div>
+
+                <h1>
+                    Paused
+                </h1>
+
+                <h3>
+                    Click to resume
+                </h3>
+
+            </div>
 
         </div>
 
+        <div id="sidealertholder"></div>
 
-        <!-- SCREENSHOTS -->
+    </div>
 
-        <div id="screenshotmanager">
 
-            <div id="screenshotsdiv"></div>
+    <!-- MODALS -->
 
-            <div class="screenshotsbottom">
+    <div id="modals">
+
+        <div id="managers">
+
+            <div class="modaltop">
+
+                <h2 id="managertitle"></h2>
+
+                <span id="managerclose">
+                    &#x2716;
+                </span>
+
+            </div>
+
+
+            <!-- KEYBINDS -->
+
+            <div id="keybindmanager">
 
                 <h4>
-                    Screenshots do not persist through page reloads!
-                    Download your screenshots now!
+                    Click on the right column to change a key.
+                    Press save when you are finished!
                 </h4>
 
-                <input type="button"
-                       id="downloadallscreenshots"
-                       value="Download All (zip)">
+                <table
+                    class="managertableparent managertableparentshort">
+
+                    <tbody
+                        class="managertable"
+                        id="keybindtable">
+                    </tbody>
+
+                </table>
+
+                <input
+                    type="button"
+                    id="savekeybinds"
+                    class="specialblue"
+                    value="Save">
+
+                <input
+                    type="button"
+                    id="resetkeybinds"
+                    value="Reset to Default">
 
             </div>
 
-        </div>
 
+            <!-- SCREENSHOTS -->
 
-        <!-- SAVES -->
+            <div id="screenshotmanager">
 
-        <div id="savemanager">
+                <div id="screenshotsdiv"></div>
 
-            <table class="managertableparent">
+                <div class="screenshotsbottom">
 
-                <tbody class="managertable"
-                       id="savetable">
-                </tbody>
+                    <h4>
+                        Screenshots do not persist through page reloads!
+                        Download your screenshots now!
+                    </h4>
 
-            </table>
+                    <input
+                        type="button"
+                        id="downloadallscreenshots"
+                        value="Download All (zip)">
 
-            <h4>
-                Here, you can download all of the Sigma Jello
-                WebRetro saves and states made on this domain.
-            </h4>
-
-            <div class="savesbottom">
-
-                <span id="quotatext"></span>
+                </div>
 
             </div>
 
-        </div>
+
+            <!-- SAVES -->
+
+            <div id="savemanager">
+
+                <table class="managertableparent">
+
+                    <tbody
+                        class="managertable"
+                        id="savetable">
+                    </tbody>
+
+                </table>
+
+                <h4>
+                    Here, you can download all of the Sigma Jello
+                    WebRetro saves and states made on this domain.
+                </h4>
+
+                <div class="savesbottom">
+
+                    <span id="quotatext"></span>
+
+                </div>
+
+            </div>
 
 
-        <!-- ROM SELECTOR -->
+            <!-- ROM SELECTOR -->
 
-        <div id="romselector">
+            <div id="romselector">
 
-            <table class="managertableparent">
+                <table class="managertableparent">
 
-                <tbody class="managertable"
-                       id="romselectortable">
-                </tbody>
+                    <tbody
+                        class="managertable"
+                        id="romselectortable">
+                    </tbody>
 
-            </table>
+                </table>
 
-            <h4 id="recommendedextensions"></h4>
+                <h4 id="recommendedextensions"></h4>
+
+            </div>
 
         </div>
 
     </div>
 
 </div>
-```
 
-</div>
+
+<!-- SIGMA JELLO BACK BUTTON -->
+
+<button
+    id="sigmaBackButton"
+    type="button"
+    onclick="goBackToSigma()">
+
+    <span class="back-arrow">
+        ←
+    </span>
+
+    <span class="back-text">
+        Back
+    </span>
+
+</button>
+
+
+<!-- SIGMA JELLO MUSIC BUTTON -->
+
+<button
+    id="sigmaMusicButton"
+    type="button"
+    onclick="openJelloMusic()">
+
+    <span class="music-icon">
+        ♫
+    </span>
+
+    <span class="music-text">
+        Jello Music
+    </span>
+
+</button>
+
 
 <!-- WEBRETRO SCRIPTS -->
 
-<script type="text/javascript"
-        src="assets/zip-2.4.7.min.js">
+<script
+    type="text/javascript"
+    src="assets/zip-2.4.7.min.js">
 </script>
 
-<script type="text/javascript"
-        src="assets/md5.min.js">
+<script
+    type="text/javascript"
+    src="assets/md5.min.js">
 </script>
 
-<script type="text/javascript"
-        src="uauth/uauth.js">
+<script
+    type="text/javascript"
+    src="uauth/uauth.js">
 </script>
 
-<script type="text/javascript"
-        src="assets/jswindow.js">
+<script
+    type="text/javascript"
+    src="assets/jswindow.js">
 </script>
 
-<script type="text/javascript"
-        src="pwa.js">
+<script
+    type="text/javascript"
+    src="pwa.js">
 </script>
 
-<script type="text/javascript"
-        src="assets/charToCodeMap.js?v=6.5">
+<script
+    type="text/javascript"
+    src="assets/charToCodeMap.js?v=6.5">
 </script>
 
-<script type="text/javascript"
-        src="assets/base.js?v=6.5">
+<script
+    type="text/javascript"
+    src="assets/base.js?v=6.5">
 </script>
+
 
 <!-- SIGMA JELLO CUSTOM STYLE -->
 
 <style>
 
-    /* Sigma Jello Header */
+    /*
+        SIGMA JELLO
+        No top header.
+        WebRetro gets the entire top of the screen.
+    */
 
-    #sigma-header {
+
+    /* BACK BUTTON */
+
+    #sigmaBackButton {
+
         position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 55px;
+
+        left: 20px;
+        bottom: 20px;
+
+        width: 65px;
+        height: 65px;
+
+        padding: 0;
+        margin: 0;
+
+        border: none;
+
+        border-radius: 50%;
+
+        background: white;
+        color: black;
+
+        font-family: Arial, sans-serif;
+
+        font-size: 28px;
+        font-weight: bold;
 
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        justify-content: center;
 
-        padding: 0 20px;
+        cursor: pointer;
 
-        box-sizing: border-box;
+        overflow: hidden;
+        white-space: nowrap;
 
-        background: rgba(0, 0, 0, 0.92);
+        z-index: 999999;
 
-        border-bottom: 1px solid rgba(255,255,255,0.12);
+        transition:
+            width 0.25s ease,
+            transform 0.2s ease,
+            background 0.2s ease,
+            border-radius 0.25s ease;
 
-        z-index: 99999;
     }
 
 
-    #sigma-back {
-        color: white;
+    #sigmaBackButton:hover {
 
-        text-decoration: none;
+        width: 115px;
 
-        font-family: Arial, sans-serif;
-        font-size: 15px;
-        font-weight: bold;
+        background: #ddd;
 
-        transition: opacity 0.2s;
+        transform: scale(1.08);
+
+        border-radius: 35px;
+
     }
 
 
-    #sigma-back:hover {
-        opacity: 0.65;
-    }
+    #sigmaBackButton .back-arrow {
 
-
-    #sigma-title {
-        color: white;
-
-        font-family: Arial, sans-serif;
-
-        font-weight: bold;
-
-        font-size: 16px;
-
-        letter-spacing: 2px;
-    }
-
-
-    #sigma-title span {
-        opacity: 0.5;
-
-        font-size: 12px;
-
-        margin-left: 7px;
-
-        letter-spacing: 1px;
-    }
-
-
-    /* Main title */
-
-    #webretrotitle {
-        margin-top: 75px !important;
-
-        font-family: Arial, sans-serif;
-
-        letter-spacing: 3px;
-
-        text-transform: uppercase;
-    }
-
-
-    #webretrotitle span {
         display: block;
 
-        font-size: 14px;
-
-        letter-spacing: 2px;
-
-        opacity: 0.5;
-
-        margin-top: 5px;
     }
 
 
-    /* Sigma Jello buttons */
+    #sigmaBackButton .back-text {
+
+        display: none;
+
+        font-size: 18px;
+
+    }
+
+
+    #sigmaBackButton:hover .back-arrow {
+
+        display: none;
+
+    }
+
+
+    #sigmaBackButton:hover .back-text {
+
+        display: block;
+
+    }
+
+
+    /* JELLO MUSIC BUTTON */
+
+    #sigmaMusicButton {
+
+        position: fixed;
+
+        right: 20px;
+        bottom: 20px;
+
+        width: 65px;
+        height: 65px;
+
+        padding: 0;
+        margin: 0;
+
+        border: none;
+
+        border-radius: 50%;
+
+        background: white;
+        color: black;
+
+        font-family: Arial, sans-serif;
+
+        font-size: 28px;
+        font-weight: bold;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        cursor: pointer;
+
+        overflow: hidden;
+        white-space: nowrap;
+
+        z-index: 999999;
+
+        transition:
+            width 0.25s ease,
+            transform 0.2s ease,
+            background 0.2s ease,
+            border-radius 0.25s ease;
+
+    }
+
+
+    #sigmaMusicButton:hover {
+
+        width: 160px;
+
+        background: #ddd;
+
+        transform: scale(1.08);
+
+        border-radius: 35px;
+
+    }
+
+
+    #sigmaMusicButton .music-icon {
+
+        display: block;
+
+    }
+
+
+    #sigmaMusicButton .music-text {
+
+        display: none;
+
+        font-size: 17px;
+
+    }
+
+
+    #sigmaMusicButton:hover .music-icon {
+
+        display: none;
+
+    }
+
+
+    #sigmaMusicButton:hover .music-text {
+
+        display: block;
+
+    }
+
+
+    /* WEBRETRO BUTTONS */
 
     #upload,
     #startbutton {
+
         border-radius: 6px;
 
         border: 1px solid rgba(255,255,255,0.2);
@@ -1092,43 +1437,211 @@
         font-weight: bold;
 
         transition: 0.2s;
+
     }
 
 
     #upload:hover,
     #startbutton:hover {
+
         background: #222;
 
         border-color: rgba(255,255,255,0.45);
 
         cursor: pointer;
+
     }
 
 
-    /* Scrollbar */
+    /* SCROLLBAR */
 
     ::-webkit-scrollbar {
+
         width: 8px;
+
     }
 
 
     ::-webkit-scrollbar-track {
+
         background: #050505;
+
     }
 
 
     ::-webkit-scrollbar-thumb {
+
         background: #333;
 
         border-radius: 5px;
+
     }
 
 
     ::-webkit-scrollbar-thumb:hover {
+
         background: #555;
+
     }
 
 </style>
 
+
+<!-- SIGMA JELLO BUTTON FUNCTIONS -->
+
+<script>
+
+    /*
+        This calculates the Sigma Jello homepage
+        relative to the current WebRetro location.
+
+        That means it works on:
+
+        GitHub Pages
+        Cloudflare Pages
+        Netlify
+        localhost
+        basically any normal web host.
+    */
+
+    function getSigmaHomeURL() {
+
+        return new URL(
+            "../../../index.html",
+            window.location.href
+        ).href;
+
+    }
+
+
+    /*
+        Back button
+    */
+
+    function goBackToSigma() {
+
+        window.location.href =
+            getSigmaHomeURL();
+
+    }
+
+
+    /*
+        Opens Jello Music in a completely
+        separate about:blank window.
+
+        The actual music.html file is converted
+        into an absolute URL first, so hosting
+        location does not matter.
+    */
+
+    function openJelloMusic() {
+
+        const musicWindow =
+            window.open(
+                "about:blank",
+                "_blank"
+            );
+
+
+        if (!musicWindow) {
+
+            alert(
+                "Please allow pop-ups for Sigma Jello."
+            );
+
+            return;
+
+        }
+
+
+        /*
+            WebRetro is:
+
+            /assets/jello/webretro/index.html
+
+            Therefore:
+
+            ../../../music.html
+
+            goes back to the Sigma Jello root
+            and opens music.html.
+        */
+
+        const musicURL =
+            new URL(
+                "../../../music.html",
+                window.location.href
+            ).href;
+
+
+        musicWindow.document.open();
+
+
+        musicWindow.document.write(`
+
+            <!DOCTYPE html>
+
+            <html>
+
+            <head>
+
+                <title>Jello Music</title>
+
+                <style>
+
+                    html,
+                    body {
+
+                        margin: 0;
+                        padding: 0;
+
+                        width: 100%;
+                        height: 100%;
+
+                        overflow: hidden;
+
+                        background: black;
+
+                    }
+
+
+                    iframe {
+
+                        width: 100%;
+                        height: 100%;
+
+                        border: none;
+
+                        display: block;
+
+                    }
+
+                </style>
+
+            </head>
+
+            <body>
+
+                <iframe
+                    src="${musicURL}"
+                    allow="autoplay">
+                </iframe>
+
+            </body>
+
+            </html>
+
+        `);
+
+
+        musicWindow.document.close();
+
+    }
+
+</script>
+
+
 </body>
+
 </html>
