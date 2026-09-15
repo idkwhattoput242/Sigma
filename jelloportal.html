@@ -1,192 +1,1369 @@
-<script type="module">
+<!DOCTYPE html>
+<html>
+<head>
 
-    import { initializeApp } from
+    <title>Jello Portal</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+            margin: 0;
+
+            background: #000;
+
+            color: white;
+
+            font-family:
+                "Helvetica Neue",
+                "Segoe UI",
+                Arial,
+                sans-serif;
+
+            overflow: hidden;
+        }
+
+
+        /* =========================
+           MOVING BACKGROUND
+           ========================= */
+
+        .background {
+
+            position: fixed;
+
+            inset: -40px;
+
+            background:
+                url("assets/backroundjello.png")
+                center center / cover no-repeat;
+
+            z-index: 0;
+
+            transform:
+                translate(0px, 0px);
+
+            transition:
+                transform 0.15s ease-out;
+
+            pointer-events: none;
+        }
+
+
+        /* =========================
+           MAIN CONTENT
+           ========================= */
+
+        .container {
+
+            position: relative;
+
+            z-index: 1;
+
+            width: 100%;
+
+            height: 100vh;
+
+            padding:
+                45px 45px 90px;
+
+            overflow-y: auto;
+
+            text-align: center;
+        }
+
+
+        /* =========================
+           TITLE
+           ========================= */
+
+        h1 {
+
+            margin:
+                10px 0 8px;
+
+            font-size: 58px;
+
+            font-family:
+                "Segoe UI Light",
+                "Helvetica Neue",
+                Arial,
+                sans-serif;
+
+            font-weight: 300;
+
+            letter-spacing: -3px;
+
+            text-shadow:
+                0 3px 12px
+                rgba(0, 0, 0, 0.5);
+        }
+
+
+        .subtitle {
+
+            margin:
+                0 0 35px;
+
+            font-size: 16px;
+
+            color:
+                rgba(255, 255, 255, 0.7);
+        }
+
+
+        /* =========================
+           PORTAL GRID
+           ========================= */
+
+        .portal-grid {
+
+            width: 100%;
+
+            max-width: 1100px;
+
+            margin: auto;
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 25px;
+
+            text-align: left;
+        }
+
+
+        /* =========================
+           PANELS
+           ========================= */
+
+        .panel {
+
+            background:
+                rgba(0, 0, 0, 0.55);
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.15);
+
+            border-radius: 12px;
+
+            padding: 25px;
+
+            backdrop-filter:
+                blur(10px);
+
+            -webkit-backdrop-filter:
+                blur(10px);
+
+            box-shadow:
+                0 15px 50px
+                rgba(0, 0, 0, 0.45);
+        }
+
+
+        .panel-title {
+
+            margin:
+                0 0 20px;
+
+            font-size: 25px;
+
+            font-weight: 600;
+        }
+
+
+        /* =========================
+           CHAT
+           ========================= */
+
+        .chat-messages {
+
+            height: 330px;
+
+            overflow-y: auto;
+
+            padding: 12px;
+
+            background:
+                rgba(255, 255, 255, 0.04);
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.08);
+
+            border-radius: 8px;
+
+            margin-bottom: 12px;
+        }
+
+
+        .message {
+
+            margin-bottom: 12px;
+
+            padding:
+                10px 12px;
+
+            background:
+                rgba(255, 255, 255, 0.06);
+
+            border-radius: 7px;
+
+            word-break: break-word;
+        }
+
+
+        .message-name {
+
+            font-weight: bold;
+
+            font-size: 14px;
+
+            margin-bottom: 3px;
+        }
+
+
+        .message-text {
+
+            color:
+                rgba(255, 255, 255, 0.8);
+
+            font-size: 14px;
+
+            white-space: pre-wrap;
+        }
+
+
+        .chat-input {
+
+            display: flex;
+
+            gap: 8px;
+        }
+
+
+        .chat-input input {
+
+            flex: 1;
+
+            min-width: 0;
+
+            padding: 12px;
+
+            border: none;
+
+            outline: none;
+
+            border-radius: 7px;
+
+            background:
+                rgba(255, 255, 255, 0.1);
+
+            color: white;
+
+            font-size: 14px;
+        }
+
+
+        .chat-input input::placeholder {
+
+            color:
+                rgba(255, 255, 255, 0.45);
+        }
+
+
+        .send-button {
+
+            padding:
+                12px 18px;
+
+            border: none;
+
+            border-radius: 7px;
+
+            background: white;
+
+            color: #111;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition:
+                transform 0.15s ease,
+                background 0.15s ease;
+        }
+
+
+        .send-button:hover {
+
+            background: #ddd;
+
+            transform:
+                scale(1.04);
+        }
+
+
+        /* =========================
+           CHAT STATUS
+           ========================= */
+
+        .chat-status {
+
+            margin-top: 10px;
+
+            font-size: 12px;
+
+            color:
+                rgba(255, 255, 255, 0.45);
+        }
+
+
+        /* =========================
+           SERVER LIST
+           ========================= */
+
+        .server-list {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 12px;
+        }
+
+
+        .server {
+
+            padding: 16px;
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.1);
+
+            border-radius: 9px;
+
+            background:
+                rgba(255, 255, 255, 0.045);
+
+            transition:
+                background 0.15s ease,
+                transform 0.15s ease;
+        }
+
+
+        .server:hover {
+
+            background:
+                rgba(255, 255, 255, 0.08);
+
+            transform:
+                translateY(-2px);
+        }
+
+
+        .server-top {
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items: center;
+
+            gap: 10px;
+        }
+
+
+        .server-name {
+
+            font-size: 17px;
+
+            font-weight: bold;
+        }
+
+
+        .server-version {
+
+            font-size: 12px;
+
+            color:
+                rgba(255, 255, 255, 0.5);
+
+            margin-top: 3px;
+        }
+
+
+        .server-ip {
+
+            margin-top: 8px;
+
+            font-family: monospace;
+
+            font-size: 14px;
+
+            color:
+                rgba(255, 255, 255, 0.75);
+        }
+
+
+        .copy-button {
+
+            border: none;
+
+            border-radius: 6px;
+
+            padding:
+                7px 11px;
+
+            background:
+                rgba(255, 255, 255, 0.12);
+
+            color: white;
+
+            cursor: pointer;
+
+            transition:
+                background 0.15s ease;
+        }
+
+
+        .copy-button:hover {
+
+            background:
+                rgba(255, 255, 255, 0.22);
+        }
+
+
+        /* =========================
+           BACK BUTTON
+           ========================= */
+
+        .back-button {
+
+            position: fixed;
+
+            bottom: 20px;
+            left: 20px;
+
+            width: 58px;
+            height: 58px;
+
+            padding: 0;
+
+            border: none;
+
+            border-radius: 50%;
+
+            background:
+                rgba(255, 255, 255, 0.96);
+
+            color: #222;
+
+            cursor: pointer;
+
+            z-index: 10;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            overflow: hidden;
+
+            white-space: nowrap;
+
+            box-shadow:
+                0 5px 18px
+                rgba(0, 0, 0, 0.25);
+
+            transition:
+                width 0.25s ease,
+                transform 0.2s ease,
+                border-radius 0.25s ease;
+        }
+
+
+        .back-button:hover {
+
+            width: 120px;
+
+            transform:
+                scale(1.08);
+
+            border-radius: 35px;
+
+            background: white;
+        }
+
+
+        .back-icon {
+
+            width: 32px;
+            height: 32px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+        }
+
+
+        .back-icon svg {
+
+            width: 30px;
+            height: 30px;
+
+            fill: none;
+
+            stroke: #222;
+
+            stroke-width: 2.5;
+
+            stroke-linecap: round;
+
+            stroke-linejoin: round;
+        }
+
+
+        .back-button .back-name {
+
+            display: none;
+
+            font-size: 17px;
+
+            font-weight: bold;
+        }
+
+
+        .back-button:hover .back-icon {
+
+            display: none;
+        }
+
+
+        .back-button:hover .back-name {
+
+            display: block;
+        }
+
+
+        /* =========================
+           VERSION
+           ========================= */
+
+        .version {
+
+            position: fixed;
+
+            bottom: 15px;
+            right: 15px;
+
+            color: white;
+
+            font-size: 14px;
+
+            font-weight: bold;
+
+            z-index: 10;
+
+            text-shadow:
+                0 2px 8px
+                rgba(0, 0, 0, 0.6);
+        }
+
+
+        /* =========================
+           MOBILE
+           ========================= */
+
+        @media (max-width: 800px) {
+
+            body {
+                overflow: auto;
+            }
+
+            .container {
+
+                padding:
+                    25px 15px 90px;
+
+                height: auto;
+
+                min-height: 100vh;
+            }
+
+            h1 {
+                font-size: 45px;
+            }
+
+            .portal-grid {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         BACKGROUND
+         ========================= -->
+
+    <div
+        id="background"
+        class="background">
+    </div>
+
+
+    <!-- =========================
+         MAIN CONTENT
+         ========================= -->
+
+    <div class="container">
+
+
+        <h1>
+            Jello Portal
+        </h1>
+
+
+        <p class="subtitle">
+            Chat with other players and find Minecraft servers
+        </p>
+
+
+        <div class="portal-grid">
+
+
+            <!-- =========================
+                 CHATROOM
+                 ========================= -->
+
+            <div class="panel">
+
+
+                <h2 class="panel-title">
+                    💬 Chatroom
+                </h2>
+
+
+                <div
+                    id="chatMessages"
+                    class="chat-messages"
+                >
+
+                    <div class="message">
+
+                        <div class="message-name">
+                            Jello
+                        </div>
+
+                        <div class="message-text">
+                            Connecting to Jello Chat...
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="chat-input">
+
+
+                    <input
+                        id="chatInput"
+                        type="text"
+                        maxlength="200"
+                        placeholder="Type a message..."
+                        autocomplete="off"
+                    >
+
+
+                    <button
+                        class="send-button"
+                        id="sendButton"
+                    >
+                        Send
+                    </button>
+
+
+                </div>
+
+
+                <div
+                    id="chatStatus"
+                    class="chat-status"
+                >
+                    Connecting...
+                </div>
+
+
+            </div>
+
+
+            <!-- =========================
+                 MINECRAFT SERVERS
+                 ========================= -->
+
+            <div class="panel">
+
+
+                <h2 class="panel-title">
+                    🎮 Minecraft Servers
+                </h2>
+
+
+                <div class="server-list">
+
+
+                    <!-- SERVER 1 -->
+
+                    <div class="server">
+
+
+                        <div class="server-top">
+
+
+                            <div>
+
+                                <div class="server-name">
+                                    Example Server
+                                </div>
+
+                                <div class="server-version">
+                                    Java 1.8.9+
+                                </div>
+
+                            </div>
+
+
+                            <button
+                                class="copy-button"
+                                onclick="copyIP('play.example.com', this)"
+                            >
+                                Copy
+                            </button>
+
+
+                        </div>
+
+
+                        <div class="server-ip">
+                            play.example.com
+                        </div>
+
+
+                    </div>
+
+
+                    <!-- SERVER 2 -->
+
+                    <div class="server">
+
+
+                        <div class="server-top">
+
+
+                            <div>
+
+                                <div class="server-name">
+                                    Example SMP
+                                </div>
+
+                                <div class="server-version">
+                                    Java 1.20+
+                                </div>
+
+                            </div>
+
+
+                            <button
+                                class="copy-button"
+                                onclick="copyIP('play.example.net', this)"
+                            >
+                                Copy
+                            </button>
+
+
+                        </div>
+
+
+                        <div class="server-ip">
+                            play.example.net
+                        </div>
+
+
+                    </div>
+
+
+                    <!-- SERVER 3 -->
+
+                    <div class="server">
+
+
+                        <div class="server-top">
+
+
+                            <div>
+
+                                <div class="server-name">
+                                    EaglerCraft Server
+                                </div>
+
+                                <div class="server-version">
+                                    EaglerCraft
+                                </div>
+
+                            </div>
+
+
+                            <button
+                                class="copy-button"
+                                onclick="copyIP('wss://example.com', this)"
+                            >
+                                Copy
+                            </button>
+
+
+                        </div>
+
+
+                        <div class="server-ip">
+                            wss://example.com
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         BACK BUTTON
+         ========================= -->
+
+    <button
+        class="back-button"
+        onclick="location.href='index.html'"
+    >
+
+
+        <span class="back-icon">
+
+
+            <svg
+                viewBox="0 0 48 48"
+                aria-hidden="true"
+            >
+
+                <path
+                    d="M30 10L16 24L30 38"
+                />
+
+                <path
+                    d="M17 24H38"
+                />
+
+            </svg>
+
+
+        </span>
+
+
+        <span class="back-name">
+            Back
+        </span>
+
+
+    </button>
+
+
+    <!-- =========================
+         VERSION
+         ========================= -->
+
+    <div class="version">
+        5.0 beta
+    </div>
+
+
+    <!-- =========================
+         FIREBASE
+         ========================= -->
+
+    <script type="module">
+
+
+        import {
+            initializeApp
+        } from
         "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
 
-    import {
-        getDatabase,
-        ref,
-        push,
-        onChildAdded
-    } from
+
+        import {
+            getDatabase,
+            ref,
+            push,
+            onChildAdded
+        } from
         "https://www.gstatic.com/firebasejs/12.2.1/firebase-database.js";
 
 
-    /* =========================
-       FIREBASE CONFIG
-       ========================= */
+        /* =========================
+           FIREBASE CONFIG
+           ========================= */
 
-    const firebaseConfig = {
+        const firebaseConfig = {
 
-        apiKey:
-            "AIzaSyAIZJ7mReibw8J48F6yRut7GQAqWMalN-E",
+            apiKey:
+                "AIzaSyAIZJ7mReibw8J48F6yRut7GQAqWMalN-E",
 
-        authDomain:
-            "sigma-jello.firebaseapp.com",
+            authDomain:
+                "sigma-jello.firebaseapp.com",
 
-        databaseURL:
-            "https://sigma-jello-default-rtdb.firebaseio.com",
+            databaseURL:
+                "https://sigma-jello-default-rtdb.firebaseio.com",
 
-        projectId:
-            "sigma-jello",
+            projectId:
+                "sigma-jello",
 
-        storageBucket:
-            "sigma-jello.firebasestorage.app",
+            storageBucket:
+                "sigma-jello.firebasestorage.app",
 
-        messagingSenderId:
-            "643520880930",
+            messagingSenderId:
+                "643520880930",
 
-        appId:
-            "1:643520880930:web:2d06c3244f500be039c57b"
+            appId:
+                "1:643520880930:web:2d06c3244f500be039c57b"
 
-    };
-
-
-    /* =========================
-       START FIREBASE
-       ========================= */
-
-    const app =
-        initializeApp(firebaseConfig);
+        };
 
 
-    const database =
-        getDatabase(app);
+        /* =========================
+           INITIALIZE FIREBASE
+           ========================= */
+
+        const app =
+            initializeApp(firebaseConfig);
 
 
-    const chatRef =
-        ref(database, "jelloChat");
+        const database =
+            getDatabase(app);
 
 
-    /* =========================
-       ELEMENTS
-       ========================= */
-
-    const chatInput =
-        document.getElementById("chatInput");
-
-    const chatMessages =
-        document.getElementById("chatMessages");
+        const chatRef =
+            ref(database, "jelloChat");
 
 
-    /* =========================
-       SEND MESSAGE
-       ========================= */
+        /* =========================
+           ELEMENTS
+           ========================= */
 
-    window.sendMessage = function() {
-
-        const text =
-            chatInput.value.trim();
-
-
-        if (!text) {
-            return;
-        }
-
-
-        let username =
-            localStorage.getItem(
-                "sigmaJelloUsername"
+        const chatInput =
+            document.getElementById(
+                "chatInput"
             );
 
 
-        if (!username) {
-            username = "Guest";
+        const chatMessages =
+            document.getElementById(
+                "chatMessages"
+            );
+
+
+        const chatStatus =
+            document.getElementById(
+                "chatStatus"
+            );
+
+
+        const sendButton =
+            document.getElementById(
+                "sendButton"
+            );
+
+
+        /* =========================
+           USERNAME
+           ========================= */
+
+        function getUsername() {
+
+            let username =
+                localStorage.getItem(
+                    "sigmaJelloUsername"
+                );
+
+
+            if (!username) {
+
+                username = "Guest";
+
+            }
+
+
+            return username;
+
         }
 
 
-        push(chatRef, {
+        /* =========================
+           SEND MESSAGE
+           ========================= */
 
-            username: username,
+        async function sendMessage() {
 
-            message: text,
-
-            timestamp:
-                Date.now()
-
-        });
+            const text =
+                chatInput.value.trim();
 
 
-        chatInput.value = "";
-
-    };
-
-
-    /* =========================
-       RECEIVE MESSAGES
-       ========================= */
-
-    onChildAdded(
-        chatRef,
-        function(snapshot) {
-
-            const data =
-                snapshot.val();
-
-
-            if (!data) {
+            if (!text) {
                 return;
             }
 
 
-            const message =
-                document.createElement("div");
-
-            message.className =
-                "message";
+            const username =
+                getUsername();
 
 
-            const name =
-                document.createElement("div");
+            try {
 
-            name.className =
-                "message-name";
+                await push(
+                    chatRef,
+                    {
 
-            name.textContent =
-                data.username || "Guest";
+                        username:
+                            username,
 
+                        message:
+                            text,
 
-            const messageText =
-                document.createElement("div");
+                        timestamp:
+                            Date.now()
 
-            messageText.className =
-                "message-text";
-
-            messageText.textContent =
-                data.message || "";
-
-
-            message.appendChild(name);
-
-            message.appendChild(messageText);
-
-            chatMessages.appendChild(message);
+                    }
+                );
 
 
-            chatMessages.scrollTop =
-                chatMessages.scrollHeight;
-
-        }
-    );
+                chatInput.value = "";
 
 
-    /* =========================
-       ENTER TO SEND
-       ========================= */
+            } catch (error) {
 
-    chatInput.addEventListener(
-        "keydown",
-        function(event) {
+                console.error(
+                    "Firebase send error:",
+                    error
+                );
 
-            if (event.key === "Enter") {
 
-                event.preventDefault();
-
-                window.sendMessage();
+                chatStatus.textContent =
+                    "Could not send message.";
 
             }
 
         }
-    );
 
-</script>
+
+        /* =========================
+           SEND BUTTON
+           ========================= */
+
+        sendButton.addEventListener(
+            "click",
+            sendMessage
+        );
+
+
+        /* =========================
+           ENTER TO SEND
+           ========================= */
+
+        chatInput.addEventListener(
+            "keydown",
+            function(event) {
+
+                if (
+                    event.key ===
+                    "Enter"
+                ) {
+
+                    event.preventDefault();
+
+                    sendMessage();
+
+                }
+
+            }
+        );
+
+
+        /* =========================
+           RECEIVE MESSAGES
+           ========================= */
+
+        onChildAdded(
+
+            chatRef,
+
+            function(snapshot) {
+
+                const data =
+                    snapshot.val();
+
+
+                if (!data) {
+                    return;
+                }
+
+
+                /*
+                 * Remove the temporary
+                 * connecting message.
+                 */
+
+                const firstMessage =
+                    chatMessages
+                    .querySelector(
+                        ".message"
+                    );
+
+
+                if (
+                    firstMessage &&
+                    firstMessage
+                        .querySelector(
+                            ".message-name"
+                        )
+                        ?.textContent ===
+                        "Jello"
+                ) {
+
+                    firstMessage.remove();
+
+                }
+
+
+                /* CREATE MESSAGE */
+
+                const message =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                message.className =
+                    "message";
+
+
+                /* USERNAME */
+
+                const name =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                name.className =
+                    "message-name";
+
+
+                name.textContent =
+                    data.username ||
+                    "Guest";
+
+
+                /* MESSAGE TEXT */
+
+                const messageText =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                messageText.className =
+                    "message-text";
+
+
+                /*
+                 * textContent is used instead
+                 * of innerHTML so users cannot
+                 * inject HTML into the chat.
+                 */
+
+                messageText.textContent =
+                    data.message || "";
+
+
+                /* ADD ELEMENTS */
+
+                message.appendChild(
+                    name
+                );
+
+
+                message.appendChild(
+                    messageText
+                );
+
+
+                chatMessages.appendChild(
+                    message
+                );
+
+
+                /* SCROLL */
+
+                chatMessages.scrollTop =
+                    chatMessages.scrollHeight;
+
+            },
+
+            function(error) {
+
+                console.error(
+                    "Firebase read error:",
+                    error
+                );
+
+
+                chatStatus.textContent =
+                    "Chat connection failed.";
+
+            }
+
+        );
+
+
+        /* =========================
+           CONNECTION STATUS
+           ========================= */
+
+        chatStatus.textContent =
+            "Connected to Jello Chat";
+
+
+    </script>
+
+
+    <!-- =========================
+         BACKGROUND MOVEMENT
+         ========================= -->
+
+    <script>
+
+
+        const background =
+            document.getElementById(
+                "background"
+            );
+
+
+        document.addEventListener(
+            "mousemove",
+            function(event) {
+
+
+                const x =
+                    (
+                        event.clientX /
+                        window.innerWidth
+                    ) - 0.5;
+
+
+                const y =
+                    (
+                        event.clientY /
+                        window.innerHeight
+                    ) - 0.5;
+
+
+                const moveX =
+                    x * 35;
+
+
+                const moveY =
+                    y * 35;
+
+
+                background.style.transform =
+                    `translate(${moveX}px, ${moveY}px)`;
+
+            }
+        );
+
+
+        /* =========================
+           COPY IP
+           ========================= */
+
+        window.copyIP =
+            function(ip, button) {
+
+
+                navigator.clipboard
+                    .writeText(ip)
+                    .then(function() {
+
+
+                        const oldText =
+                            button.textContent;
+
+
+                        button.textContent =
+                            "Copied!";
+
+
+                        setTimeout(
+                            function() {
+
+                                button.textContent =
+                                    oldText;
+
+                            },
+                            1200
+                        );
+
+
+                    })
+                    .catch(function() {
+
+                        alert(
+                            "Server IP: " +
+                            ip
+                        );
+
+                    });
+
+            };
+
+
+    </script>
+
+
+</body>
+</html>
