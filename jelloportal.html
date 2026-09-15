@@ -5,9 +5,12 @@
 
     <style>
 
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
-
             background: #000;
             color: white;
 
@@ -36,8 +39,7 @@
 
             z-index: 0;
 
-            transform:
-                translate(0px, 0px);
+            transform: translate(0px, 0px);
 
             transition:
                 transform 0.15s ease-out;
@@ -47,7 +49,7 @@
 
 
         /* =========================
-           CONTENT
+           MAIN
            ========================= */
 
         .container {
@@ -58,13 +60,9 @@
             width: 100%;
             height: 100vh;
 
-            display: flex;
+            padding: 45px;
 
-            flex-direction: column;
-
-            justify-content: center;
-
-            align-items: center;
+            overflow-y: auto;
 
             text-align: center;
         }
@@ -75,9 +73,9 @@
            ========================= */
 
         h1 {
-            margin: 0 0 12px 0;
+            margin: 10px 0 8px;
 
-            font-size: 64px;
+            font-size: 58px;
 
             font-family:
                 "Segoe UI Light",
@@ -96,49 +94,58 @@
 
 
         .subtitle {
-            margin: 0;
+            margin: 0 0 35px;
 
             font-size: 16px;
 
             color:
-                rgba(255, 255, 255, 0.75);
-
-            text-shadow:
-                0 2px 8px
-                rgba(0, 0, 0, 0.5);
+                rgba(255, 255, 255, 0.7);
         }
 
 
         /* =========================
-           PORTAL AREA
+           PORTAL GRID
            ========================= */
 
-        .portal-box {
-            width: 500px;
+        .portal-grid {
+            width: 100%;
 
-            max-width:
-                calc(100vw - 40px);
+            max-width: 1100px;
 
-            margin-top: 30px;
+            margin: auto;
 
-            padding: 25px;
+            display: grid;
 
-            box-sizing: border-box;
+            grid-template-columns:
+                1fr 1fr;
 
+            gap: 25px;
+
+            text-align: left;
+        }
+
+
+        /* =========================
+           PANELS
+           ========================= */
+
+        .panel {
             background:
-                rgba(0, 0, 0, 0.45);
+                rgba(0, 0, 0, 0.55);
 
             border:
                 1px solid
                 rgba(255, 255, 255, 0.15);
 
-            border-radius: 10px;
+            border-radius: 12px;
+
+            padding: 25px;
 
             backdrop-filter:
-                blur(8px);
+                blur(10px);
 
             -webkit-backdrop-filter:
-                blur(8px);
+                blur(10px);
 
             box-shadow:
                 0 15px 50px
@@ -146,22 +153,233 @@
         }
 
 
-        .portal-box h2 {
-            margin: 0 0 10px 0;
+        .panel-title {
+            margin: 0 0 20px;
 
-            font-size: 24px;
+            font-size: 25px;
+
+            font-weight: 600;
+        }
+
+
+        /* =========================
+           CHAT
+           ========================= */
+
+        .chat-messages {
+            height: 330px;
+
+            overflow-y: auto;
+
+            padding: 12px;
+
+            background:
+                rgba(255, 255, 255, 0.04);
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.08);
+
+            border-radius: 8px;
+
+            margin-bottom: 12px;
+        }
+
+
+        .message {
+            margin-bottom: 12px;
+
+            padding: 10px 12px;
+
+            background:
+                rgba(255, 255, 255, 0.06);
+
+            border-radius: 7px;
+
+            word-break: break-word;
+        }
+
+
+        .message-name {
+            font-weight: bold;
+
+            font-size: 14px;
+
+            margin-bottom: 3px;
+        }
+
+
+        .message-text {
+            color:
+                rgba(255, 255, 255, 0.8);
+
+            font-size: 14px;
+        }
+
+
+        .chat-input {
+            display: flex;
+
+            gap: 8px;
+        }
+
+
+        .chat-input input {
+            flex: 1;
+
+            min-width: 0;
+
+            padding: 12px;
+
+            border: none;
+
+            outline: none;
+
+            border-radius: 7px;
+
+            background:
+                rgba(255, 255, 255, 0.1);
+
+            color: white;
+
+            font-size: 14px;
+        }
+
+
+        .chat-input input::placeholder {
+            color:
+                rgba(255, 255, 255, 0.45);
+        }
+
+
+        .send-button {
+            padding: 12px 18px;
+
+            border: none;
+
+            border-radius: 7px;
+
+            background: white;
+
+            color: #111;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition:
+                transform 0.15s ease,
+                background 0.15s ease;
+        }
+
+
+        .send-button:hover {
+            background: #ddd;
+
+            transform: scale(1.04);
+        }
+
+
+        /* =========================
+           SERVER LIST
+           ========================= */
+
+        .server-list {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 12px;
+        }
+
+
+        .server {
+            padding: 16px;
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.1);
+
+            border-radius: 9px;
+
+            background:
+                rgba(255, 255, 255, 0.045);
+
+            transition:
+                background 0.15s ease,
+                transform 0.15s ease;
+        }
+
+
+        .server:hover {
+            background:
+                rgba(255, 255, 255, 0.08);
+
+            transform:
+                translateY(-2px);
+        }
+
+
+        .server-top {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 10px;
+        }
+
+
+        .server-name {
+            font-size: 17px;
 
             font-weight: bold;
         }
 
 
-        .portal-box p {
-            margin: 0;
+        .server-version {
+            font-size: 12px;
 
             color:
-                rgba(255, 255, 255, 0.65);
+                rgba(255, 255, 255, 0.5);
+        }
+
+
+        .server-ip {
+            margin-top: 8px;
+
+            font-family: monospace;
 
             font-size: 14px;
+
+            color:
+                rgba(255, 255, 255, 0.75);
+        }
+
+
+        .copy-button {
+            border: none;
+
+            border-radius: 6px;
+
+            padding: 7px 11px;
+
+            background:
+                rgba(255, 255, 255, 0.12);
+
+            color: white;
+
+            cursor: pointer;
+
+            transition:
+                background 0.15s ease;
+        }
+
+
+        .copy-button:hover {
+            background:
+                rgba(255, 255, 255, 0.22);
         }
 
 
@@ -210,24 +428,18 @@
             transition:
                 width 0.25s ease,
                 transform 0.2s ease,
-                border-radius 0.25s ease,
-                background 0.2s ease;
+                border-radius 0.25s ease;
         }
 
 
         .back-button:hover {
             width: 120px;
 
-            background: white;
-
-            transform:
-                scale(1.08);
+            transform: scale(1.08);
 
             border-radius: 35px;
 
-            box-shadow:
-                0 8px 24px
-                rgba(0, 0, 0, 0.35);
+            background: white;
         }
 
 
@@ -239,8 +451,6 @@
 
             align-items: center;
             justify-content: center;
-
-            flex-shrink: 0;
         }
 
 
@@ -255,6 +465,7 @@
             stroke-width: 2.5;
 
             stroke-linecap: round;
+
             stroke-linejoin: round;
         }
 
@@ -294,11 +505,32 @@
 
             font-weight: bold;
 
-            z-index: 2;
+            z-index: 10;
 
             text-shadow:
                 0 2px 8px
                 rgba(0, 0, 0, 0.6);
+        }
+
+
+        /* =========================
+           MOBILE
+           ========================= */
+
+        @media (max-width: 800px) {
+
+            .container {
+                padding: 25px 15px 90px;
+            }
+
+            h1 {
+                font-size: 45px;
+            }
+
+            .portal-grid {
+                grid-template-columns: 1fr;
+            }
+
         }
 
     </style>
@@ -316,7 +548,7 @@
     </div>
 
 
-    <!-- MAIN CONTENT -->
+    <!-- MAIN -->
 
     <div class="container">
 
@@ -325,19 +557,171 @@
         </h1>
 
         <p class="subtitle">
-            Welcome to the Jello Portal
+            Chat with other players and find Minecraft servers
         </p>
 
 
-        <div class="portal-box">
+        <div class="portal-grid">
 
-            <h2>
-                Portal
-            </h2>
 
-            <p>
-                Portal features will be added here.
-            </p>
+            <!-- =========================
+                 CHATROOM
+                 ========================= -->
+
+            <div class="panel">
+
+                <h2 class="panel-title">
+                    💬 Chatroom
+                </h2>
+
+                <div
+                    id="chatMessages"
+                    class="chat-messages"
+                >
+
+                    <div class="message">
+
+                        <div class="message-name">
+                            Jello
+                        </div>
+
+                        <div class="message-text">
+                            Welcome to the Jello Portal!
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="chat-input">
+
+                    <input
+                        id="chatInput"
+                        type="text"
+                        maxlength="200"
+                        placeholder="Type a message..."
+                    >
+
+                    <button
+                        class="send-button"
+                        onclick="sendMessage()"
+                    >
+                        Send
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 MINECRAFT SERVERS
+                 ========================= -->
+
+            <div class="panel">
+
+                <h2 class="panel-title">
+                    🎮 Minecraft Servers
+                </h2>
+
+
+                <div class="server-list">
+
+
+                    <div class="server">
+
+                        <div class="server-top">
+
+                            <div>
+                                <div class="server-name">
+                                    Example Server
+                                </div>
+
+                                <div class="server-version">
+                                    Java 1.8.9+
+                                </div>
+                            </div>
+
+                            <button
+                                class="copy-button"
+                                onclick="copyIP('play.example.com')"
+                            >
+                                Copy
+                            </button>
+
+                        </div>
+
+                        <div class="server-ip">
+                            play.example.com
+                        </div>
+
+                    </div>
+
+
+                    <div class="server">
+
+                        <div class="server-top">
+
+                            <div>
+                                <div class="server-name">
+                                    Example SMP
+                                </div>
+
+                                <div class="server-version">
+                                    Java 1.20+
+                                </div>
+                            </div>
+
+                            <button
+                                class="copy-button"
+                                onclick="copyIP('play.example.net')"
+                            >
+                                Copy
+                            </button>
+
+                        </div>
+
+                        <div class="server-ip">
+                            play.example.net
+                        </div>
+
+                    </div>
+
+
+                    <div class="server">
+
+                        <div class="server-top">
+
+                            <div>
+                                <div class="server-name">
+                                    EaglerCraft Server
+                                </div>
+
+                                <div class="server-version">
+                                    EaglerCraft
+                                </div>
+                            </div>
+
+                            <button
+                                class="copy-button"
+                                onclick="copyIP('wss://example.com')"
+                            >
+                                Copy
+                            </button>
+
+                        </div>
+
+                        <div class="server-ip">
+                            wss://example.com
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
 
         </div>
 
@@ -386,13 +770,11 @@
     <script>
 
         /* =========================
-           MOUSE BACKGROUND MOVEMENT
+           BACKGROUND MOVEMENT
            ========================= */
 
         const background =
-            document.getElementById(
-                "background"
-            );
+            document.getElementById("background");
 
 
         document.addEventListener(
@@ -408,11 +790,8 @@
                     window.innerHeight) - 0.5;
 
 
-                const moveX =
-                    x * 35;
-
-                const moveY =
-                    y * 35;
+                const moveX = x * 35;
+                const moveY = y * 35;
 
 
                 background.style.transform =
@@ -420,6 +799,121 @@
 
             }
         );
+
+
+        /* =========================
+           CHAT
+           ========================= */
+
+        const chatInput =
+            document.getElementById("chatInput");
+
+        const chatMessages =
+            document.getElementById("chatMessages");
+
+
+        chatInput.addEventListener(
+            "keydown",
+            function(event) {
+
+                if (event.key === "Enter") {
+
+                    sendMessage();
+
+                }
+
+            }
+        );
+
+
+        function sendMessage() {
+
+            const text =
+                chatInput.value.trim();
+
+
+            if (!text) {
+                return;
+            }
+
+
+            let username =
+                localStorage.getItem(
+                    "sigmaJelloUsername"
+                );
+
+
+            if (!username) {
+                username = "Guest";
+            }
+
+
+            const message =
+                document.createElement("div");
+
+            message.className = "message";
+
+
+            const name =
+                document.createElement("div");
+
+            name.className =
+                "message-name";
+
+            name.textContent =
+                username;
+
+
+            const messageText =
+                document.createElement("div");
+
+            messageText.className =
+                "message-text";
+
+            messageText.textContent =
+                text;
+
+
+            message.appendChild(name);
+
+            message.appendChild(messageText);
+
+            chatMessages.appendChild(message);
+
+
+            chatInput.value = "";
+
+
+            chatMessages.scrollTop =
+                chatMessages.scrollHeight;
+
+        }
+
+
+        /* =========================
+           COPY SERVER IP
+           ========================= */
+
+        function copyIP(ip) {
+
+            navigator.clipboard
+                .writeText(ip)
+                .then(function() {
+
+                    alert(
+                        "Copied server IP:\n" + ip
+                    );
+
+                })
+                .catch(function() {
+
+                    alert(
+                        "Server IP: " + ip
+                    );
+
+                });
+
+        }
 
     </script>
 
