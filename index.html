@@ -87,6 +87,62 @@
             z-index: 1;
         }
 
+
+        /* =========================
+           FALLING SNOW
+           ========================= */
+
+        .snow-container {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+        }
+
+        .snow-container.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .snowflake {
+            position: absolute;
+            top: -30px;
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow:
+                0 0 8px rgba(255, 255, 255, 0.35);
+            user-select: none;
+            pointer-events: none;
+            animation:
+                snowFall var(--snow-duration) linear var(--snow-delay) infinite;
+            will-change: transform;
+        }
+
+        @keyframes snowFall {
+            0% {
+                transform:
+                    translate3d(0, -40px, 0)
+                    rotate(0deg);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: var(--snow-opacity);
+            }
+
+            90% {
+                opacity: var(--snow-opacity);
+            }
+
+            100% {
+                transform:
+                    translate3d(var(--snow-drift), 110vh, 0)
+                    rotate(360deg);
+                opacity: 0;
+            }
+        }
+
         /* =========================
            TITLE
            ========================= */
@@ -1087,6 +1143,8 @@
 
     <div id="backgroundDots" class="background-dots"></div>
 
+    <div id="snowContainer" class="snow-container hidden"></div>
+
 
     <div class="container">
 
@@ -1518,6 +1576,25 @@
 
             </div>
 
+            <!-- FALLING SNOW -->
+
+            <div class="quick-setting">
+
+                <span>Falling Snow</span>
+
+                <label class="switch">
+
+                    <input
+                        type="checkbox"
+                        id="quickSnow"
+                    >
+
+                    <span class="slider"></span>
+
+                </label>
+
+            </div>
+
             <!-- JELLO MUSIC -->
 
             <button
@@ -1709,6 +1786,12 @@
 
         const quickBackgroundDots =
             document.getElementById("quickBackgroundDots");
+
+        const snowContainer =
+            document.getElementById("snowContainer");
+
+        const quickSnow =
+            document.getElementById("quickSnow");
 
         const profilePopup =
             document.getElementById("profilePopup");
@@ -2464,6 +2547,125 @@
                 } else {
 
                     backgroundDots.classList.add(
+                        "hidden"
+                    );
+
+                }
+
+            }
+        );
+
+
+
+        /* =========================
+           FALLING SNOW
+           ========================= */
+
+        function createSnow() {
+
+            snowContainer.innerHTML = "";
+
+            for (let i = 0; i < 90; i++) {
+
+                const snowflake =
+                    document.createElement("span");
+
+                snowflake.className =
+                    "snowflake";
+
+                snowflake.textContent =
+                    Math.random() > 0.35 ? "•" : "❄";
+
+                const size =
+                    Math.floor(Math.random() * 9) + 5;
+
+                const duration =
+                    (Math.random() * 8 + 7).toFixed(2) + "s";
+
+                const delay =
+                    (Math.random() * -15).toFixed(2) + "s";
+
+                const drift =
+                    Math.floor(Math.random() * 180) - 90;
+
+                const opacity =
+                    (Math.random() * 0.45 + 0.35).toFixed(2);
+
+                snowflake.style.left =
+                    Math.random() * 100 + "%";
+
+                snowflake.style.top =
+                    -(Math.random() * 100 + 20) + "px";
+
+                snowflake.style.fontSize =
+                    size + "px";
+
+                snowflake.style.setProperty(
+                    "--snow-duration",
+                    duration
+                );
+
+                snowflake.style.setProperty(
+                    "--snow-delay",
+                    delay
+                );
+
+                snowflake.style.setProperty(
+                    "--snow-drift",
+                    drift + "px"
+                );
+
+                snowflake.style.setProperty(
+                    "--snow-opacity",
+                    opacity
+                );
+
+                snowContainer.appendChild(
+                    snowflake
+                );
+
+            }
+
+        }
+
+        createSnow();
+
+        let snowEnabled =
+            localStorage.getItem("fallingSnow")
+            === "true";
+
+        quickSnow.checked =
+            snowEnabled;
+
+        if (snowEnabled) {
+
+            snowContainer.classList.remove(
+                "hidden"
+            );
+
+        }
+
+        quickSnow.addEventListener(
+            "change",
+            function() {
+
+                snowEnabled =
+                    this.checked;
+
+                localStorage.setItem(
+                    "fallingSnow",
+                    snowEnabled
+                );
+
+                if (snowEnabled) {
+
+                    snowContainer.classList.remove(
+                        "hidden"
+                    );
+
+                } else {
+
+                    snowContainer.classList.add(
                         "hidden"
                     );
 
