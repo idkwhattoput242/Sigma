@@ -124,6 +124,12 @@
         width: 180px;
     }
 
+    /* NEW: Eaglercraft 1.9 */
+
+    .eaglercraft-19-button:hover {
+        width: 180px;
+    }
+
     .btd5-button:hover {
         width: 160px;
     }
@@ -492,13 +498,10 @@
     }
 
 </style>
-```
-
 </head>
 
 <body>
 
-```
 <!-- Moving Background -->
 
 <div
@@ -533,6 +536,17 @@
     >
         <span class="game-letter">1.8</span>
         <span class="game-name">1.8 Eaglercraft</span>
+    </button>
+
+
+    <!-- Eaglercraft 1.9 -->
+
+    <button
+        class="game-button eaglercraft-19-button"
+        onclick="launchEaglercraft('assets/jello/1.9.html')"
+    >
+        <span class="game-letter">1.9</span>
+        <span class="game-name">1.9 Eaglercraft</span>
     </button>
 
 
@@ -1117,5 +1131,6 @@
     );
 
 </script>
+
 </body>
 </html>
