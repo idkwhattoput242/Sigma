@@ -8,7 +8,7 @@
             margin: 0;
             background: #000;
             color: white;
-            font-family: Arial, sans-serif;
+            font-family: "Helvetica Neue", "Segoe UI", Arial, sans-serif;
 
             display: flex;
             justify-content: center;
@@ -38,10 +38,109 @@
             pointer-events: none;
         }
 
+        /* =========================
+           ANIMATED BACKGROUND DOTS
+           ========================= */
+
+        .background-dots {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+        }
+
+        .background-dots.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .background-dot {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.28);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.08);
+            animation: dotFloat var(--dot-duration) ease-in-out var(--dot-delay) infinite alternate;
+        }
+
+        @keyframes dotFloat {
+            0% {
+                transform: translate3d(0, 0, 0);
+                opacity: 0.18;
+            }
+
+            50% {
+                opacity: 0.45;
+            }
+
+            100% {
+                transform: translate3d(var(--dot-x), var(--dot-y), 0);
+                opacity: 0.2;
+            }
+        }
+
+
         .container {
             text-align: center;
             position: relative;
             z-index: 1;
+        }
+
+
+        /* =========================
+           FALLING SNOW
+           ========================= */
+
+        .snow-container {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+        }
+
+        .snow-container.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .snowflake {
+            position: absolute;
+            top: -30px;
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow:
+                0 0 8px rgba(255, 255, 255, 0.35);
+            user-select: none;
+            pointer-events: none;
+            animation:
+                snowFall var(--snow-duration) linear var(--snow-delay) infinite;
+            will-change: transform;
+        }
+
+        @keyframes snowFall {
+            0% {
+                transform:
+                    translate3d(0, -40px, 0)
+                    rotate(0deg);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: var(--snow-opacity);
+            }
+
+            90% {
+                opacity: var(--snow-opacity);
+            }
+
+            100% {
+                transform:
+                    translate3d(var(--snow-drift), 110vh, 0)
+                    rotate(360deg);
+                opacity: 0;
+            }
         }
 
         /* =========================
@@ -49,12 +148,12 @@
            ========================= */
 
         h1 {
-            font-size: 68px;
+            font-size: 70px;
             margin-bottom: 30px;
 
-            font-family: Arial, sans-serif;
-            font-weight: 500;
-            letter-spacing: -3px;
+            font-family: "Segoe UI Light", "Helvetica Neue", Arial, sans-serif;
+            font-weight: 300;
+            letter-spacing: -4px;
 
             text-shadow:
                 0 3px 12px rgba(0, 0, 0, 0.45);
@@ -73,15 +172,16 @@
         }
 
         .circle-button {
-            width: 75px;
-            height: 75px;
+            width: 76px;
+            height: 76px;
             padding: 0;
             margin: 5px;
 
             border-radius: 50%;
-            background: white;
-            color: black;
+            background: rgba(255, 255, 255, 0.96);
+            color: #333;
             border: none;
+            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.16);
 
             font-size: 32px;
             font-weight: bold;
@@ -103,9 +203,10 @@
         }
 
         .circle-button:hover {
-            background: #ddd;
+            background: rgba(255, 255, 255, 1);
             transform: scale(1.08);
             border-radius: 40px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
         }
 
         /* =========================
@@ -129,10 +230,10 @@
 
             display: block;
 
-            fill: white;
-            stroke: black;
+            fill: none;
+            stroke: #333;
 
-            stroke-width: 2.5;
+            stroke-width: 1.8;
             stroke-linecap: round;
             stroke-linejoin: round;
         }
@@ -195,7 +296,7 @@
         .version {
             position: fixed;
             bottom: 15px;
-            right: 15px;
+            left: 15px;
 
             color: white;
             font-size: 14px;
@@ -1040,6 +1141,10 @@
 
     <div id="background" class="background"></div>
 
+    <div id="backgroundDots" class="background-dots"></div>
+
+    <div id="snowContainer" class="snow-container hidden"></div>
+
 
     <div class="container">
 
@@ -1255,7 +1360,7 @@
     <!-- VERSION -->
 
     <div class="version">
-        Alpha 2.01
+        5.0 beta
     </div>
 
 
@@ -1452,6 +1557,44 @@
 
             </div>
 
+            <!-- BACKGROUND DOTS -->
+
+            <div class="quick-setting">
+
+                <span>Background Dots</span>
+
+                <label class="switch">
+
+                    <input
+                        type="checkbox"
+                        id="quickBackgroundDots"
+                    >
+
+                    <span class="slider"></span>
+
+                </label>
+
+            </div>
+
+            <!-- FALLING SNOW -->
+
+            <div class="quick-setting">
+
+                <span>Falling Snow</span>
+
+                <label class="switch">
+
+                    <input
+                        type="checkbox"
+                        id="quickSnow"
+                    >
+
+                    <span class="slider"></span>
+
+                </label>
+
+            </div>
+
             <!-- JELLO MUSIC -->
 
             <button
@@ -1638,6 +1781,18 @@
         const background =
             document.getElementById("background");
 
+        const backgroundDots =
+            document.getElementById("backgroundDots");
+
+        const quickBackgroundDots =
+            document.getElementById("quickBackgroundDots");
+
+        const snowContainer =
+            document.getElementById("snowContainer");
+
+        const quickSnow =
+            document.getElementById("quickSnow");
+
         const profilePopup =
             document.getElementById("profilePopup");
 
@@ -1709,11 +1864,6 @@
             );
 
 
-            /*
-             * Create the total-time counter
-             * the first time the user signs in.
-             */
-
             if (
                 localStorage.getItem(
                     "sigmaJelloTotalTime"
@@ -1727,10 +1877,6 @@
 
             }
 
-
-            /*
-             * Store when this session started.
-             */
 
             localStorage.setItem(
                 "sigmaJelloLastVisit",
@@ -1773,11 +1919,6 @@
                 helloUser.onclick =
                     openProfilePopup;
 
-
-                /*
-                 * Make sure older accounts
-                 * get a timer.
-                 */
 
                 if (
                     localStorage.getItem(
@@ -1822,11 +1963,6 @@
 
         }
 
-
-        /*
-         * Update the user's accumulated
-         * time on Jello.
-         */
 
         function updateTotalTime() {
 
@@ -1978,11 +2114,6 @@
 
         function openProfilePopup() {
 
-            /*
-             * Save the newest elapsed time
-             * before displaying the profile.
-             */
-
             updateTotalTime();
 
 
@@ -2032,11 +2163,6 @@
 
         updateUserDisplay();
 
-
-        /*
-         * Keep the timer updated while
-         * the user is on the page.
-         */
 
         setInterval(
             function() {
@@ -2100,11 +2226,6 @@
             }
         );
 
-
-        /*
-         * Save the latest time before
-         * leaving the page.
-         */
 
         window.addEventListener(
             "beforeunload",
@@ -2316,6 +2437,239 @@
 
                 quickFullscreen.checked =
                     !!document.fullscreenElement;
+
+            }
+        );
+
+
+        /* =========================
+           ANIMATED BACKGROUND DOTS
+           ========================= */
+
+        function createBackgroundDots() {
+
+            backgroundDots.innerHTML = "";
+
+            for (let i = 0; i < 45; i++) {
+
+                const dot =
+                    document.createElement("span");
+
+                dot.className =
+                    "background-dot";
+
+                const size =
+                    Math.floor(Math.random() * 7) + 3;
+
+                const x =
+                    Math.floor(Math.random() * 80) - 40;
+
+                const y =
+                    Math.floor(Math.random() * 80) - 40;
+
+                const duration =
+                    (Math.random() * 5 + 5).toFixed(2) + "s";
+
+                const delay =
+                    (Math.random() * -8).toFixed(2) + "s";
+
+                dot.style.width =
+                    size + "px";
+
+                dot.style.height =
+                    size + "px";
+
+                dot.style.left =
+                    Math.random() * 100 + "%";
+
+                dot.style.top =
+                    Math.random() * 100 + "%";
+
+                dot.style.setProperty(
+                    "--dot-x",
+                    x + "px"
+                );
+
+                dot.style.setProperty(
+                    "--dot-y",
+                    y + "px"
+                );
+
+                dot.style.setProperty(
+                    "--dot-duration",
+                    duration
+                );
+
+                dot.style.setProperty(
+                    "--dot-delay",
+                    delay
+                );
+
+                backgroundDots.appendChild(dot);
+            }
+        }
+
+        createBackgroundDots();
+
+        let backgroundDotsEnabled =
+            localStorage.getItem("backgroundDots")
+            !== "false";
+
+        quickBackgroundDots.checked =
+            backgroundDotsEnabled;
+
+        if (!backgroundDotsEnabled) {
+
+            backgroundDots.classList.add(
+                "hidden"
+            );
+
+        }
+
+        quickBackgroundDots.addEventListener(
+            "change",
+            function() {
+
+                backgroundDotsEnabled =
+                    this.checked;
+
+                localStorage.setItem(
+                    "backgroundDots",
+                    backgroundDotsEnabled
+                );
+
+                if (backgroundDotsEnabled) {
+
+                    backgroundDots.classList.remove(
+                        "hidden"
+                    );
+
+                } else {
+
+                    backgroundDots.classList.add(
+                        "hidden"
+                    );
+
+                }
+
+            }
+        );
+
+
+
+        /* =========================
+           FALLING SNOW
+           ========================= */
+
+        function createSnow() {
+
+            snowContainer.innerHTML = "";
+
+            for (let i = 0; i < 90; i++) {
+
+                const snowflake =
+                    document.createElement("span");
+
+                snowflake.className =
+                    "snowflake";
+
+                snowflake.textContent =
+                    Math.random() > 0.35 ? "•" : "❄";
+
+                const size =
+                    Math.floor(Math.random() * 9) + 5;
+
+                const duration =
+                    (Math.random() * 8 + 7).toFixed(2) + "s";
+
+                const delay =
+                    (Math.random() * -15).toFixed(2) + "s";
+
+                const drift =
+                    Math.floor(Math.random() * 180) - 90;
+
+                const opacity =
+                    (Math.random() * 0.45 + 0.35).toFixed(2);
+
+                snowflake.style.left =
+                    Math.random() * 100 + "%";
+
+                snowflake.style.top =
+                    -(Math.random() * 100 + 20) + "px";
+
+                snowflake.style.fontSize =
+                    size + "px";
+
+                snowflake.style.setProperty(
+                    "--snow-duration",
+                    duration
+                );
+
+                snowflake.style.setProperty(
+                    "--snow-delay",
+                    delay
+                );
+
+                snowflake.style.setProperty(
+                    "--snow-drift",
+                    drift + "px"
+                );
+
+                snowflake.style.setProperty(
+                    "--snow-opacity",
+                    opacity
+                );
+
+                snowContainer.appendChild(
+                    snowflake
+                );
+
+            }
+
+        }
+
+        createSnow();
+
+        let snowEnabled =
+            localStorage.getItem("fallingSnow")
+            === "true";
+
+        quickSnow.checked =
+            snowEnabled;
+
+        if (snowEnabled) {
+
+            snowContainer.classList.remove(
+                "hidden"
+            );
+
+        }
+
+        quickSnow.addEventListener(
+            "change",
+            function() {
+
+                snowEnabled =
+                    this.checked;
+
+                localStorage.setItem(
+                    "fallingSnow",
+                    snowEnabled
+                );
+
+                if (snowEnabled) {
+
+                    snowContainer.classList.remove(
+                        "hidden"
+                    );
+
+                } else {
+
+                    snowContainer.classList.add(
+                        "hidden"
+                    );
+
+                }
 
             }
         );

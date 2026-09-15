@@ -12,7 +12,6 @@
             text-align: center;
         }
 
-
         /* =========================
            MOVING BACKGROUND
         ========================= */
@@ -35,7 +34,6 @@
             pointer-events: none;
         }
 
-
         /* =========================
            PAGE CONTENT
         ========================= */
@@ -46,7 +44,6 @@
             position: relative;
             z-index: 1;
         }
-
 
         /* =========================
            GAME BUTTONS
@@ -134,6 +131,9 @@
             width: 130px;
         }
 
+        .nzp-button:hover {
+            width: 180px;
+        }
 
         /* =========================
            BACK BUTTON
@@ -201,7 +201,6 @@
             display: block;
         }
 
-
         /* =========================
            QUICK SETTINGS
         ========================= */
@@ -247,7 +246,6 @@
             color: black;
         }
 
-
         /* =========================
            SETTING ROWS
         ========================= */
@@ -282,7 +280,6 @@
             font-weight: bold;
         }
 
-
         /* =========================
            JELLO MUSIC BUTTON
         ========================= */
@@ -312,7 +309,6 @@
             background: #333;
             transform: translateX(3px);
         }
-
 
         /* =========================
            TOGGLE SWITCH
@@ -374,7 +370,6 @@
             transform: translateX(23px);
         }
 
-
         /* =========================
            HINT
         ========================= */
@@ -388,7 +383,6 @@
 
             text-align: center;
         }
-
 
         /* =========================
            MUSIC POPUP
@@ -474,7 +468,6 @@
             display: block;
         }
 
-
         /* =========================
            OPEN ANIMATION
         ========================= */
@@ -554,6 +547,17 @@
         >
             <span class="game-letter">T</span>
             <span class="game-name">Terraria</span>
+        </button>
+
+
+        <!-- NZP -->
+
+        <button
+            class="game-button nzp-button"
+            onclick="location.href='assets/jello/nzp/index.html'"
+        >
+            <span class="game-letter">N</span>
+            <span class="game-name">NZP</span>
         </button>
 
     </div>
@@ -1015,16 +1019,10 @@
 
             musicPopup.classList.remove("show");
 
-            /*
-             * Stop the music when the popup closes.
-             */
-
             musicFrame.src = "about:blank";
 
         }
 
-
-        /* Click outside music popup */
 
         musicPopup.addEventListener(
             "click",
@@ -1055,11 +1053,6 @@
                     if (event.repeat) return;
 
                     event.preventDefault();
-
-                    /*
-                     * If music is open, P closes it.
-                     * Otherwise P opens/closes Quick Settings.
-                     */
 
                     if (
                         musicPopup.classList.contains(
