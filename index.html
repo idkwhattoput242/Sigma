@@ -2,7 +2,6 @@
 <html>
 <head>
     <title>Jello</title>
-
     <style>
         body {
             margin: 0;
@@ -259,6 +258,15 @@
             height: 35px;
         }
 
+        /* =========================
+           PORTAL ICON
+           ========================= */
+
+        .portal-button .icon svg {
+            width: 36px;
+            height: 36px;
+        }
+
         .circle-button .name {
             display: none;
 
@@ -288,6 +296,10 @@
 
         .settings-button:hover {
             width: 140px;
+        }
+
+        .portal-button:hover {
+            width: 135px;
         }
 
         /* =========================
@@ -1313,6 +1325,57 @@
                 </span>
 
                 <span class="name">Settings</span>
+
+            </button>
+
+
+            <!-- PORTAL -->
+
+            <button
+                class="circle-button portal-button"
+                onclick="location.href='jelloportal.html'"
+            >
+                <span class="icon">
+
+                    <svg viewBox="0 0 48 48" aria-hidden="true">
+
+                        <!-- Globe -->
+
+                        <circle
+                            cx="24"
+                            cy="24"
+                            r="18"
+                        />
+
+                        <!-- Vertical globe lines -->
+
+                        <path
+                            d="M24 6c-6 5-9 11-9 18s3 13 9 18"
+                        />
+
+                        <path
+                            d="M24 6c6 5 9 11 9 18s-3 13-9 18"
+                        />
+
+                        <!-- Horizontal globe lines -->
+
+                        <path
+                            d="M7 24h34"
+                        />
+
+                        <path
+                            d="M10 15h28"
+                        />
+
+                        <path
+                            d="M10 33h28"
+                        />
+
+                    </svg>
+
+                </span>
+
+                <span class="name">Portal</span>
 
             </button>
 
@@ -3239,6 +3302,5 @@
         );
 
     </script>
-
 </body>
 </html>
