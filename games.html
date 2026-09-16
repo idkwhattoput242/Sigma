@@ -158,6 +158,10 @@
         width: 130px;
     }
 
+    .terraria-test-button:hover {
+        width: 160px;
+    }
+
     .nzp-button:hover {
         width: 180px;
     }
@@ -642,6 +646,17 @@
     </button>
 
 
+    <!-- Terraria Test -->
+
+    <button
+        class="game-button terraria-test-button"
+        onclick="launchEaglercraft('assets/jello/terraria/index.html')"
+    >
+        <span class="game-letter">TT</span>
+        <span class="game-name">Terraria Test</span>
+    </button>
+
+
     <!-- NZP -->
 
     <button
@@ -803,7 +818,7 @@
 <script>
 
     /* =========================
-       EAGLERCRAFT LAUNCHER
+       EAGLERCRAFT / GAME LAUNCHER
     ========================= */
 
     function launchEaglercraft(gamePath) {
