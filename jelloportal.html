@@ -649,7 +649,7 @@
 
             cursor: pointer;
 
-            z-index: 10;
+            z-index: 100;
 
             display: flex;
 
@@ -759,6 +759,343 @@
             text-shadow:
                 0 2px 8px
                 rgba(0, 0, 0, 0.6);
+        }
+
+
+        /* =========================
+           QUICK SETTINGS
+           ========================= */
+
+        .quick-settings {
+
+            position: fixed;
+
+            top: 50%;
+
+            left: 50%;
+
+            transform:
+                translate(-50%, -50%)
+                scale(0.95);
+
+            width: 360px;
+
+            max-width: calc(100vw - 30px);
+
+            padding: 24px;
+
+            background:
+                rgba(15, 15, 15, 0.94);
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.15);
+
+            border-radius: 14px;
+
+            backdrop-filter:
+                blur(18px);
+
+            -webkit-backdrop-filter:
+                blur(18px);
+
+            box-shadow:
+                0 25px 80px
+                rgba(0, 0, 0, 0.65);
+
+            z-index: 1000;
+
+            opacity: 0;
+
+            visibility: hidden;
+
+            pointer-events: none;
+
+            transition:
+                opacity 0.18s ease,
+                transform 0.18s ease,
+                visibility 0.18s ease;
+        }
+
+
+        .quick-settings.open {
+
+            opacity: 1;
+
+            visibility: visible;
+
+            pointer-events: auto;
+
+            transform:
+                translate(-50%, -50%)
+                scale(1);
+        }
+
+
+        .quick-settings-title {
+
+            font-size: 24px;
+
+            font-weight: 600;
+
+            margin-bottom: 5px;
+        }
+
+
+        .quick-settings-subtitle {
+
+            font-size: 13px;
+
+            color:
+                rgba(255, 255, 255, 0.45);
+
+            margin-bottom: 20px;
+        }
+
+
+        .setting-row {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 15px;
+
+            padding:
+                13px 0;
+
+            border-bottom:
+                1px solid
+                rgba(255, 255, 255, 0.08);
+        }
+
+
+        .setting-row:last-child {
+
+            border-bottom: none;
+        }
+
+
+        .setting-info {
+
+            text-align: left;
+        }
+
+
+        .setting-name {
+
+            font-size: 14px;
+
+            font-weight: 600;
+        }
+
+
+        .setting-description {
+
+            margin-top: 3px;
+
+            font-size: 11px;
+
+            color:
+                rgba(255, 255, 255, 0.4);
+        }
+
+
+        /* =========================
+           TOGGLE
+           ========================= */
+
+        .toggle {
+
+            position: relative;
+
+            width: 46px;
+
+            height: 25px;
+
+            flex-shrink: 0;
+        }
+
+
+        .toggle input {
+
+            opacity: 0;
+
+            width: 0;
+
+            height: 0;
+        }
+
+
+        .slider {
+
+            position: absolute;
+
+            inset: 0;
+
+            cursor: pointer;
+
+            border-radius: 30px;
+
+            background:
+                rgba(255, 255, 255, 0.18);
+
+            transition:
+                background 0.2s ease;
+        }
+
+
+        .slider:before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 19px;
+
+            height: 19px;
+
+            left: 3px;
+
+            top: 3px;
+
+            border-radius: 50%;
+
+            background: white;
+
+            transition:
+                transform 0.2s ease;
+        }
+
+
+        .toggle input:checked + .slider {
+
+            background: white;
+        }
+
+
+        .toggle input:checked + .slider:before {
+
+            transform:
+                translateX(21px);
+
+            background: #111;
+        }
+
+
+        /* =========================
+           MUSIC BUTTON
+           ========================= */
+
+        .music-button {
+
+            border: none;
+
+            border-radius: 7px;
+
+            padding:
+                9px 13px;
+
+            background: white;
+
+            color: #111;
+
+            font-size: 12px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition:
+                transform 0.15s ease,
+                background 0.15s ease;
+        }
+
+
+        .music-button:hover {
+
+            background: #ddd;
+
+            transform:
+                scale(1.04);
+        }
+
+
+        /* =========================
+           SETTINGS CLOSE
+           ========================= */
+
+        .settings-hint {
+
+            margin-top: 18px;
+
+            text-align: center;
+
+            font-size: 11px;
+
+            color:
+                rgba(255, 255, 255, 0.3);
+        }
+
+
+        /* =========================
+           JELLO MUSIC
+           ========================= */
+
+        .music-window {
+
+            position: fixed;
+
+            top: 50%;
+
+            left: 50%;
+
+            width: 500px;
+
+            height: 600px;
+
+            max-width: calc(100vw - 30px);
+
+            max-height: calc(100vh - 30px);
+
+            transform:
+                translate(-50%, -50%);
+
+            background: #000;
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.15);
+
+            border-radius: 12px;
+
+            overflow: hidden;
+
+            z-index: 900;
+
+            display: none;
+
+            box-shadow:
+                0 25px 80px
+                rgba(0, 0, 0, 0.7);
+        }
+
+
+        .music-window.open {
+
+            display: block;
+        }
+
+
+        .music-window iframe {
+
+            width: 100%;
+
+            height: 100%;
+
+            border: none;
         }
 
 
@@ -1143,6 +1480,169 @@
 
 
     <!-- =========================
+         QUICK SETTINGS
+         ========================= -->
+
+    <div
+        id="quickSettings"
+        class="quick-settings"
+    >
+
+        <div class="quick-settings-title">
+            Quick Settings
+        </div>
+
+        <div class="quick-settings-subtitle">
+            Press P to open or close
+        </div>
+
+
+        <!-- NO TAB CLOSE -->
+
+        <div class="setting-row">
+
+            <div class="setting-info">
+
+                <div class="setting-name">
+                    No Tab Close
+                </div>
+
+                <div class="setting-description">
+                    Warn before leaving Jello
+                </div>
+
+            </div>
+
+
+            <label class="toggle">
+
+                <input
+                    type="checkbox"
+                    id="noTabCloseToggle"
+                >
+
+                <span class="slider"></span>
+
+            </label>
+
+        </div>
+
+
+        <!-- FULL SCREEN -->
+
+        <div class="setting-row">
+
+            <div class="setting-info">
+
+                <div class="setting-name">
+                    Full Screen
+                </div>
+
+                <div class="setting-description">
+                    Enter browser fullscreen
+                </div>
+
+            </div>
+
+
+            <label class="toggle">
+
+                <input
+                    type="checkbox"
+                    id="fullScreenToggle"
+                >
+
+                <span class="slider"></span>
+
+            </label>
+
+        </div>
+
+
+        <!-- MOUSE MOVEMENT -->
+
+        <div class="setting-row">
+
+            <div class="setting-info">
+
+                <div class="setting-name">
+                    Mouse Background Movement
+                </div>
+
+                <div class="setting-description">
+                    Move the background with your mouse
+                </div>
+
+            </div>
+
+
+            <label class="toggle">
+
+                <input
+                    type="checkbox"
+                    id="mouseBackgroundToggle"
+                >
+
+                <span class="slider"></span>
+
+            </label>
+
+        </div>
+
+
+        <!-- JELLO MUSIC -->
+
+        <div class="setting-row">
+
+            <div class="setting-info">
+
+                <div class="setting-name">
+                    Jello Music
+                </div>
+
+                <div class="setting-description">
+                    Open the Jello Music player
+                </div>
+
+            </div>
+
+
+            <button
+                id="musicButton"
+                class="music-button"
+            >
+                Open
+            </button>
+
+        </div>
+
+
+        <div class="settings-hint">
+            Press P again to close
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         JELLO MUSIC WINDOW
+         ========================= -->
+
+    <div
+        id="musicWindow"
+        class="music-window"
+    >
+
+        <iframe
+            id="musicFrame"
+            src=""
+            allow="autoplay"
+        ></iframe>
+
+    </div>
+
+
+    <!-- =========================
          FIREBASE
          ========================= -->
 
@@ -1391,8 +1891,8 @@
            RECEIVE MESSAGES
            ========================= */
 
-        const ONE_DAY =
-            24 * 60 * 60 * 1000;
+        const TWELVE_HOURS =
+            12 * 60 * 60 * 1000;
 
 
         onChildAdded(
@@ -1414,7 +1914,7 @@
 
                 /*
                  * Remove messages older
-                 * than 24 hours.
+                 * than 12 hours.
                  */
 
                 const messageTime =
@@ -1425,7 +1925,7 @@
 
                 if (
                     messageTime <
-                    Date.now() - ONE_DAY
+                    Date.now() - TWELVE_HOURS
                 ) {
 
                     try {
@@ -1601,20 +2101,15 @@
             );
 
 
-        /*
-         * Online username list.
-         */
-
         const onlineUserList =
             document.getElementById(
                 "onlineUserList"
             );
 
 
-        /*
-         * Create a unique ID for this
-         * browser/device.
-         */
+        /* =========================
+           CREATE USER ID
+           ========================= */
 
         let jelloUserID =
             localStorage.getItem(
@@ -1665,20 +2160,10 @@
                     snapshot.val() === true
                 ) {
 
-                    /*
-                     * Remove the user when
-                     * they disconnect.
-                     */
-
                     onDisconnect(
                         presenceRef
                     ).remove();
 
-
-                    /*
-                     * Add this user to the
-                     * online list.
-                     */
 
                     set(
                         presenceRef,
@@ -1721,10 +2206,6 @@
                     snapshot.val();
 
 
-                /*
-                 * Nobody online.
-                 */
-
                 if (!users) {
 
                     onlineCount.textContent =
@@ -1752,25 +2233,13 @@
                     );
 
 
-                /*
-                 * Update counter.
-                 */
-
                 onlineCount.textContent =
                     userIDs.length;
 
 
-                /*
-                 * Clear the current list.
-                 */
-
                 onlineUserList.innerHTML =
                     "";
 
-
-                /*
-                 * Display every username.
-                 */
 
                 userIDs.forEach(
                     function(userID) {
@@ -1839,11 +2308,15 @@
 
 
     <!-- =========================
-         BACKGROUND MOVEMENT
+         QUICK SETTINGS + BACKGROUND
          ========================= -->
 
     <script>
 
+
+        /* =========================
+           ELEMENTS
+           ========================= */
 
         const background =
             document.getElementById(
@@ -1851,9 +2324,278 @@
             );
 
 
+        const quickSettings =
+            document.getElementById(
+                "quickSettings"
+            );
+
+
+        const noTabCloseToggle =
+            document.getElementById(
+                "noTabCloseToggle"
+            );
+
+
+        const fullScreenToggle =
+            document.getElementById(
+                "fullScreenToggle"
+            );
+
+
+        const mouseBackgroundToggle =
+            document.getElementById(
+                "mouseBackgroundToggle"
+            );
+
+
+        const musicButton =
+            document.getElementById(
+                "musicButton"
+            );
+
+
+        const musicWindow =
+            document.getElementById(
+                "musicWindow"
+            );
+
+
+        const musicFrame =
+            document.getElementById(
+                "musicFrame"
+            );
+
+
+        /* =========================
+           LOAD SETTINGS
+           ========================= */
+
+        noTabCloseToggle.checked =
+            localStorage.getItem(
+                "noTabClose"
+            ) === "true";
+
+
+        mouseBackgroundToggle.checked =
+            localStorage.getItem(
+                "mouseBackground"
+            ) !== "false";
+
+
+        /* =========================
+           QUICK SETTINGS TOGGLE
+           ========================= */
+
+        function toggleQuickSettings() {
+
+            quickSettings.classList.toggle(
+                "open"
+            );
+
+        }
+
+
+        /* =========================
+           P KEY
+           ========================= */
+
+        document.addEventListener(
+            "keydown",
+            function(event) {
+
+                /*
+                 * Don't trigger P while
+                 * typing in chat.
+                 */
+
+                if (
+                    event.target.tagName ===
+                    "INPUT" ||
+                    event.target.tagName ===
+                    "TEXTAREA"
+                ) {
+
+                    return;
+
+                }
+
+
+                if (
+                    event.key.toLowerCase() ===
+                    "p"
+                ) {
+
+                    event.preventDefault();
+
+                    toggleQuickSettings();
+
+                }
+
+            }
+        );
+
+
+        /* =========================
+           NO TAB CLOSE
+           ========================= */
+
+        function updateNoTabClose() {
+
+            if (
+                noTabCloseToggle.checked
+            ) {
+
+                localStorage.setItem(
+                    "noTabClose",
+                    "true"
+                );
+
+                window.onbeforeunload =
+                    function(event) {
+
+                        event.preventDefault();
+
+                        event.returnValue = "";
+
+                    };
+
+            } else {
+
+                localStorage.setItem(
+                    "noTabClose",
+                    "false"
+                );
+
+                window.onbeforeunload =
+                    null;
+
+            }
+
+        }
+
+
+        noTabCloseToggle.addEventListener(
+            "change",
+            updateNoTabClose
+        );
+
+
+        updateNoTabClose();
+
+
+        /* =========================
+           FULL SCREEN
+           ========================= */
+
+        fullScreenToggle.addEventListener(
+            "change",
+            async function() {
+
+                if (
+                    fullScreenToggle.checked
+                ) {
+
+                    try {
+
+                        await document.documentElement
+                            .requestFullscreen();
+
+                    } catch (error) {
+
+                        console.error(
+                            "Fullscreen error:",
+                            error
+                        );
+
+                        fullScreenToggle.checked =
+                            false;
+
+                    }
+
+                } else {
+
+                    try {
+
+                        if (
+                            document.fullscreenElement
+                        ) {
+
+                            await document.exitFullscreen();
+
+                        }
+
+                    } catch (error) {
+
+                        console.error(
+                            "Exit fullscreen error:",
+                            error
+                        );
+
+                    }
+
+                }
+
+            }
+        );
+
+
+        /* =========================
+           FULLSCREEN STATE
+           ========================= */
+
+        document.addEventListener(
+            "fullscreenchange",
+            function() {
+
+                fullScreenToggle.checked =
+                    !!document.fullscreenElement;
+
+            }
+        );
+
+
+        /* =========================
+           MOUSE BACKGROUND
+           ========================= */
+
+        mouseBackgroundToggle.addEventListener(
+            "change",
+            function() {
+
+                localStorage.setItem(
+                    "mouseBackground",
+                    mouseBackgroundToggle.checked
+                );
+
+
+                if (
+                    !mouseBackgroundToggle.checked
+                ) {
+
+                    background.style.transform =
+                        "translate(0px, 0px)";
+
+                }
+
+            }
+        );
+
+
+        /* =========================
+           BACKGROUND MOVEMENT
+           ========================= */
+
         document.addEventListener(
             "mousemove",
             function(event) {
+
+                if (
+                    !mouseBackgroundToggle.checked
+                ) {
+
+                    return;
+
+                }
 
 
                 const x =
@@ -1880,6 +2622,29 @@
 
                 background.style.transform =
                     `translate(${moveX}px, ${moveY}px)`;
+
+            }
+        );
+
+
+        /* =========================
+           JELLO MUSIC
+           ========================= */
+
+        musicButton.addEventListener(
+            "click",
+            function() {
+
+                musicFrame.src =
+                    "music.html";
+
+                musicWindow.classList.add(
+                    "open"
+                );
+
+                quickSettings.classList.remove(
+                    "open"
+                );
 
             }
         );
