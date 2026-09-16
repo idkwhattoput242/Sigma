@@ -131,7 +131,7 @@
             padding:
                 8px 14px;
 
-            margin-bottom: 30px;
+            margin-bottom: 15px;
 
             background:
                 rgba(0, 0, 0, 0.45);
@@ -176,6 +176,104 @@
             color: white;
 
             font-weight: bold;
+        }
+
+
+        /* =========================
+           ONLINE USERS
+           ========================= */
+
+        .online-users {
+
+            width: 100%;
+
+            max-width: 1100px;
+
+            margin:
+                0 auto 30px;
+
+            padding:
+                14px 18px;
+
+            background:
+                rgba(0, 0, 0, 0.45);
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.13);
+
+            border-radius: 12px;
+
+            backdrop-filter:
+                blur(8px);
+
+            -webkit-backdrop-filter:
+                blur(8px);
+
+            text-align: left;
+        }
+
+
+        .online-users-title {
+
+            font-size: 13px;
+
+            color:
+                rgba(255, 255, 255, 0.55);
+
+            margin-bottom: 9px;
+        }
+
+
+        .online-user-list {
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 8px;
+        }
+
+
+        .online-user {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 6px;
+
+            padding:
+                6px 10px;
+
+            background:
+                rgba(255, 255, 255, 0.08);
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.08);
+
+            border-radius: 20px;
+
+            font-size: 13px;
+        }
+
+
+        .online-user-dot {
+
+            width: 7px;
+
+            height: 7px;
+
+            border-radius: 50%;
+
+            background: #65e665;
+
+            box-shadow:
+                0 0 8px
+                rgba(101, 230, 101, 0.7);
+
+            flex-shrink: 0;
         }
 
 
@@ -745,6 +843,35 @@
         </div>
 
 
+        <!-- =========================
+             ONLINE USERS
+             ========================= -->
+
+        <div class="online-users">
+
+            <div class="online-users-title">
+                👥 Online now
+            </div>
+
+            <div
+                id="onlineUserList"
+                class="online-user-list"
+            >
+
+                <span
+                    style="
+                        color:
+                        rgba(255,255,255,0.4);
+                    "
+                >
+                    Nobody online
+                </span>
+
+            </div>
+
+        </div>
+
+
         <div class="portal-grid">
 
 
@@ -1036,7 +1163,8 @@
             set,
             onValue,
             onDisconnect,
-            serverTimestamp
+            serverTimestamp,
+            remove
         } from
         "https://www.gstatic.com/firebasejs/12.2.1/firebase-database.js";
 
@@ -1263,17 +1391,58 @@
            RECEIVE MESSAGES
            ========================= */
 
+        const ONE_DAY =
+            24 * 60 * 60 * 1000;
+
+
         onChildAdded(
 
             chatRef,
 
-            function(snapshot) {
+            async function(snapshot) {
 
                 const data =
                     snapshot.val();
 
 
                 if (!data) {
+
+                    return;
+
+                }
+
+
+                /*
+                 * Remove messages older
+                 * than 24 hours.
+                 */
+
+                const messageTime =
+                    Number(
+                        data.timestamp
+                    ) || 0;
+
+
+                if (
+                    messageTime <
+                    Date.now() - ONE_DAY
+                ) {
+
+                    try {
+
+                        await remove(
+                            snapshot.ref
+                        );
+
+                    } catch (error) {
+
+                        console.error(
+                            "Could not remove old message:",
+                            error
+                        );
+
+                    }
+
 
                     return;
 
@@ -1433,6 +1602,16 @@
 
 
         /*
+         * Online username list.
+         */
+
+        const onlineUserList =
+            document.getElementById(
+                "onlineUserList"
+            );
+
+
+        /*
          * Create a unique ID for this
          * browser/device.
          */
@@ -1522,7 +1701,7 @@
 
 
         /* =========================
-           ONLINE COUNT
+           ONLINE USERS
            ========================= */
 
         const presenceListRef =
@@ -1542,24 +1721,115 @@
                     snapshot.val();
 
 
+                /*
+                 * Nobody online.
+                 */
+
                 if (!users) {
 
                     onlineCount.textContent =
                         "0";
+
+
+                    onlineUserList.innerHTML =
+                        `
+                        <span style="
+                            color:
+                            rgba(255,255,255,0.4);
+                        ">
+                            Nobody online
+                        </span>
+                        `;
 
                     return;
 
                 }
 
 
-                const count =
+                const userIDs =
                     Object.keys(
                         users
-                    ).length;
+                    );
 
+
+                /*
+                 * Update counter.
+                 */
 
                 onlineCount.textContent =
-                    count;
+                    userIDs.length;
+
+
+                /*
+                 * Clear the current list.
+                 */
+
+                onlineUserList.innerHTML =
+                    "";
+
+
+                /*
+                 * Display every username.
+                 */
+
+                userIDs.forEach(
+                    function(userID) {
+
+                        const user =
+                            users[userID];
+
+
+                        const username =
+                            user.username ||
+                            "Guest";
+
+
+                        const userElement =
+                            document.createElement(
+                                "div"
+                            );
+
+
+                        userElement.className =
+                            "online-user";
+
+
+                        const dot =
+                            document.createElement(
+                                "span"
+                            );
+
+
+                        dot.className =
+                            "online-user-dot";
+
+
+                        const usernameElement =
+                            document.createElement(
+                                "span"
+                            );
+
+
+                        usernameElement.textContent =
+                            username;
+
+
+                        userElement.appendChild(
+                            dot
+                        );
+
+
+                        userElement.appendChild(
+                            usernameElement
+                        );
+
+
+                        onlineUserList.appendChild(
+                            userElement
+                        );
+
+                    }
+                );
 
             }
 
