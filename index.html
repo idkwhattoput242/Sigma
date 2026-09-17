@@ -1,1871 +1,2459 @@
 <!DOCTYPE html>
+
 <html>
 <head>
     <title>Jello</title>
+<style>
+    body {
+        margin: 0;
+        background: #000;
+        color: white;
+        font-family: "Helvetica Neue", "Segoe UI", Arial, sans-serif;
 
-    <style>
-        body {
-            margin: 0;
-            background: #000;
-            color: white;
-            font-family: "Helvetica Neue", "Segoe UI", Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        height: 100vh;
+    }
 
-            height: 100vh;
+    /* =========================
+       MOVING BACKGROUND
+       ========================= */
+
+    .background {
+        position: fixed;
+        inset: -40px;
+
+        background:
+            url("assets/backround.jpg")
+            center center / cover no-repeat;
+
+        z-index: 0;
+
+        transform: translate(0px, 0px);
+
+        transition:
+            transform 0.15s ease-out;
+
+        pointer-events: none;
+    }
+
+    /* =========================
+       ANIMATED BACKGROUND DOTS
+       ========================= */
+
+    .background-dots {
+        position: fixed;
+        inset: 0;
+
+        z-index: 0;
+
+        overflow: hidden;
+        pointer-events: none;
+
+        transition:
+            opacity 0.25s ease;
+    }
+
+    .background-dots.hidden {
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    .background-dot {
+        position: absolute;
+
+        border-radius: 50%;
+
+        background:
+            rgba(255, 255, 255, 0.28);
+
+        box-shadow:
+            0 0 10px rgba(255, 255, 255, 0.08);
+
+        animation:
+            dotFloat
+            var(--dot-duration)
+            ease-in-out
+            var(--dot-delay)
+            infinite alternate;
+    }
+
+    @keyframes dotFloat {
+        0% {
+            transform:
+                translate3d(0, 0, 0);
+
+            opacity: 0.18;
         }
 
-        /* =========================
-           MOVING BACKGROUND
-           ========================= */
-
-        .background {
-            position: fixed;
-            inset: -40px;
-
-            background:
-                url("assets/backround.jpg")
-                center center / cover no-repeat;
-
-            z-index: 0;
-
-            transform: translate(0px, 0px);
-
-            transition:
-                transform 0.15s ease-out;
-
-            pointer-events: none;
+        50% {
+            opacity: 0.45;
         }
 
-        /* =========================
-           ANIMATED BACKGROUND DOTS
-           ========================= */
+        100% {
+            transform:
+                translate3d(
+                    var(--dot-x),
+                    var(--dot-y),
+                    0
+                );
 
-        .background-dots {
-            position: fixed;
-            inset: 0;
-
-            z-index: 0;
-
-            overflow: hidden;
-            pointer-events: none;
-
-            transition:
-                opacity 0.25s ease;
+            opacity: 0.2;
         }
+    }
 
-        .background-dots.hidden {
+    .container {
+        text-align: center;
+
+        position: relative;
+
+        z-index: 1;
+    }
+
+    /* =========================
+       FALLING SNOW
+       ========================= */
+
+    .snow-container {
+        position: fixed;
+        inset: 0;
+
+        z-index: 0;
+
+        overflow: hidden;
+        pointer-events: none;
+
+        transition:
+            opacity 0.25s ease;
+    }
+
+    .snow-container.hidden {
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    .snowflake {
+        position: absolute;
+
+        top: -30px;
+
+        color:
+            rgba(255, 255, 255, 0.9);
+
+        text-shadow:
+            0 0 8px
+            rgba(255, 255, 255, 0.35);
+
+        user-select: none;
+        pointer-events: none;
+
+        animation:
+            snowFall
+            var(--snow-duration)
+            linear
+            var(--snow-delay)
+            infinite;
+
+        will-change: transform;
+    }
+
+    @keyframes snowFall {
+        0% {
+            transform:
+                translate3d(
+                    0,
+                    -40px,
+                    0
+                )
+                rotate(0deg);
+
             opacity: 0;
-            visibility: hidden;
         }
 
-        .background-dot {
-            position: absolute;
-
-            border-radius: 50%;
-
-            background:
-                rgba(255, 255, 255, 0.28);
-
-            box-shadow:
-                0 0 10px rgba(255, 255, 255, 0.08);
-
-            animation:
-                dotFloat
-                var(--dot-duration)
-                ease-in-out
-                var(--dot-delay)
-                infinite alternate;
+        10% {
+            opacity:
+                var(--snow-opacity);
         }
 
-        @keyframes dotFloat {
-            0% {
-                transform:
-                    translate3d(0, 0, 0);
-
-                opacity: 0.18;
-            }
-
-            50% {
-                opacity: 0.45;
-            }
-
-            100% {
-                transform:
-                    translate3d(
-                        var(--dot-x),
-                        var(--dot-y),
-                        0
-                    );
-
-                opacity: 0.2;
-            }
+        90% {
+            opacity:
+                var(--snow-opacity);
         }
 
-        .container {
-            text-align: center;
+        100% {
+            transform:
+                translate3d(
+                    var(--snow-drift),
+                    110vh,
+                    0
+                )
+                rotate(360deg);
 
-            position: relative;
-
-            z-index: 1;
-        }
-
-        /* =========================
-           FALLING SNOW
-           ========================= */
-
-        .snow-container {
-            position: fixed;
-            inset: 0;
-
-            z-index: 0;
-
-            overflow: hidden;
-            pointer-events: none;
-
-            transition:
-                opacity 0.25s ease;
-        }
-
-        .snow-container.hidden {
             opacity: 0;
-            visibility: hidden;
         }
+    }
 
-        .snowflake {
-            position: absolute;
+    /* =========================
+       TITLE
+       ========================= */
 
-            top: -30px;
+    h1 {
+        font-size: 70px;
 
-            color:
-                rgba(255, 255, 255, 0.9);
+        margin-bottom: 30px;
 
-            text-shadow:
-                0 0 8px
-                rgba(255, 255, 255, 0.35);
+        font-family:
+            "Segoe UI Light",
+            "Helvetica Neue",
+            Arial,
+            sans-serif;
 
-            user-select: none;
-            pointer-events: none;
+        font-weight: 300;
 
-            animation:
-                snowFall
-                var(--snow-duration)
-                linear
-                var(--snow-delay)
-                infinite;
+        letter-spacing: -4px;
 
-            will-change: transform;
-        }
+        text-shadow:
+            0 3px 12px
+            rgba(0, 0, 0, 0.45);
+    }
 
-        @keyframes snowFall {
-            0% {
-                transform:
-                    translate3d(
-                        0,
-                        -40px,
-                        0
-                    )
-                    rotate(0deg);
+    /* =========================
+       CIRCLE BUTTONS
+       ========================= */
 
-                opacity: 0;
-            }
+    .circle-buttons {
+        display: flex;
 
-            10% {
-                opacity:
-                    var(--snow-opacity);
-            }
+        justify-content: center;
+        align-items: center;
 
-            90% {
-                opacity:
-                    var(--snow-opacity);
-            }
+        gap: 18px;
 
-            100% {
-                transform:
-                    translate3d(
-                        var(--snow-drift),
-                        110vh,
-                        0
-                    )
-                    rotate(360deg);
+        margin-bottom: 10px;
+    }
 
-                opacity: 0;
-            }
-        }
+    .circle-button {
+        width: 76px;
+        height: 76px;
 
-        /* =========================
-           TITLE
-           ========================= */
+        padding: 0;
+        margin: 5px;
 
-        h1 {
-            font-size: 70px;
+        border-radius: 50%;
 
-            margin-bottom: 30px;
+        background:
+            rgba(255, 255, 255, 0.96);
 
-            font-family:
-                "Segoe UI Light",
-                "Helvetica Neue",
-                Arial,
-                sans-serif;
+        color: #333;
 
-            font-weight: 300;
+        border: none;
 
-            letter-spacing: -4px;
+        box-shadow:
+            0 5px 18px
+            rgba(0, 0, 0, 0.16);
 
-            text-shadow:
-                0 3px 12px
-                rgba(0, 0, 0, 0.45);
-        }
+        font-size: 32px;
+        font-weight: bold;
 
-        /* =========================
-           CIRCLE BUTTONS
-           ========================= */
+        font-family: Arial, sans-serif;
 
-        .circle-buttons {
-            display: flex;
+        display: flex;
 
-            justify-content: center;
-            align-items: center;
+        align-items: center;
+        justify-content: center;
 
-            gap: 18px;
+        cursor: pointer;
 
-            margin-bottom: 10px;
-        }
+        overflow: hidden;
+        white-space: nowrap;
 
-        .circle-button {
-            width: 76px;
-            height: 76px;
+        transition:
+            width 0.25s ease,
+            background 0.2s ease,
+            transform 0.2s ease,
+            border-radius 0.25s ease;
+    }
 
-            padding: 0;
-            margin: 5px;
+    .circle-button:hover {
+        background:
+            rgba(255, 255, 255, 1);
 
-            border-radius: 50%;
+        transform:
+            scale(1.08);
 
-            background:
-                rgba(255, 255, 255, 0.96);
+        border-radius: 40px;
 
-            color: #333;
+        box-shadow:
+            0 8px 24px
+            rgba(0, 0, 0, 0.22);
+    }
 
-            border: none;
+    /* =========================
+       CLEAN JELLO ICONS
+       ========================= */
 
-            box-shadow:
-                0 5px 18px
-                rgba(0, 0, 0, 0.16);
+    .icon {
+        width: 42px;
+        height: 42px;
 
-            font-size: 32px;
-            font-weight: bold;
+        display: flex;
 
-            font-family: Arial, sans-serif;
+        align-items: center;
+        justify-content: center;
 
-            display: flex;
+        flex-shrink: 0;
+    }
 
-            align-items: center;
-            justify-content: center;
+    .icon svg {
+        width: 34px;
+        height: 34px;
 
-            cursor: pointer;
+        display: block;
 
-            overflow: hidden;
-            white-space: nowrap;
+        fill: none;
 
-            transition:
-                width 0.25s ease,
-                background 0.2s ease,
-                transform 0.2s ease,
-                border-radius 0.25s ease;
-        }
+        stroke: #222;
 
-        .circle-button:hover {
-            background:
-                rgba(255, 255, 255, 1);
+        stroke-width: 2.2;
 
-            transform:
-                scale(1.08);
+        stroke-linecap: round;
+        stroke-linejoin: round;
 
-            border-radius: 40px;
+        transition:
+            transform 0.2s ease;
+    }
 
-            box-shadow:
-                0 8px 24px
-                rgba(0, 0, 0, 0.22);
-        }
+    /* =========================
+       NEW MINECRAFT SWORD LOGO
+       ========================= */
 
-        /* =========================
-           CLEAN JELLO ICONS
-           ========================= */
+    .games-button .icon img {
+        width: 42px;
+        height: 42px;
 
-        .icon {
-            width: 42px;
-            height: 42px;
+        object-fit: contain;
 
-            display: flex;
+        display: block;
+    }
 
-            align-items: center;
-            justify-content: center;
+    .music-button .icon svg {
+        width: 35px;
+        height: 35px;
+    }
 
-            flex-shrink: 0;
-        }
+    .changelog-button .icon svg {
+        width: 34px;
+        height: 34px;
+    }
 
-        .icon svg {
-            width: 34px;
-            height: 34px;
+    .settings-button .icon svg {
+        width: 35px;
+        height: 35px;
+    }
 
-            display: block;
+    /* =========================
+       PORTAL ICON
+       ========================= */
 
-            fill: none;
+    .portal-button .icon svg {
+        width: 36px;
+        height: 36px;
+    }
 
-            stroke: #222;
+    .circle-button .name {
+        display: none;
 
-            stroke-width: 2.2;
+        font-size: 20px;
+        font-weight: bold;
+    }
 
-            stroke-linecap: round;
-            stroke-linejoin: round;
+    .circle-button:hover .icon {
+        display: none;
+    }
 
-            transition:
-                transform 0.2s ease;
-        }
+    .circle-button:hover .name {
+        display: block;
+    }
 
-        .games-button .icon svg {
-            width: 38px;
-            height: 38px;
-        }
+    .games-button:hover {
+        width: 130px;
+    }
 
-        .music-button .icon svg {
-            width: 35px;
-            height: 35px;
-        }
+    .music-button:hover {
+        width: 135px;
+    }
 
-        .changelog-button .icon svg {
-            width: 34px;
-            height: 34px;
-        }
+    .changelog-button:hover {
+        width: 155px;
+    }
 
-        .settings-button .icon svg {
-            width: 35px;
-            height: 35px;
-        }
+    .settings-button:hover {
+        width: 140px;
+    }
 
-        /* =========================
-           PORTAL ICON
-           ========================= */
+    .portal-button:hover {
+        width: 135px;
+    }
 
-        .portal-button .icon svg {
-            width: 36px;
-            height: 36px;
-        }
+    /* =========================
+       VERSION
+       ========================= */
 
-        .circle-button .name {
-            display: none;
+    .version {
+        position: fixed;
 
-            font-size: 20px;
-            font-weight: bold;
-        }
+        bottom: 15px;
+        left: 15px;
 
-        .circle-button:hover .icon {
-            display: none;
-        }
+        color: white;
 
-        .circle-button:hover .name {
-            display: block;
-        }
+        font-size: 14px;
+        font-weight: bold;
 
-        .games-button:hover {
-            width: 130px;
-        }
+        z-index: 2;
+    }
 
-        .music-button:hover {
-            width: 135px;
-        }
+    /* =========================
+       LOGIN BUTTON
+       ========================= */
 
-        .changelog-button:hover {
-            width: 155px;
-        }
+    .login-button {
+        position: fixed;
 
-        .settings-button:hover {
-            width: 140px;
-        }
+        top: 20px;
+        right: 20px;
 
-        .portal-button:hover {
-            width: 135px;
-        }
+        padding:
+            12px 22px;
 
-        /* =========================
-           VERSION
-           ========================= */
+        background: white;
+        color: black;
 
-        .version {
-            position: fixed;
+        border: none;
 
-            bottom: 15px;
-            left: 15px;
+        border-radius: 25px;
 
-            color: white;
+        font-size: 16px;
+        font-weight: bold;
 
-            font-size: 14px;
-            font-weight: bold;
+        font-family:
+            Arial,
+            sans-serif;
 
-            z-index: 2;
-        }
+        cursor: pointer;
 
-        /* =========================
-           LOGIN BUTTON
-           ========================= */
+        z-index: 2;
 
-        .login-button {
-            position: fixed;
+        transition:
+            background 0.2s ease,
+            transform 0.2s ease;
+    }
 
-            top: 20px;
-            right: 20px;
+    .login-button:hover {
+        background: #ddd;
 
-            padding:
-                12px 22px;
+        transform:
+            scale(1.08);
+    }
 
-            background: white;
-            color: black;
+    /* =========================
+       HELLO USER
+       ========================= */
 
-            border: none;
+    .hello-user {
+        position: fixed;
 
-            border-radius: 25px;
+        top: 20px;
+        right: 20px;
 
-            font-size: 16px;
-            font-weight: bold;
+        color: white;
 
-            font-family:
-                Arial,
-                sans-serif;
+        font-size: 20px;
+        font-weight: bold;
 
-            cursor: pointer;
+        z-index: 3;
 
-            z-index: 2;
+        text-shadow:
+            0 2px 10px
+            rgba(0, 0, 0, 0.7);
 
-            transition:
-                background 0.2s ease,
-                transform 0.2s ease;
-        }
+        cursor: pointer;
 
-        .login-button:hover {
-            background: #ddd;
+        transition:
+            transform 0.2s ease,
+            opacity 0.2s ease;
+    }
 
-            transform:
-                scale(1.08);
-        }
+    .hello-user:hover {
+        transform:
+            scale(1.05);
 
-        /* =========================
-           HELLO USER
-           ========================= */
+        opacity: 0.85;
+    }
 
-        .hello-user {
-            position: fixed;
+    /* =========================
+       LOGIN POPUP
+       ========================= */
 
-            top: 20px;
-            right: 20px;
+    .login-popup {
+        display: none;
 
-            color: white;
+        position: fixed;
+        inset: 0;
 
-            font-size: 20px;
-            font-weight: bold;
+        background:
+            rgba(0, 0, 0, 0.45);
 
-            z-index: 3;
+        justify-content: center;
+        align-items: center;
 
-            text-shadow:
-                0 2px 10px
-                rgba(0, 0, 0, 0.7);
+        z-index: 10000;
+    }
 
-            cursor: pointer;
+    .login-popup.show {
+        display: flex;
+    }
 
-            transition:
-                transform 0.2s ease,
-                opacity 0.2s ease;
-        }
+    .login-popup-box {
+        position: relative;
 
-        .hello-user:hover {
-            transform:
-                scale(1.05);
+        width: 300px;
 
-            opacity: 0.85;
-        }
+        background: white;
+        color: black;
 
-        /* =========================
-           LOGIN POPUP
-           ========================= */
+        border-radius: 8px;
 
-        .login-popup {
-            display: none;
+        padding: 30px;
 
-            position: fixed;
-            inset: 0;
+        box-shadow:
+            0 15px 50px
+            rgba(0, 0, 0, 0.65);
 
-            background:
-                rgba(0, 0, 0, 0.45);
+        animation:
+            loginPopupOpen
+            0.2s
+            ease-out;
+    }
 
-            justify-content: center;
-            align-items: center;
+    .login-popup-box h2 {
+        margin:
+            0 0 12px 0;
 
-            z-index: 10000;
-        }
+        font-size: 26px;
+        font-weight: bold;
+    }
 
-        .login-popup.show {
-            display: flex;
-        }
+    .login-subtitle {
+        margin:
+            0 0 20px 0 !important;
 
-        .login-popup-box {
-            position: relative;
+        font-size:
+            14px !important;
 
-            width: 300px;
+        color:
+            #777 !important;
+    }
 
-            background: white;
-            color: black;
+    .username-label {
+        display: block;
 
-            border-radius: 8px;
+        margin-bottom: 7px;
 
-            padding: 30px;
+        font-size: 14px;
+        font-weight: bold;
 
-            box-shadow:
-                0 15px 50px
-                rgba(0, 0, 0, 0.65);
+        color: #222;
+    }
 
-            animation:
-                loginPopupOpen
-                0.2s
-                ease-out;
-        }
+    .username-input {
+        width: 100%;
 
-        .login-popup-box h2 {
-            margin:
-                0 0 12px 0;
+        box-sizing: border-box;
 
-            font-size: 26px;
-            font-weight: bold;
-        }
+        padding: 12px;
 
-        .login-subtitle {
-            margin:
-                0 0 20px 0 !important;
+        background: #f5f5f5;
+        color: black;
 
-            font-size:
-                14px !important;
+        border:
+            1px solid #ccc;
 
-            color:
-                #777 !important;
-        }
+        border-radius: 5px;
 
-        .username-label {
-            display: block;
+        outline: none;
 
-            margin-bottom: 7px;
+        font-size: 16px;
 
-            font-size: 14px;
-            font-weight: bold;
+        font-family:
+            Arial,
+            sans-serif;
+    }
 
-            color: #222;
-        }
+    .username-input:focus {
+        border-color: #111;
 
-        .username-input {
-            width: 100%;
+        background: white;
+    }
 
-            box-sizing: border-box;
+    .sign-in-button {
+        width: 100%;
 
-            padding: 12px;
+        margin-top: 12px;
 
-            background: #f5f5f5;
-            color: black;
+        padding: 12px;
 
-            border:
-                1px solid #ccc;
+        background: #111;
+        color: white;
 
-            border-radius: 5px;
+        border: none;
 
-            outline: none;
+        border-radius: 5px;
 
-            font-size: 16px;
+        font-size: 16px;
+        font-weight: bold;
 
-            font-family:
-                Arial,
-                sans-serif;
-        }
+        cursor: pointer;
 
-        .username-input:focus {
-            border-color: #111;
+        transition:
+            background 0.2s ease,
+            transform 0.2s ease;
+    }
 
-            background: white;
-        }
+    .sign-in-button:hover {
+        background: #333;
 
-        .sign-in-button {
-            width: 100%;
+        transform:
+            translateY(-2px);
+    }
 
-            margin-top: 12px;
+    .login-error {
+        display: none;
 
-            padding: 12px;
+        margin-top: 10px;
 
-            background: #111;
-            color: white;
+        color: #d00000;
 
-            border: none;
+        font-size: 13px;
+        font-weight: bold;
+    }
 
-            border-radius: 5px;
+    .close-login {
+        position: absolute;
 
-            font-size: 16px;
-            font-weight: bold;
+        top: 10px;
+        right: 12px;
 
-            cursor: pointer;
+        width: 30px;
+        height: 30px;
 
-            transition:
-                background 0.2s ease,
-                transform 0.2s ease;
-        }
+        border: none;
 
-        .sign-in-button:hover {
-            background: #333;
+        border-radius: 50%;
 
-            transform:
-                translateY(-2px);
-        }
+        background: #eee;
+        color: black;
 
-        .login-error {
-            display: none;
+        font-size: 18px;
+        font-weight: bold;
 
-            margin-top: 10px;
+        cursor: pointer;
 
-            color: #d00000;
+        transition:
+            background 0.2s ease,
+            transform 0.2s ease;
+    }
 
-            font-size: 13px;
-            font-weight: bold;
-        }
+    .close-login:hover {
+        background: #ddd;
 
-        .close-login {
-            position: absolute;
+        transform:
+            scale(1.08);
+    }
 
-            top: 10px;
-            right: 12px;
+    /* =========================
+       USER PROFILE POPUP
+       ========================= */
 
-            width: 30px;
-            height: 30px;
+    .profile-popup {
+        display: none;
 
-            border: none;
+        position: fixed;
+        inset: 0;
 
-            border-radius: 50%;
+        background:
+            rgba(0, 0, 0, 0.45);
 
-            background: #eee;
-            color: black;
+        justify-content: center;
+        align-items: center;
 
-            font-size: 18px;
-            font-weight: bold;
+        z-index: 12000;
+    }
 
-            cursor: pointer;
+    .profile-popup.show {
+        display: flex;
+    }
 
-            transition:
-                background 0.2s ease,
-                transform 0.2s ease;
-        }
+    .profile-box {
+        width: 320px;
 
-        .close-login:hover {
-            background: #ddd;
+        max-width:
+            calc(100vw - 40px);
 
-            transform:
-                scale(1.08);
-        }
+        background: white;
+        color: black;
 
-        /* =========================
-           USER PROFILE POPUP
-           ========================= */
+        border-radius: 10px;
 
-        .profile-popup {
-            display: none;
+        padding: 28px;
 
-            position: fixed;
-            inset: 0;
+        box-sizing: border-box;
 
-            background:
-                rgba(0, 0, 0, 0.45);
+        box-shadow:
+            0 20px 60px
+            rgba(0, 0, 0, 0.7);
 
-            justify-content: center;
-            align-items: center;
+        animation:
+            profilePopupOpen
+            0.2s
+            ease-out;
+    }
 
-            z-index: 12000;
-        }
+    .profile-box h2 {
+        margin:
+            0 0 20px 0;
 
-        .profile-popup.show {
-            display: flex;
-        }
+        font-size: 26px;
+        font-weight: bold;
+    }
 
-        .profile-box {
-            width: 320px;
+    .profile-info {
+        background: #f2f2f2;
 
-            max-width:
-                calc(100vw - 40px);
+        border:
+            1px solid #ddd;
 
-            background: white;
-            color: black;
+        border-radius: 6px;
 
-            border-radius: 10px;
+        padding: 15px;
 
-            padding: 28px;
+        margin-bottom: 10px;
+    }
 
-            box-sizing: border-box;
+    .profile-info-label {
+        font-size: 12px;
 
-            box-shadow:
-                0 20px 60px
-                rgba(0, 0, 0, 0.7);
+        color: #777;
 
-            animation:
-                profilePopupOpen
-                0.2s
-                ease-out;
-        }
+        font-weight: bold;
 
-        .profile-box h2 {
-            margin:
-                0 0 20px 0;
+        margin-bottom: 5px;
+    }
 
-            font-size: 26px;
-            font-weight: bold;
-        }
+    .profile-info-value {
+        font-size: 18px;
 
-        .profile-info {
-            background: #f2f2f2;
+        font-weight: bold;
 
-            border:
-                1px solid #ddd;
+        word-break: break-word;
+    }
 
-            border-radius: 6px;
+    .profile-close {
+        width: 100%;
 
-            padding: 15px;
+        margin-top: 10px;
 
-            margin-bottom: 10px;
-        }
+        padding: 12px;
 
-        .profile-info-label {
-            font-size: 12px;
+        background: #111;
+        color: white;
 
-            color: #777;
+        border: none;
 
-            font-weight: bold;
+        border-radius: 5px;
 
-            margin-bottom: 5px;
-        }
+        font-size: 15px;
+        font-weight: bold;
 
-        .profile-info-value {
-            font-size: 18px;
+        cursor: pointer;
 
-            font-weight: bold;
+        transition:
+            background 0.2s ease,
+            transform 0.2s ease;
+    }
 
-            word-break: break-word;
-        }
+    .profile-close:hover {
+        background: #333;
 
-        .profile-close {
-            width: 100%;
+        transform:
+            translateY(-2px);
+    }
 
-            margin-top: 10px;
+    /* =========================
+       QUICK SETTINGS
+       ========================= */
 
-            padding: 12px;
+    .quick-settings {
+        display: none;
 
-            background: #111;
-            color: white;
+        position: fixed;
+        inset: 0;
 
-            border: none;
+        background:
+            rgba(0, 0, 0, 0.45);
 
-            border-radius: 5px;
+        justify-content: center;
+        align-items: center;
 
-            font-size: 15px;
-            font-weight: bold;
+        z-index: 9999;
+    }
 
-            cursor: pointer;
+    .quick-settings.show {
+        display: flex;
+    }
 
-            transition:
-                background 0.2s ease,
-                transform 0.2s ease;
-        }
+    .quick-settings-box {
+        width: 360px;
 
-        .profile-close:hover {
-            background: #333;
+        max-width:
+            calc(100vw - 40px);
 
-            transform:
-                translateY(-2px);
-        }
+        max-height:
+            calc(100vh - 40px);
 
-        /* =========================
-           QUICK SETTINGS
-           ========================= */
+        overflow-y: auto;
 
-        .quick-settings {
-            display: none;
+        background: white;
+        color: black;
 
-            position: fixed;
-            inset: 0;
+        border-radius: 6px;
 
-            background:
-                rgba(0, 0, 0, 0.45);
+        padding: 25px;
 
-            justify-content: center;
-            align-items: center;
+        box-shadow:
+            0 15px 50px
+            rgba(0, 0, 0, 0.65);
 
-            z-index: 9999;
-        }
+        animation:
+            clickguiOpen
+            0.2s
+            ease-out;
+    }
 
-        .quick-settings.show {
-            display: flex;
-        }
+    .quick-settings-box h2 {
+        margin:
+            0 0 22px 0;
 
-        .quick-settings-box {
-            width: 360px;
+        font-size: 25px;
+        font-weight: bold;
 
-            max-width:
-                calc(100vw - 40px);
+        color: black;
+    }
 
-            max-height:
-                calc(100vh - 40px);
+    .quick-setting {
+        background: #f2f2f2;
 
-            overflow-y: auto;
+        border:
+            1px solid #ddd;
 
-            background: white;
-            color: black;
+        border-radius: 5px;
 
-            border-radius: 6px;
+        padding: 15px;
 
-            padding: 25px;
+        margin-bottom: 10px;
 
-            box-shadow:
-                0 15px 50px
-                rgba(0, 0, 0, 0.65);
+        display: flex;
 
-            animation:
-                clickguiOpen
-                0.2s
-                ease-out;
-        }
+        justify-content:
+            space-between;
 
-        .quick-settings-box h2 {
-            margin:
-                0 0 22px 0;
+        align-items: center;
 
-            font-size: 25px;
-            font-weight: bold;
+        color: black;
 
-            color: black;
-        }
+        transition:
+            background 0.15s ease,
+            transform 0.15s ease;
+    }
 
-        .quick-setting {
-            background: #f2f2f2;
+    .quick-setting:hover {
+        background: #e7e7e7;
 
-            border:
-                1px solid #ddd;
+        transform:
+            translateX(3px);
+    }
 
-            border-radius: 5px;
+    .quick-setting span {
+        font-size: 16px;
+        font-weight: bold;
+    }
 
-            padding: 15px;
+    /* =========================
+       JELLO MUSIC BUTTON
+       ========================= */
 
-            margin-bottom: 10px;
+    .music-open-button {
+        width: 100%;
 
-            display: flex;
+        padding: 14px;
 
-            justify-content:
-                space-between;
+        margin-top: 4px;
 
-            align-items: center;
+        background: #111;
+        color: white;
 
-            color: black;
+        border: none;
 
-            transition:
-                background 0.15s ease,
-                transform 0.15s ease;
-        }
+        border-radius: 5px;
 
-        .quick-setting:hover {
-            background: #e7e7e7;
+        font-size: 16px;
+        font-weight: bold;
 
-            transform:
-                translateX(3px);
-        }
+        cursor: pointer;
 
-        .quick-setting span {
-            font-size: 16px;
-            font-weight: bold;
-        }
+        transition:
+            background 0.2s ease,
+            transform 0.2s ease;
+    }
 
-        /* =========================
-           JELLO MUSIC BUTTON
-           ========================= */
+    .music-open-button:hover {
+        background: #333;
 
-        .music-open-button {
-            width: 100%;
+        transform:
+            translateY(-2px);
+    }
 
-            padding: 14px;
+    /* =========================
+       TOGGLES
+       ========================= */
 
-            margin-top: 4px;
+    .switch {
+        position: relative;
 
-            background: #111;
-            color: white;
+        width: 48px;
+        height: 25px;
 
-            border: none;
+        flex-shrink: 0;
+    }
 
-            border-radius: 5px;
+    .switch input {
+        opacity: 0;
 
-            font-size: 16px;
-            font-weight: bold;
+        width: 0;
+        height: 0;
+    }
 
-            cursor: pointer;
+    .slider {
+        position: absolute;
 
-            transition:
-                background 0.2s ease,
-                transform 0.2s ease;
-        }
+        inset: 0;
 
-        .music-open-button:hover {
-            background: #333;
+        background: #cfcfcf;
 
-            transform:
-                translateY(-2px);
-        }
+        border-radius: 20px;
 
-        /* =========================
-           TOGGLES
-           ========================= */
+        cursor: pointer;
 
-        .switch {
-            position: relative;
+        transition: 0.2s;
+    }
 
-            width: 48px;
-            height: 25px;
+    .slider:before {
+        content: "";
 
-            flex-shrink: 0;
-        }
+        position: absolute;
 
-        .switch input {
+        width: 19px;
+        height: 19px;
+
+        left: 3px;
+        bottom: 3px;
+
+        background: white;
+
+        border-radius: 50%;
+
+        box-shadow:
+            0 1px 4px
+            rgba(0, 0, 0, 0.25);
+
+        transition: 0.2s;
+    }
+
+    input:checked + .slider {
+        background: #111;
+    }
+
+    input:checked + .slider:before {
+        transform:
+            translateX(23px);
+    }
+
+    /* =========================
+       HINT
+       ========================= */
+
+    .hint {
+        margin:
+            18px 0 0 0;
+
+        color: #777;
+
+        font-size: 13px;
+
+        text-align: center;
+    }
+
+    /* =========================
+       ANIMATIONS
+       ========================= */
+
+    @keyframes clickguiOpen {
+        from {
             opacity: 0;
 
-            width: 0;
-            height: 0;
-        }
-
-        .slider {
-            position: absolute;
-
-            inset: 0;
-
-            background: #cfcfcf;
-
-            border-radius: 20px;
-
-            cursor: pointer;
-
-            transition: 0.2s;
-        }
-
-        .slider:before {
-            content: "";
-
-            position: absolute;
-
-            width: 19px;
-            height: 19px;
-
-            left: 3px;
-            bottom: 3px;
-
-            background: white;
-
-            border-radius: 50%;
-
-            box-shadow:
-                0 1px 4px
-                rgba(0, 0, 0, 0.25);
-
-            transition: 0.2s;
-        }
-
-        input:checked + .slider {
-            background: #111;
-        }
-
-        input:checked + .slider:before {
             transform:
-                translateX(23px);
+                scale(0.92);
         }
 
-        /* =========================
-           HINT
-           ========================= */
+        to {
+            opacity: 1;
 
-        .hint {
-            margin:
-                18px 0 0 0;
+            transform:
+                scale(1);
+        }
+    }
 
-            color: #777;
+    @keyframes loginPopupOpen {
+        from {
+            opacity: 0;
 
-            font-size: 13px;
-
-            text-align: center;
+            transform:
+                scale(0.9);
         }
 
-        /* =========================
-           ANIMATIONS
-           ========================= */
+        to {
+            opacity: 1;
 
-        @keyframes clickguiOpen {
-            from {
-                opacity: 0;
+            transform:
+                scale(1);
+        }
+    }
 
-                transform:
-                    scale(0.92);
-            }
+    @keyframes profilePopupOpen {
+        from {
+            opacity: 0;
 
-            to {
-                opacity: 1;
-
-                transform:
-                    scale(1);
-            }
+            transform:
+                scale(0.9);
         }
 
-        @keyframes loginPopupOpen {
-            from {
-                opacity: 0;
+        to {
+            opacity: 1;
 
-                transform:
-                    scale(0.9);
-            }
-
-            to {
-                opacity: 1;
-
-                transform:
-                    scale(1);
-            }
+            transform:
+                scale(1);
         }
+    }
+</style>
+```
 
-        @keyframes profilePopupOpen {
-            from {
-                opacity: 0;
-
-                transform:
-                    scale(0.9);
-            }
-
-            to {
-                opacity: 1;
-
-                transform:
-                    scale(1);
-            }
-        }
-    </style>
 </head>
 
 <body>
 
-    <!-- BACKGROUND -->
-
-    <div
-        id="background"
-        class="background"
-    ></div>
-
-    <div
-        id="backgroundDots"
-        class="background-dots"
-    ></div>
-
-    <div
-        id="snowContainer"
-        class="snow-container hidden"
-    ></div>
-
-
-    <!-- MAIN CONTENT -->
-
-    <div class="container">
-
-        <h1>Jello</h1>
-
-        <br>
-
-        <div class="circle-buttons">
-
-            <!-- =========================
-                 GAMES
-                 ========================= -->
-
-            <button
-                class="circle-button games-button"
-                onclick="location.href='games.html'"
-            >
-
-                <span class="icon">
-
-                    <!-- TWO MINECRAFT-STYLE SWORDS -->
+```
+<!-- BACKGROUND -->
 
-                    <svg
-                        viewBox="0 0 48 48"
-                        aria-hidden="true"
-                    >
-
-                        <!-- LEFT / DOWN-RIGHT SWORD -->
-
-                        <path
-                            d="
-                                M8 7
-                                L12 7
-                                L34 29
-                                L34 33
-                                L30 33
-                                L8 11
-                                Z
-                            "
-                        />
-
-                        <!-- Sword 1 guard -->
-
-                        <path
-                            d="
-                                M27 30
-                                L37 40
-                                M30 27
-                                L40 37
-                            "
-                        />
-
-                        <!-- Sword 1 handle -->
-
-                        <path
-                            d="
-                                M34 33
-                                L40 39
-                                L37 42
-                                L31 36
-                            "
-                        />
-
-                        <!-- RIGHT / DOWN-LEFT SWORD -->
-
-                        <path
-                            d="
-                                M40 7
-                                L36 7
-                                L14 29
-                                L14 33
-                                L18 33
-                                L40 11
-                                Z
-                            "
-                        />
-
-                        <!-- Sword 2 guard -->
-
-                        <path
-                            d="
-                                M21 30
-                                L11 40
-                                M18 27
-                                L8 37
-                            "
-                        />
-
-                        <!-- Sword 2 handle -->
-
-                        <path
-                            d="
-                                M14 33
-                                L8 39
-                                L11 42
-                                L17 36
-                            "
-                        />
-
-                    </svg>
-
-                </span>
-
-                <span class="name">
-                    Games
-                </span>
-
-            </button>
-
-
-            <!-- =========================
-                 MUSIC
-                 ========================= -->
+<div
+    id="background"
+    class="background"
+></div>
 
-            <button
-                class="circle-button music-button"
-                onclick="openJelloMusic()"
-            >
+<div
+    id="backgroundDots"
+    class="background-dots"
+></div>
 
-                <span class="icon">
+<div
+    id="snowContainer"
+    class="snow-container hidden"
+></div>
 
-                    <svg
-                        viewBox="0 0 48 48"
-                        aria-hidden="true"
-                    >
 
-                        <path
-                            d="
-                                M19 34V11l18-4v23
-                            "
-                        />
+<!-- MAIN CONTENT -->
 
-                        <path
-                            d="
-                                M19 34
-                                c0 4-3 7-7 7
-                                s-7-2-7-5
-                                3-6 7-6
-                                7 1 7 4z
-                            "
-                        />
-
-                        <path
-                            d="
-                                M37 30
-                                c0 4-3 7-6 7
-                                s-7-2-7-5
-                                3-6 7-6
-                                6 1 6 4z
-                            "
-                        />
-
-                    </svg>
-
-                </span>
-
-                <span class="name">
-                    Music
-                </span>
-
-            </button>
-
-
-            <!-- =========================
-                 CHANGELOGS
-                 ========================= -->
-
-            <button
-                class="circle-button changelog-button"
-                onclick="location.href='changelogs.html'"
-            >
-
-                <span class="icon">
-
-                    <svg
-                        viewBox="0 0 48 48"
-                        aria-hidden="true"
-                    >
-
-                        <path
-                            d="
-                                M12 5h18
-                                l6 6v32H12z
-                            "
-                        />
-
-                        <path
-                            d="M30 5v7h6"
-                        />
-
-                        <path
-                            d="M18 21h12"
-                        />
-
-                        <path
-                            d="M18 28h12"
-                        />
-
-                        <path
-                            d="M18 35h8"
-                        />
-
-                    </svg>
-
-                </span>
-
-                <span class="name">
-                    Changelogs
-                </span>
-
-            </button>
-
-
-            <!-- =========================
-                 SETTINGS
-                 ========================= -->
-
-            <button
-                class="circle-button settings-button"
-                onclick="location.href='settings.html'"
-            >
-
-                <span class="icon">
-
-                    <svg
-                        viewBox="0 0 48 48"
-                        aria-hidden="true"
-                    >
-
-                        <path
-                            d="
-                                M20 5
-                                h8
-                                l1.5 6
-                                a14 14 0 0 1 3.5 2
-                                l6-2
-                                4 7
-                                -4.5 3
-                                a14 14 0 0 1 0 4
-                                l4.5 3
-                                -4 7
-                                -6-2
-                                a14 14 0 0 1-3.5 2
-                                L28 43
-                                h-8
-                                l-1.5-6
-                                a14 14 0 0 1-3.5-2
-                                l-6 2
-                                -4-7
-                                4.5-3
-                                a14 14 0 0 1 0-4
-                                L5 18
-                                l4-7
-                                6 2
-                                a14 14 0 0 1 3.5-2
-                                z
-                            "
-                        />
-
-                        <circle
-                            cx="24"
-                            cy="24"
-                            r="6"
-                        />
-
-                    </svg>
-
-                </span>
-
-                <span class="name">
-                    Settings
-                </span>
-
-            </button>
-
-
-            <!-- =========================
-                 PORTAL
-                 ========================= -->
-
-            <button
-                class="circle-button portal-button"
-                onclick="location.href='jelloportal.html'"
-            >
-
-                <span class="icon">
-
-                    <svg
-                        viewBox="0 0 48 48"
-                        aria-hidden="true"
-                    >
-
-                        <circle
-                            cx="24"
-                            cy="24"
-                            r="18"
-                        />
-
-                        <path
-                            d="
-                                M24 6
-                                c-6 5-9 11-9 18
-                                s3 13 9 18
-                            "
-                        />
-
-                        <path
-                            d="
-                                M24 6
-                                c6 5 9 11 9 18
-                                s-3 13-9 18
-                            "
-                        />
-
-                        <path
-                            d="M7 24h34"
-                        />
-
-                        <path
-                            d="M10 15h28"
-                        />
-
-                        <path
-                            d="M10 33h28"
-                        />
-
-                    </svg>
-
-                </span>
-
-                <span class="name">
-                    Portal
-                </span>
-
-            </button>
+<div class="container">
 
+    <h1>Jello</h1>
+
+    <br>
+
+    <div class="circle-buttons">
+
+        <!-- =========================
+             GAMES
+             ========================= -->
+
+        <button
+            class="circle-button games-button"
+            onclick="location.href='games.html'"
+        >
+
+            <span class="icon">
+
+                <!-- NEW MINECRAFT SWORD LOGO -->
+
+                <img
+                    src="assets/jello/minecraft-sword.png"
+                    alt="Games"
+                >
+
+            </span>
+
+            <span class="name">
+                Games
+            </span>
+
+        </button>
+
+
+        <!-- =========================
+             MUSIC
+             ========================= -->
+
+        <button
+            class="circle-button music-button"
+            onclick="openJelloMusic()"
+        >
+
+            <span class="icon">
+
+                <svg
+                    viewBox="0 0 48 48"
+                    aria-hidden="true"
+                >
+
+                    <path
+                        d="
+                            M19 34V11l18-4v23
+                        "
+                    />
+
+                    <path
+                        d="
+                            M19 34
+                            c0 4-3 7-7 7
+                            s-7-2-7-5
+                            3-6 7-6
+                            7 1 7 4z
+                        "
+                    />
+
+                    <path
+                        d="
+                            M37 30
+                            c0 4-3 7-6 7
+                            s-7-2-7-5
+                            3-6 7-6
+                            6 1 6 4z
+                        "
+                    />
+
+                </svg>
+
+            </span>
+
+            <span class="name">
+                Music
+            </span>
+
+        </button>
+
+
+        <!-- =========================
+             CHANGELOGS
+             ========================= -->
+
+        <button
+            class="circle-button changelog-button"
+            onclick="location.href='changelogs.html'"
+        >
+
+            <span class="icon">
+
+                <svg
+                    viewBox="0 0 48 48"
+                    aria-hidden="true"
+                >
+
+                    <path
+                        d="
+                            M12 5h18
+                            l6 6v32H12z
+                        "
+                    />
+
+                    <path
+                        d="M30 5v7h6"
+                    />
+
+                    <path
+                        d="M18 21h12"
+                    />
+
+                    <path
+                        d="M18 28h12"
+                    />
+
+                    <path
+                        d="M18 35h8"
+                    />
+
+                </svg>
+
+            </span>
+
+            <span class="name">
+                Changelogs
+            </span>
+
+        </button>
+
+
+        <!-- =========================
+             SETTINGS
+             ========================= -->
+
+        <button
+            class="circle-button settings-button"
+            onclick="location.href='settings.html'"
+        >
+
+            <span class="icon">
+
+                <svg
+                    viewBox="0 0 48 48"
+                    aria-hidden="true"
+                >
+
+                    <path
+                        d="
+                            M20 5
+                            h8
+                            l1.5 6
+                            a14 14 0 0 1 3.5 2
+                            l6-2
+                            4 7
+                            -4.5 3
+                            a14 14 0 0 1 0 4
+                            l4.5 3
+                            -4 7
+                            -6-2
+                            a14 14 0 0 1-3.5 2
+                            L28 43
+                            h-8
+                            l-1.5-6
+                            a14 14 0 0 1-3.5-2
+                            l-6 2
+                            -4-7
+                            4.5-3
+                            a14 14 0 0 1 0-4
+                            L5 18
+                            l4-7
+                            6 2
+                            a14 14 0 0 1 3.5-2
+                            z
+                        "
+                    />
+
+                    <circle
+                        cx="24"
+                        cy="24"
+                        r="6"
+                    />
+
+                </svg>
+
+            </span>
+
+            <span class="name">
+                Settings
+            </span>
+
+        </button>
+
+
+        <!-- =========================
+             PORTAL
+             ========================= -->
+
+        <button
+            class="circle-button portal-button"
+            onclick="location.href='jelloportal.html'"
+        >
+
+            <span class="icon">
+
+                <svg
+                    viewBox="0 0 48 48"
+                    aria-hidden="true"
+                >
+
+                    <circle
+                        cx="24"
+                        cy="24"
+                        r="18"
+                    />
+
+                    <path
+                        d="
+                            M24 6
+                            c-6 5-9 11-9 18
+                            s3 13 9 18
+                        "
+                    />
+
+                    <path
+                        d="
+                            M24 6
+                            c6 5 9 11 9 18
+                            s-3 13-9 18
+                        "
+                    />
+
+                    <path
+                        d="M7 24h34"
+                    />
+
+                    <path
+                        d="M10 15h28"
+                    />
+
+                    <path
+                        d="M10 33h28"
+                    />
+
+                </svg>
+
+            </span>
+
+            <span class="name">
+                Portal
+            </span>
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     HELLO USER
+     ========================= -->
+
+<div
+    id="helloUser"
+    class="hello-user"
+></div>
+
+
+<!-- =========================
+     LOGIN BUTTON
+     ========================= -->
+
+<button
+    id="loginButton"
+    class="login-button"
+    onclick="openLoginPopup()"
+>
+    Log In
+</button>
+
+
+<!-- =========================
+     VERSION
+     ========================= -->
+
+<div class="version">
+    5.0.1 Beta
+</div>
+
+
+<!-- =========================
+     LOGIN POPUP
+     ========================= -->
+
+<div
+    id="loginPopup"
+    class="login-popup"
+>
+
+    <div class="login-popup-box">
+
+        <button
+            class="close-login"
+            onclick="closeLoginPopup()"
+        >
+            ×
+        </button>
+
+        <h2>
+            Log In
+        </h2>
+
+        <p class="login-subtitle">
+            Enter a username to continue
+        </p>
+
+        <label
+            class="username-label"
+            for="usernameInput"
+        >
+            Username
+        </label>
+
+        <input
+            id="usernameInput"
+            class="username-input"
+            type="text"
+            maxlength="20"
+            placeholder="Enter username"
+            autocomplete="off"
+        >
+
+        <button
+            class="sign-in-button"
+            onclick="signIn()"
+        >
+            Sign In
+        </button>
+
+        <div
+            id="loginError"
+            class="login-error"
+        >
+            Please enter a username.
         </div>
 
     </div>
 
-
-    <!-- =========================
-         HELLO USER
-         ========================= -->
-
-    <div
-        id="helloUser"
-        class="hello-user"
-    ></div>
+</div>
 
 
-    <!-- =========================
-         LOGIN BUTTON
-         ========================= -->
+<!-- =========================
+     USER PROFILE POPUP
+     ========================= -->
 
-    <button
-        id="loginButton"
-        class="login-button"
-        onclick="openLoginPopup()"
-    >
-        Log In
-    </button>
+<div
+    id="profilePopup"
+    class="profile-popup"
+>
 
+    <div class="profile-box">
 
-    <!-- =========================
-         VERSION
-         ========================= -->
+        <h2 id="profileTitle">
+            Profile
+        </h2>
 
-    <div class="version">
-        5.0.1 Beta
-    </div>
+        <div class="profile-info">
 
-
-    <!-- =========================
-         LOGIN POPUP
-         ========================= -->
-
-    <div
-        id="loginPopup"
-        class="login-popup"
-    >
-
-        <div class="login-popup-box">
-
-            <button
-                class="close-login"
-                onclick="closeLoginPopup()"
-            >
-                ×
-            </button>
-
-            <h2>
-                Log In
-            </h2>
-
-            <p class="login-subtitle">
-                Enter a username to continue
-            </p>
-
-            <label
-                class="username-label"
-                for="usernameInput"
-            >
+            <div class="profile-info-label">
                 Username
-            </label>
-
-            <input
-                id="usernameInput"
-                class="username-input"
-                type="text"
-                maxlength="20"
-                placeholder="Enter username"
-                autocomplete="off"
-            >
-
-            <button
-                class="sign-in-button"
-                onclick="signIn()"
-            >
-                Sign In
-            </button>
+            </div>
 
             <div
-                id="loginError"
-                class="login-error"
+                id="profileUsername"
+                class="profile-info-value"
             >
-                Please enter a username.
+                -
             </div>
 
         </div>
 
+        <div class="profile-info">
+
+            <div class="profile-info-label">
+                Time on Jello
+            </div>
+
+            <div
+                id="profileTime"
+                class="profile-info-value"
+            >
+                0 seconds
+            </div>
+
+        </div>
+
+        <button
+            class="profile-close"
+            onclick="closeProfilePopup()"
+        >
+            Close
+        </button>
+
     </div>
 
+</div>
 
-    <!-- =========================
-         USER PROFILE POPUP
-         ========================= -->
 
-    <div
-        id="profilePopup"
-        class="profile-popup"
-    >
+<!-- =========================
+     QUICK SETTINGS
+     ========================= -->
 
-        <div class="profile-box">
+<div
+    id="quickSettings"
+    class="quick-settings"
+>
 
-            <h2 id="profileTitle">
-                Profile
-            </h2>
+    <div class="quick-settings-box">
 
-            <div class="profile-info">
+        <h2>
+            Settings
+        </h2>
 
-                <div class="profile-info-label">
-                    Username
-                </div>
+        <!-- AUTO CLOAK -->
 
-                <div
-                    id="profileUsername"
-                    class="profile-info-value"
+        <div class="quick-setting">
+
+            <span>
+                Auto Cloak
+            </span>
+
+            <label class="switch">
+
+                <input
+                    type="checkbox"
+                    id="quickAutoCloak"
                 >
-                    -
-                </div>
 
-            </div>
+                <span class="slider"></span>
 
-            <div class="profile-info">
+            </label>
 
-                <div class="profile-info-label">
-                    Time on Jello
-                </div>
+        </div>
 
-                <div
-                    id="profileTime"
-                    class="profile-info-value"
+
+        <!-- NO TAB CLOSE -->
+
+        <div class="quick-setting">
+
+            <span>
+                No Tab Close
+            </span>
+
+            <label class="switch">
+
+                <input
+                    type="checkbox"
+                    id="quickNoTabClose"
                 >
-                    0 seconds
-                </div>
 
-            </div>
+                <span class="slider"></span>
 
-            <button
-                class="profile-close"
-                onclick="closeProfilePopup()"
-            >
-                Close
-            </button>
+            </label>
 
         </div>
 
-    </div>
 
+        <!-- FULL SCREEN -->
 
-    <!-- =========================
-         QUICK SETTINGS
-         ========================= -->
+        <div class="quick-setting">
 
-    <div
-        id="quickSettings"
-        class="quick-settings"
-    >
+            <span>
+                Full Screen
+            </span>
 
-        <div class="quick-settings-box">
+            <label class="switch">
 
-            <h2>
-                Settings
-            </h2>
+                <input
+                    type="checkbox"
+                    id="quickFullscreen"
+                >
 
+                <span class="slider"></span>
 
-            <!-- AUTO CLOAK -->
-
-            <div class="quick-setting">
-
-                <span>
-                    Auto Cloak
-                </span>
-
-                <label class="switch">
-
-                    <input
-                        type="checkbox"
-                        id="quickAutoCloak"
-                    >
-
-                    <span class="slider"></span>
-
-                </label>
-
-            </div>
-
-
-            <!-- NO TAB CLOSE -->
-
-            <div class="quick-setting">
-
-                <span>
-                    No Tab Close
-                </span>
-
-                <label class="switch">
-
-                    <input
-                        type="checkbox"
-                        id="quickNoTabClose"
-                    >
-
-                    <span class="slider"></span>
-
-                </label>
-
-            </div>
-
-
-            <!-- FULL SCREEN -->
-
-            <div class="quick-setting">
-
-                <span>
-                    Full Screen
-                </span>
-
-                <label class="switch">
-
-                    <input
-                        type="checkbox"
-                        id="quickFullscreen"
-                    >
-
-                    <span class="slider"></span>
-
-                </label>
-
-            </div>
-
-
-            <!-- MOUSE BACKGROUND -->
-
-            <div class="quick-setting">
-
-                <span>
-                    Mouse Background Movement
-                </span>
-
-                <label class="switch">
-
-                    <input
-                        type="checkbox"
-                        id="quickMouseBackground"
-                    >
-
-                    <span class="slider"></span>
-
-                </label>
-
-            </div>
-
-
-            <!-- BACKGROUND DOTS -->
-
-            <div class="quick-setting">
-
-                <span>
-                    Background Dots
-                </span>
-
-                <label class="switch">
-
-                    <input
-                        type="checkbox"
-                        id="quickBackgroundDots"
-                    >
-
-                    <span class="slider"></span>
-
-                </label>
-
-            </div>
-
-
-            <!-- FALLING SNOW -->
-
-            <div class="quick-setting">
-
-                <span>
-                    Falling Snow
-                </span>
-
-                <label class="switch">
-
-                    <input
-                        type="checkbox"
-                        id="quickSnow"
-                    >
-
-                    <span class="slider"></span>
-
-                </label>
-
-            </div>
-
-
-            <!-- JELLO MUSIC -->
-
-            <button
-                class="music-open-button"
-                onclick="openJelloMusic()"
-            >
-                Jello Music
-            </button>
-
-
-            <p class="hint">
-                Press P to close
-            </p>
+            </label>
 
         </div>
 
+
+        <!-- MOUSE BACKGROUND -->
+
+        <div class="quick-setting">
+
+            <span>
+                Mouse Background Movement
+            </span>
+
+            <label class="switch">
+
+                <input
+                    type="checkbox"
+                    id="quickMouseBackground"
+                >
+
+                <span class="slider"></span>
+
+            </label>
+
+        </div>
+
+
+        <!-- BACKGROUND DOTS -->
+
+        <div class="quick-setting">
+
+            <span>
+                Background Dots
+            </span>
+
+            <label class="switch">
+
+                <input
+                    type="checkbox"
+                    id="quickBackgroundDots"
+                >
+
+                <span class="slider"></span>
+
+            </label>
+
+        </div>
+
+
+        <!-- FALLING SNOW -->
+
+        <div class="quick-setting">
+
+            <span>
+                Falling Snow
+            </span>
+
+            <label class="switch">
+
+                <input
+                    type="checkbox"
+                    id="quickSnow"
+                >
+
+                <span class="slider"></span>
+
+            </label>
+
+        </div>
+
+
+        <!-- JELLO MUSIC -->
+
+        <button
+            class="music-open-button"
+            onclick="openJelloMusic()"
+        >
+            Jello Music
+        </button>
+
+
+        <p class="hint">
+            Press P to close
+        </p>
+
     </div>
 
+</div>
 
-    <script>
 
-        /* =========================
-           ELEMENTS
-           ========================= */
+<script>
 
-        const quickSettings =
-            document.getElementById(
-                "quickSettings"
+    /* =========================
+       ELEMENTS
+       ========================= */
+
+    const quickSettings =
+        document.getElementById(
+            "quickSettings"
+        );
+
+    const quickAutoCloak =
+        document.getElementById(
+            "quickAutoCloak"
+        );
+
+    const quickNoTabClose =
+        document.getElementById(
+            "quickNoTabClose"
+        );
+
+    const quickFullscreen =
+        document.getElementById(
+            "quickFullscreen"
+        );
+
+    const quickMouseBackground =
+        document.getElementById(
+            "quickMouseBackground"
+        );
+
+    const loginPopup =
+        document.getElementById(
+            "loginPopup"
+        );
+
+    const usernameInput =
+        document.getElementById(
+            "usernameInput"
+        );
+
+    const loginError =
+        document.getElementById(
+            "loginError"
+        );
+
+    const loginButton =
+        document.getElementById(
+            "loginButton"
+        );
+
+    const helloUser =
+        document.getElementById(
+            "helloUser"
+        );
+
+    const background =
+        document.getElementById(
+            "background"
+        );
+
+    const backgroundDots =
+        document.getElementById(
+            "backgroundDots"
+        );
+
+    const quickBackgroundDots =
+        document.getElementById(
+            "quickBackgroundDots"
+        );
+
+    const snowContainer =
+        document.getElementById(
+            "snowContainer"
+        );
+
+    const quickSnow =
+        document.getElementById(
+            "quickSnow"
+        );
+
+    const profilePopup =
+        document.getElementById(
+            "profilePopup"
+        );
+
+    const profileTitle =
+        document.getElementById(
+            "profileTitle"
+        );
+
+    const profileUsername =
+        document.getElementById(
+            "profileUsername"
+        );
+
+    const profileTime =
+        document.getElementById(
+            "profileTime"
+        );
+
+
+    /* =========================
+       JELLO MUSIC
+       ========================= */
+
+    function openJelloMusic() {
+
+        const musicWindow =
+            window.open(
+                "about:blank",
+                "_blank"
             );
 
-        const quickAutoCloak =
-            document.getElementById(
-                "quickAutoCloak"
+        if (!musicWindow) {
+
+            alert(
+                "Please allow pop-ups for Sigma Jello."
             );
 
-        const quickNoTabClose =
-            document.getElementById(
-                "quickNoTabClose"
+            return;
+
+        }
+
+
+        const musicURL =
+            new URL(
+                "music.html",
+                window.location.href
+            ).href;
+
+
+        musicWindow.document.open();
+
+
+        musicWindow.document.write(`
+
+            <!DOCTYPE html>
+
+            <html>
+
+            <head>
+
+                <title>
+                    Jello Music
+                </title>
+
+                <style>
+
+                    html,
+                    body {
+
+                        margin: 0;
+                        padding: 0;
+
+                        width: 100%;
+                        height: 100%;
+
+                        overflow: hidden;
+
+                        background: black;
+
+                    }
+
+                    iframe {
+
+                        width: 100%;
+                        height: 100%;
+
+                        border: none;
+
+                        display: block;
+
+                    }
+
+                </style>
+
+            </head>
+
+            <body>
+
+                <iframe
+                    src="${musicURL}"
+                    allowfullscreen>
+                </iframe>
+
+            </body>
+
+            </html>
+
+        `);
+
+
+        musicWindow.document.close();
+
+    }
+
+
+    /* =========================
+       LOGIN
+       ========================= */
+
+    function openLoginPopup() {
+
+        loginPopup.classList.add(
+            "show"
+        );
+
+        usernameInput.value = "";
+
+        loginError.style.display =
+            "none";
+
+
+        setTimeout(
+            function() {
+
+                usernameInput.focus();
+
+            },
+            50
+        );
+
+    }
+
+
+    function closeLoginPopup() {
+
+        loginPopup.classList.remove(
+            "show"
+        );
+
+    }
+
+
+    function signIn() {
+
+        const username =
+            usernameInput.value.trim();
+
+
+        if (!username) {
+
+            loginError.style.display =
+                "block";
+
+            usernameInput.focus();
+
+            return;
+
+        }
+
+
+        localStorage.setItem(
+            "sigmaJelloUsername",
+            username
+        );
+
+
+        localStorage.setItem(
+            "sigmaJelloLoggedIn",
+            "true"
+        );
+
+
+        if (
+            localStorage.getItem(
+                "sigmaJelloTotalTime"
+            ) === null
+        ) {
+
+            localStorage.setItem(
+                "sigmaJelloTotalTime",
+                "0"
             );
 
-        const quickFullscreen =
-            document.getElementById(
-                "quickFullscreen"
-            );
+        }
 
-        const quickMouseBackground =
-            document.getElementById(
-                "quickMouseBackground"
-            );
 
-        const loginPopup =
-            document.getElementById(
-                "loginPopup"
-            );
+        localStorage.setItem(
+            "sigmaJelloLastVisit",
+            Date.now().toString()
+        );
 
-        const usernameInput =
-            document.getElementById(
-                "usernameInput"
-            );
 
-        const loginError =
-            document.getElementById(
-                "loginError"
-            );
+        updateUserDisplay();
 
-        const loginButton =
-            document.getElementById(
-                "loginButton"
-            );
+        closeLoginPopup();
 
-        const helloUser =
-            document.getElementById(
-                "helloUser"
-            );
+    }
 
-        const background =
-            document.getElementById(
-                "background"
-            );
 
-        const backgroundDots =
-            document.getElementById(
-                "backgroundDots"
-            );
+    function updateUserDisplay() {
 
-        const quickBackgroundDots =
-            document.getElementById(
-                "quickBackgroundDots"
-            );
-
-        const snowContainer =
-            document.getElementById(
-                "snowContainer"
-            );
-
-        const quickSnow =
-            document.getElementById(
-                "quickSnow"
-            );
-
-        const profilePopup =
-            document.getElementById(
-                "profilePopup"
-            );
-
-        const profileTitle =
-            document.getElementById(
-                "profileTitle"
-            );
-
-        const profileUsername =
-            document.getElementById(
-                "profileUsername"
-            );
-
-        const profileTime =
-            document.getElementById(
-                "profileTime"
+        const username =
+            localStorage.getItem(
+                "sigmaJelloUsername"
             );
 
 
-        /* =========================
-           JELLO MUSIC
-           ========================= */
+        const loggedIn =
+            localStorage.getItem(
+                "sigmaJelloLoggedIn"
+            ) === "true";
 
-        function openJelloMusic() {
 
-            const musicWindow =
+        if (
+            loggedIn &&
+            username
+        ) {
+
+            helloUser.textContent =
+                "Hello " + username;
+
+            helloUser.style.display =
+                "block";
+
+            loginButton.style.display =
+                "none";
+
+            helloUser.onclick =
+                openProfilePopup;
+
+
+            if (
+                localStorage.getItem(
+                    "sigmaJelloTotalTime"
+                ) === null
+            ) {
+
+                localStorage.setItem(
+                    "sigmaJelloTotalTime",
+                    "0"
+                );
+
+            }
+
+
+            if (
+                localStorage.getItem(
+                    "sigmaJelloLastVisit"
+                ) === null
+            ) {
+
+                localStorage.setItem(
+                    "sigmaJelloLastVisit",
+                    Date.now().toString()
+                );
+
+            }
+
+        } else {
+
+            helloUser.textContent =
+                "";
+
+            helloUser.style.display =
+                "none";
+
+            helloUser.onclick =
+                null;
+
+            loginButton.style.display =
+                "block";
+
+        }
+
+    }
+
+
+    /* =========================
+       TIME TRACKING
+       ========================= */
+
+    function updateTotalTime() {
+
+        const loggedIn =
+            localStorage.getItem(
+                "sigmaJelloLoggedIn"
+            ) === "true";
+
+
+        if (!loggedIn) {
+            return;
+        }
+
+
+        const lastVisit =
+            Number(
+                localStorage.getItem(
+                    "sigmaJelloLastVisit"
+                )
+            );
+
+
+        if (!lastVisit) {
+
+            localStorage.setItem(
+                "sigmaJelloLastVisit",
+                Date.now().toString()
+            );
+
+            return;
+
+        }
+
+
+        const now =
+            Date.now();
+
+
+        const elapsed =
+            Math.max(
+                0,
+                now - lastVisit
+            );
+
+
+        const oldTotal =
+            Number(
+                localStorage.getItem(
+                    "sigmaJelloTotalTime"
+                )
+            ) || 0;
+
+
+        localStorage.setItem(
+            "sigmaJelloTotalTime",
+            (
+                oldTotal + elapsed
+            ).toString()
+        );
+
+
+        localStorage.setItem(
+            "sigmaJelloLastVisit",
+            now.toString()
+        );
+
+    }
+
+
+    function formatProfileTime(seconds) {
+
+        seconds =
+            Math.floor(seconds);
+
+
+        const days =
+            Math.floor(
+                seconds / 86400
+            );
+
+        seconds %= 86400;
+
+
+        const hours =
+            Math.floor(
+                seconds / 3600
+            );
+
+        seconds %= 3600;
+
+
+        const minutes =
+            Math.floor(
+                seconds / 60
+            );
+
+        seconds =
+            seconds % 60;
+
+
+        let result =
+            "";
+
+
+        if (days > 0) {
+
+            result +=
+                days +
+                (
+                    days === 1
+                        ? " day "
+                        : " days "
+                );
+
+        }
+
+
+        if (hours > 0) {
+
+            result +=
+                hours +
+                (
+                    hours === 1
+                        ? " hour "
+                        : " hours "
+                );
+
+        }
+
+
+        if (minutes > 0) {
+
+            result +=
+                minutes +
+                (
+                    minutes === 1
+                        ? " minute "
+                        : " minutes "
+                );
+
+        }
+
+
+        if (
+            seconds > 0 ||
+            result === ""
+        ) {
+
+            result +=
+                seconds +
+                (
+                    seconds === 1
+                        ? " second"
+                        : " seconds"
+                );
+
+        }
+
+
+        return result.trim();
+
+    }
+
+
+    /* =========================
+       PROFILE
+       ========================= */
+
+    function openProfilePopup() {
+
+        updateTotalTime();
+
+
+        const username =
+            localStorage.getItem(
+                "sigmaJelloUsername"
+            );
+
+
+        const totalTime =
+            Number(
+                localStorage.getItem(
+                    "sigmaJelloTotalTime"
+                )
+            ) || 0;
+
+
+        profileTitle.textContent =
+            username + "'s Profile";
+
+
+        profileUsername.textContent =
+            username;
+
+
+        profileTime.textContent =
+            formatProfileTime(
+                totalTime / 1000
+            );
+
+
+        profilePopup.classList.add(
+            "show"
+        );
+
+    }
+
+
+    function closeProfilePopup() {
+
+        profilePopup.classList.remove(
+            "show"
+        );
+
+    }
+
+
+    updateUserDisplay();
+
+
+    setInterval(
+        function() {
+
+            updateTotalTime();
+
+        },
+        1000
+    );
+
+
+    /* =========================
+       LOGIN EVENTS
+       ========================= */
+
+    usernameInput.addEventListener(
+        "keydown",
+        function(event) {
+
+            if (
+                event.key === "Enter"
+            ) {
+
+                signIn();
+
+            }
+
+        }
+    );
+
+
+    usernameInput.addEventListener(
+        "input",
+        function() {
+
+            loginError.style.display =
+                "none";
+
+        }
+    );
+
+
+    loginPopup.addEventListener(
+        "click",
+        function(event) {
+
+            if (
+                event.target === loginPopup
+            ) {
+
+                closeLoginPopup();
+
+            }
+
+        }
+    );
+
+
+    profilePopup.addEventListener(
+        "click",
+        function(event) {
+
+            if (
+                event.target === profilePopup
+            ) {
+
+                closeProfilePopup();
+
+            }
+
+        }
+    );
+
+
+    window.addEventListener(
+        "beforeunload",
+        function() {
+
+            updateTotalTime();
+
+        }
+    );
+
+
+    /* =========================
+       NO TAB CLOSE
+       ========================= */
+
+    function enableNoTabClose() {
+
+        window.onbeforeunload =
+            function(event) {
+
+                event.preventDefault();
+
+                event.returnValue = "";
+
+                return "";
+
+            };
+
+    }
+
+
+    function disableNoTabClose() {
+
+        window.onbeforeunload =
+            null;
+
+    }
+
+
+    if (
+        localStorage.getItem(
+            "noTabClose"
+        ) === "true"
+    ) {
+
+        quickNoTabClose.checked =
+            true;
+
+        enableNoTabClose();
+
+    }
+
+
+    quickNoTabClose.addEventListener(
+        "change",
+        function() {
+
+            if (this.checked) {
+
+                localStorage.setItem(
+                    "noTabClose",
+                    "true"
+                );
+
+                enableNoTabClose();
+
+            } else {
+
+                localStorage.setItem(
+                    "noTabClose",
+                    "false"
+                );
+
+                disableNoTabClose();
+
+            }
+
+        }
+    );
+
+
+    /* =========================
+       AUTO CLOAK
+       ========================= */
+
+    quickAutoCloak.addEventListener(
+        "change",
+        function() {
+
+            if (!this.checked) {
+                return;
+            }
+
+
+            const currentURL =
+                window.location.href;
+
+
+            const cloakWindow =
                 window.open(
                     "about:blank",
                     "_blank"
                 );
 
-            if (!musicWindow) {
+
+            if (!cloakWindow) {
 
                 alert(
-                    "Please allow pop-ups for Sigma Jello."
+                    "Your browser blocked the popup. Allow popups for this site."
                 );
+
+                this.checked =
+                    false;
 
                 return;
 
             }
 
 
-            const musicURL =
-                new URL(
-                    "music.html",
-                    window.location.href
-                ).href;
+            cloakWindow.document.open();
 
 
-            musicWindow.document.open();
-
-
-            musicWindow.document.write(`
+            cloakWindow.document.write(`
 
                 <!DOCTYPE html>
 
@@ -1874,7 +2462,7 @@
                 <head>
 
                     <title>
-                        Jello Music
+                        about:blank
                     </title>
 
                     <style>
@@ -1901,8 +2489,6 @@
 
                             border: none;
 
-                            display: block;
-
                         }
 
                     </style>
@@ -1912,7 +2498,7 @@
                 <body>
 
                     <iframe
-                        src="${musicURL}"
+                        src="${currentURL}"
                         allowfullscreen>
                     </iframe>
 
@@ -1923,1174 +2509,523 @@
             `);
 
 
-            musicWindow.document.close();
+            cloakWindow.document.close();
 
         }
+    );
 
 
-        /* =========================
-           LOGIN
-           ========================= */
+    /* =========================
+       FULL SCREEN
+       ========================= */
 
-        function openLoginPopup() {
+    quickFullscreen.addEventListener(
+        "change",
+        function() {
 
-            loginPopup.classList.add(
-                "show"
-            );
-
-            usernameInput.value = "";
-
-            loginError.style.display =
-                "none";
-
-
-            setTimeout(
-                function() {
-
-                    usernameInput.focus();
-
-                },
-                50
-            );
-
-        }
-
-
-        function closeLoginPopup() {
-
-            loginPopup.classList.remove(
-                "show"
-            );
-
-        }
-
-
-        function signIn() {
-
-            const username =
-                usernameInput.value.trim();
-
-
-            if (!username) {
-
-                loginError.style.display =
-                    "block";
-
-                usernameInput.focus();
-
-                return;
-
-            }
-
-
-            localStorage.setItem(
-                "sigmaJelloUsername",
-                username
-            );
-
-
-            localStorage.setItem(
-                "sigmaJelloLoggedIn",
-                "true"
-            );
-
-
-            if (
-                localStorage.getItem(
-                    "sigmaJelloTotalTime"
-                ) === null
-            ) {
-
-                localStorage.setItem(
-                    "sigmaJelloTotalTime",
-                    "0"
-                );
-
-            }
-
-
-            localStorage.setItem(
-                "sigmaJelloLastVisit",
-                Date.now().toString()
-            );
-
-
-            updateUserDisplay();
-
-            closeLoginPopup();
-
-        }
-
-
-        function updateUserDisplay() {
-
-            const username =
-                localStorage.getItem(
-                    "sigmaJelloUsername"
-                );
-
-
-            const loggedIn =
-                localStorage.getItem(
-                    "sigmaJelloLoggedIn"
-                ) === "true";
-
-
-            if (
-                loggedIn &&
-                username
-            ) {
-
-                helloUser.textContent =
-                    "Hello " + username;
-
-                helloUser.style.display =
-                    "block";
-
-                loginButton.style.display =
-                    "none";
-
-                helloUser.onclick =
-                    openProfilePopup;
-
+            if (this.checked) {
 
                 if (
-                    localStorage.getItem(
-                        "sigmaJelloTotalTime"
-                    ) === null
+                    document
+                        .documentElement
+                        .requestFullscreen
                 ) {
 
-                    localStorage.setItem(
-                        "sigmaJelloTotalTime",
-                        "0"
-                    );
-
-                }
-
-
-                if (
-                    localStorage.getItem(
-                        "sigmaJelloLastVisit"
-                    ) === null
-                ) {
-
-                    localStorage.setItem(
-                        "sigmaJelloLastVisit",
-                        Date.now().toString()
-                    );
+                    document
+                        .documentElement
+                        .requestFullscreen();
 
                 }
 
             } else {
 
-                helloUser.textContent =
-                    "";
+                if (
+                    document.fullscreenElement
+                ) {
 
-                helloUser.style.display =
-                    "none";
+                    document.exitFullscreen();
 
-                helloUser.onclick =
-                    null;
-
-                loginButton.style.display =
-                    "block";
+                }
 
             }
 
         }
+    );
 
 
-        /* =========================
-           TIME TRACKING
-           ========================= */
+    document.addEventListener(
+        "fullscreenchange",
+        function() {
 
-        function updateTotalTime() {
+            quickFullscreen.checked =
+                !!document.fullscreenElement;
 
-            const loggedIn =
-                localStorage.getItem(
-                    "sigmaJelloLoggedIn"
-                ) === "true";
-
-
-            if (!loggedIn) {
-                return;
-            }
+        }
+    );
 
 
-            const lastVisit =
-                Number(
-                    localStorage.getItem(
-                        "sigmaJelloLastVisit"
-                    )
+    /* =========================
+       BACKGROUND DOTS
+       ========================= */
+
+    function createBackgroundDots() {
+
+        backgroundDots.innerHTML =
+            "";
+
+
+        for (
+            let i = 0;
+            i < 45;
+            i++
+        ) {
+
+            const dot =
+                document.createElement(
+                    "span"
                 );
 
 
-            if (!lastVisit) {
-
-                localStorage.setItem(
-                    "sigmaJelloLastVisit",
-                    Date.now().toString()
-                );
-
-                return;
-
-            }
+            dot.className =
+                "background-dot";
 
 
-            const now =
-                Date.now();
+            const size =
+                Math.floor(
+                    Math.random() * 7
+                ) + 3;
 
 
-            const elapsed =
-                Math.max(
-                    0,
-                    now - lastVisit
-                );
+            const x =
+                Math.floor(
+                    Math.random() * 80
+                ) - 40;
 
 
-            const oldTotal =
-                Number(
-                    localStorage.getItem(
-                        "sigmaJelloTotalTime"
-                    )
-                ) || 0;
+            const y =
+                Math.floor(
+                    Math.random() * 80
+                ) - 40;
 
 
-            localStorage.setItem(
-                "sigmaJelloTotalTime",
+            const duration =
                 (
-                    oldTotal + elapsed
-                ).toString()
+                    Math.random() * 5 + 5
+                ).toFixed(2) + "s";
+
+
+            const delay =
+                (
+                    Math.random() * -8
+                ).toFixed(2) + "s";
+
+
+            dot.style.width =
+                size + "px";
+
+
+            dot.style.height =
+                size + "px";
+
+
+            dot.style.left =
+                Math.random() * 100 + "%";
+
+
+            dot.style.top =
+                Math.random() * 100 + "%";
+
+
+            dot.style.setProperty(
+                "--dot-x",
+                x + "px"
             );
 
 
-            localStorage.setItem(
-                "sigmaJelloLastVisit",
-                now.toString()
+            dot.style.setProperty(
+                "--dot-y",
+                y + "px"
+            );
+
+
+            dot.style.setProperty(
+                "--dot-duration",
+                duration
+            );
+
+
+            dot.style.setProperty(
+                "--dot-delay",
+                delay
+            );
+
+
+            backgroundDots.appendChild(
+                dot
             );
 
         }
 
-
-        function formatProfileTime(seconds) {
-
-            seconds =
-                Math.floor(seconds);
+    }
 
 
-            const days =
-                Math.floor(
-                    seconds / 86400
-                );
-
-            seconds %= 86400;
+    createBackgroundDots();
 
 
-            const hours =
-                Math.floor(
-                    seconds / 3600
-                );
-
-            seconds %= 3600;
+    let backgroundDotsEnabled =
+        localStorage.getItem(
+            "backgroundDots"
+        ) !== "false";
 
 
-            const minutes =
-                Math.floor(
-                    seconds / 60
-                );
-
-            seconds =
-                seconds % 60;
+    quickBackgroundDots.checked =
+        backgroundDotsEnabled;
 
 
-            let result =
-                "";
+    if (!backgroundDotsEnabled) {
+
+        backgroundDots.classList.add(
+            "hidden"
+        );
+
+    }
 
 
-            if (days > 0) {
+    quickBackgroundDots.addEventListener(
+        "change",
+        function() {
 
-                result +=
-                    days +
-                    (
-                        days === 1
-                            ? " day "
-                            : " days "
-                    );
-
-            }
+            backgroundDotsEnabled =
+                this.checked;
 
 
-            if (hours > 0) {
-
-                result +=
-                    hours +
-                    (
-                        hours === 1
-                            ? " hour "
-                            : " hours "
-                    );
-
-            }
-
-
-            if (minutes > 0) {
-
-                result +=
-                    minutes +
-                    (
-                        minutes === 1
-                            ? " minute "
-                            : " minutes "
-                    );
-
-            }
+            localStorage.setItem(
+                "backgroundDots",
+                backgroundDotsEnabled
+            );
 
 
             if (
-                seconds > 0 ||
-                result === ""
+                backgroundDotsEnabled
             ) {
 
-                result +=
-                    seconds +
-                    (
-                        seconds === 1
-                            ? " second"
-                            : " seconds"
-                    );
-
-            }
-
-
-            return result.trim();
-
-        }
-
-
-        /* =========================
-           PROFILE
-           ========================= */
-
-        function openProfilePopup() {
-
-            updateTotalTime();
-
-
-            const username =
-                localStorage.getItem(
-                    "sigmaJelloUsername"
+                backgroundDots.classList.remove(
+                    "hidden"
                 );
 
+            } else {
 
-            const totalTime =
-                Number(
-                    localStorage.getItem(
-                        "sigmaJelloTotalTime"
-                    )
-                ) || 0;
-
-
-            profileTitle.textContent =
-                username + "'s Profile";
-
-
-            profileUsername.textContent =
-                username;
-
-
-            profileTime.textContent =
-                formatProfileTime(
-                    totalTime / 1000
+                backgroundDots.classList.add(
+                    "hidden"
                 );
 
-
-            profilePopup.classList.add(
-                "show"
-            );
+            }
 
         }
+    );
 
 
-        function closeProfilePopup() {
+    /* =========================
+       FALLING SNOW
+       ========================= */
 
-            profilePopup.classList.remove(
-                "show"
-            );
+    function createSnow() {
 
-        }
-
-
-        updateUserDisplay();
+        snowContainer.innerHTML =
+            "";
 
 
-        setInterval(
-            function() {
-
-                updateTotalTime();
-
-            },
-            1000
-        );
-
-
-        /* =========================
-           LOGIN EVENTS
-           ========================= */
-
-        usernameInput.addEventListener(
-            "keydown",
-            function(event) {
-
-                if (
-                    event.key === "Enter"
-                ) {
-
-                    signIn();
-
-                }
-
-            }
-        );
-
-
-        usernameInput.addEventListener(
-            "input",
-            function() {
-
-                loginError.style.display =
-                    "none";
-
-            }
-        );
-
-
-        loginPopup.addEventListener(
-            "click",
-            function(event) {
-
-                if (
-                    event.target === loginPopup
-                ) {
-
-                    closeLoginPopup();
-
-                }
-
-            }
-        );
-
-
-        profilePopup.addEventListener(
-            "click",
-            function(event) {
-
-                if (
-                    event.target === profilePopup
-                ) {
-
-                    closeProfilePopup();
-
-                }
-
-            }
-        );
-
-
-        window.addEventListener(
-            "beforeunload",
-            function() {
-
-                updateTotalTime();
-
-            }
-        );
-
-
-        /* =========================
-           NO TAB CLOSE
-           ========================= */
-
-        function enableNoTabClose() {
-
-            window.onbeforeunload =
-                function(event) {
-
-                    event.preventDefault();
-
-                    event.returnValue = "";
-
-                    return "";
-
-                };
-
-        }
-
-
-        function disableNoTabClose() {
-
-            window.onbeforeunload =
-                null;
-
-        }
-
-
-        if (
-            localStorage.getItem(
-                "noTabClose"
-            ) === "true"
+        for (
+            let i = 0;
+            i < 90;
+            i++
         ) {
 
-            quickNoTabClose.checked =
-                true;
-
-            enableNoTabClose();
-
-        }
-
-
-        quickNoTabClose.addEventListener(
-            "change",
-            function() {
-
-                if (this.checked) {
-
-                    localStorage.setItem(
-                        "noTabClose",
-                        "true"
-                    );
-
-                    enableNoTabClose();
-
-                } else {
-
-                    localStorage.setItem(
-                        "noTabClose",
-                        "false"
-                    );
-
-                    disableNoTabClose();
-
-                }
-
-            }
-        );
-
-
-        /* =========================
-           AUTO CLOAK
-           ========================= */
-
-        quickAutoCloak.addEventListener(
-            "change",
-            function() {
-
-                if (!this.checked) {
-                    return;
-                }
-
-
-                const currentURL =
-                    window.location.href;
-
-
-                const cloakWindow =
-                    window.open(
-                        "about:blank",
-                        "_blank"
-                    );
-
-
-                if (!cloakWindow) {
-
-                    alert(
-                        "Your browser blocked the popup. Allow popups for this site."
-                    );
-
-                    this.checked =
-                        false;
-
-                    return;
-
-                }
-
-
-                cloakWindow.document.open();
-
-
-                cloakWindow.document.write(`
-
-                    <!DOCTYPE html>
-
-                    <html>
-
-                    <head>
-
-                        <title>
-                            about:blank
-                        </title>
-
-                        <style>
-
-                            html,
-                            body {
-
-                                margin: 0;
-                                padding: 0;
-
-                                width: 100%;
-                                height: 100%;
-
-                                overflow: hidden;
-
-                                background: black;
-
-                            }
-
-                            iframe {
-
-                                width: 100%;
-                                height: 100%;
-
-                                border: none;
-
-                            }
-
-                        </style>
-
-                    </head>
-
-                    <body>
-
-                        <iframe
-                            src="${currentURL}"
-                            allowfullscreen>
-                        </iframe>
-
-                    </body>
-
-                    </html>
-
-                `);
-
-
-                cloakWindow.document.close();
-
-            }
-        );
-
-
-        /* =========================
-           FULL SCREEN
-           ========================= */
-
-        quickFullscreen.addEventListener(
-            "change",
-            function() {
-
-                if (this.checked) {
-
-                    if (
-                        document
-                            .documentElement
-                            .requestFullscreen
-                    ) {
-
-                        document
-                            .documentElement
-                            .requestFullscreen();
-
-                    }
-
-                } else {
-
-                    if (
-                        document.fullscreenElement
-                    ) {
-
-                        document.exitFullscreen();
-
-                    }
-
-                }
-
-            }
-        );
-
-
-        document.addEventListener(
-            "fullscreenchange",
-            function() {
-
-                quickFullscreen.checked =
-                    !!document.fullscreenElement;
-
-            }
-        );
-
-
-        /* =========================
-           BACKGROUND DOTS
-           ========================= */
-
-        function createBackgroundDots() {
-
-            backgroundDots.innerHTML =
-                "";
-
-
-            for (
-                let i = 0;
-                i < 45;
-                i++
-            ) {
-
-                const dot =
-                    document.createElement(
-                        "span"
-                    );
-
-
-                dot.className =
-                    "background-dot";
-
-
-                const size =
-                    Math.floor(
-                        Math.random() * 7
-                    ) + 3;
-
-
-                const x =
-                    Math.floor(
-                        Math.random() * 80
-                    ) - 40;
-
-
-                const y =
-                    Math.floor(
-                        Math.random() * 80
-                    ) - 40;
-
-
-                const duration =
-                    (
-                        Math.random() * 5 + 5
-                    ).toFixed(2) + "s";
-
-
-                const delay =
-                    (
-                        Math.random() * -8
-                    ).toFixed(2) + "s";
-
-
-                dot.style.width =
-                    size + "px";
-
-
-                dot.style.height =
-                    size + "px";
-
-
-                dot.style.left =
-                    Math.random() * 100 + "%";
-
-
-                dot.style.top =
-                    Math.random() * 100 + "%";
-
-
-                dot.style.setProperty(
-                    "--dot-x",
-                    x + "px"
+            const snowflake =
+                document.createElement(
+                    "span"
                 );
 
 
-                dot.style.setProperty(
-                    "--dot-y",
-                    y + "px"
-                );
+            snowflake.className =
+                "snowflake";
 
 
-                dot.style.setProperty(
-                    "--dot-duration",
-                    duration
-                );
+            snowflake.textContent =
+                Math.random() > 0.35
+                    ? "•"
+                    : "❄";
 
 
-                dot.style.setProperty(
-                    "--dot-delay",
-                    delay
-                );
+            const size =
+                Math.floor(
+                    Math.random() * 9
+                ) + 5;
 
 
-                backgroundDots.appendChild(
-                    dot
-                );
-
-            }
-
-        }
+            const duration =
+                (
+                    Math.random() * 8 + 7
+                ).toFixed(2) + "s";
 
 
-        createBackgroundDots();
+            const delay =
+                (
+                    Math.random() * -15
+                ).toFixed(2) + "s";
 
 
-        let backgroundDotsEnabled =
-            localStorage.getItem(
-                "backgroundDots"
-            ) !== "false";
+            const drift =
+                Math.floor(
+                    Math.random() * 180
+                ) - 90;
 
 
-        quickBackgroundDots.checked =
-            backgroundDotsEnabled;
+            const opacity =
+                (
+                    Math.random() * 0.45 + 0.35
+                ).toFixed(2);
 
 
-        if (!backgroundDotsEnabled) {
+            snowflake.style.left =
+                Math.random() * 100 + "%";
 
-            backgroundDots.classList.add(
-                "hidden"
+
+            snowflake.style.top =
+                -(
+                    Math.random() * 100 + 20
+                ) + "px";
+
+
+            snowflake.style.fontSize =
+                size + "px";
+
+
+            snowflake.style.setProperty(
+                "--snow-duration",
+                duration
+            );
+
+
+            snowflake.style.setProperty(
+                "--snow-delay",
+                delay
+            );
+
+
+            snowflake.style.setProperty(
+                "--snow-drift",
+                drift + "px"
+            );
+
+
+            snowflake.style.setProperty(
+                "--snow-opacity",
+                opacity
+            );
+
+
+            snowContainer.appendChild(
+                snowflake
             );
 
         }
 
-
-        quickBackgroundDots.addEventListener(
-            "change",
-            function() {
-
-                backgroundDotsEnabled =
-                    this.checked;
+    }
 
 
-                localStorage.setItem(
-                    "backgroundDots",
-                    backgroundDotsEnabled
-                );
+    createSnow();
 
 
-                if (
-                    backgroundDotsEnabled
-                ) {
+    let snowEnabled =
+        localStorage.getItem(
+            "fallingSnow"
+        ) === "true";
 
-                    backgroundDots.classList.remove(
-                        "hidden"
-                    );
 
-                } else {
+    quickSnow.checked =
+        snowEnabled;
 
-                    backgroundDots.classList.add(
-                        "hidden"
-                    );
 
-                }
+    if (snowEnabled) {
 
-            }
+        snowContainer.classList.remove(
+            "hidden"
         );
 
-
-        /* =========================
-           FALLING SNOW
-           ========================= */
-
-        function createSnow() {
-
-            snowContainer.innerHTML =
-                "";
+    }
 
 
-            for (
-                let i = 0;
-                i < 90;
-                i++
-            ) {
+    quickSnow.addEventListener(
+        "change",
+        function() {
 
-                const snowflake =
-                    document.createElement(
-                        "span"
-                    );
+            snowEnabled =
+                this.checked;
 
 
-                snowflake.className =
-                    "snowflake";
-
-
-                snowflake.textContent =
-                    Math.random() > 0.35
-                        ? "•"
-                        : "❄";
-
-
-                const size =
-                    Math.floor(
-                        Math.random() * 9
-                    ) + 5;
-
-
-                const duration =
-                    (
-                        Math.random() * 8 + 7
-                    ).toFixed(2) + "s";
-
-
-                const delay =
-                    (
-                        Math.random() * -15
-                    ).toFixed(2) + "s";
-
-
-                const drift =
-                    Math.floor(
-                        Math.random() * 180
-                    ) - 90;
-
-
-                const opacity =
-                    (
-                        Math.random() * 0.45 + 0.35
-                    ).toFixed(2);
-
-
-                snowflake.style.left =
-                    Math.random() * 100 + "%";
-
-
-                snowflake.style.top =
-                    -(
-                        Math.random() * 100 + 20
-                    ) + "px";
-
-
-                snowflake.style.fontSize =
-                    size + "px";
-
-
-                snowflake.style.setProperty(
-                    "--snow-duration",
-                    duration
-                );
-
-
-                snowflake.style.setProperty(
-                    "--snow-delay",
-                    delay
-                );
-
-
-                snowflake.style.setProperty(
-                    "--snow-drift",
-                    drift + "px"
-                );
-
-
-                snowflake.style.setProperty(
-                    "--snow-opacity",
-                    opacity
-                );
-
-
-                snowContainer.appendChild(
-                    snowflake
-                );
-
-            }
-
-        }
-
-
-        createSnow();
-
-
-        let snowEnabled =
-            localStorage.getItem(
-                "fallingSnow"
-            ) === "true";
-
-
-        quickSnow.checked =
-            snowEnabled;
-
-
-        if (snowEnabled) {
-
-            snowContainer.classList.remove(
-                "hidden"
+            localStorage.setItem(
+                "fallingSnow",
+                snowEnabled
             );
 
-        }
 
+            if (snowEnabled) {
 
-        quickSnow.addEventListener(
-            "change",
-            function() {
-
-                snowEnabled =
-                    this.checked;
-
-
-                localStorage.setItem(
-                    "fallingSnow",
-                    snowEnabled
+                snowContainer.classList.remove(
+                    "hidden"
                 );
 
+            } else {
 
-                if (snowEnabled) {
-
-                    snowContainer.classList.remove(
-                        "hidden"
-                    );
-
-                } else {
-
-                    snowContainer.classList.add(
-                        "hidden"
-                    );
-
-                }
+                snowContainer.classList.add(
+                    "hidden"
+                );
 
             }
-        );
+
+        }
+    );
 
 
-        /* =========================
-           MOUSE BACKGROUND MOVEMENT
-           ========================= */
+    /* =========================
+       MOUSE BACKGROUND MOVEMENT
+       ========================= */
 
-        let mouseBackgroundEnabled =
-            localStorage.getItem(
-                "mouseBackground"
-            ) !== "false";
-
-
-        quickMouseBackground.checked =
-            mouseBackgroundEnabled;
+    let mouseBackgroundEnabled =
+        localStorage.getItem(
+            "mouseBackground"
+        ) !== "false";
 
 
-        document.addEventListener(
-            "mousemove",
-            function(event) {
-
-                if (
-                    !mouseBackgroundEnabled
-                ) {
-
-                    return;
-
-                }
+    quickMouseBackground.checked =
+        mouseBackgroundEnabled;
 
 
-                const x =
-                    (
-                        event.clientX /
-                        window.innerWidth
-                    ) - 0.5;
+    document.addEventListener(
+        "mousemove",
+        function(event) {
+
+            if (
+                !mouseBackgroundEnabled
+            ) {
+
+                return;
+
+            }
 
 
-                const y =
-                    (
-                        event.clientY /
-                        window.innerHeight
-                    ) - 0.5;
+            const x =
+                (
+                    event.clientX /
+                    window.innerWidth
+                ) - 0.5;
 
 
-                const moveX =
-                    x * 35;
+            const y =
+                (
+                    event.clientY /
+                    window.innerHeight
+                ) - 0.5;
 
 
-                const moveY =
-                    y * 35;
+            const moveX =
+                x * 35;
 
+
+            const moveY =
+                y * 35;
+
+
+            background.style.transform =
+                `translate(${moveX}px, ${moveY}px)`;
+
+        }
+    );
+
+
+    quickMouseBackground.addEventListener(
+        "change",
+        function() {
+
+            mouseBackgroundEnabled =
+                this.checked;
+
+
+            localStorage.setItem(
+                "mouseBackground",
+                mouseBackgroundEnabled
+            );
+
+
+            if (
+                !mouseBackgroundEnabled
+            ) {
 
                 background.style.transform =
-                    `translate(${moveX}px, ${moveY}px)`;
+                    "translate(0px, 0px)";
 
             }
-        );
+
+        }
+    );
 
 
-        quickMouseBackground.addEventListener(
-            "change",
-            function() {
+    /* =========================
+       P KEY
+       ========================= */
 
-                mouseBackgroundEnabled =
-                    this.checked;
+    window.addEventListener(
+        "keydown",
+        function(event) {
 
+            if (
+                event.code !== "KeyP"
+            ) {
 
-                localStorage.setItem(
-                    "mouseBackground",
-                    mouseBackgroundEnabled
-                );
-
-
-                if (
-                    !mouseBackgroundEnabled
-                ) {
-
-                    background.style.transform =
-                        "translate(0px, 0px)";
-
-                }
+                return;
 
             }
-        );
 
 
-        /* =========================
-           P KEY
-           ========================= */
-
-        window.addEventListener(
-            "keydown",
-            function(event) {
-
-                if (
-                    event.code !== "KeyP"
-                ) {
-
-                    return;
-
-                }
+            if (event.repeat) {
+                return;
+            }
 
 
-                if (event.repeat) {
-                    return;
-                }
+            event.preventDefault();
 
 
-                event.preventDefault();
+            quickSettings.classList.toggle(
+                "show"
+            );
+
+        }
+    );
 
 
-                quickSettings.classList.toggle(
+    /* =========================
+       CLICK OUTSIDE
+       ========================= */
+
+    quickSettings.addEventListener(
+        "click",
+        function(event) {
+
+            if (
+                event.target ===
+                quickSettings
+            ) {
+
+                quickSettings.classList.remove(
                     "show"
                 );
 
             }
-        );
 
+        }
+    );
 
-        /* =========================
-           CLICK OUTSIDE
-           ========================= */
-
-        quickSettings.addEventListener(
-            "click",
-            function(event) {
-
-                if (
-                    event.target ===
-                    quickSettings
-                ) {
-
-                    quickSettings.classList.remove(
-                        "show"
-                    );
-
-                }
-
-            }
-        );
-
-    </script>
-
+</script>
 </body>
 </html>
