@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Jello</title>
+
     <style>
         body {
             margin: 0;
@@ -12,6 +13,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+
             height: 100vh;
         }
 
@@ -44,10 +46,14 @@
         .background-dots {
             position: fixed;
             inset: 0;
+
             z-index: 0;
+
             overflow: hidden;
             pointer-events: none;
-            transition: opacity 0.25s ease;
+
+            transition:
+                opacity 0.25s ease;
         }
 
         .background-dots.hidden {
@@ -57,15 +63,28 @@
 
         .background-dot {
             position: absolute;
+
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.28);
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.08);
-            animation: dotFloat var(--dot-duration) ease-in-out var(--dot-delay) infinite alternate;
+
+            background:
+                rgba(255, 255, 255, 0.28);
+
+            box-shadow:
+                0 0 10px rgba(255, 255, 255, 0.08);
+
+            animation:
+                dotFloat
+                var(--dot-duration)
+                ease-in-out
+                var(--dot-delay)
+                infinite alternate;
         }
 
         @keyframes dotFloat {
             0% {
-                transform: translate3d(0, 0, 0);
+                transform:
+                    translate3d(0, 0, 0);
+
                 opacity: 0.18;
             }
 
@@ -74,14 +93,22 @@
             }
 
             100% {
-                transform: translate3d(var(--dot-x), var(--dot-y), 0);
+                transform:
+                    translate3d(
+                        var(--dot-x),
+                        var(--dot-y),
+                        0
+                    );
+
                 opacity: 0.2;
             }
         }
 
         .container {
             text-align: center;
+
             position: relative;
+
             z-index: 1;
         }
 
@@ -92,10 +119,14 @@
         .snow-container {
             position: fixed;
             inset: 0;
+
             z-index: 0;
+
             overflow: hidden;
             pointer-events: none;
-            transition: opacity 0.25s ease;
+
+            transition:
+                opacity 0.25s ease;
         }
 
         .snow-container.hidden {
@@ -105,37 +136,61 @@
 
         .snowflake {
             position: absolute;
+
             top: -30px;
-            color: rgba(255, 255, 255, 0.9);
+
+            color:
+                rgba(255, 255, 255, 0.9);
+
             text-shadow:
-                0 0 8px rgba(255, 255, 255, 0.35);
+                0 0 8px
+                rgba(255, 255, 255, 0.35);
+
             user-select: none;
             pointer-events: none;
+
             animation:
-                snowFall var(--snow-duration) linear var(--snow-delay) infinite;
+                snowFall
+                var(--snow-duration)
+                linear
+                var(--snow-delay)
+                infinite;
+
             will-change: transform;
         }
 
         @keyframes snowFall {
             0% {
                 transform:
-                    translate3d(0, -40px, 0)
+                    translate3d(
+                        0,
+                        -40px,
+                        0
+                    )
                     rotate(0deg);
+
                 opacity: 0;
             }
 
             10% {
-                opacity: var(--snow-opacity);
+                opacity:
+                    var(--snow-opacity);
             }
 
             90% {
-                opacity: var(--snow-opacity);
+                opacity:
+                    var(--snow-opacity);
             }
 
             100% {
                 transform:
-                    translate3d(var(--snow-drift), 110vh, 0)
+                    translate3d(
+                        var(--snow-drift),
+                        110vh,
+                        0
+                    )
                     rotate(360deg);
+
                 opacity: 0;
             }
         }
@@ -146,14 +201,22 @@
 
         h1 {
             font-size: 70px;
+
             margin-bottom: 30px;
 
-            font-family: "Segoe UI Light", "Helvetica Neue", Arial, sans-serif;
+            font-family:
+                "Segoe UI Light",
+                "Helvetica Neue",
+                Arial,
+                sans-serif;
+
             font-weight: 300;
+
             letter-spacing: -4px;
 
             text-shadow:
-                0 3px 12px rgba(0, 0, 0, 0.45);
+                0 3px 12px
+                rgba(0, 0, 0, 0.45);
         }
 
         /* =========================
@@ -162,33 +225,47 @@
 
         .circle-buttons {
             display: flex;
+
             justify-content: center;
             align-items: center;
+
             gap: 18px;
+
             margin-bottom: 10px;
         }
 
         .circle-button {
             width: 76px;
             height: 76px;
+
             padding: 0;
             margin: 5px;
 
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.96);
+
+            background:
+                rgba(255, 255, 255, 0.96);
+
             color: #333;
+
             border: none;
-            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.16);
+
+            box-shadow:
+                0 5px 18px
+                rgba(0, 0, 0, 0.16);
 
             font-size: 32px;
             font-weight: bold;
+
             font-family: Arial, sans-serif;
 
             display: flex;
+
             align-items: center;
             justify-content: center;
 
             cursor: pointer;
+
             overflow: hidden;
             white-space: nowrap;
 
@@ -200,10 +277,17 @@
         }
 
         .circle-button:hover {
-            background: rgba(255, 255, 255, 1);
-            transform: scale(1.08);
+            background:
+                rgba(255, 255, 255, 1);
+
+            transform:
+                scale(1.08);
+
             border-radius: 40px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+
+            box-shadow:
+                0 8px 24px
+                rgba(0, 0, 0, 0.22);
         }
 
         /* =========================
@@ -215,6 +299,7 @@
             height: 42px;
 
             display: flex;
+
             align-items: center;
             justify-content: center;
 
@@ -228,9 +313,11 @@
             display: block;
 
             fill: none;
+
             stroke: #222;
 
             stroke-width: 2.2;
+
             stroke-linecap: round;
             stroke-linejoin: round;
 
@@ -308,10 +395,12 @@
 
         .version {
             position: fixed;
+
             bottom: 15px;
             left: 15px;
 
             color: white;
+
             font-size: 14px;
             font-weight: bold;
 
@@ -324,20 +413,26 @@
 
         .login-button {
             position: fixed;
+
             top: 20px;
             right: 20px;
 
-            padding: 12px 22px;
+            padding:
+                12px 22px;
 
             background: white;
             color: black;
 
             border: none;
+
             border-radius: 25px;
 
             font-size: 16px;
             font-weight: bold;
-            font-family: Arial, sans-serif;
+
+            font-family:
+                Arial,
+                sans-serif;
 
             cursor: pointer;
 
@@ -350,7 +445,9 @@
 
         .login-button:hover {
             background: #ddd;
-            transform: scale(1.08);
+
+            transform:
+                scale(1.08);
         }
 
         /* =========================
@@ -359,6 +456,7 @@
 
         .hello-user {
             position: fixed;
+
             top: 20px;
             right: 20px;
 
@@ -370,7 +468,8 @@
             z-index: 3;
 
             text-shadow:
-                0 2px 10px rgba(0, 0, 0, 0.7);
+                0 2px 10px
+                rgba(0, 0, 0, 0.7);
 
             cursor: pointer;
 
@@ -380,7 +479,9 @@
         }
 
         .hello-user:hover {
-            transform: scale(1.05);
+            transform:
+                scale(1.05);
+
             opacity: 0.85;
         }
 
@@ -394,7 +495,8 @@
             position: fixed;
             inset: 0;
 
-            background: rgba(0, 0, 0, 0.45);
+            background:
+                rgba(0, 0, 0, 0.45);
 
             justify-content: center;
             align-items: center;
@@ -419,23 +521,32 @@
             padding: 30px;
 
             box-shadow:
-                0 15px 50px rgba(0, 0, 0, 0.65);
+                0 15px 50px
+                rgba(0, 0, 0, 0.65);
 
-            animation: loginPopupOpen 0.2s ease-out;
+            animation:
+                loginPopupOpen
+                0.2s
+                ease-out;
         }
 
         .login-popup-box h2 {
-            margin: 0 0 12px 0;
+            margin:
+                0 0 12px 0;
 
             font-size: 26px;
             font-weight: bold;
         }
 
         .login-subtitle {
-            margin: 0 0 20px 0 !important;
+            margin:
+                0 0 20px 0 !important;
 
-            font-size: 14px !important;
-            color: #777 !important;
+            font-size:
+                14px !important;
+
+            color:
+                #777 !important;
         }
 
         .username-label {
@@ -451,6 +562,7 @@
 
         .username-input {
             width: 100%;
+
             box-sizing: border-box;
 
             padding: 12px;
@@ -458,17 +570,23 @@
             background: #f5f5f5;
             color: black;
 
-            border: 1px solid #ccc;
+            border:
+                1px solid #ccc;
+
             border-radius: 5px;
 
             outline: none;
 
             font-size: 16px;
-            font-family: Arial, sans-serif;
+
+            font-family:
+                Arial,
+                sans-serif;
         }
 
         .username-input:focus {
             border-color: #111;
+
             background: white;
         }
 
@@ -483,6 +601,7 @@
             color: white;
 
             border: none;
+
             border-radius: 5px;
 
             font-size: 16px;
@@ -497,7 +616,9 @@
 
         .sign-in-button:hover {
             background: #333;
-            transform: translateY(-2px);
+
+            transform:
+                translateY(-2px);
         }
 
         .login-error {
@@ -521,6 +642,7 @@
             height: 30px;
 
             border: none;
+
             border-radius: 50%;
 
             background: #eee;
@@ -538,7 +660,9 @@
 
         .close-login:hover {
             background: #ddd;
-            transform: scale(1.08);
+
+            transform:
+                scale(1.08);
         }
 
         /* =========================
@@ -551,7 +675,8 @@
             position: fixed;
             inset: 0;
 
-            background: rgba(0, 0, 0, 0.45);
+            background:
+                rgba(0, 0, 0, 0.45);
 
             justify-content: center;
             align-items: center;
@@ -565,7 +690,9 @@
 
         .profile-box {
             width: 320px;
-            max-width: calc(100vw - 40px);
+
+            max-width:
+                calc(100vw - 40px);
 
             background: white;
             color: black;
@@ -577,13 +704,18 @@
             box-sizing: border-box;
 
             box-shadow:
-                0 20px 60px rgba(0, 0, 0, 0.7);
+                0 20px 60px
+                rgba(0, 0, 0, 0.7);
 
-            animation: profilePopupOpen 0.2s ease-out;
+            animation:
+                profilePopupOpen
+                0.2s
+                ease-out;
         }
 
         .profile-box h2 {
-            margin: 0 0 20px 0;
+            margin:
+                0 0 20px 0;
 
             font-size: 26px;
             font-weight: bold;
@@ -592,7 +724,8 @@
         .profile-info {
             background: #f2f2f2;
 
-            border: 1px solid #ddd;
+            border:
+                1px solid #ddd;
 
             border-radius: 6px;
 
@@ -630,6 +763,7 @@
             color: white;
 
             border: none;
+
             border-radius: 5px;
 
             font-size: 15px;
@@ -644,7 +778,9 @@
 
         .profile-close:hover {
             background: #333;
-            transform: translateY(-2px);
+
+            transform:
+                translateY(-2px);
         }
 
         /* =========================
@@ -657,7 +793,8 @@
             position: fixed;
             inset: 0;
 
-            background: rgba(0, 0, 0, 0.45);
+            background:
+                rgba(0, 0, 0, 0.45);
 
             justify-content: center;
             align-items: center;
@@ -672,6 +809,14 @@
         .quick-settings-box {
             width: 360px;
 
+            max-width:
+                calc(100vw - 40px);
+
+            max-height:
+                calc(100vh - 40px);
+
+            overflow-y: auto;
+
             background: white;
             color: black;
 
@@ -680,13 +825,18 @@
             padding: 25px;
 
             box-shadow:
-                0 15px 50px rgba(0, 0, 0, 0.65);
+                0 15px 50px
+                rgba(0, 0, 0, 0.65);
 
-            animation: clickguiOpen 0.2s ease-out;
+            animation:
+                clickguiOpen
+                0.2s
+                ease-out;
         }
 
         .quick-settings-box h2 {
-            margin: 0 0 22px 0;
+            margin:
+                0 0 22px 0;
 
             font-size: 25px;
             font-weight: bold;
@@ -697,7 +847,8 @@
         .quick-setting {
             background: #f2f2f2;
 
-            border: 1px solid #ddd;
+            border:
+                1px solid #ddd;
 
             border-radius: 5px;
 
@@ -706,7 +857,10 @@
             margin-bottom: 10px;
 
             display: flex;
-            justify-content: space-between;
+
+            justify-content:
+                space-between;
+
             align-items: center;
 
             color: black;
@@ -718,7 +872,9 @@
 
         .quick-setting:hover {
             background: #e7e7e7;
-            transform: translateX(3px);
+
+            transform:
+                translateX(3px);
         }
 
         .quick-setting span {
@@ -741,6 +897,7 @@
             color: white;
 
             border: none;
+
             border-radius: 5px;
 
             font-size: 16px;
@@ -755,7 +912,9 @@
 
         .music-open-button:hover {
             background: #333;
-            transform: translateY(-2px);
+
+            transform:
+                translateY(-2px);
         }
 
         /* =========================
@@ -767,6 +926,8 @@
 
             width: 48px;
             height: 25px;
+
+            flex-shrink: 0;
         }
 
         .switch input {
@@ -778,6 +939,7 @@
 
         .slider {
             position: absolute;
+
             inset: 0;
 
             background: #cfcfcf;
@@ -805,7 +967,8 @@
             border-radius: 50%;
 
             box-shadow:
-                0 1px 4px rgba(0, 0, 0, 0.25);
+                0 1px 4px
+                rgba(0, 0, 0, 0.25);
 
             transition: 0.2s;
         }
@@ -815,269 +978,8 @@
         }
 
         input:checked + .slider:before {
-            transform: translateX(23px);
-        }
-
-        /* =========================
-           MUSIC POPUP
-           ========================= */
-
-        .music-popup {
-            display: none;
-
-            position: fixed;
-            inset: 0;
-
-            background: rgba(0, 0, 0, 0.45);
-
-            justify-content: center;
-            align-items: center;
-
-            z-index: 11000;
-        }
-
-        .music-popup.show {
-            display: flex;
-        }
-
-        .music-box {
-            position: relative;
-
-            width: 420px;
-            max-width: calc(100vw - 40px);
-            max-height: 80vh;
-
-            background: white;
-            color: black;
-
-            border-radius: 10px;
-
-            padding: 25px;
-
-            box-sizing: border-box;
-
-            box-shadow:
-                0 20px 60px rgba(0, 0, 0, 0.7);
-
-            animation: musicPopupOpen 0.2s ease-out;
-        }
-
-        .music-box h2 {
-            margin: 0;
-
-            font-size: 25px;
-            font-weight: bold;
-        }
-
-        .music-close {
-            position: absolute;
-
-            top: 12px;
-            right: 12px;
-
-            width: 32px;
-            height: 32px;
-
-            border: none;
-            border-radius: 50%;
-
-            background: #eee;
-            color: black;
-
-            font-size: 20px;
-            font-weight: bold;
-
-            cursor: pointer;
-
-            transition:
-                background 0.2s ease,
-                transform 0.2s ease;
-        }
-
-        .music-close:hover {
-            background: #ddd;
-            transform: scale(1.08);
-        }
-
-        .music-now-playing {
-            margin-top: 20px;
-
-            padding: 14px;
-
-            background: #f2f2f2;
-
-            border-radius: 6px;
-
-            text-align: center;
-
-            font-size: 15px;
-            font-weight: bold;
-
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .music-progress {
-            width: 100%;
-
-            margin-top: 15px;
-
-            cursor: pointer;
-        }
-
-        .music-time {
-            display: flex;
-            justify-content: space-between;
-
-            margin-top: 5px;
-
-            font-size: 11px;
-            color: #777;
-        }
-
-        .music-controls {
-            display: flex;
-
-            justify-content: center;
-            align-items: center;
-
-            gap: 8px;
-
-            margin-top: 15px;
-        }
-
-        .music-control {
-            width: 42px;
-            height: 38px;
-
-            border: none;
-            border-radius: 6px;
-
-            background: #eee;
-            color: black;
-
-            font-size: 17px;
-            font-weight: bold;
-
-            cursor: pointer;
-
-            transition:
-                background 0.15s ease,
-                transform 0.15s ease;
-        }
-
-        .music-control:hover {
-            background: #ddd;
-            transform: scale(1.05);
-        }
-
-        .music-play {
-            width: 50px;
-            height: 44px;
-
-            background: #111;
-            color: white;
-        }
-
-        .music-play:hover {
-            background: #333;
-        }
-
-        .music-options {
-            display: flex;
-
-            align-items: center;
-            gap: 10px;
-
-            margin-top: 15px;
-        }
-
-        .music-options span {
-            font-size: 13px;
-            font-weight: bold;
-        }
-
-        .music-volume {
-            flex: 1;
-        }
-
-        .music-search {
-            width: 100%;
-            box-sizing: border-box;
-
-            margin-top: 18px;
-
-            padding: 11px;
-
-            background: #f5f5f5;
-            color: black;
-
-            border: 1px solid #ccc;
-            border-radius: 5px;
-
-            outline: none;
-
-            font-family: Arial, sans-serif;
-            font-size: 14px;
-        }
-
-        .music-search:focus {
-            border-color: #111;
-            background: white;
-        }
-
-        .music-list {
-            margin-top: 12px;
-
-            max-height: 180px;
-
-            overflow-y: auto;
-
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-
-        .music-song {
-            padding: 10px 12px;
-
-            background: white;
-
-            border-bottom: 1px solid #eee;
-
-            cursor: pointer;
-
-            font-size: 13px;
-
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-
-            transition:
-                background 0.15s ease;
-        }
-
-        .music-song:last-child {
-            border-bottom: none;
-        }
-
-        .music-song:hover {
-            background: #f0f0f0;
-        }
-
-        .music-song.active {
-            background: #111;
-            color: white;
-        }
-
-        .music-empty {
-            padding: 15px;
-
-            text-align: center;
-
-            color: #777;
-
-            font-size: 13px;
+            transform:
+                translateX(23px);
         }
 
         /* =========================
@@ -1085,7 +987,8 @@
            ========================= */
 
         .hint {
-            margin: 18px 0 0 0;
+            margin:
+                18px 0 0 0;
 
             color: #777;
 
@@ -1101,48 +1004,48 @@
         @keyframes clickguiOpen {
             from {
                 opacity: 0;
-                transform: scale(0.92);
+
+                transform:
+                    scale(0.92);
             }
 
             to {
                 opacity: 1;
-                transform: scale(1);
+
+                transform:
+                    scale(1);
             }
         }
 
         @keyframes loginPopupOpen {
             from {
                 opacity: 0;
-                transform: scale(0.9);
+
+                transform:
+                    scale(0.9);
             }
 
             to {
                 opacity: 1;
-                transform: scale(1);
-            }
-        }
 
-        @keyframes musicPopupOpen {
-            from {
-                opacity: 0;
-                transform: scale(0.9);
-            }
-
-            to {
-                opacity: 1;
-                transform: scale(1);
+                transform:
+                    scale(1);
             }
         }
 
         @keyframes profilePopupOpen {
             from {
                 opacity: 0;
-                transform: scale(0.9);
+
+                transform:
+                    scale(0.9);
             }
 
             to {
                 opacity: 1;
-                transform: scale(1);
+
+                transform:
+                    scale(1);
             }
         }
     </style>
@@ -1150,12 +1053,25 @@
 
 <body>
 
-    <div id="background" class="background"></div>
+    <!-- BACKGROUND -->
 
-    <div id="backgroundDots" class="background-dots"></div>
+    <div
+        id="background"
+        class="background"
+    ></div>
 
-    <div id="snowContainer" class="snow-container hidden"></div>
+    <div
+        id="backgroundDots"
+        class="background-dots"
+    ></div>
 
+    <div
+        id="snowContainer"
+        class="snow-container hidden"
+    ></div>
+
+
+    <!-- MAIN CONTENT -->
 
     <div class="container">
 
@@ -1165,23 +1081,43 @@
 
         <div class="circle-buttons">
 
-            <!-- GAMES -->
+            <!-- =========================
+                 GAMES
+                 ========================= -->
 
             <button
                 class="circle-button games-button"
                 onclick="location.href='games.html'"
             >
+
                 <span class="icon">
 
-                    <svg viewBox="0 0 48 48" aria-hidden="true">
+                    <svg
+                        viewBox="0 0 48 48"
+                        aria-hidden="true"
+                    >
 
                         <path
-                            d="M15 18h18c5 0 8 4 9 9l2 8c1 4-4 7-7 4l-5-5H16l-5 5c-3 3-8 0-7-4l2-8c1-5 4-9 9-9z"
+                            d="
+                                M15 18h18
+                                c5 0 8 4 9 9
+                                l2 8
+                                c1 4-4 7-7 4
+                                l-5-5H16
+                                l-5 5
+                                c-3 3-8 0-7-4
+                                l2-8
+                                c1-5 4-9 9-9z
+                            "
                         />
 
-                        <path d="M16 24v8" />
+                        <path
+                            d="M16 24v8"
+                        />
 
-                        <path d="M12 28h8" />
+                        <path
+                            d="M12 28h8"
+                        />
 
                         <circle
                             cx="32"
@@ -1199,54 +1135,87 @@
 
                 </span>
 
-                <span class="name">Games</span>
+                <span class="name">
+                    Games
+                </span>
 
             </button>
 
 
-            <!-- MUSIC -->
+            <!-- =========================
+                 MUSIC
+                 ========================= -->
 
             <button
                 class="circle-button music-button"
-                onclick="location.href='music.html'"
+                onclick="openJelloMusic()"
             >
+
                 <span class="icon">
 
-                    <svg viewBox="0 0 48 48" aria-hidden="true">
+                    <svg
+                        viewBox="0 0 48 48"
+                        aria-hidden="true"
+                    >
 
                         <path
-                            d="M19 34V11l18-4v23"
+                            d="
+                                M19 34V11l18-4v23
+                            "
                         />
 
                         <path
-                            d="M19 34c0 4-3 7-7 7s-7-2-7-5 3-6 7-6 7 1 7 4z"
+                            d="
+                                M19 34
+                                c0 4-3 7-7 7
+                                s-7-2-7-5
+                                3-6 7-6
+                                7 1 7 4z
+                            "
                         />
 
                         <path
-                            d="M37 30c0 4-3 7-6 7s-7-2-7-5 3-6 7-6 6 1 6 4z"
+                            d="
+                                M37 30
+                                c0 4-3 7-6 7
+                                s-7-2-7-5
+                                3-6 7-6
+                                6 1 6 4z
+                            "
                         />
 
                     </svg>
 
                 </span>
 
-                <span class="name">Music</span>
+                <span class="name">
+                    Music
+                </span>
 
             </button>
 
 
-            <!-- CHANGELOGS -->
+            <!-- =========================
+                 CHANGELOGS
+                 ========================= -->
 
             <button
                 class="circle-button changelog-button"
                 onclick="location.href='changelogs.html'"
             >
+
                 <span class="icon">
 
-                    <svg viewBox="0 0 48 48" aria-hidden="true">
+                    <svg
+                        viewBox="0 0 48 48"
+                        aria-hidden="true"
+                    >
 
                         <path
-                            d="M12 5h18l6 6v32H12z"
+                            d="
+                                M12 5h18
+                                l6 6v32H12z
+                            "
                         />
 
                         <path
@@ -1269,20 +1238,28 @@
 
                 </span>
 
-                <span class="name">Changelogs</span>
+                <span class="name">
+                    Changelogs
+                </span>
 
             </button>
 
 
-            <!-- SETTINGS -->
+            <!-- =========================
+                 SETTINGS
+                 ========================= -->
 
             <button
                 class="circle-button settings-button"
                 onclick="location.href='settings.html'"
             >
+
                 <span class="icon">
 
-                    <svg viewBox="0 0 48 48" aria-hidden="true">
+                    <svg
+                        viewBox="0 0 48 48"
+                        aria-hidden="true"
+                    >
 
                         <path
                             d="
@@ -1324,22 +1301,28 @@
 
                 </span>
 
-                <span class="name">Settings</span>
+                <span class="name">
+                    Settings
+                </span>
 
             </button>
 
 
-            <!-- PORTAL -->
+            <!-- =========================
+                 PORTAL
+                 ========================= -->
 
             <button
                 class="circle-button portal-button"
                 onclick="location.href='jelloportal.html'"
             >
+
                 <span class="icon">
 
-                    <svg viewBox="0 0 48 48" aria-hidden="true">
-
-                        <!-- Globe -->
+                    <svg
+                        viewBox="0 0 48 48"
+                        aria-hidden="true"
+                    >
 
                         <circle
                             cx="24"
@@ -1347,17 +1330,21 @@
                             r="18"
                         />
 
-                        <!-- Vertical globe lines -->
-
                         <path
-                            d="M24 6c-6 5-9 11-9 18s3 13 9 18"
+                            d="
+                                M24 6
+                                c-6 5-9 11-9 18
+                                s3 13 9 18
+                            "
                         />
 
                         <path
-                            d="M24 6c6 5 9 11 9 18s-3 13-9 18"
+                            d="
+                                M24 6
+                                c6 5 9 11 9 18
+                                s-3 13-9 18
+                            "
                         />
-
-                        <!-- Horizontal globe lines -->
 
                         <path
                             d="M7 24h34"
@@ -1375,7 +1362,9 @@
 
                 </span>
 
-                <span class="name">Portal</span>
+                <span class="name">
+                    Portal
+                </span>
 
             </button>
 
@@ -1384,7 +1373,9 @@
     </div>
 
 
-    <!-- HELLO USER -->
+    <!-- =========================
+         HELLO USER
+         ========================= -->
 
     <div
         id="helloUser"
@@ -1392,7 +1383,9 @@
     ></div>
 
 
-    <!-- LOGIN BUTTON -->
+    <!-- =========================
+         LOGIN BUTTON
+         ========================= -->
 
     <button
         id="loginButton"
@@ -1403,16 +1396,23 @@
     </button>
 
 
-    <!-- VERSION -->
+    <!-- =========================
+         VERSION
+         ========================= -->
 
     <div class="version">
-        5.0 beta
+        5.0.1 Beta
     </div>
 
 
-    <!-- LOGIN POPUP -->
+    <!-- =========================
+         LOGIN POPUP
+         ========================= -->
 
-    <div id="loginPopup" class="login-popup">
+    <div
+        id="loginPopup"
+        class="login-popup"
+    >
 
         <div class="login-popup-box">
 
@@ -1423,7 +1423,9 @@
                 ×
             </button>
 
-            <h2>Log In</h2>
+            <h2>
+                Log In
+            </h2>
 
             <p class="login-subtitle">
                 Enter a username to continue
@@ -1464,7 +1466,9 @@
     </div>
 
 
-    <!-- USER PROFILE POPUP -->
+    <!-- =========================
+         USER PROFILE POPUP
+         ========================= -->
 
     <div
         id="profilePopup"
@@ -1519,17 +1523,29 @@
     </div>
 
 
-    <!-- QUICK SETTINGS -->
+    <!-- =========================
+         QUICK SETTINGS
+         ========================= -->
 
-    <div id="quickSettings" class="quick-settings">
+    <div
+        id="quickSettings"
+        class="quick-settings"
+    >
 
         <div class="quick-settings-box">
 
-            <h2>Settings</h2>
+            <h2>
+                Settings
+            </h2>
+
+
+            <!-- AUTO CLOAK -->
 
             <div class="quick-setting">
 
-                <span>Auto Cloak</span>
+                <span>
+                    Auto Cloak
+                </span>
 
                 <label class="switch">
 
@@ -1544,9 +1560,14 @@
 
             </div>
 
+
+            <!-- NO TAB CLOSE -->
+
             <div class="quick-setting">
 
-                <span>No Tab Close</span>
+                <span>
+                    No Tab Close
+                </span>
 
                 <label class="switch">
 
@@ -1561,9 +1582,14 @@
 
             </div>
 
+
+            <!-- FULL SCREEN -->
+
             <div class="quick-setting">
 
-                <span>Full Screen</span>
+                <span>
+                    Full Screen
+                </span>
 
                 <label class="switch">
 
@@ -1578,9 +1604,14 @@
 
             </div>
 
+
+            <!-- MOUSE BACKGROUND -->
+
             <div class="quick-setting">
 
-                <span>Mouse Background Movement</span>
+                <span>
+                    Mouse Background Movement
+                </span>
 
                 <label class="switch">
 
@@ -1595,9 +1626,14 @@
 
             </div>
 
+
+            <!-- BACKGROUND DOTS -->
+
             <div class="quick-setting">
 
-                <span>Background Dots</span>
+                <span>
+                    Background Dots
+                </span>
 
                 <label class="switch">
 
@@ -1612,9 +1648,14 @@
 
             </div>
 
+
+            <!-- FALLING SNOW -->
+
             <div class="quick-setting">
 
-                <span>Falling Snow</span>
+                <span>
+                    Falling Snow
+                </span>
 
                 <label class="switch">
 
@@ -1629,12 +1670,16 @@
 
             </div>
 
+
+            <!-- JELLO MUSIC -->
+
             <button
                 class="music-open-button"
-                onclick="openMusicPopup()"
+                onclick="openJelloMusic()"
             >
                 Jello Music
             </button>
+
 
             <p class="hint">
                 Press P to close
@@ -1645,213 +1690,237 @@
     </div>
 
 
-    <!-- JELLO MUSIC POPUP -->
-
-    <div
-        id="musicPopup"
-        class="music-popup"
-    >
-
-        <div class="music-box">
-
-            <button
-                class="music-close"
-                onclick="closeMusicPopup()"
-            >
-                ×
-            </button>
-
-            <h2>Jello Music</h2>
-
-            <div
-                id="musicNowPlaying"
-                class="music-now-playing"
-            >
-                Nothing playing
-            </div>
-
-            <input
-                id="musicProgress"
-                class="music-progress"
-                type="range"
-                min="0"
-                max="100"
-                value="0"
-            >
-
-            <div class="music-time">
-
-                <span id="musicCurrentTime">
-                    0:00
-                </span>
-
-                <span id="musicDuration">
-                    0:00
-                </span>
-
-            </div>
-
-            <div class="music-controls">
-
-                <button
-                    id="musicPrevious"
-                    class="music-control"
-                    title="Previous"
-                >
-                    ⏮
-                </button>
-
-                <button
-                    id="musicPlay"
-                    class="music-control music-play"
-                    title="Play / Pause"
-                >
-                    ▶
-                </button>
-
-                <button
-                    id="musicNext"
-                    class="music-control"
-                    title="Next"
-                >
-                    ⏭
-                </button>
-
-                <button
-                    id="musicShuffle"
-                    class="music-control"
-                    title="Shuffle"
-                >
-                    🔀
-                </button>
-
-                <button
-                    id="musicRepeat"
-                    class="music-control"
-                    title="Repeat"
-                >
-                    🔁
-                </button>
-
-            </div>
-
-            <div class="music-options">
-
-                <span>Volume</span>
-
-                <input
-                    id="musicVolume"
-                    class="music-volume"
-                    type="range"
-                    min="0"
-                    max="1"
-                    step="0.01"
-                    value="1"
-                >
-
-            </div>
-
-            <input
-                id="musicSearch"
-                class="music-search"
-                type="text"
-                placeholder="Search songs..."
-                autocomplete="off"
-            >
-
-            <div
-                id="musicList"
-                class="music-list"
-            ></div>
-
-        </div>
-
-    </div>
-
-
-    <audio id="musicAudio"></audio>
-
-
     <script>
 
+        /* =========================
+           ELEMENTS
+           ========================= */
+
         const quickSettings =
-            document.getElementById("quickSettings");
+            document.getElementById(
+                "quickSettings"
+            );
 
         const quickAutoCloak =
-            document.getElementById("quickAutoCloak");
+            document.getElementById(
+                "quickAutoCloak"
+            );
 
         const quickNoTabClose =
-            document.getElementById("quickNoTabClose");
+            document.getElementById(
+                "quickNoTabClose"
+            );
 
         const quickFullscreen =
-            document.getElementById("quickFullscreen");
+            document.getElementById(
+                "quickFullscreen"
+            );
 
         const quickMouseBackground =
-            document.getElementById("quickMouseBackground");
+            document.getElementById(
+                "quickMouseBackground"
+            );
 
         const loginPopup =
-            document.getElementById("loginPopup");
+            document.getElementById(
+                "loginPopup"
+            );
 
         const usernameInput =
-            document.getElementById("usernameInput");
+            document.getElementById(
+                "usernameInput"
+            );
 
         const loginError =
-            document.getElementById("loginError");
+            document.getElementById(
+                "loginError"
+            );
 
         const loginButton =
-            document.getElementById("loginButton");
+            document.getElementById(
+                "loginButton"
+            );
 
         const helloUser =
-            document.getElementById("helloUser");
+            document.getElementById(
+                "helloUser"
+            );
 
         const background =
-            document.getElementById("background");
+            document.getElementById(
+                "background"
+            );
 
         const backgroundDots =
-            document.getElementById("backgroundDots");
+            document.getElementById(
+                "backgroundDots"
+            );
 
         const quickBackgroundDots =
-            document.getElementById("quickBackgroundDots");
+            document.getElementById(
+                "quickBackgroundDots"
+            );
 
         const snowContainer =
-            document.getElementById("snowContainer");
+            document.getElementById(
+                "snowContainer"
+            );
 
         const quickSnow =
-            document.getElementById("quickSnow");
+            document.getElementById(
+                "quickSnow"
+            );
 
         const profilePopup =
-            document.getElementById("profilePopup");
+            document.getElementById(
+                "profilePopup"
+            );
 
         const profileTitle =
-            document.getElementById("profileTitle");
+            document.getElementById(
+                "profileTitle"
+            );
 
         const profileUsername =
-            document.getElementById("profileUsername");
+            document.getElementById(
+                "profileUsername"
+            );
 
         const profileTime =
-            document.getElementById("profileTime");
+            document.getElementById(
+                "profileTime"
+            );
 
+
+        /* =========================
+           JELLO MUSIC
+           ========================= */
+
+        function openJelloMusic() {
+
+            const musicWindow =
+                window.open(
+                    "about:blank",
+                    "_blank"
+                );
+
+            if (!musicWindow) {
+
+                alert(
+                    "Please allow pop-ups for Sigma Jello."
+                );
+
+                return;
+
+            }
+
+
+            const musicURL =
+                new URL(
+                    "music.html",
+                    window.location.href
+                ).href;
+
+
+            musicWindow.document.open();
+
+
+            musicWindow.document.write(`
+
+                <!DOCTYPE html>
+
+                <html>
+
+                <head>
+
+                    <title>
+                        Jello Music
+                    </title>
+
+                    <style>
+
+                        html,
+                        body {
+
+                            margin: 0;
+                            padding: 0;
+
+                            width: 100%;
+                            height: 100%;
+
+                            overflow: hidden;
+
+                            background: black;
+
+                        }
+
+                        iframe {
+
+                            width: 100%;
+                            height: 100%;
+
+                            border: none;
+
+                            display: block;
+
+                        }
+
+                    </style>
+
+                </head>
+
+                <body>
+
+                    <iframe
+                        src="${musicURL}"
+                        allowfullscreen>
+                    </iframe>
+
+                </body>
+
+                </html>
+
+            `);
+
+
+            musicWindow.document.close();
+
+        }
+
+
+        /* =========================
+           LOGIN
+           ========================= */
 
         function openLoginPopup() {
 
-            loginPopup.classList.add("show");
+            loginPopup.classList.add(
+                "show"
+            );
 
             usernameInput.value = "";
 
-            loginError.style.display = "none";
+            loginError.style.display =
+                "none";
 
-            setTimeout(function() {
 
-                usernameInput.focus();
+            setTimeout(
+                function() {
 
-            }, 50);
+                    usernameInput.focus();
+
+                },
+                50
+            );
 
         }
 
 
         function closeLoginPopup() {
 
-            loginPopup.classList.remove("show");
+            loginPopup.classList.remove(
+                "show"
+            );
 
         }
 
@@ -1860,6 +1929,7 @@
 
             const username =
                 usernameInput.value.trim();
+
 
             if (!username) {
 
@@ -1872,15 +1942,18 @@
 
             }
 
+
             localStorage.setItem(
                 "sigmaJelloUsername",
                 username
             );
 
+
             localStorage.setItem(
                 "sigmaJelloLoggedIn",
                 "true"
             );
+
 
             if (
                 localStorage.getItem(
@@ -1895,10 +1968,12 @@
 
             }
 
+
             localStorage.setItem(
                 "sigmaJelloLastVisit",
                 Date.now().toString()
             );
+
 
             updateUserDisplay();
 
@@ -1914,12 +1989,17 @@
                     "sigmaJelloUsername"
                 );
 
+
             const loggedIn =
                 localStorage.getItem(
                     "sigmaJelloLoggedIn"
                 ) === "true";
 
-            if (loggedIn && username) {
+
+            if (
+                loggedIn &&
+                username
+            ) {
 
                 helloUser.textContent =
                     "Hello " + username;
@@ -1933,6 +2013,7 @@
                 helloUser.onclick =
                     openProfilePopup;
 
+
                 if (
                     localStorage.getItem(
                         "sigmaJelloTotalTime"
@@ -1945,6 +2026,7 @@
                     );
 
                 }
+
 
                 if (
                     localStorage.getItem(
@@ -1961,12 +2043,14 @@
 
             } else {
 
-                helloUser.textContent = "";
+                helloUser.textContent =
+                    "";
 
                 helloUser.style.display =
                     "none";
 
-                helloUser.onclick = null;
+                helloUser.onclick =
+                    null;
 
                 loginButton.style.display =
                     "block";
@@ -1976,6 +2060,10 @@
         }
 
 
+        /* =========================
+           TIME TRACKING
+           ========================= */
+
         function updateTotalTime() {
 
             const loggedIn =
@@ -1983,9 +2071,11 @@
                     "sigmaJelloLoggedIn"
                 ) === "true";
 
+
             if (!loggedIn) {
                 return;
             }
+
 
             const lastVisit =
                 Number(
@@ -1993,6 +2083,7 @@
                         "sigmaJelloLastVisit"
                     )
                 );
+
 
             if (!lastVisit) {
 
@@ -2005,14 +2096,17 @@
 
             }
 
+
             const now =
                 Date.now();
+
 
             const elapsed =
                 Math.max(
                     0,
                     now - lastVisit
                 );
+
 
             const oldTotal =
                 Number(
@@ -2021,12 +2115,14 @@
                     )
                 ) || 0;
 
+
             localStorage.setItem(
                 "sigmaJelloTotalTime",
                 (
                     oldTotal + elapsed
                 ).toString()
             );
+
 
             localStorage.setItem(
                 "sigmaJelloLastVisit",
@@ -2041,53 +2137,74 @@
             seconds =
                 Math.floor(seconds);
 
+
             const days =
-                Math.floor(seconds / 86400);
+                Math.floor(
+                    seconds / 86400
+                );
 
             seconds %= 86400;
 
+
             const hours =
-                Math.floor(seconds / 3600);
+                Math.floor(
+                    seconds / 3600
+                );
 
             seconds %= 3600;
 
+
             const minutes =
-                Math.floor(seconds / 60);
+                Math.floor(
+                    seconds / 60
+                );
 
             seconds =
                 seconds % 60;
 
-            let result = "";
+
+            let result =
+                "";
+
 
             if (days > 0) {
 
                 result +=
                     days +
-                    (days === 1
-                        ? " day "
-                        : " days ");
+                    (
+                        days === 1
+                            ? " day "
+                            : " days "
+                    );
 
             }
+
 
             if (hours > 0) {
 
                 result +=
                     hours +
-                    (hours === 1
-                        ? " hour "
-                        : " hours ");
+                    (
+                        hours === 1
+                            ? " hour "
+                            : " hours "
+                    );
 
             }
+
 
             if (minutes > 0) {
 
                 result +=
                     minutes +
-                    (minutes === 1
-                        ? " minute "
-                        : " minutes ");
+                    (
+                        minutes === 1
+                            ? " minute "
+                            : " minutes "
+                    );
 
             }
+
 
             if (
                 seconds > 0 ||
@@ -2096,25 +2213,34 @@
 
                 result +=
                     seconds +
-                    (seconds === 1
-                        ? " second"
-                        : " seconds");
+                    (
+                        seconds === 1
+                            ? " second"
+                            : " seconds"
+                    );
 
             }
+
 
             return result.trim();
 
         }
 
 
+        /* =========================
+           PROFILE
+           ========================= */
+
         function openProfilePopup() {
 
             updateTotalTime();
+
 
             const username =
                 localStorage.getItem(
                     "sigmaJelloUsername"
                 );
+
 
             const totalTime =
                 Number(
@@ -2123,16 +2249,20 @@
                     )
                 ) || 0;
 
+
             profileTitle.textContent =
                 username + "'s Profile";
 
+
             profileUsername.textContent =
                 username;
+
 
             profileTime.textContent =
                 formatProfileTime(
                     totalTime / 1000
                 );
+
 
             profilePopup.classList.add(
                 "show"
@@ -2163,11 +2293,17 @@
         );
 
 
+        /* =========================
+           LOGIN EVENTS
+           ========================= */
+
         usernameInput.addEventListener(
             "keydown",
             function(event) {
 
-                if (event.key === "Enter") {
+                if (
+                    event.key === "Enter"
+                ) {
 
                     signIn();
 
@@ -2192,7 +2328,9 @@
             "click",
             function(event) {
 
-                if (event.target === loginPopup) {
+                if (
+                    event.target === loginPopup
+                ) {
 
                     closeLoginPopup();
 
@@ -2206,7 +2344,9 @@
             "click",
             function(event) {
 
-                if (event.target === profilePopup) {
+                if (
+                    event.target === profilePopup
+                ) {
 
                     closeProfilePopup();
 
@@ -2248,17 +2388,20 @@
 
         function disableNoTabClose() {
 
-            window.onbeforeunload = null;
+            window.onbeforeunload =
+                null;
 
         }
 
 
         if (
-            localStorage.getItem("noTabClose")
-            === "true"
+            localStorage.getItem(
+                "noTabClose"
+            ) === "true"
         ) {
 
-            quickNoTabClose.checked = true;
+            quickNoTabClose.checked =
+                true;
 
             enableNoTabClose();
 
@@ -2305,8 +2448,10 @@
                     return;
                 }
 
+
                 const currentURL =
                     window.location.href;
+
 
                 const cloakWindow =
                     window.open(
@@ -2314,18 +2459,23 @@
                         "_blank"
                     );
 
+
                 if (!cloakWindow) {
 
                     alert(
                         "Your browser blocked the popup. Allow popups for this site."
                     );
 
-                    this.checked = false;
+                    this.checked =
+                        false;
 
                     return;
+
                 }
 
+
                 cloakWindow.document.open();
+
 
                 cloakWindow.document.write(`
 
@@ -2335,7 +2485,9 @@
 
                     <head>
 
-                        <title>about:blank</title>
+                        <title>
+                            about:blank
+                        </title>
 
                         <style>
 
@@ -2380,6 +2532,7 @@
 
                 `);
 
+
                 cloakWindow.document.close();
 
             }
@@ -2397,18 +2550,22 @@
                 if (this.checked) {
 
                     if (
-                        document.documentElement
+                        document
+                            .documentElement
                             .requestFullscreen
                     ) {
 
-                        document.documentElement
+                        document
+                            .documentElement
                             .requestFullscreen();
 
                     }
 
                 } else {
 
-                    if (document.fullscreenElement) {
+                    if (
+                        document.fullscreenElement
+                    ) {
 
                         document.exitFullscreen();
 
@@ -2437,75 +2594,117 @@
 
         function createBackgroundDots() {
 
-            backgroundDots.innerHTML = "";
+            backgroundDots.innerHTML =
+                "";
 
-            for (let i = 0; i < 45; i++) {
+
+            for (
+                let i = 0;
+                i < 45;
+                i++
+            ) {
 
                 const dot =
-                    document.createElement("span");
+                    document.createElement(
+                        "span"
+                    );
+
 
                 dot.className =
                     "background-dot";
 
+
                 const size =
-                    Math.floor(Math.random() * 7) + 3;
+                    Math.floor(
+                        Math.random() * 7
+                    ) + 3;
+
 
                 const x =
-                    Math.floor(Math.random() * 80) - 40;
+                    Math.floor(
+                        Math.random() * 80
+                    ) - 40;
+
 
                 const y =
-                    Math.floor(Math.random() * 80) - 40;
+                    Math.floor(
+                        Math.random() * 80
+                    ) - 40;
+
 
                 const duration =
-                    (Math.random() * 5 + 5).toFixed(2) + "s";
+                    (
+                        Math.random() * 5 + 5
+                    ).toFixed(2) + "s";
+
 
                 const delay =
-                    (Math.random() * -8).toFixed(2) + "s";
+                    (
+                        Math.random() * -8
+                    ).toFixed(2) + "s";
+
 
                 dot.style.width =
                     size + "px";
 
+
                 dot.style.height =
                     size + "px";
+
 
                 dot.style.left =
                     Math.random() * 100 + "%";
 
+
                 dot.style.top =
                     Math.random() * 100 + "%";
+
 
                 dot.style.setProperty(
                     "--dot-x",
                     x + "px"
                 );
 
+
                 dot.style.setProperty(
                     "--dot-y",
                     y + "px"
                 );
+
 
                 dot.style.setProperty(
                     "--dot-duration",
                     duration
                 );
 
+
                 dot.style.setProperty(
                     "--dot-delay",
                     delay
                 );
 
-                backgroundDots.appendChild(dot);
+
+                backgroundDots.appendChild(
+                    dot
+                );
+
             }
+
         }
+
 
         createBackgroundDots();
 
+
         let backgroundDotsEnabled =
-            localStorage.getItem("backgroundDots")
-            !== "false";
+            localStorage.getItem(
+                "backgroundDots"
+            ) !== "false";
+
 
         quickBackgroundDots.checked =
             backgroundDotsEnabled;
+
 
         if (!backgroundDotsEnabled) {
 
@@ -2515,6 +2714,7 @@
 
         }
 
+
         quickBackgroundDots.addEventListener(
             "change",
             function() {
@@ -2522,12 +2722,16 @@
                 backgroundDotsEnabled =
                     this.checked;
 
+
                 localStorage.setItem(
                     "backgroundDots",
                     backgroundDotsEnabled
                 );
 
-                if (backgroundDotsEnabled) {
+
+                if (
+                    backgroundDotsEnabled
+                ) {
 
                     backgroundDots.classList.remove(
                         "hidden"
@@ -2551,62 +2755,99 @@
 
         function createSnow() {
 
-            snowContainer.innerHTML = "";
+            snowContainer.innerHTML =
+                "";
 
-            for (let i = 0; i < 90; i++) {
+
+            for (
+                let i = 0;
+                i < 90;
+                i++
+            ) {
 
                 const snowflake =
-                    document.createElement("span");
+                    document.createElement(
+                        "span"
+                    );
+
 
                 snowflake.className =
                     "snowflake";
 
+
                 snowflake.textContent =
-                    Math.random() > 0.35 ? "•" : "❄";
+                    Math.random() > 0.35
+                        ? "•"
+                        : "❄";
+
 
                 const size =
-                    Math.floor(Math.random() * 9) + 5;
+                    Math.floor(
+                        Math.random() * 9
+                    ) + 5;
+
 
                 const duration =
-                    (Math.random() * 8 + 7).toFixed(2) + "s";
+                    (
+                        Math.random() * 8 + 7
+                    ).toFixed(2) + "s";
+
 
                 const delay =
-                    (Math.random() * -15).toFixed(2) + "s";
+                    (
+                        Math.random() * -15
+                    ).toFixed(2) + "s";
+
 
                 const drift =
-                    Math.floor(Math.random() * 180) - 90;
+                    Math.floor(
+                        Math.random() * 180
+                    ) - 90;
+
 
                 const opacity =
-                    (Math.random() * 0.45 + 0.35).toFixed(2);
+                    (
+                        Math.random() * 0.45 + 0.35
+                    ).toFixed(2);
+
 
                 snowflake.style.left =
                     Math.random() * 100 + "%";
 
+
                 snowflake.style.top =
-                    -(Math.random() * 100 + 20) + "px";
+                    -(
+                        Math.random() * 100 + 20
+                    ) + "px";
+
 
                 snowflake.style.fontSize =
                     size + "px";
+
 
                 snowflake.style.setProperty(
                     "--snow-duration",
                     duration
                 );
 
+
                 snowflake.style.setProperty(
                     "--snow-delay",
                     delay
                 );
+
 
                 snowflake.style.setProperty(
                     "--snow-drift",
                     drift + "px"
                 );
 
+
                 snowflake.style.setProperty(
                     "--snow-opacity",
                     opacity
                 );
+
 
                 snowContainer.appendChild(
                     snowflake
@@ -2616,14 +2857,19 @@
 
         }
 
+
         createSnow();
 
+
         let snowEnabled =
-            localStorage.getItem("fallingSnow")
-            === "true";
+            localStorage.getItem(
+                "fallingSnow"
+            ) === "true";
+
 
         quickSnow.checked =
             snowEnabled;
+
 
         if (snowEnabled) {
 
@@ -2633,6 +2879,7 @@
 
         }
 
+
         quickSnow.addEventListener(
             "change",
             function() {
@@ -2640,10 +2887,12 @@
                 snowEnabled =
                     this.checked;
 
+
                 localStorage.setItem(
                     "fallingSnow",
                     snowEnabled
                 );
+
 
                 if (snowEnabled) {
 
@@ -2668,33 +2917,49 @@
            ========================= */
 
         let mouseBackgroundEnabled =
-            localStorage.getItem("mouseBackground")
-            !== "false";
+            localStorage.getItem(
+                "mouseBackground"
+            ) !== "false";
+
 
         quickMouseBackground.checked =
             mouseBackgroundEnabled;
+
 
         document.addEventListener(
             "mousemove",
             function(event) {
 
-                if (!mouseBackgroundEnabled) {
+                if (
+                    !mouseBackgroundEnabled
+                ) {
+
                     return;
+
                 }
 
+
                 const x =
-                    (event.clientX / window.innerWidth)
-                    - 0.5;
+                    (
+                        event.clientX /
+                        window.innerWidth
+                    ) - 0.5;
+
 
                 const y =
-                    (event.clientY / window.innerHeight)
-                    - 0.5;
+                    (
+                        event.clientY /
+                        window.innerHeight
+                    ) - 0.5;
+
 
                 const moveX =
                     x * 35;
 
+
                 const moveY =
                     y * 35;
+
 
                 background.style.transform =
                     `translate(${moveX}px, ${moveY}px)`;
@@ -2710,12 +2975,16 @@
                 mouseBackgroundEnabled =
                     this.checked;
 
+
                 localStorage.setItem(
                     "mouseBackground",
                     mouseBackgroundEnabled
                 );
 
-                if (!mouseBackgroundEnabled) {
+
+                if (
+                    !mouseBackgroundEnabled
+                ) {
 
                     background.style.transform =
                         "translate(0px, 0px)";
@@ -2727,524 +2996,6 @@
 
 
         /* =========================
-           MUSIC PLAYER
-           ========================= */
-
-        const musicPopup =
-            document.getElementById("musicPopup");
-
-        const musicAudio =
-            document.getElementById("musicAudio");
-
-        const musicNowPlaying =
-            document.getElementById("musicNowPlaying");
-
-        const musicProgress =
-            document.getElementById("musicProgress");
-
-        const musicCurrentTime =
-            document.getElementById("musicCurrentTime");
-
-        const musicDuration =
-            document.getElementById("musicDuration");
-
-        const musicPlay =
-            document.getElementById("musicPlay");
-
-        const musicPrevious =
-            document.getElementById("musicPrevious");
-
-        const musicNext =
-            document.getElementById("musicNext");
-
-        const musicShuffle =
-            document.getElementById("musicShuffle");
-
-        const musicRepeat =
-            document.getElementById("musicRepeat");
-
-        const musicVolume =
-            document.getElementById("musicVolume");
-
-        const musicSearch =
-            document.getElementById("musicSearch");
-
-        const musicList =
-            document.getElementById("musicList");
-
-
-        const songs = [
-
-            "1. Bad Boy OG.mp3",
-            "1. Matt Hardy 999 OG.mp3",
-            "10. Boomerang.mp3",
-            "10. Nuketown OG.mp3",
-            "11. Blue Cash.mp3",
-            "2. Back And Forth (Stumblin_).mp3",
-            "2. Baguettes.mp3",
-            "2. Tell Me You Love Me OG.mp3",
-            "3. Bity.mp3",
-            "3. Trifling.mp3",
-            "3. Vicehurt (R.I.P. Jahseh).mp3",
-            "4. Hey Mister.mp3",
-            "4. Infrared.mp3",
-            "4. No Jumper (I Wonder Why).mp3",
-            "5. Knuck If You Buck.mp3",
-            "6. 2 Seats (Both Sides).mp3",
-            "6. Takeover.mp3",
-            "6. Wake Up!.mp3",
-            "7. Catch Up (Osama).mp3",
-            "7. Sky High.mp3",
-            "8. Knight Crawler OG.mp3",
-            "9. Bye Bye Baby.mp3",
-            "9. U Can_t Tell Me.mp3",
-            "Bottle.mp3",
-            "Burner.mp3",
-            "Cake - Juice WRLD .mp3",
-            "Call Me Whenever - Juice WRLD .mp3",
-            "Cursed.mp3",
-            "Dark Tints - Juice WRLD.mp3",
-            "Elevate - Juice WRLD.mp3",
-            "Emotional Overdose.mp3",
-            "Fall in love - Juice WRLD.mp3",
-            "Happy Life - Juice WRLD.mp3",
-            "Hypnotic.mp3",
-            "In The Mix (Be Here) - Juice WRLD.mp3",
-            "Tic Tac Toe - Juice WRLD.mp3",
-            "Usd - Juice WRLD.mp3",
-            "cali girl.mp3"
-
-        ];
-
-
-        let currentSongIndex = 0;
-        let isShuffle = false;
-        let isRepeat = false;
-
-
-        function formatTime(seconds) {
-
-            if (!isFinite(seconds)) {
-                return "0:00";
-            }
-
-            const minutes =
-                Math.floor(seconds / 60);
-
-            const remaining =
-                Math.floor(seconds % 60)
-                    .toString()
-                    .padStart(2, "0");
-
-            return minutes + ":" + remaining;
-
-        }
-
-
-        function loadSong(index, autoplay = false) {
-
-            if (!songs.length) {
-                return;
-            }
-
-            currentSongIndex =
-                (index + songs.length) % songs.length;
-
-            const song =
-                songs[currentSongIndex];
-
-            musicAudio.src =
-                "music/" +
-                encodeURIComponent(song);
-
-            musicNowPlaying.textContent =
-                song.replace(".mp3", "");
-
-            renderMusicList();
-
-            if (autoplay) {
-
-                musicAudio.play().catch(function() {});
-
-            }
-
-            updateMusicPlayButton();
-
-        }
-
-
-        function playPauseMusic() {
-
-            if (!musicAudio.src) {
-
-                loadSong(currentSongIndex, true);
-
-                return;
-
-            }
-
-            if (musicAudio.paused) {
-
-                musicAudio.play().catch(function() {});
-
-            } else {
-
-                musicAudio.pause();
-
-            }
-
-        }
-
-
-        function updateMusicPlayButton() {
-
-            musicPlay.textContent =
-                musicAudio.paused ? "▶" : "❚❚";
-
-        }
-
-
-        function playNextSong() {
-
-            if (isShuffle && songs.length > 1) {
-
-                let nextIndex;
-
-                do {
-
-                    nextIndex =
-                        Math.floor(
-                            Math.random() * songs.length
-                        );
-
-                } while (
-                    nextIndex === currentSongIndex
-                );
-
-                loadSong(nextIndex, true);
-
-            } else {
-
-                loadSong(
-                    currentSongIndex + 1,
-                    true
-                );
-
-            }
-
-        }
-
-
-        function playPreviousSong() {
-
-            if (musicAudio.currentTime > 3) {
-
-                musicAudio.currentTime = 0;
-
-                return;
-
-            }
-
-            loadSong(
-                currentSongIndex - 1,
-                true
-            );
-
-        }
-
-
-        function renderMusicList() {
-
-            const search =
-                musicSearch.value
-                    .toLowerCase()
-                    .trim();
-
-            musicList.innerHTML = "";
-
-            const filteredSongs =
-                songs
-                    .map(function(song, index) {
-
-                        return {
-                            song: song,
-                            index: index
-                        };
-
-                    })
-                    .filter(function(item) {
-
-                        return item.song
-                            .toLowerCase()
-                            .includes(search);
-
-                    });
-
-
-            if (!filteredSongs.length) {
-
-                musicList.innerHTML =
-                    '<div class="music-empty">No songs found</div>';
-
-                return;
-
-            }
-
-
-            filteredSongs.forEach(function(item) {
-
-                const songElement =
-                    document.createElement("div");
-
-                songElement.className =
-                    "music-song";
-
-                if (
-                    item.index === currentSongIndex
-                ) {
-
-                    songElement.classList.add(
-                        "active"
-                    );
-
-                }
-
-                songElement.textContent =
-                    item.song.replace(".mp3", "");
-
-                songElement.onclick =
-                    function() {
-
-                        loadSong(
-                            item.index,
-                            true
-                        );
-
-                    };
-
-                musicList.appendChild(
-                    songElement
-                );
-
-            });
-
-        }
-
-
-        function openMusicPopup() {
-
-            quickSettings.classList.remove(
-                "show"
-            );
-
-            musicPopup.classList.add(
-                "show"
-            );
-
-            if (!musicAudio.src) {
-
-                loadSong(
-                    currentSongIndex,
-                    false
-                );
-
-            }
-
-        }
-
-
-        function closeMusicPopup() {
-
-            musicPopup.classList.remove(
-                "show"
-            );
-
-        }
-
-
-        musicPlay.addEventListener(
-            "click",
-            playPauseMusic
-        );
-
-
-        musicPrevious.addEventListener(
-            "click",
-            playPreviousSong
-        );
-
-
-        musicNext.addEventListener(
-            "click",
-            playNextSong
-        );
-
-
-        musicShuffle.addEventListener(
-            "click",
-            function() {
-
-                isShuffle =
-                    !isShuffle;
-
-                musicShuffle.style.background =
-                    isShuffle ? "#111" : "#eee";
-
-                musicShuffle.style.color =
-                    isShuffle ? "white" : "black";
-
-            }
-        );
-
-
-        musicRepeat.addEventListener(
-            "click",
-            function() {
-
-                isRepeat =
-                    !isRepeat;
-
-                musicRepeat.style.background =
-                    isRepeat ? "#111" : "#eee";
-
-                musicRepeat.style.color =
-                    isRepeat ? "white" : "black";
-
-            }
-        );
-
-
-        musicAudio.addEventListener(
-            "play",
-            updateMusicPlayButton
-        );
-
-
-        musicAudio.addEventListener(
-            "pause",
-            updateMusicPlayButton
-        );
-
-
-        musicAudio.addEventListener(
-            "ended",
-            function() {
-
-                if (isRepeat) {
-
-                    musicAudio.currentTime = 0;
-
-                    musicAudio.play().catch(
-                        function() {}
-                    );
-
-                } else {
-
-                    playNextSong();
-
-                }
-
-            }
-        );
-
-
-        musicAudio.addEventListener(
-            "loadedmetadata",
-            function() {
-
-                musicDuration.textContent =
-                    formatTime(
-                        musicAudio.duration
-                    );
-
-            }
-        );
-
-
-        musicAudio.addEventListener(
-            "timeupdate",
-            function() {
-
-                if (
-                    musicAudio.duration &&
-                    isFinite(musicAudio.duration)
-                ) {
-
-                    musicProgress.value =
-                        (
-                            musicAudio.currentTime /
-                            musicAudio.duration
-                        ) * 100;
-
-                }
-
-                musicCurrentTime.textContent =
-                    formatTime(
-                        musicAudio.currentTime
-                    );
-
-            }
-        );
-
-
-        musicProgress.addEventListener(
-            "input",
-            function() {
-
-                if (
-                    musicAudio.duration &&
-                    isFinite(musicAudio.duration)
-                ) {
-
-                    musicAudio.currentTime =
-                        (
-                            this.value / 100
-                        ) *
-                        musicAudio.duration;
-
-                }
-
-            }
-        );
-
-
-        musicVolume.addEventListener(
-            "input",
-            function() {
-
-                musicAudio.volume =
-                    this.value;
-
-            }
-        );
-
-
-        musicSearch.addEventListener(
-            "input",
-            renderMusicList
-        );
-
-
-        musicPopup.addEventListener(
-            "click",
-            function(event) {
-
-                if (
-                    event.target === musicPopup
-                ) {
-
-                    closeMusicPopup();
-
-                }
-
-            }
-        );
-
-
-        renderMusicList();
-
-
-        /* =========================
            P KEY
            ========================= */
 
@@ -3252,24 +3003,21 @@
             "keydown",
             function(event) {
 
-                if (event.code !== "KeyP") {
+                if (
+                    event.code !== "KeyP"
+                ) {
+
                     return;
+
                 }
+
 
                 if (event.repeat) {
                     return;
                 }
 
+
                 event.preventDefault();
-
-
-                if (musicPopup.classList.contains("show")) {
-
-                    closeMusicPopup();
-
-                    return;
-
-                }
 
 
                 quickSettings.classList.toggle(
@@ -3281,7 +3029,7 @@
 
 
         /* =========================
-           CLICK OUTSIDE QUICK SETTINGS
+           CLICK OUTSIDE
            ========================= */
 
         quickSettings.addEventListener(
@@ -3289,7 +3037,8 @@
             function(event) {
 
                 if (
-                    event.target === quickSettings
+                    event.target ===
+                    quickSettings
                 ) {
 
                     quickSettings.classList.remove(
@@ -3302,5 +3051,6 @@
         );
 
     </script>
+
 </body>
 </html>
