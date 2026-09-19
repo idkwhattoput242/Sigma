@@ -10,20 +10,21 @@
             box-sizing: border-box;
         }
 
-
+        html,
         body {
             margin: 0;
-
+            width: 100%;
+            min-height: 100%;
             background: #000;
-
             color: white;
-
             font-family:
                 "Helvetica Neue",
                 "Segoe UI",
                 Arial,
                 sans-serif;
+        }
 
+        body {
             overflow: hidden;
         }
 
@@ -649,7 +650,7 @@
 
             cursor: pointer;
 
-            z-index: 10;
+            z-index: 100;
 
             display: flex;
 
@@ -763,6 +764,330 @@
 
 
         /* =========================
+           QUICK SETTINGS
+           ========================= */
+
+        .quick-settings {
+
+            position: fixed;
+
+            top: 50%;
+            left: 50%;
+
+            transform:
+                translate(-50%, -50%)
+                scale(0.95);
+
+            width: 360px;
+
+            max-width:
+                calc(100vw - 30px);
+
+            padding: 24px;
+
+            background:
+                rgba(15, 15, 15, 0.94);
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.15);
+
+            border-radius: 14px;
+
+            backdrop-filter:
+                blur(18px);
+
+            -webkit-backdrop-filter:
+                blur(18px);
+
+            box-shadow:
+                0 25px 80px
+                rgba(0, 0, 0, 0.65);
+
+            z-index: 1000;
+
+            opacity: 0;
+
+            visibility: hidden;
+
+            pointer-events: none;
+
+            transition:
+                opacity 0.18s ease,
+                transform 0.18s ease,
+                visibility 0.18s ease;
+        }
+
+
+        .quick-settings.open {
+
+            opacity: 1;
+
+            visibility: visible;
+
+            pointer-events: auto;
+
+            transform:
+                translate(-50%, -50%)
+                scale(1);
+        }
+
+
+        .quick-settings-title {
+
+            font-size: 24px;
+
+            font-weight: 600;
+
+            margin-bottom: 5px;
+        }
+
+
+        .quick-settings-subtitle {
+
+            font-size: 13px;
+
+            color:
+                rgba(255, 255, 255, 0.45);
+
+            margin-bottom: 20px;
+        }
+
+
+        .setting-row {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 15px;
+
+            padding:
+                13px 0;
+
+            border-bottom:
+                1px solid
+                rgba(255, 255, 255, 0.08);
+        }
+
+
+        .setting-info {
+
+            text-align: left;
+        }
+
+
+        .setting-name {
+
+            font-size: 14px;
+
+            font-weight: 600;
+        }
+
+
+        .setting-description {
+
+            margin-top: 3px;
+
+            font-size: 11px;
+
+            color:
+                rgba(255, 255, 255, 0.4);
+        }
+
+
+        /* =========================
+           TOGGLE
+           ========================= */
+
+        .toggle {
+
+            position: relative;
+
+            width: 46px;
+
+            height: 25px;
+
+            flex-shrink: 0;
+        }
+
+
+        .toggle input {
+
+            opacity: 0;
+
+            width: 0;
+
+            height: 0;
+        }
+
+
+        .slider {
+
+            position: absolute;
+
+            inset: 0;
+
+            cursor: pointer;
+
+            border-radius: 30px;
+
+            background:
+                rgba(255, 255, 255, 0.18);
+
+            transition:
+                background 0.2s ease;
+        }
+
+
+        .slider:before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 19px;
+            height: 19px;
+
+            left: 3px;
+            top: 3px;
+
+            border-radius: 50%;
+
+            background: white;
+
+            transition:
+                transform 0.2s ease;
+        }
+
+
+        .toggle input:checked + .slider {
+
+            background: white;
+        }
+
+
+        .toggle input:checked + .slider:before {
+
+            transform:
+                translateX(21px);
+
+            background: #111;
+        }
+
+
+        /* =========================
+           MUSIC BUTTON
+           ========================= */
+
+        .music-button {
+
+            border: none;
+
+            border-radius: 7px;
+
+            padding:
+                9px 13px;
+
+            background: white;
+
+            color: #111;
+
+            font-size: 12px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition:
+                transform 0.15s ease,
+                background 0.15s ease;
+        }
+
+
+        .music-button:hover {
+
+            background: #ddd;
+
+            transform:
+                scale(1.04);
+        }
+
+
+        .settings-hint {
+
+            margin-top: 18px;
+
+            text-align: center;
+
+            font-size: 11px;
+
+            color:
+                rgba(255, 255, 255, 0.3);
+        }
+
+
+        /* =========================
+           JELLO MUSIC
+           ========================= */
+
+        .music-window {
+
+            position: fixed;
+
+            top: 50%;
+            left: 50%;
+
+            width: 500px;
+            height: 600px;
+
+            max-width:
+                calc(100vw - 30px);
+
+            max-height:
+                calc(100vh - 30px);
+
+            transform:
+                translate(-50%, -50%);
+
+            background: #000;
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.15);
+
+            border-radius: 12px;
+
+            overflow: hidden;
+
+            z-index: 900;
+
+            display: none;
+
+            box-shadow:
+                0 25px 80px
+                rgba(0, 0, 0, 0.7);
+        }
+
+
+        .music-window.open {
+
+            display: block;
+        }
+
+
+        .music-window iframe {
+
+            width: 100%;
+            height: 100%;
+
+            border: none;
+        }
+
+
+        /* =========================
            MOBILE
            ========================= */
 
@@ -802,9 +1127,7 @@
 <body>
 
 
-    <!-- =========================
-         BACKGROUND
-         ========================= -->
+    <!-- BACKGROUND -->
 
     <div
         id="background"
@@ -812,17 +1135,13 @@
     </div>
 
 
-    <!-- =========================
-         MAIN CONTENT
-         ========================= -->
+    <!-- MAIN CONTENT -->
 
     <div class="container">
-
 
         <h1>
             Jello Portal
         </h1>
-
 
         <p class="subtitle">
             Chat with other players and find Minecraft servers
@@ -843,9 +1162,7 @@
         </div>
 
 
-        <!-- =========================
-             ONLINE USERS
-             ========================= -->
+        <!-- ONLINE USERS -->
 
         <div class="online-users">
 
@@ -872,15 +1189,14 @@
         </div>
 
 
+        <!-- PORTAL GRID -->
+
         <div class="portal-grid">
 
 
-            <!-- =========================
-                 CHATROOM
-                 ========================= -->
+            <!-- CHATROOM -->
 
             <div class="panel">
-
 
                 <h2 class="panel-title">
                     💬 Chatroom
@@ -916,7 +1232,6 @@
 
                 <div class="chat-input">
 
-
                     <input
                         id="chatInput"
                         type="text"
@@ -925,14 +1240,12 @@
                         autocomplete="off"
                     >
 
-
                     <button
                         class="send-button"
                         id="sendButton"
                     >
                         Send
                     </button>
-
 
                 </div>
 
@@ -944,16 +1257,12 @@
                     Connecting...
                 </div>
 
-
             </div>
 
 
-            <!-- =========================
-                 MINECRAFT SERVERS
-                 ========================= -->
+            <!-- MINECRAFT SERVERS -->
 
             <div class="panel">
-
 
                 <h2 class="panel-title">
                     🎮 Minecraft Servers
@@ -967,9 +1276,7 @@
 
                     <div class="server">
 
-
                         <div class="server-top">
-
 
                             <div>
 
@@ -983,7 +1290,6 @@
 
                             </div>
 
-
                             <button
                                 class="copy-button"
                                 onclick="copyIP('wss://arch.mc', this)"
@@ -991,14 +1297,11 @@
                                 Copy
                             </button>
 
-
                         </div>
-
 
                         <div class="server-ip">
                             wss://arch.mc
                         </div>
-
 
                     </div>
 
@@ -1007,9 +1310,7 @@
 
                     <div class="server">
 
-
                         <div class="server-top">
-
 
                             <div>
 
@@ -1023,7 +1324,6 @@
 
                             </div>
 
-
                             <button
                                 class="copy-button"
                                 onclick="copyIP('wss://zentic.cc', this)"
@@ -1031,14 +1331,11 @@
                                 Copy
                             </button>
 
-
                         </div>
-
 
                         <div class="server-ip">
                             wss://zentic.cc
                         </div>
-
 
                     </div>
 
@@ -1047,9 +1344,7 @@
 
                     <div class="server">
 
-
                         <div class="server-top">
-
 
                             <div>
 
@@ -1063,7 +1358,6 @@
 
                             </div>
 
-
                             <button
                                 class="copy-button"
                                 onclick="copyIP('wss://tuff.ws', this)"
@@ -1071,14 +1365,11 @@
                                 Copy
                             </button>
 
-
                         </div>
-
 
                         <div class="server-ip">
                             wss://tuff.ws
                         </div>
-
 
                     </div>
 
@@ -1087,24 +1378,19 @@
 
             </div>
 
-
         </div>
 
     </div>
 
 
-    <!-- =========================
-         BACK BUTTON
-         ========================= -->
+    <!-- BACK BUTTON -->
 
     <button
         class="back-button"
         onclick="location.href='index.html'"
     >
 
-
         <span class="back-icon">
-
 
             <svg
                 viewBox="0 0 48 48"
@@ -1121,24 +1407,174 @@
 
             </svg>
 
-
         </span>
-
 
         <span class="back-name">
             Back
         </span>
 
-
     </button>
 
 
-    <!-- =========================
-         VERSION
-         ========================= -->
+    <!-- VERSION -->
 
     <div class="version">
-        5.0 beta
+        5.0.1 beta
+    </div>
+
+
+    <!-- QUICK SETTINGS -->
+
+    <div
+        id="quickSettings"
+        class="quick-settings"
+    >
+
+        <div class="quick-settings-title">
+            Quick Settings
+        </div>
+
+        <div class="quick-settings-subtitle">
+            Press P to open or close
+        </div>
+
+
+        <!-- NO TAB CLOSE -->
+
+        <div class="setting-row">
+
+            <div class="setting-info">
+
+                <div class="setting-name">
+                    No Tab Close
+                </div>
+
+                <div class="setting-description">
+                    Warn before leaving Jello
+                </div>
+
+            </div>
+
+            <label class="toggle">
+
+                <input
+                    type="checkbox"
+                    id="noTabCloseToggle"
+                >
+
+                <span class="slider"></span>
+
+            </label>
+
+        </div>
+
+
+        <!-- FULL SCREEN -->
+
+        <div class="setting-row">
+
+            <div class="setting-info">
+
+                <div class="setting-name">
+                    Full Screen
+                </div>
+
+                <div class="setting-description">
+                    Enter browser fullscreen
+                </div>
+
+            </div>
+
+            <label class="toggle">
+
+                <input
+                    type="checkbox"
+                    id="fullScreenToggle"
+                >
+
+                <span class="slider"></span>
+
+            </label>
+
+        </div>
+
+
+        <!-- MOUSE BACKGROUND MOVEMENT -->
+
+        <div class="setting-row">
+
+            <div class="setting-info">
+
+                <div class="setting-name">
+                    Mouse Background Movement
+                </div>
+
+                <div class="setting-description">
+                    Move the background with your mouse
+                </div>
+
+            </div>
+
+            <label class="toggle">
+
+                <input
+                    type="checkbox"
+                    id="mouseBackgroundToggle"
+                >
+
+                <span class="slider"></span>
+
+            </label>
+
+        </div>
+
+
+        <!-- JELLO MUSIC -->
+
+        <div class="setting-row">
+
+            <div class="setting-info">
+
+                <div class="setting-name">
+                    Jello Music
+                </div>
+
+                <div class="setting-description">
+                    Open the Jello Music player
+                </div>
+
+            </div>
+
+            <button
+                id="musicButton"
+                class="music-button"
+            >
+                Open
+            </button>
+
+        </div>
+
+
+        <div class="settings-hint">
+            Press P again to close
+        </div>
+
+    </div>
+
+
+    <!-- JELLO MUSIC WINDOW -->
+
+    <div
+        id="musicWindow"
+        class="music-window"
+    >
+
+        <iframe
+            id="musicFrame"
+            src=""
+            allow="autoplay"
+        ></iframe>
+
     </div>
 
 
@@ -1148,12 +1584,10 @@
 
     <script type="module">
 
-
         import {
             initializeApp
         } from
         "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
-
 
         import {
             getDatabase,
@@ -1168,10 +1602,6 @@
         } from
         "https://www.gstatic.com/firebasejs/12.2.1/firebase-database.js";
 
-
-        /* =========================
-           FIREBASE CONFIG
-           ========================= */
 
         const firebaseConfig = {
 
@@ -1200,47 +1630,27 @@
 
 
         /* =========================
-           INITIALIZE FIREBASE
+           FIREBASE START
            ========================= */
 
-        const app =
-            initializeApp(firebaseConfig);
+        let database;
 
+        try {
 
-        const database =
-            getDatabase(app);
+            const app =
+                initializeApp(firebaseConfig);
 
+            database =
+                getDatabase(app);
 
-        /* =========================
-           CHAT
-           ========================= */
+        } catch (error) {
 
-        const chatRef =
-            ref(database, "jelloChat");
-
-
-        const chatInput =
-            document.getElementById(
-                "chatInput"
+            console.error(
+                "Firebase initialization failed:",
+                error
             );
 
-
-        const chatMessages =
-            document.getElementById(
-                "chatMessages"
-            );
-
-
-        const chatStatus =
-            document.getElementById(
-                "chatStatus"
-            );
-
-
-        const sendButton =
-            document.getElementById(
-                "sendButton"
-            );
+        }
 
 
         /* =========================
@@ -1249,42 +1659,49 @@
 
         function getUsername() {
 
-            let username =
+            return (
                 localStorage.getItem(
                     "sigmaJelloUsername"
-                );
-
-
-            if (!username) {
-
-                username = "Guest";
-
-            }
-
-
-            return username;
+                ) || "Guest"
+            );
 
         }
 
 
         /* =========================
-           FORMAT TIME
+           CHAT
            ========================= */
+
+        const chatInput =
+            document.getElementById(
+                "chatInput"
+            );
+
+        const chatMessages =
+            document.getElementById(
+                "chatMessages"
+            );
+
+        const chatStatus =
+            document.getElementById(
+                "chatStatus"
+            );
+
+        const sendButton =
+            document.getElementById(
+                "sendButton"
+            );
+
 
         function formatTime(timestamp) {
 
             if (!timestamp) {
-
                 return "";
-
             }
 
-
-            const date =
-                new Date(timestamp);
-
-
-            return date.toLocaleTimeString(
+            return new Date(
+                timestamp
+            ).toLocaleTimeString(
                 [],
                 {
                     hour: "numeric",
@@ -1295,35 +1712,36 @@
         }
 
 
-        /* =========================
-           SEND MESSAGE
-           ========================= */
-
         async function sendMessage() {
 
             const text =
                 chatInput.value.trim();
 
-
             if (!text) {
+                return;
+            }
+
+            if (!database) {
+
+                chatStatus.textContent =
+                    "Chat connection failed.";
 
                 return;
 
             }
 
 
-            const username =
-                getUsername();
-
-
             try {
 
                 await push(
-                    chatRef,
+                    ref(
+                        database,
+                        "jelloChat"
+                    ),
                     {
 
                         username:
-                            username,
+                            getUsername(),
 
                         message:
                             text,
@@ -1334,9 +1752,7 @@
                     }
                 );
 
-
                 chatInput.value = "";
-
 
             } catch (error) {
 
@@ -1344,7 +1760,6 @@
                     "Firebase send error:",
                     error
                 );
-
 
                 chatStatus.textContent =
                     "Could not send message.";
@@ -1354,27 +1769,18 @@
         }
 
 
-        /* =========================
-           SEND BUTTON
-           ========================= */
-
         sendButton.addEventListener(
             "click",
             sendMessage
         );
 
 
-        /* =========================
-           ENTER TO SEND
-           ========================= */
-
         chatInput.addEventListener(
             "keydown",
             function(event) {
 
                 if (
-                    event.key ===
-                    "Enter"
+                    event.key === "Enter"
                 ) {
 
                     event.preventDefault();
@@ -1388,472 +1794,682 @@
 
 
         /* =========================
-           RECEIVE MESSAGES
+           FIREBASE CHAT LISTENER
            ========================= */
 
-        const ONE_DAY =
-            24 * 60 * 60 * 1000;
+        if (database) {
+
+            const chatRef =
+                ref(
+                    database,
+                    "jelloChat"
+                );
 
 
-        onChildAdded(
-
-            chatRef,
-
-            async function(snapshot) {
-
-                const data =
-                    snapshot.val();
+            const TWELVE_HOURS =
+                12 * 60 * 60 * 1000;
 
 
-                if (!data) {
+            onChildAdded(
 
-                    return;
+                chatRef,
 
-                }
+                async function(snapshot) {
 
+                    const data =
+                        snapshot.val();
 
-                /*
-                 * Remove messages older
-                 * than 24 hours.
-                 */
-
-                const messageTime =
-                    Number(
-                        data.timestamp
-                    ) || 0;
+                    if (!data) {
+                        return;
+                    }
 
 
-                if (
-                    messageTime <
-                    Date.now() - ONE_DAY
-                ) {
+                    const messageTime =
+                        Number(
+                            data.timestamp
+                        ) || 0;
 
-                    try {
 
-                        await remove(
-                            snapshot.ref
-                        );
+                    if (
+                        messageTime <
+                        Date.now() -
+                        TWELVE_HOURS
+                    ) {
 
-                    } catch (error) {
+                        try {
 
-                        console.error(
-                            "Could not remove old message:",
-                            error
-                        );
+                            await remove(
+                                snapshot.ref
+                            );
+
+                        } catch (error) {
+
+                            console.error(
+                                "Could not remove old message:",
+                                error
+                            );
+
+                        }
+
+                        return;
 
                     }
 
 
-                    return;
+                    const connecting =
+                        document.getElementById(
+                            "connectingMessage"
+                        );
+
+
+                    if (connecting) {
+                        connecting.remove();
+                    }
+
+
+                    const message =
+                        document.createElement(
+                            "div"
+                        );
+
+                    message.className =
+                        "message";
+
+
+                    const header =
+                        document.createElement(
+                            "div"
+                        );
+
+                    header.className =
+                        "message-header";
+
+
+                    const name =
+                        document.createElement(
+                            "div"
+                        );
+
+                    name.className =
+                        "message-name";
+
+                    name.textContent =
+                        data.username ||
+                        "Guest";
+
+
+                    const time =
+                        document.createElement(
+                            "div"
+                        );
+
+                    time.className =
+                        "message-time";
+
+                    time.textContent =
+                        formatTime(
+                            data.timestamp
+                        );
+
+
+                    const messageText =
+                        document.createElement(
+                            "div"
+                        );
+
+                    messageText.className =
+                        "message-text";
+
+                    messageText.textContent =
+                        data.message || "";
+
+
+                    header.appendChild(name);
+                    header.appendChild(time);
+
+                    message.appendChild(header);
+                    message.appendChild(messageText);
+
+                    chatMessages.appendChild(
+                        message
+                    );
+
+
+                    chatMessages.scrollTop =
+                        chatMessages.scrollHeight;
+
+                },
+
+                function(error) {
+
+                    console.error(
+                        "Firebase read error:",
+                        error
+                    );
+
+                    chatStatus.textContent =
+                        "Chat connection failed.";
+
+                }
+
+            );
+
+
+            chatStatus.textContent =
+                "Connected to Jello Chat";
+
+
+            /* =========================
+               PRESENCE
+               ========================= */
+
+            const onlineCount =
+                document.getElementById(
+                    "onlineCount"
+                );
+
+            const onlineUserList =
+                document.getElementById(
+                    "onlineUserList"
+                );
+
+
+            let jelloUserID =
+                localStorage.getItem(
+                    "jelloPresenceID"
+                );
+
+
+            if (!jelloUserID) {
+
+                if (
+                    crypto &&
+                    typeof crypto.randomUUID ===
+                    "function"
+                ) {
+
+                    jelloUserID =
+                        crypto.randomUUID();
+
+                } else {
+
+                    jelloUserID =
+                        "user-" +
+                        Date.now() +
+                        "-" +
+                        Math.random()
+                            .toString(36)
+                            .substring(2);
 
                 }
 
 
-                const connecting =
-                    document.getElementById(
-                        "connectingMessage"
-                    );
-
-
-                if (connecting) {
-
-                    connecting.remove();
-
-                }
-
-
-                /* MESSAGE */
-
-                const message =
-                    document.createElement(
-                        "div"
-                    );
-
-
-                message.className =
-                    "message";
-
-
-                /* HEADER */
-
-                const header =
-                    document.createElement(
-                        "div"
-                    );
-
-
-                header.className =
-                    "message-header";
-
-
-                /* USERNAME */
-
-                const name =
-                    document.createElement(
-                        "div"
-                    );
-
-
-                name.className =
-                    "message-name";
-
-
-                name.textContent =
-                    data.username ||
-                    "Guest";
-
-
-                /* TIME */
-
-                const time =
-                    document.createElement(
-                        "div"
-                    );
-
-
-                time.className =
-                    "message-time";
-
-
-                time.textContent =
-                    formatTime(
-                        data.timestamp
-                    );
-
-
-                /* MESSAGE TEXT */
-
-                const messageText =
-                    document.createElement(
-                        "div"
-                    );
-
-
-                messageText.className =
-                    "message-text";
-
-
-                messageText.textContent =
-                    data.message || "";
-
-
-                /* BUILD */
-
-                header.appendChild(
-                    name
+                localStorage.setItem(
+                    "jelloPresenceID",
+                    jelloUserID
                 );
-
-
-                header.appendChild(
-                    time
-                );
-
-
-                message.appendChild(
-                    header
-                );
-
-
-                message.appendChild(
-                    messageText
-                );
-
-
-                chatMessages.appendChild(
-                    message
-                );
-
-
-                /* SCROLL */
-
-                chatMessages.scrollTop =
-                    chatMessages.scrollHeight;
-
-            },
-
-            function(error) {
-
-                console.error(
-                    "Firebase read error:",
-                    error
-                );
-
-
-                chatStatus.textContent =
-                    "Chat connection failed.";
 
             }
 
-        );
+
+            const presenceRef =
+                ref(
+                    database,
+                    "jelloPresence/" +
+                    jelloUserID
+                );
 
 
-        chatStatus.textContent =
-            "Connected to Jello Chat";
+            const connectedRef =
+                ref(
+                    database,
+                    ".info/connected"
+                );
 
 
-        /* =========================
-           JELLO WORLD PRESENCE
-           ========================= */
+            onValue(
 
-        const onlineCount =
-            document.getElementById(
-                "onlineCount"
+                connectedRef,
+
+                function(snapshot) {
+
+                    if (
+                        snapshot.val() === true
+                    ) {
+
+                        onDisconnect(
+                            presenceRef
+                        ).remove();
+
+
+                        set(
+                            presenceRef,
+                            {
+
+                                username:
+                                    getUsername(),
+
+                                connectedAt:
+                                    serverTimestamp()
+
+                            }
+                        );
+
+                    }
+
+                }
+
             );
 
 
-        /*
-         * Online username list.
-         */
-
-        const onlineUserList =
-            document.getElementById(
-                "onlineUserList"
-            );
+            const presenceListRef =
+                ref(
+                    database,
+                    "jelloPresence"
+                );
 
 
-        /*
-         * Create a unique ID for this
-         * browser/device.
-         */
+            onValue(
 
-        let jelloUserID =
-            localStorage.getItem(
-                "jelloPresenceID"
-            );
+                presenceListRef,
 
+                function(snapshot) {
 
-        if (!jelloUserID) {
-
-            jelloUserID =
-                crypto.randomUUID();
+                    const users =
+                        snapshot.val();
 
 
-            localStorage.setItem(
-                "jelloPresenceID",
-                jelloUserID
-            );
+                    if (!users) {
 
-        }
+                        onlineCount.textContent =
+                            "0";
 
+                        onlineUserList.innerHTML =
+                            `
+                            <span style="
+                                color:
+                                rgba(255,255,255,0.4);
+                            ">
+                                Nobody online
+                            </span>
+                            `;
 
-        const presenceRef =
-            ref(
-                database,
-                "jelloPresence/" +
-                jelloUserID
-            );
+                        return;
 
-
-        const connectedRef =
-            ref(
-                database,
-                ".info/connected"
-            );
+                    }
 
 
-        /* =========================
-           CONNECTION
-           ========================= */
-
-        onValue(
-
-            connectedRef,
-
-            function(snapshot) {
-
-                if (
-                    snapshot.val() === true
-                ) {
-
-                    /*
-                     * Remove the user when
-                     * they disconnect.
-                     */
-
-                    onDisconnect(
-                        presenceRef
-                    ).remove();
+                    const userIDs =
+                        Object.keys(users);
 
 
-                    /*
-                     * Add this user to the
-                     * online list.
-                     */
+                    onlineCount.textContent =
+                        userIDs.length;
 
-                    set(
-                        presenceRef,
-                        {
 
-                            username:
-                                getUsername(),
+                    onlineUserList.innerHTML =
+                        "";
 
-                            connectedAt:
-                                serverTimestamp()
+
+                    userIDs.forEach(
+                        function(userID) {
+
+                            const user =
+                                users[userID];
+
+
+                            const username =
+                                user.username ||
+                                "Guest";
+
+
+                            const userElement =
+                                document.createElement(
+                                    "div"
+                                );
+
+                            userElement.className =
+                                "online-user";
+
+
+                            const dot =
+                                document.createElement(
+                                    "span"
+                                );
+
+                            dot.className =
+                                "online-user-dot";
+
+
+                            const usernameElement =
+                                document.createElement(
+                                    "span"
+                                );
+
+                            usernameElement.textContent =
+                                username;
+
+
+                            userElement.appendChild(
+                                dot
+                            );
+
+                            userElement.appendChild(
+                                usernameElement
+                            );
+
+                            onlineUserList.appendChild(
+                                userElement
+                            );
 
                         }
                     );
 
                 }
 
-            }
-
-        );
-
-
-        /* =========================
-           ONLINE USERS
-           ========================= */
-
-        const presenceListRef =
-            ref(
-                database,
-                "jelloPresence"
             );
 
+        } else {
 
-        onValue(
+            chatStatus.textContent =
+                "Chat unavailable.";
 
-            presenceListRef,
-
-            function(snapshot) {
-
-                const users =
-                    snapshot.val();
-
-
-                /*
-                 * Nobody online.
-                 */
-
-                if (!users) {
-
-                    onlineCount.textContent =
-                        "0";
-
-
-                    onlineUserList.innerHTML =
-                        `
-                        <span style="
-                            color:
-                            rgba(255,255,255,0.4);
-                        ">
-                            Nobody online
-                        </span>
-                        `;
-
-                    return;
-
-                }
-
-
-                const userIDs =
-                    Object.keys(
-                        users
-                    );
-
-
-                /*
-                 * Update counter.
-                 */
-
-                onlineCount.textContent =
-                    userIDs.length;
-
-
-                /*
-                 * Clear the current list.
-                 */
-
-                onlineUserList.innerHTML =
-                    "";
-
-
-                /*
-                 * Display every username.
-                 */
-
-                userIDs.forEach(
-                    function(userID) {
-
-                        const user =
-                            users[userID];
-
-
-                        const username =
-                            user.username ||
-                            "Guest";
-
-
-                        const userElement =
-                            document.createElement(
-                                "div"
-                            );
-
-
-                        userElement.className =
-                            "online-user";
-
-
-                        const dot =
-                            document.createElement(
-                                "span"
-                            );
-
-
-                        dot.className =
-                            "online-user-dot";
-
-
-                        const usernameElement =
-                            document.createElement(
-                                "span"
-                            );
-
-
-                        usernameElement.textContent =
-                            username;
-
-
-                        userElement.appendChild(
-                            dot
-                        );
-
-
-                        userElement.appendChild(
-                            usernameElement
-                        );
-
-
-                        onlineUserList.appendChild(
-                            userElement
-                        );
-
-                    }
-                );
-
-            }
-
-        );
+        }
 
     </script>
 
 
     <!-- =========================
-         BACKGROUND MOVEMENT
+         QUICK SETTINGS
          ========================= -->
 
     <script>
-
 
         const background =
             document.getElementById(
                 "background"
             );
 
+        const quickSettings =
+            document.getElementById(
+                "quickSettings"
+            );
+
+        const noTabCloseToggle =
+            document.getElementById(
+                "noTabCloseToggle"
+            );
+
+        const fullScreenToggle =
+            document.getElementById(
+                "fullScreenToggle"
+            );
+
+        const mouseBackgroundToggle =
+            document.getElementById(
+                "mouseBackgroundToggle"
+            );
+
+        const musicButton =
+            document.getElementById(
+                "musicButton"
+            );
+
+        const musicWindow =
+            document.getElementById(
+                "musicWindow"
+            );
+
+        const musicFrame =
+            document.getElementById(
+                "musicFrame"
+            );
+
+
+        /* =========================
+           LOAD SAVED SETTINGS
+           ========================= */
+
+        noTabCloseToggle.checked =
+            localStorage.getItem(
+                "noTabClose"
+            ) === "true";
+
+
+        mouseBackgroundToggle.checked =
+            localStorage.getItem(
+                "mouseBackground"
+            ) !== "false";
+
+
+        /* =========================
+           QUICK SETTINGS
+           ========================= */
+
+        function toggleQuickSettings() {
+
+            quickSettings.classList.toggle(
+                "open"
+            );
+
+        }
+
+
+        /* =========================
+           P KEY
+           ========================= */
+
+        document.addEventListener(
+            "keydown",
+            function(event) {
+
+                /*
+                 * Don't trigger Quick Settings
+                 * while typing in the chat box.
+                 */
+
+                if (
+                    event.target.tagName ===
+                    "INPUT" ||
+                    event.target.tagName ===
+                    "TEXTAREA"
+                ) {
+
+                    return;
+
+                }
+
+
+                if (
+                    event.key.toLowerCase() ===
+                    "p"
+                ) {
+
+                    event.preventDefault();
+
+                    toggleQuickSettings();
+
+                }
+
+            }
+        );
+
+
+        /* =========================
+           NO TAB CLOSE
+           ========================= */
+
+        function updateNoTabClose() {
+
+            if (
+                noTabCloseToggle.checked
+            ) {
+
+                localStorage.setItem(
+                    "noTabClose",
+                    "true"
+                );
+
+
+                window.onbeforeunload =
+                    function(event) {
+
+                        event.preventDefault();
+
+                        event.returnValue = "";
+
+                        return "";
+
+                    };
+
+            } else {
+
+                localStorage.setItem(
+                    "noTabClose",
+                    "false"
+                );
+
+
+                window.onbeforeunload =
+                    null;
+
+            }
+
+        }
+
+
+        noTabCloseToggle.addEventListener(
+            "change",
+            updateNoTabClose
+        );
+
+
+        updateNoTabClose();
+
+
+        /* =========================
+           FULL SCREEN
+           ========================= */
+
+        fullScreenToggle.addEventListener(
+            "change",
+            async function() {
+
+                if (
+                    fullScreenToggle.checked
+                ) {
+
+                    try {
+
+                        if (
+                            document
+                                .documentElement
+                                .requestFullscreen
+                        ) {
+
+                            await document
+                                .documentElement
+                                .requestFullscreen();
+
+                        }
+
+                    } catch (error) {
+
+                        console.error(
+                            "Fullscreen error:",
+                            error
+                        );
+
+                        fullScreenToggle.checked =
+                            false;
+
+                    }
+
+                } else {
+
+                    try {
+
+                        if (
+                            document.fullscreenElement
+                        ) {
+
+                            await document
+                                .exitFullscreen();
+
+                        }
+
+                    } catch (error) {
+
+                        console.error(
+                            "Exit fullscreen error:",
+                            error
+                        );
+
+                    }
+
+                }
+
+            }
+        );
+
+
+        /* =========================
+           FULLSCREEN STATE
+           ========================= */
+
+        document.addEventListener(
+            "fullscreenchange",
+            function() {
+
+                fullScreenToggle.checked =
+                    !!document.fullscreenElement;
+
+            }
+        );
+
+
+        /* =========================
+           MOUSE BACKGROUND
+           ========================= */
+
+        mouseBackgroundToggle.addEventListener(
+            "change",
+            function() {
+
+                localStorage.setItem(
+                    "mouseBackground",
+                    mouseBackgroundToggle.checked
+                );
+
+
+                if (
+                    !mouseBackgroundToggle.checked
+                ) {
+
+                    background.style.transform =
+                        "translate(0px, 0px)";
+
+                }
+
+            }
+        );
+
+
+        /* =========================
+           BACKGROUND MOVEMENT
+           ========================= */
 
         document.addEventListener(
             "mousemove",
             function(event) {
+
+                if (
+                    !mouseBackgroundToggle.checked
+                ) {
+
+                    return;
+
+                }
 
 
                 const x =
@@ -1886,49 +2502,84 @@
 
 
         /* =========================
+           JELLO MUSIC
+           ========================= */
+
+        musicButton.addEventListener(
+            "click",
+            function() {
+
+                musicFrame.src =
+                    "music.html";
+
+
+                musicWindow.classList.add(
+                    "open"
+                );
+
+
+                quickSettings.classList.remove(
+                    "open"
+                );
+
+            }
+        );
+
+
+        /* =========================
            COPY IP
            ========================= */
 
         window.copyIP =
             function(ip, button) {
 
+                if (
+                    navigator.clipboard &&
+                    navigator.clipboard.writeText
+                ) {
 
-                navigator.clipboard
-                    .writeText(ip)
-                    .then(function() {
+                    navigator.clipboard
+                        .writeText(ip)
+                        .then(function() {
 
-
-                        const oldText =
-                            button.textContent;
-
-
-                        button.textContent =
-                            "Copied!";
-
-
-                        setTimeout(
-                            function() {
-
-                                button.textContent =
-                                    oldText;
-
-                            },
-                            1200
-                        );
+                            const oldText =
+                                button.textContent;
 
 
-                    })
-                    .catch(function() {
+                            button.textContent =
+                                "Copied!";
 
-                        alert(
-                            "Server IP: " +
-                            ip
-                        );
 
-                    });
+                            setTimeout(
+                                function() {
+
+                                    button.textContent =
+                                        oldText;
+
+                                },
+                                1200
+                            );
+
+                        })
+                        .catch(function() {
+
+                            alert(
+                                "Server IP: " +
+                                ip
+                            );
+
+                        });
+
+                } else {
+
+                    alert(
+                        "Server IP: " +
+                        ip
+                    );
+
+                }
 
             };
-
 
     </script>
 

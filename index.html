@@ -1,1886 +1,1994 @@
 <!DOCTYPE html>
+
 <html>
 <head>
     <title>Jello</title>
-    <style>
-        body {
-            margin: 0;
-            background: #000;
-            color: white;
-            font-family: "Helvetica Neue", "Segoe UI", Arial, sans-serif;
+<style>
+    body {
+        margin: 0;
+        background: #000;
+        color: white;
+        font-family: "Helvetica Neue", "Segoe UI", Arial, sans-serif;
 
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        height: 100vh;
+    }
+
+    /* =========================
+       MOVING BACKGROUND
+       ========================= */
+
+    .background {
+        position: fixed;
+        inset: -40px;
+
+        background:
+            url("assets/backround.jpg")
+            center center / cover no-repeat;
+
+        z-index: 0;
+
+        transform: translate(0px, 0px);
+
+        transition:
+            transform 0.15s ease-out;
+
+        pointer-events: none;
+    }
+
+    /* =========================
+       ANIMATED BACKGROUND DOTS
+       ========================= */
+
+    .background-dots {
+        position: fixed;
+        inset: 0;
+
+        z-index: 0;
+
+        overflow: hidden;
+        pointer-events: none;
+
+        transition:
+            opacity 0.25s ease;
+    }
+
+    .background-dots.hidden {
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    .background-dot {
+        position: absolute;
+
+        border-radius: 50%;
+
+        background:
+            rgba(255, 255, 255, 0.28);
+
+        box-shadow:
+            0 0 10px rgba(255, 255, 255, 0.08);
+
+        animation:
+            dotFloat
+            var(--dot-duration)
+            ease-in-out
+            var(--dot-delay)
+            infinite alternate;
+    }
+
+    @keyframes dotFloat {
+        0% {
+            transform:
+                translate3d(0, 0, 0);
+
+            opacity: 0.18;
         }
 
-        /* =========================
-           MOVING BACKGROUND
-           ========================= */
-
-        .background {
-            position: fixed;
-            inset: -40px;
-
-            background:
-                url("assets/backround.jpg")
-                center center / cover no-repeat;
-
-            z-index: 0;
-
-            transform: translate(0px, 0px);
-
-            transition:
-                transform 0.15s ease-out;
-
-            pointer-events: none;
+        50% {
+            opacity: 0.45;
         }
 
-        /* =========================
-           ANIMATED BACKGROUND DOTS
-           ========================= */
+        100% {
+            transform:
+                translate3d(
+                    var(--dot-x),
+                    var(--dot-y),
+                    0
+                );
 
-        .background-dots {
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            overflow: hidden;
-            pointer-events: none;
-            transition: opacity 0.25s ease;
+            opacity: 0.2;
         }
+    }
 
-        .background-dots.hidden {
+    .container {
+        text-align: center;
+
+        position: relative;
+
+        z-index: 1;
+    }
+
+    /* =========================
+       FALLING SNOW
+       ========================= */
+
+    .snow-container {
+        position: fixed;
+        inset: 0;
+
+        z-index: 0;
+
+        overflow: hidden;
+        pointer-events: none;
+
+        transition:
+            opacity 0.25s ease;
+    }
+
+    .snow-container.hidden {
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    .snowflake {
+        position: absolute;
+
+        top: -30px;
+
+        color:
+            rgba(255, 255, 255, 0.9);
+
+        text-shadow:
+            0 0 8px
+            rgba(255, 255, 255, 0.35);
+
+        user-select: none;
+        pointer-events: none;
+
+        animation:
+            snowFall
+            var(--snow-duration)
+            linear
+            var(--snow-delay)
+            infinite;
+
+        will-change: transform;
+    }
+
+    @keyframes snowFall {
+        0% {
+            transform:
+                translate3d(
+                    0,
+                    -40px,
+                    0
+                )
+                rotate(0deg);
+
             opacity: 0;
-            visibility: hidden;
         }
 
-        .background-dot {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.28);
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.08);
-            animation: dotFloat var(--dot-duration) ease-in-out var(--dot-delay) infinite alternate;
+        10% {
+            opacity:
+                var(--snow-opacity);
         }
 
-        @keyframes dotFloat {
-            0% {
-                transform: translate3d(0, 0, 0);
-                opacity: 0.18;
-            }
-
-            50% {
-                opacity: 0.45;
-            }
-
-            100% {
-                transform: translate3d(var(--dot-x), var(--dot-y), 0);
-                opacity: 0.2;
-            }
+        90% {
+            opacity:
+                var(--snow-opacity);
         }
 
-        .container {
-            text-align: center;
-            position: relative;
-            z-index: 1;
-        }
+        100% {
+            transform:
+                translate3d(
+                    var(--snow-drift),
+                    110vh,
+                    0
+                )
+                rotate(360deg);
 
-        /* =========================
-           FALLING SNOW
-           ========================= */
-
-        .snow-container {
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            overflow: hidden;
-            pointer-events: none;
-            transition: opacity 0.25s ease;
-        }
-
-        .snow-container.hidden {
             opacity: 0;
-            visibility: hidden;
         }
+    }
 
-        .snowflake {
-            position: absolute;
-            top: -30px;
-            color: rgba(255, 255, 255, 0.9);
-            text-shadow:
-                0 0 8px rgba(255, 255, 255, 0.35);
-            user-select: none;
-            pointer-events: none;
-            animation:
-                snowFall var(--snow-duration) linear var(--snow-delay) infinite;
-            will-change: transform;
-        }
-
-        @keyframes snowFall {
-            0% {
-                transform:
-                    translate3d(0, -40px, 0)
-                    rotate(0deg);
-                opacity: 0;
-            }
-
-            10% {
-                opacity: var(--snow-opacity);
-            }
-
-            90% {
-                opacity: var(--snow-opacity);
-            }
-
-            100% {
-                transform:
-                    translate3d(var(--snow-drift), 110vh, 0)
-                    rotate(360deg);
-                opacity: 0;
-            }
-        }
-
-        /* =========================
-           TITLE
-           ========================= */
-
-        h1 {
-            font-size: 70px;
-            margin-bottom: 30px;
-
-            font-family: "Segoe UI Light", "Helvetica Neue", Arial, sans-serif;
-            font-weight: 300;
-            letter-spacing: -4px;
-
-            text-shadow:
-                0 3px 12px rgba(0, 0, 0, 0.45);
-        }
-
-        /* =========================
-           CIRCLE BUTTONS
-           ========================= */
-
-        .circle-buttons {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 18px;
-            margin-bottom: 10px;
-        }
-
-        .circle-button {
-            width: 76px;
-            height: 76px;
-            padding: 0;
-            margin: 5px;
-
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.96);
-            color: #333;
-            border: none;
-            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.16);
-
-            font-size: 32px;
-            font-weight: bold;
-            font-family: Arial, sans-serif;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            cursor: pointer;
-            overflow: hidden;
-            white-space: nowrap;
-
-            transition:
-                width 0.25s ease,
-                background 0.2s ease,
-                transform 0.2s ease,
-                border-radius 0.25s ease;
-        }
-
-        .circle-button:hover {
-            background: rgba(255, 255, 255, 1);
-            transform: scale(1.08);
-            border-radius: 40px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
-        }
-
-        /* =========================
-           CLEAN JELLO ICONS
-           ========================= */
-
-        .icon {
-            width: 42px;
-            height: 42px;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            flex-shrink: 0;
-        }
-
-        .icon svg {
-            width: 34px;
-            height: 34px;
-
-            display: block;
-
-            fill: none;
-            stroke: #222;
+    /* =========================
+       TITLE
+       ========================= */
 
-            stroke-width: 2.2;
-            stroke-linecap: round;
-            stroke-linejoin: round;
+    h1 {
+        font-size: 70px;
 
-            transition:
-                transform 0.2s ease;
-        }
+        margin-bottom: 30px;
 
-        .games-button .icon svg {
-            width: 38px;
-            height: 38px;
-        }
+        font-family:
+            "Segoe UI Light",
+            "Helvetica Neue",
+            Arial,
+            sans-serif;
 
-        .music-button .icon svg {
-            width: 35px;
-            height: 35px;
-        }
+        font-weight: 300;
 
-        .changelog-button .icon svg {
-            width: 34px;
-            height: 34px;
-        }
+        letter-spacing: -4px;
 
-        .settings-button .icon svg {
-            width: 35px;
-            height: 35px;
-        }
+        text-shadow:
+            0 3px 12px
+            rgba(0, 0, 0, 0.45);
+    }
 
-        /* =========================
-           PORTAL ICON
-           ========================= */
+    /* =========================
+       CIRCLE BUTTONS
+       ========================= */
 
-        .portal-button .icon svg {
-            width: 36px;
-            height: 36px;
-        }
+    .circle-buttons {
+        display: flex;
 
-        .circle-button .name {
-            display: none;
+        justify-content: center;
+        align-items: center;
 
-            font-size: 20px;
-            font-weight: bold;
-        }
+        gap: 18px;
 
-        .circle-button:hover .icon {
-            display: none;
-        }
+        margin-bottom: 10px;
+    }
 
-        .circle-button:hover .name {
-            display: block;
-        }
+    .circle-button {
+        width: 76px;
+        height: 76px;
 
-        .games-button:hover {
-            width: 130px;
-        }
+        padding: 0;
+        margin: 5px;
 
-        .music-button:hover {
-            width: 135px;
-        }
+        border-radius: 50%;
 
-        .changelog-button:hover {
-            width: 155px;
-        }
+        background:
+            rgba(255, 255, 255, 0.96);
 
-        .settings-button:hover {
-            width: 140px;
-        }
+        color: #333;
 
-        .portal-button:hover {
-            width: 135px;
-        }
+        border: none;
 
-        /* =========================
-           VERSION
-           ========================= */
+        box-shadow:
+            0 5px 18px
+            rgba(0, 0, 0, 0.16);
 
-        .version {
-            position: fixed;
-            bottom: 15px;
-            left: 15px;
+        font-size: 32px;
+        font-weight: bold;
 
-            color: white;
-            font-size: 14px;
-            font-weight: bold;
+        font-family: Arial, sans-serif;
 
-            z-index: 2;
-        }
+        display: flex;
 
-        /* =========================
-           LOGIN BUTTON
-           ========================= */
+        align-items: center;
+        justify-content: center;
 
-        .login-button {
-            position: fixed;
-            top: 20px;
-            right: 20px;
+        cursor: pointer;
 
-            padding: 12px 22px;
+        overflow: hidden;
+        white-space: nowrap;
 
-            background: white;
-            color: black;
+        transition:
+            width 0.25s ease,
+            background 0.2s ease,
+            transform 0.2s ease,
+            border-radius 0.25s ease;
+    }
 
-            border: none;
-            border-radius: 25px;
+    .circle-button:hover {
+        background:
+            rgba(255, 255, 255, 1);
 
-            font-size: 16px;
-            font-weight: bold;
-            font-family: Arial, sans-serif;
+        transform:
+            scale(1.08);
 
-            cursor: pointer;
+        border-radius: 40px;
 
-            z-index: 2;
+        box-shadow:
+            0 8px 24px
+            rgba(0, 0, 0, 0.22);
+    }
 
-            transition:
-                background 0.2s ease,
-                transform 0.2s ease;
-        }
+    /* =========================
+       CLEAN JELLO ICONS
+       ========================= */
 
-        .login-button:hover {
-            background: #ddd;
-            transform: scale(1.08);
-        }
+    .icon {
+        width: 42px;
+        height: 42px;
 
-        /* =========================
-           HELLO USER
-           ========================= */
+        display: flex;
 
-        .hello-user {
-            position: fixed;
-            top: 20px;
-            right: 20px;
+        align-items: center;
+        justify-content: center;
 
-            color: white;
+        flex-shrink: 0;
+    }
 
-            font-size: 20px;
-            font-weight: bold;
+    .icon svg {
+        width: 34px;
+        height: 34px;
 
-            z-index: 3;
+        display: block;
 
-            text-shadow:
-                0 2px 10px rgba(0, 0, 0, 0.7);
+        fill: none;
 
-            cursor: pointer;
+        stroke: #222;
 
-            transition:
-                transform 0.2s ease,
-                opacity 0.2s ease;
-        }
+        stroke-width: 2.2;
 
-        .hello-user:hover {
-            transform: scale(1.05);
-            opacity: 0.85;
-        }
+        stroke-linecap: round;
+        stroke-linejoin: round;
 
-        /* =========================
-           LOGIN POPUP
-           ========================= */
+        transition:
+            transform 0.2s ease;
+    }
 
-        .login-popup {
-            display: none;
+    /* =========================
+       NEW MINECRAFT SWORD LOGO
+       ========================= */
 
-            position: fixed;
-            inset: 0;
+    .games-button .icon img {
+        width: 42px;
+        height: 42px;
 
-            background: rgba(0, 0, 0, 0.45);
+        object-fit: contain;
 
-            justify-content: center;
-            align-items: center;
+        display: block;
+    }
 
-            z-index: 10000;
-        }
+    .music-button .icon svg {
+        width: 35px;
+        height: 35px;
+    }
 
-        .login-popup.show {
-            display: flex;
-        }
+    .changelog-button .icon svg {
+        width: 34px;
+        height: 34px;
+    }
 
-        .login-popup-box {
-            position: relative;
+    .settings-button .icon svg {
+        width: 35px;
+        height: 35px;
+    }
 
-            width: 300px;
+    /* =========================
+       PORTAL ICON
+       ========================= */
 
-            background: white;
-            color: black;
+    .portal-button .icon svg {
+        width: 36px;
+        height: 36px;
+    }
 
-            border-radius: 8px;
+    .circle-button .name {
+        display: none;
 
-            padding: 30px;
+        font-size: 20px;
+        font-weight: bold;
+    }
 
-            box-shadow:
-                0 15px 50px rgba(0, 0, 0, 0.65);
+    .circle-button:hover .icon {
+        display: none;
+    }
 
-            animation: loginPopupOpen 0.2s ease-out;
-        }
+    .circle-button:hover .name {
+        display: block;
+    }
 
-        .login-popup-box h2 {
-            margin: 0 0 12px 0;
+    .games-button:hover {
+        width: 130px;
+    }
 
-            font-size: 26px;
-            font-weight: bold;
-        }
+    .music-button:hover {
+        width: 135px;
+    }
 
-        .login-subtitle {
-            margin: 0 0 20px 0 !important;
+    .changelog-button:hover {
+        width: 155px;
+    }
 
-            font-size: 14px !important;
-            color: #777 !important;
-        }
+    .settings-button:hover {
+        width: 140px;
+    }
 
-        .username-label {
-            display: block;
+    .portal-button:hover {
+        width: 135px;
+    }
 
-            margin-bottom: 7px;
+    /* =========================
+       VERSION
+       ========================= */
 
-            font-size: 14px;
-            font-weight: bold;
+    .version {
+        position: fixed;
 
-            color: #222;
-        }
+        bottom: 15px;
+        left: 15px;
 
-        .username-input {
-            width: 100%;
-            box-sizing: border-box;
+        color: white;
 
-            padding: 12px;
+        font-size: 14px;
+        font-weight: bold;
 
-            background: #f5f5f5;
-            color: black;
+        z-index: 2;
+    }
 
-            border: 1px solid #ccc;
-            border-radius: 5px;
+    /* =========================
+       LOGIN BUTTON
+       ========================= */
 
-            outline: none;
+    .login-button {
+        position: fixed;
 
-            font-size: 16px;
-            font-family: Arial, sans-serif;
-        }
+        top: 20px;
+        right: 20px;
 
-        .username-input:focus {
-            border-color: #111;
-            background: white;
-        }
+        padding:
+            12px 22px;
 
-        .sign-in-button {
-            width: 100%;
+        background: white;
+        color: black;
 
-            margin-top: 12px;
+        border: none;
 
-            padding: 12px;
+        border-radius: 25px;
 
-            background: #111;
-            color: white;
+        font-size: 16px;
+        font-weight: bold;
 
-            border: none;
-            border-radius: 5px;
+        font-family:
+            Arial,
+            sans-serif;
 
-            font-size: 16px;
-            font-weight: bold;
+        cursor: pointer;
 
-            cursor: pointer;
+        z-index: 2;
 
-            transition:
-                background 0.2s ease,
-                transform 0.2s ease;
-        }
+        transition:
+            background 0.2s ease,
+            transform 0.2s ease;
+    }
 
-        .sign-in-button:hover {
-            background: #333;
-            transform: translateY(-2px);
-        }
+    .login-button:hover {
+        background: #ddd;
 
-        .login-error {
-            display: none;
+        transform:
+            scale(1.08);
+    }
 
-            margin-top: 10px;
+    /* =========================
+       HELLO USER
+       ========================= */
 
-            color: #d00000;
+    .hello-user {
+        position: fixed;
 
-            font-size: 13px;
-            font-weight: bold;
-        }
+        top: 20px;
+        right: 20px;
 
-        .close-login {
-            position: absolute;
+        color: white;
 
-            top: 10px;
-            right: 12px;
+        font-size: 20px;
+        font-weight: bold;
 
-            width: 30px;
-            height: 30px;
+        z-index: 3;
 
-            border: none;
-            border-radius: 50%;
+        text-shadow:
+            0 2px 10px
+            rgba(0, 0, 0, 0.7);
 
-            background: #eee;
-            color: black;
+        cursor: pointer;
 
-            font-size: 18px;
-            font-weight: bold;
+        transition:
+            transform 0.2s ease,
+            opacity 0.2s ease;
+    }
 
-            cursor: pointer;
+    .hello-user:hover {
+        transform:
+            scale(1.05);
 
-            transition:
-                background 0.2s ease,
-                transform 0.2s ease;
-        }
+        opacity: 0.85;
+    }
 
-        .close-login:hover {
-            background: #ddd;
-            transform: scale(1.08);
-        }
+    /* =========================
+       LOGIN POPUP
+       ========================= */
 
-        /* =========================
-           USER PROFILE POPUP
-           ========================= */
+    .login-popup {
+        display: none;
 
-        .profile-popup {
-            display: none;
+        position: fixed;
+        inset: 0;
 
-            position: fixed;
-            inset: 0;
+        background:
+            rgba(0, 0, 0, 0.45);
 
-            background: rgba(0, 0, 0, 0.45);
+        justify-content: center;
+        align-items: center;
 
-            justify-content: center;
-            align-items: center;
+        z-index: 10000;
+    }
 
-            z-index: 12000;
-        }
+    .login-popup.show {
+        display: flex;
+    }
 
-        .profile-popup.show {
-            display: flex;
-        }
+    .login-popup-box {
+        position: relative;
 
-        .profile-box {
-            width: 320px;
-            max-width: calc(100vw - 40px);
+        width: 300px;
 
-            background: white;
-            color: black;
+        background: white;
+        color: black;
 
-            border-radius: 10px;
+        border-radius: 8px;
 
-            padding: 28px;
+        padding: 30px;
 
-            box-sizing: border-box;
+        box-shadow:
+            0 15px 50px
+            rgba(0, 0, 0, 0.65);
 
-            box-shadow:
-                0 20px 60px rgba(0, 0, 0, 0.7);
+        animation:
+            loginPopupOpen
+            0.2s
+            ease-out;
+    }
 
-            animation: profilePopupOpen 0.2s ease-out;
-        }
+    .login-popup-box h2 {
+        margin:
+            0 0 12px 0;
 
-        .profile-box h2 {
-            margin: 0 0 20px 0;
+        font-size: 26px;
+        font-weight: bold;
+    }
 
-            font-size: 26px;
-            font-weight: bold;
-        }
+    .login-subtitle {
+        margin:
+            0 0 20px 0 !important;
 
-        .profile-info {
-            background: #f2f2f2;
+        font-size:
+            14px !important;
 
-            border: 1px solid #ddd;
+        color:
+            #777 !important;
+    }
 
-            border-radius: 6px;
+    .username-label {
+        display: block;
 
-            padding: 15px;
+        margin-bottom: 7px;
 
-            margin-bottom: 10px;
-        }
+        font-size: 14px;
+        font-weight: bold;
 
-        .profile-info-label {
-            font-size: 12px;
+        color: #222;
+    }
 
-            color: #777;
+    .username-input {
+        width: 100%;
 
-            font-weight: bold;
+        box-sizing: border-box;
 
-            margin-bottom: 5px;
-        }
+        padding: 12px;
 
-        .profile-info-value {
-            font-size: 18px;
+        background: #f5f5f5;
+        color: black;
 
-            font-weight: bold;
+        border:
+            1px solid #ccc;
 
-            word-break: break-word;
-        }
+        border-radius: 5px;
 
-        .profile-close {
-            width: 100%;
+        outline: none;
 
-            margin-top: 10px;
+        font-size: 16px;
 
-            padding: 12px;
+        font-family:
+            Arial,
+            sans-serif;
+    }
 
-            background: #111;
-            color: white;
+    .username-input:focus {
+        border-color: #111;
 
-            border: none;
-            border-radius: 5px;
+        background: white;
+    }
 
-            font-size: 15px;
-            font-weight: bold;
+    .sign-in-button {
+        width: 100%;
 
-            cursor: pointer;
+        margin-top: 12px;
 
-            transition:
-                background 0.2s ease,
-                transform 0.2s ease;
-        }
+        padding: 12px;
 
-        .profile-close:hover {
-            background: #333;
-            transform: translateY(-2px);
-        }
+        background: #111;
+        color: white;
 
-        /* =========================
-           QUICK SETTINGS
-           ========================= */
+        border: none;
 
-        .quick-settings {
-            display: none;
+        border-radius: 5px;
 
-            position: fixed;
-            inset: 0;
+        font-size: 16px;
+        font-weight: bold;
 
-            background: rgba(0, 0, 0, 0.45);
+        cursor: pointer;
 
-            justify-content: center;
-            align-items: center;
+        transition:
+            background 0.2s ease,
+            transform 0.2s ease;
+    }
 
-            z-index: 9999;
-        }
+    .sign-in-button:hover {
+        background: #333;
 
-        .quick-settings.show {
-            display: flex;
-        }
+        transform:
+            translateY(-2px);
+    }
 
-        .quick-settings-box {
-            width: 360px;
+    .login-error {
+        display: none;
 
-            background: white;
-            color: black;
+        margin-top: 10px;
 
-            border-radius: 6px;
+        color: #d00000;
 
-            padding: 25px;
+        font-size: 13px;
+        font-weight: bold;
+    }
 
-            box-shadow:
-                0 15px 50px rgba(0, 0, 0, 0.65);
+    .close-login {
+        position: absolute;
 
-            animation: clickguiOpen 0.2s ease-out;
-        }
+        top: 10px;
+        right: 12px;
 
-        .quick-settings-box h2 {
-            margin: 0 0 22px 0;
+        width: 30px;
+        height: 30px;
 
-            font-size: 25px;
-            font-weight: bold;
+        border: none;
 
-            color: black;
-        }
+        border-radius: 50%;
 
-        .quick-setting {
-            background: #f2f2f2;
+        background: #eee;
+        color: black;
 
-            border: 1px solid #ddd;
+        font-size: 18px;
+        font-weight: bold;
 
-            border-radius: 5px;
+        cursor: pointer;
 
-            padding: 15px;
+        transition:
+            background 0.2s ease,
+            transform 0.2s ease;
+    }
 
-            margin-bottom: 10px;
+    .close-login:hover {
+        background: #ddd;
 
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        transform:
+            scale(1.08);
+    }
 
-            color: black;
+    /* =========================
+       USER PROFILE POPUP
+       ========================= */
 
-            transition:
-                background 0.15s ease,
-                transform 0.15s ease;
-        }
+    .profile-popup {
+        display: none;
 
-        .quick-setting:hover {
-            background: #e7e7e7;
-            transform: translateX(3px);
-        }
+        position: fixed;
+        inset: 0;
 
-        .quick-setting span {
-            font-size: 16px;
-            font-weight: bold;
-        }
+        background:
+            rgba(0, 0, 0, 0.45);
 
-        /* =========================
-           JELLO MUSIC BUTTON
-           ========================= */
+        justify-content: center;
+        align-items: center;
 
-        .music-open-button {
-            width: 100%;
+        z-index: 12000;
+    }
 
-            padding: 14px;
+    .profile-popup.show {
+        display: flex;
+    }
 
-            margin-top: 4px;
+    .profile-box {
+        width: 320px;
 
-            background: #111;
-            color: white;
+        max-width:
+            calc(100vw - 40px);
 
-            border: none;
-            border-radius: 5px;
+        background: white;
+        color: black;
 
-            font-size: 16px;
-            font-weight: bold;
+        border-radius: 10px;
 
-            cursor: pointer;
+        padding: 28px;
 
-            transition:
-                background 0.2s ease,
-                transform 0.2s ease;
-        }
+        box-sizing: border-box;
 
-        .music-open-button:hover {
-            background: #333;
-            transform: translateY(-2px);
-        }
+        box-shadow:
+            0 20px 60px
+            rgba(0, 0, 0, 0.7);
 
-        /* =========================
-           TOGGLES
-           ========================= */
+        animation:
+            profilePopupOpen
+            0.2s
+            ease-out;
+    }
 
-        .switch {
-            position: relative;
+    .profile-box h2 {
+        margin:
+            0 0 20px 0;
 
-            width: 48px;
-            height: 25px;
-        }
+        font-size: 26px;
+        font-weight: bold;
+    }
 
-        .switch input {
+    .profile-info {
+        background: #f2f2f2;
+
+        border:
+            1px solid #ddd;
+
+        border-radius: 6px;
+
+        padding: 15px;
+
+        margin-bottom: 10px;
+    }
+
+    .profile-info-label {
+        font-size: 12px;
+
+        color: #777;
+
+        font-weight: bold;
+
+        margin-bottom: 5px;
+    }
+
+    .profile-info-value {
+        font-size: 18px;
+
+        font-weight: bold;
+
+        word-break: break-word;
+    }
+
+    .profile-close {
+        width: 100%;
+
+        margin-top: 10px;
+
+        padding: 12px;
+
+        background: #111;
+        color: white;
+
+        border: none;
+
+        border-radius: 5px;
+
+        font-size: 15px;
+        font-weight: bold;
+
+        cursor: pointer;
+
+        transition:
+            background 0.2s ease,
+            transform 0.2s ease;
+    }
+
+    .profile-close:hover {
+        background: #333;
+
+        transform:
+            translateY(-2px);
+    }
+
+    /* =========================
+       QUICK SETTINGS
+       ========================= */
+
+    .quick-settings {
+        display: none;
+
+        position: fixed;
+        inset: 0;
+
+        background:
+            rgba(0, 0, 0, 0.45);
+
+        justify-content: center;
+        align-items: center;
+
+        z-index: 9999;
+    }
+
+    .quick-settings.show {
+        display: flex;
+    }
+
+    .quick-settings-box {
+        width: 360px;
+
+        max-width:
+            calc(100vw - 40px);
+
+        max-height:
+            calc(100vh - 40px);
+
+        overflow-y: auto;
+
+        background: white;
+        color: black;
+
+        border-radius: 6px;
+
+        padding: 25px;
+
+        box-shadow:
+            0 15px 50px
+            rgba(0, 0, 0, 0.65);
+
+        animation:
+            clickguiOpen
+            0.2s
+            ease-out;
+    }
+
+    .quick-settings-box h2 {
+        margin:
+            0 0 22px 0;
+
+        font-size: 25px;
+        font-weight: bold;
+
+        color: black;
+    }
+
+    .quick-setting {
+        background: #f2f2f2;
+
+        border:
+            1px solid #ddd;
+
+        border-radius: 5px;
+
+        padding: 15px;
+
+        margin-bottom: 10px;
+
+        display: flex;
+
+        justify-content:
+            space-between;
+
+        align-items: center;
+
+        color: black;
+
+        transition:
+            background 0.15s ease,
+            transform 0.15s ease;
+    }
+
+    .quick-setting:hover {
+        background: #e7e7e7;
+
+        transform:
+            translateX(3px);
+    }
+
+    .quick-setting span {
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    /* =========================
+       JELLO MUSIC BUTTON
+       ========================= */
+
+    .music-open-button {
+        width: 100%;
+
+        padding: 14px;
+
+        margin-top: 4px;
+
+        background: #111;
+        color: white;
+
+        border: none;
+
+        border-radius: 5px;
+
+        font-size: 16px;
+        font-weight: bold;
+
+        cursor: pointer;
+
+        transition:
+            background 0.2s ease,
+            transform 0.2s ease;
+    }
+
+    .music-open-button:hover {
+        background: #333;
+
+        transform:
+            translateY(-2px);
+    }
+
+    /* =========================
+       TOGGLES
+       ========================= */
+
+    .switch {
+        position: relative;
+
+        width: 48px;
+        height: 25px;
+
+        flex-shrink: 0;
+    }
+
+    .switch input {
+        opacity: 0;
+
+        width: 0;
+        height: 0;
+    }
+
+    .slider {
+        position: absolute;
+
+        inset: 0;
+
+        background: #cfcfcf;
+
+        border-radius: 20px;
+
+        cursor: pointer;
+
+        transition: 0.2s;
+    }
+
+    .slider:before {
+        content: "";
+
+        position: absolute;
+
+        width: 19px;
+        height: 19px;
+
+        left: 3px;
+        bottom: 3px;
+
+        background: white;
+
+        border-radius: 50%;
+
+        box-shadow:
+            0 1px 4px
+            rgba(0, 0, 0, 0.25);
+
+        transition: 0.2s;
+    }
+
+    input:checked + .slider {
+        background: #111;
+    }
+
+    input:checked + .slider:before {
+        transform:
+            translateX(23px);
+    }
+
+    /* =========================
+       HINT
+       ========================= */
+
+    .hint {
+        margin:
+            18px 0 0 0;
+
+        color: #777;
+
+        font-size: 13px;
+
+        text-align: center;
+    }
+
+    /* =========================
+       ANIMATIONS
+       ========================= */
+
+    @keyframes clickguiOpen {
+        from {
             opacity: 0;
 
-            width: 0;
-            height: 0;
+            transform:
+                scale(0.92);
         }
 
-        .slider {
-            position: absolute;
-            inset: 0;
+        to {
+            opacity: 1;
 
-            background: #cfcfcf;
+            transform:
+                scale(1);
+        }
+    }
 
-            border-radius: 20px;
+    @keyframes loginPopupOpen {
+        from {
+            opacity: 0;
 
-            cursor: pointer;
-
-            transition: 0.2s;
+            transform:
+                scale(0.9);
         }
 
-        .slider:before {
-            content: "";
+        to {
+            opacity: 1;
 
-            position: absolute;
+            transform:
+                scale(1);
+        }
+    }
 
-            width: 19px;
-            height: 19px;
+    @keyframes profilePopupOpen {
+        from {
+            opacity: 0;
 
-            left: 3px;
-            bottom: 3px;
-
-            background: white;
-
-            border-radius: 50%;
-
-            box-shadow:
-                0 1px 4px rgba(0, 0, 0, 0.25);
-
-            transition: 0.2s;
+            transform:
+                scale(0.9);
         }
 
-        input:checked + .slider {
-            background: #111;
+        to {
+            opacity: 1;
+
+            transform:
+                scale(1);
         }
+    }
+</style>
+```
 
-        input:checked + .slider:before {
-            transform: translateX(23px);
-        }
-
-        /* =========================
-           MUSIC POPUP
-           ========================= */
-
-        .music-popup {
-            display: none;
-
-            position: fixed;
-            inset: 0;
-
-            background: rgba(0, 0, 0, 0.45);
-
-            justify-content: center;
-            align-items: center;
-
-            z-index: 11000;
-        }
-
-        .music-popup.show {
-            display: flex;
-        }
-
-        .music-box {
-            position: relative;
-
-            width: 420px;
-            max-width: calc(100vw - 40px);
-            max-height: 80vh;
-
-            background: white;
-            color: black;
-
-            border-radius: 10px;
-
-            padding: 25px;
-
-            box-sizing: border-box;
-
-            box-shadow:
-                0 20px 60px rgba(0, 0, 0, 0.7);
-
-            animation: musicPopupOpen 0.2s ease-out;
-        }
-
-        .music-box h2 {
-            margin: 0;
-
-            font-size: 25px;
-            font-weight: bold;
-        }
-
-        .music-close {
-            position: absolute;
-
-            top: 12px;
-            right: 12px;
-
-            width: 32px;
-            height: 32px;
-
-            border: none;
-            border-radius: 50%;
-
-            background: #eee;
-            color: black;
-
-            font-size: 20px;
-            font-weight: bold;
-
-            cursor: pointer;
-
-            transition:
-                background 0.2s ease,
-                transform 0.2s ease;
-        }
-
-        .music-close:hover {
-            background: #ddd;
-            transform: scale(1.08);
-        }
-
-        .music-now-playing {
-            margin-top: 20px;
-
-            padding: 14px;
-
-            background: #f2f2f2;
-
-            border-radius: 6px;
-
-            text-align: center;
-
-            font-size: 15px;
-            font-weight: bold;
-
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .music-progress {
-            width: 100%;
-
-            margin-top: 15px;
-
-            cursor: pointer;
-        }
-
-        .music-time {
-            display: flex;
-            justify-content: space-between;
-
-            margin-top: 5px;
-
-            font-size: 11px;
-            color: #777;
-        }
-
-        .music-controls {
-            display: flex;
-
-            justify-content: center;
-            align-items: center;
-
-            gap: 8px;
-
-            margin-top: 15px;
-        }
-
-        .music-control {
-            width: 42px;
-            height: 38px;
-
-            border: none;
-            border-radius: 6px;
-
-            background: #eee;
-            color: black;
-
-            font-size: 17px;
-            font-weight: bold;
-
-            cursor: pointer;
-
-            transition:
-                background 0.15s ease,
-                transform 0.15s ease;
-        }
-
-        .music-control:hover {
-            background: #ddd;
-            transform: scale(1.05);
-        }
-
-        .music-play {
-            width: 50px;
-            height: 44px;
-
-            background: #111;
-            color: white;
-        }
-
-        .music-play:hover {
-            background: #333;
-        }
-
-        .music-options {
-            display: flex;
-
-            align-items: center;
-            gap: 10px;
-
-            margin-top: 15px;
-        }
-
-        .music-options span {
-            font-size: 13px;
-            font-weight: bold;
-        }
-
-        .music-volume {
-            flex: 1;
-        }
-
-        .music-search {
-            width: 100%;
-            box-sizing: border-box;
-
-            margin-top: 18px;
-
-            padding: 11px;
-
-            background: #f5f5f5;
-            color: black;
-
-            border: 1px solid #ccc;
-            border-radius: 5px;
-
-            outline: none;
-
-            font-family: Arial, sans-serif;
-            font-size: 14px;
-        }
-
-        .music-search:focus {
-            border-color: #111;
-            background: white;
-        }
-
-        .music-list {
-            margin-top: 12px;
-
-            max-height: 180px;
-
-            overflow-y: auto;
-
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-
-        .music-song {
-            padding: 10px 12px;
-
-            background: white;
-
-            border-bottom: 1px solid #eee;
-
-            cursor: pointer;
-
-            font-size: 13px;
-
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-
-            transition:
-                background 0.15s ease;
-        }
-
-        .music-song:last-child {
-            border-bottom: none;
-        }
-
-        .music-song:hover {
-            background: #f0f0f0;
-        }
-
-        .music-song.active {
-            background: #111;
-            color: white;
-        }
-
-        .music-empty {
-            padding: 15px;
-
-            text-align: center;
-
-            color: #777;
-
-            font-size: 13px;
-        }
-
-        /* =========================
-           HINT
-           ========================= */
-
-        .hint {
-            margin: 18px 0 0 0;
-
-            color: #777;
-
-            font-size: 13px;
-
-            text-align: center;
-        }
-
-        /* =========================
-           ANIMATIONS
-           ========================= */
-
-        @keyframes clickguiOpen {
-            from {
-                opacity: 0;
-                transform: scale(0.92);
-            }
-
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        @keyframes loginPopupOpen {
-            from {
-                opacity: 0;
-                transform: scale(0.9);
-            }
-
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        @keyframes musicPopupOpen {
-            from {
-                opacity: 0;
-                transform: scale(0.9);
-            }
-
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        @keyframes profilePopupOpen {
-            from {
-                opacity: 0;
-                transform: scale(0.9);
-            }
-
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-    </style>
 </head>
 
 <body>
 
-    <div id="background" class="background"></div>
+```
+<!-- BACKGROUND -->
 
-    <div id="backgroundDots" class="background-dots"></div>
+<div
+    id="background"
+    class="background"
+></div>
 
-    <div id="snowContainer" class="snow-container hidden"></div>
+<div
+    id="backgroundDots"
+    class="background-dots"
+></div>
 
+<div
+    id="snowContainer"
+    class="snow-container hidden"
+></div>
 
-    <div class="container">
 
-        <h1>Jello</h1>
+<!-- MAIN CONTENT -->
 
-        <br>
+<div class="container">
 
-        <div class="circle-buttons">
+    <h1>Jello</h1>
 
-            <!-- GAMES -->
+    <br>
 
-            <button
-                class="circle-button games-button"
-                onclick="location.href='games.html'"
-            >
-                <span class="icon">
+    <div class="circle-buttons">
 
-                    <svg viewBox="0 0 48 48" aria-hidden="true">
+        <!-- =========================
+             GAMES
+             ========================= -->
 
-                        <path
-                            d="M15 18h18c5 0 8 4 9 9l2 8c1 4-4 7-7 4l-5-5H16l-5 5c-3 3-8 0-7-4l2-8c1-5 4-9 9-9z"
-                        />
+        <button
+            class="circle-button games-button"
+            onclick="location.href='games.html'"
+        >
 
-                        <path d="M16 24v8" />
+            <span class="icon">
 
-                        <path d="M12 28h8" />
+                <!-- NEW MINECRAFT SWORD LOGO -->
 
-                        <circle
-                            cx="32"
-                            cy="25"
-                            r="1.8"
-                        />
+                <img
+                    src="assets/jello/minecraft-sword.jpg"
+                    alt="Games"
+                >
 
-                        <circle
-                            cx="37"
-                            cy="30"
-                            r="1.8"
-                        />
+            </span>
 
-                    </svg>
+            <span class="name">
+                Games
+            </span>
 
-                </span>
+        </button>
 
-                <span class="name">Games</span>
 
-            </button>
+        <!-- =========================
+             MUSIC
+             ========================= -->
 
+        <button
+            class="circle-button music-button"
+            onclick="openJelloMusic()"
+        >
 
-            <!-- MUSIC -->
+            <span class="icon">
 
-            <button
-                class="circle-button music-button"
-                onclick="location.href='music.html'"
-            >
-                <span class="icon">
+                <svg
+                    viewBox="0 0 48 48"
+                    aria-hidden="true"
+                >
 
-                    <svg viewBox="0 0 48 48" aria-hidden="true">
+                    <path
+                        d="
+                            M19 34V11l18-4v23
+                        "
+                    />
 
-                        <path
-                            d="M19 34V11l18-4v23"
-                        />
+                    <path
+                        d="
+                            M19 34
+                            c0 4-3 7-7 7
+                            s-7-2-7-5
+                            3-6 7-6
+                            7 1 7 4z
+                        "
+                    />
 
-                        <path
-                            d="M19 34c0 4-3 7-7 7s-7-2-7-5 3-6 7-6 7 1 7 4z"
-                        />
+                    <path
+                        d="
+                            M37 30
+                            c0 4-3 7-6 7
+                            s-7-2-7-5
+                            3-6 7-6
+                            6 1 6 4z
+                        "
+                    />
+
+                </svg>
+
+            </span>
+
+            <span class="name">
+                Music
+            </span>
+
+        </button>
+
+
+        <!-- =========================
+             CHANGELOGS
+             ========================= -->
+
+        <button
+            class="circle-button changelog-button"
+            onclick="location.href='changelogs.html'"
+        >
+
+            <span class="icon">
+
+                <svg
+                    viewBox="0 0 48 48"
+                    aria-hidden="true"
+                >
+
+                    <path
+                        d="
+                            M12 5h18
+                            l6 6v32H12z
+                        "
+                    />
+
+                    <path
+                        d="M30 5v7h6"
+                    />
+
+                    <path
+                        d="M18 21h12"
+                    />
+
+                    <path
+                        d="M18 28h12"
+                    />
+
+                    <path
+                        d="M18 35h8"
+                    />
+
+                </svg>
+
+            </span>
+
+            <span class="name">
+                Changelogs
+            </span>
+
+        </button>
+
+
+        <!-- =========================
+             SETTINGS
+             ========================= -->
+
+        <button
+            class="circle-button settings-button"
+            onclick="location.href='settings.html'"
+        >
+
+            <span class="icon">
+
+                <svg
+                    viewBox="0 0 48 48"
+                    aria-hidden="true"
+                >
+
+                    <path
+                        d="
+                            M20 5
+                            h8
+                            l1.5 6
+                            a14 14 0 0 1 3.5 2
+                            l6-2
+                            4 7
+                            -4.5 3
+                            a14 14 0 0 1 0 4
+                            l4.5 3
+                            -4 7
+                            -6-2
+                            a14 14 0 0 1-3.5 2
+                            L28 43
+                            h-8
+                            l-1.5-6
+                            a14 14 0 0 1-3.5-2
+                            l-6 2
+                            -4-7
+                            4.5-3
+                            a14 14 0 0 1 0-4
+                            L5 18
+                            l4-7
+                            6 2
+                            a14 14 0 0 1 3.5-2
+                            z
+                        "
+                    />
+
+                    <circle
+                        cx="24"
+                        cy="24"
+                        r="6"
+                    />
+
+                </svg>
+
+            </span>
+
+            <span class="name">
+                Settings
+            </span>
+
+        </button>
 
-                        <path
-                            d="M37 30c0 4-3 7-6 7s-7-2-7-5 3-6 7-6 6 1 6 4z"
-                        />
+
+        <!-- =========================
+             PORTAL
+             ========================= -->
+
+        <button
+            class="circle-button portal-button"
+            onclick="location.href='jelloportal.html'"
+        >
 
-                    </svg>
+            <span class="icon">
 
-                </span>
-
-                <span class="name">Music</span>
-
-            </button>
-
-
-            <!-- CHANGELOGS -->
-
-            <button
-                class="circle-button changelog-button"
-                onclick="location.href='changelogs.html'"
-            >
-                <span class="icon">
-
-                    <svg viewBox="0 0 48 48" aria-hidden="true">
-
-                        <path
-                            d="M12 5h18l6 6v32H12z"
-                        />
-
-                        <path
-                            d="M30 5v7h6"
-                        />
-
-                        <path
-                            d="M18 21h12"
-                        />
-
-                        <path
-                            d="M18 28h12"
-                        />
-
-                        <path
-                            d="M18 35h8"
-                        />
-
-                    </svg>
-
-                </span>
-
-                <span class="name">Changelogs</span>
-
-            </button>
-
-
-            <!-- SETTINGS -->
-
-            <button
-                class="circle-button settings-button"
-                onclick="location.href='settings.html'"
-            >
-                <span class="icon">
-
-                    <svg viewBox="0 0 48 48" aria-hidden="true">
-
-                        <path
-                            d="
-                                M20 5
-                                h8
-                                l1.5 6
-                                a14 14 0 0 1 3.5 2
-                                l6-2
-                                4 7
-                                -4.5 3
-                                a14 14 0 0 1 0 4
-                                l4.5 3
-                                -4 7
-                                -6-2
-                                a14 14 0 0 1-3.5 2
-                                L28 43
-                                h-8
-                                l-1.5-6
-                                a14 14 0 0 1-3.5-2
-                                l-6 2
-                                -4-7
-                                4.5-3
-                                a14 14 0 0 1 0-4
-                                L5 18
-                                l4-7
-                                6 2
-                                a14 14 0 0 1 3.5-2
-                                z
-                            "
-                        />
-
-                        <circle
-                            cx="24"
-                            cy="24"
-                            r="6"
-                        />
-
-                    </svg>
-
-                </span>
-
-                <span class="name">Settings</span>
-
-            </button>
-
-
-            <!-- PORTAL -->
-
-            <button
-                class="circle-button portal-button"
-                onclick="location.href='jelloportal.html'"
-            >
-                <span class="icon">
-
-                    <svg viewBox="0 0 48 48" aria-hidden="true">
-
-                        <!-- Globe -->
-
-                        <circle
-                            cx="24"
-                            cy="24"
-                            r="18"
-                        />
-
-                        <!-- Vertical globe lines -->
-
-                        <path
-                            d="M24 6c-6 5-9 11-9 18s3 13 9 18"
-                        />
-
-                        <path
-                            d="M24 6c6 5 9 11 9 18s-3 13-9 18"
-                        />
-
-                        <!-- Horizontal globe lines -->
-
-                        <path
-                            d="M7 24h34"
-                        />
-
-                        <path
-                            d="M10 15h28"
-                        />
-
-                        <path
-                            d="M10 33h28"
-                        />
-
-                    </svg>
-
-                </span>
-
-                <span class="name">Portal</span>
-
-            </button>
-
+                <svg
+                    viewBox="0 0 48 48"
+                    aria-hidden="true"
+                >
+
+                    <circle
+                        cx="24"
+                        cy="24"
+                        r="18"
+                    />
+
+                    <path
+                        d="
+                            M24 6
+                            c-6 5-9 11-9 18
+                            s3 13 9 18
+                        "
+                    />
+
+                    <path
+                        d="
+                            M24 6
+                            c6 5 9 11 9 18
+                            s-3 13-9 18
+                        "
+                    />
+
+                    <path
+                        d="M7 24h34"
+                    />
+
+                    <path
+                        d="M10 15h28"
+                    />
+
+                    <path
+                        d="M10 33h28"
+                    />
+
+                </svg>
+
+            </span>
+
+            <span class="name">
+                Portal
+            </span>
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     HELLO USER
+     ========================= -->
+
+<div
+    id="helloUser"
+    class="hello-user"
+></div>
+
+
+<!-- =========================
+     LOGIN BUTTON
+     ========================= -->
+
+<button
+    id="loginButton"
+    class="login-button"
+    onclick="openLoginPopup()"
+>
+    Log In
+</button>
+
+
+<!-- =========================
+     VERSION
+     ========================= -->
+
+<div class="version">
+    5.0.1 Beta
+</div>
+
+
+<!-- =========================
+     LOGIN POPUP
+     ========================= -->
+
+<div
+    id="loginPopup"
+    class="login-popup"
+>
+
+    <div class="login-popup-box">
+
+        <button
+            class="close-login"
+            onclick="closeLoginPopup()"
+        >
+            ×
+        </button>
+
+        <h2>
+            Log In
+        </h2>
+
+        <p class="login-subtitle">
+            Enter a username to continue
+        </p>
+
+        <label
+            class="username-label"
+            for="usernameInput"
+        >
+            Username
+        </label>
+
+        <input
+            id="usernameInput"
+            class="username-input"
+            type="text"
+            maxlength="20"
+            placeholder="Enter username"
+            autocomplete="off"
+        >
+
+        <button
+            class="sign-in-button"
+            onclick="signIn()"
+        >
+            Sign In
+        </button>
+
+        <div
+            id="loginError"
+            class="login-error"
+        >
+            Please enter a username.
         </div>
 
     </div>
 
-
-    <!-- HELLO USER -->
-
-    <div
-        id="helloUser"
-        class="hello-user"
-    ></div>
+</div>
 
 
-    <!-- LOGIN BUTTON -->
+<!-- =========================
+     USER PROFILE POPUP
+     ========================= -->
 
-    <button
-        id="loginButton"
-        class="login-button"
-        onclick="openLoginPopup()"
-    >
-        Log In
-    </button>
+<div
+    id="profilePopup"
+    class="profile-popup"
+>
 
+    <div class="profile-box">
 
-    <!-- VERSION -->
+        <h2 id="profileTitle">
+            Profile
+        </h2>
 
-    <div class="version">
-        5.0 beta
-    </div>
+        <div class="profile-info">
 
-
-    <!-- LOGIN POPUP -->
-
-    <div id="loginPopup" class="login-popup">
-
-        <div class="login-popup-box">
-
-            <button
-                class="close-login"
-                onclick="closeLoginPopup()"
-            >
-                ×
-            </button>
-
-            <h2>Log In</h2>
-
-            <p class="login-subtitle">
-                Enter a username to continue
-            </p>
-
-            <label
-                class="username-label"
-                for="usernameInput"
-            >
+            <div class="profile-info-label">
                 Username
-            </label>
-
-            <input
-                id="usernameInput"
-                class="username-input"
-                type="text"
-                maxlength="20"
-                placeholder="Enter username"
-                autocomplete="off"
-            >
-
-            <button
-                class="sign-in-button"
-                onclick="signIn()"
-            >
-                Sign In
-            </button>
+            </div>
 
             <div
-                id="loginError"
-                class="login-error"
+                id="profileUsername"
+                class="profile-info-value"
             >
-                Please enter a username.
+                -
             </div>
 
         </div>
 
-    </div>
+        <div class="profile-info">
 
-
-    <!-- USER PROFILE POPUP -->
-
-    <div
-        id="profilePopup"
-        class="profile-popup"
-    >
-
-        <div class="profile-box">
-
-            <h2 id="profileTitle">
-                Profile
-            </h2>
-
-            <div class="profile-info">
-
-                <div class="profile-info-label">
-                    Username
-                </div>
-
-                <div
-                    id="profileUsername"
-                    class="profile-info-value"
-                >
-                    -
-                </div>
-
+            <div class="profile-info-label">
+                Time on Jello
             </div>
-
-            <div class="profile-info">
-
-                <div class="profile-info-label">
-                    Time on Jello
-                </div>
-
-                <div
-                    id="profileTime"
-                    class="profile-info-value"
-                >
-                    0 seconds
-                </div>
-
-            </div>
-
-            <button
-                class="profile-close"
-                onclick="closeProfilePopup()"
-            >
-                Close
-            </button>
-
-        </div>
-
-    </div>
-
-
-    <!-- QUICK SETTINGS -->
-
-    <div id="quickSettings" class="quick-settings">
-
-        <div class="quick-settings-box">
-
-            <h2>Settings</h2>
-
-            <div class="quick-setting">
-
-                <span>Auto Cloak</span>
-
-                <label class="switch">
-
-                    <input
-                        type="checkbox"
-                        id="quickAutoCloak"
-                    >
-
-                    <span class="slider"></span>
-
-                </label>
-
-            </div>
-
-            <div class="quick-setting">
-
-                <span>No Tab Close</span>
-
-                <label class="switch">
-
-                    <input
-                        type="checkbox"
-                        id="quickNoTabClose"
-                    >
-
-                    <span class="slider"></span>
-
-                </label>
-
-            </div>
-
-            <div class="quick-setting">
-
-                <span>Full Screen</span>
-
-                <label class="switch">
-
-                    <input
-                        type="checkbox"
-                        id="quickFullscreen"
-                    >
-
-                    <span class="slider"></span>
-
-                </label>
-
-            </div>
-
-            <div class="quick-setting">
-
-                <span>Mouse Background Movement</span>
-
-                <label class="switch">
-
-                    <input
-                        type="checkbox"
-                        id="quickMouseBackground"
-                    >
-
-                    <span class="slider"></span>
-
-                </label>
-
-            </div>
-
-            <div class="quick-setting">
-
-                <span>Background Dots</span>
-
-                <label class="switch">
-
-                    <input
-                        type="checkbox"
-                        id="quickBackgroundDots"
-                    >
-
-                    <span class="slider"></span>
-
-                </label>
-
-            </div>
-
-            <div class="quick-setting">
-
-                <span>Falling Snow</span>
-
-                <label class="switch">
-
-                    <input
-                        type="checkbox"
-                        id="quickSnow"
-                    >
-
-                    <span class="slider"></span>
-
-                </label>
-
-            </div>
-
-            <button
-                class="music-open-button"
-                onclick="openMusicPopup()"
-            >
-                Jello Music
-            </button>
-
-            <p class="hint">
-                Press P to close
-            </p>
-
-        </div>
-
-    </div>
-
-
-    <!-- JELLO MUSIC POPUP -->
-
-    <div
-        id="musicPopup"
-        class="music-popup"
-    >
-
-        <div class="music-box">
-
-            <button
-                class="music-close"
-                onclick="closeMusicPopup()"
-            >
-                ×
-            </button>
-
-            <h2>Jello Music</h2>
 
             <div
-                id="musicNowPlaying"
-                class="music-now-playing"
+                id="profileTime"
+                class="profile-info-value"
             >
-                Nothing playing
+                0 seconds
             </div>
 
-            <input
-                id="musicProgress"
-                class="music-progress"
-                type="range"
-                min="0"
-                max="100"
-                value="0"
-            >
+        </div>
 
-            <div class="music-time">
+        <button
+            class="profile-close"
+            onclick="closeProfilePopup()"
+        >
+            Close
+        </button>
 
-                <span id="musicCurrentTime">
-                    0:00
-                </span>
+    </div>
 
-                <span id="musicDuration">
-                    0:00
-                </span>
+</div>
 
-            </div>
 
-            <div class="music-controls">
+<!-- =========================
+     QUICK SETTINGS
+     ========================= -->
 
-                <button
-                    id="musicPrevious"
-                    class="music-control"
-                    title="Previous"
-                >
-                    ⏮
-                </button>
+<div
+    id="quickSettings"
+    class="quick-settings"
+>
 
-                <button
-                    id="musicPlay"
-                    class="music-control music-play"
-                    title="Play / Pause"
-                >
-                    ▶
-                </button>
+    <div class="quick-settings-box">
 
-                <button
-                    id="musicNext"
-                    class="music-control"
-                    title="Next"
-                >
-                    ⏭
-                </button>
+        <h2>
+            Settings
+        </h2>
 
-                <button
-                    id="musicShuffle"
-                    class="music-control"
-                    title="Shuffle"
-                >
-                    🔀
-                </button>
+        <!-- AUTO CLOAK -->
 
-                <button
-                    id="musicRepeat"
-                    class="music-control"
-                    title="Repeat"
-                >
-                    🔁
-                </button>
+        <div class="quick-setting">
 
-            </div>
+            <span>
+                Auto Cloak
+            </span>
 
-            <div class="music-options">
-
-                <span>Volume</span>
+            <label class="switch">
 
                 <input
-                    id="musicVolume"
-                    class="music-volume"
-                    type="range"
-                    min="0"
-                    max="1"
-                    step="0.01"
-                    value="1"
+                    type="checkbox"
+                    id="quickAutoCloak"
                 >
 
-            </div>
+                <span class="slider"></span>
 
-            <input
-                id="musicSearch"
-                class="music-search"
-                type="text"
-                placeholder="Search songs..."
-                autocomplete="off"
-            >
-
-            <div
-                id="musicList"
-                class="music-list"
-            ></div>
+            </label>
 
         </div>
 
+
+        <!-- NO TAB CLOSE -->
+
+        <div class="quick-setting">
+
+            <span>
+                No Tab Close
+            </span>
+
+            <label class="switch">
+
+                <input
+                    type="checkbox"
+                    id="quickNoTabClose"
+                >
+
+                <span class="slider"></span>
+
+            </label>
+
+        </div>
+
+
+        <!-- FULL SCREEN -->
+
+        <div class="quick-setting">
+
+            <span>
+                Full Screen
+            </span>
+
+            <label class="switch">
+
+                <input
+                    type="checkbox"
+                    id="quickFullscreen"
+                >
+
+                <span class="slider"></span>
+
+            </label>
+
+        </div>
+
+
+        <!-- MOUSE BACKGROUND -->
+
+        <div class="quick-setting">
+
+            <span>
+                Mouse Background Movement
+            </span>
+
+            <label class="switch">
+
+                <input
+                    type="checkbox"
+                    id="quickMouseBackground"
+                >
+
+                <span class="slider"></span>
+
+            </label>
+
+        </div>
+
+
+        <!-- BACKGROUND DOTS -->
+
+        <div class="quick-setting">
+
+            <span>
+                Background Dots
+            </span>
+
+            <label class="switch">
+
+                <input
+                    type="checkbox"
+                    id="quickBackgroundDots"
+                >
+
+                <span class="slider"></span>
+
+            </label>
+
+        </div>
+
+
+        <!-- FALLING SNOW -->
+
+        <div class="quick-setting">
+
+            <span>
+                Falling Snow
+            </span>
+
+            <label class="switch">
+
+                <input
+                    type="checkbox"
+                    id="quickSnow"
+                >
+
+                <span class="slider"></span>
+
+            </label>
+
+        </div>
+
+
+        <!-- JELLO MUSIC -->
+
+        <button
+            class="music-open-button"
+            onclick="openJelloMusic()"
+        >
+            Jello Music
+        </button>
+
+
+        <p class="hint">
+            Press P to close
+        </p>
+
     </div>
 
-
-    <audio id="musicAudio"></audio>
-
-
-    <script>
-
-        const quickSettings =
-            document.getElementById("quickSettings");
-
-        const quickAutoCloak =
-            document.getElementById("quickAutoCloak");
-
-        const quickNoTabClose =
-            document.getElementById("quickNoTabClose");
-
-        const quickFullscreen =
-            document.getElementById("quickFullscreen");
-
-        const quickMouseBackground =
-            document.getElementById("quickMouseBackground");
-
-        const loginPopup =
-            document.getElementById("loginPopup");
-
-        const usernameInput =
-            document.getElementById("usernameInput");
-
-        const loginError =
-            document.getElementById("loginError");
-
-        const loginButton =
-            document.getElementById("loginButton");
-
-        const helloUser =
-            document.getElementById("helloUser");
-
-        const background =
-            document.getElementById("background");
-
-        const backgroundDots =
-            document.getElementById("backgroundDots");
-
-        const quickBackgroundDots =
-            document.getElementById("quickBackgroundDots");
-
-        const snowContainer =
-            document.getElementById("snowContainer");
-
-        const quickSnow =
-            document.getElementById("quickSnow");
-
-        const profilePopup =
-            document.getElementById("profilePopup");
-
-        const profileTitle =
-            document.getElementById("profileTitle");
-
-        const profileUsername =
-            document.getElementById("profileUsername");
-
-        const profileTime =
-            document.getElementById("profileTime");
+</div>
 
 
-        function openLoginPopup() {
+<script>
 
-            loginPopup.classList.add("show");
+    /* =========================
+       ELEMENTS
+       ========================= */
 
-            usernameInput.value = "";
+    const quickSettings =
+        document.getElementById(
+            "quickSettings"
+        );
 
-            loginError.style.display = "none";
+    const quickAutoCloak =
+        document.getElementById(
+            "quickAutoCloak"
+        );
 
-            setTimeout(function() {
+    const quickNoTabClose =
+        document.getElementById(
+            "quickNoTabClose"
+        );
 
-                usernameInput.focus();
+    const quickFullscreen =
+        document.getElementById(
+            "quickFullscreen"
+        );
 
-            }, 50);
+    const quickMouseBackground =
+        document.getElementById(
+            "quickMouseBackground"
+        );
+
+    const loginPopup =
+        document.getElementById(
+            "loginPopup"
+        );
+
+    const usernameInput =
+        document.getElementById(
+            "usernameInput"
+        );
+
+    const loginError =
+        document.getElementById(
+            "loginError"
+        );
+
+    const loginButton =
+        document.getElementById(
+            "loginButton"
+        );
+
+    const helloUser =
+        document.getElementById(
+            "helloUser"
+        );
+
+    const background =
+        document.getElementById(
+            "background"
+        );
+
+    const backgroundDots =
+        document.getElementById(
+            "backgroundDots"
+        );
+
+    const quickBackgroundDots =
+        document.getElementById(
+            "quickBackgroundDots"
+        );
+
+    const snowContainer =
+        document.getElementById(
+            "snowContainer"
+        );
+
+    const quickSnow =
+        document.getElementById(
+            "quickSnow"
+        );
+
+    const profilePopup =
+        document.getElementById(
+            "profilePopup"
+        );
+
+    const profileTitle =
+        document.getElementById(
+            "profileTitle"
+        );
+
+    const profileUsername =
+        document.getElementById(
+            "profileUsername"
+        );
+
+    const profileTime =
+        document.getElementById(
+            "profileTime"
+        );
+
+
+    /* =========================
+       JELLO MUSIC
+       ========================= */
+
+    function openJelloMusic() {
+
+        const musicWindow =
+            window.open(
+                "about:blank",
+                "_blank"
+            );
+
+        if (!musicWindow) {
+
+            alert(
+                "Please allow pop-ups for Sigma Jello."
+            );
+
+            return;
 
         }
 
 
-        function closeLoginPopup() {
+        const musicURL =
+            new URL(
+                "music.html",
+                window.location.href
+            ).href;
 
-            loginPopup.classList.remove("show");
+
+        musicWindow.document.open();
+
+
+        musicWindow.document.write(`
+
+            <!DOCTYPE html>
+
+            <html>
+
+            <head>
+
+                <title>
+                    about:blank
+                </title>
+
+                <style>
+
+                    html,
+                    body {
+
+                        margin: 0;
+                        padding: 0;
+
+                        width: 100%;
+                        height: 100%;
+
+                        overflow: hidden;
+
+                        background: black;
+
+                    }
+
+                    iframe {
+
+                        width: 100%;
+                        height: 100%;
+
+                        border: none;
+
+                        display: block;
+
+                    }
+
+                </style>
+
+            </head>
+
+            <body>
+
+                <iframe
+                    src="${musicURL}"
+                    allowfullscreen>
+                </iframe>
+
+            </body>
+
+            </html>
+
+        `);
+
+
+        musicWindow.document.close();
+
+    }
+
+
+    /* =========================
+       LOGIN
+       ========================= */
+
+    function openLoginPopup() {
+
+        loginPopup.classList.add(
+            "show"
+        );
+
+        usernameInput.value = "";
+
+        loginError.style.display =
+            "none";
+
+
+        setTimeout(
+            function() {
+
+                usernameInput.focus();
+
+            },
+            50
+        );
+
+    }
+
+
+    function closeLoginPopup() {
+
+        loginPopup.classList.remove(
+            "show"
+        );
+
+    }
+
+
+    function signIn() {
+
+        const username =
+            usernameInput.value.trim();
+
+
+        if (!username) {
+
+            loginError.style.display =
+                "block";
+
+            usernameInput.focus();
+
+            return;
 
         }
 
 
-        function signIn() {
+        localStorage.setItem(
+            "sigmaJelloUsername",
+            username
+        );
 
-            const username =
-                usernameInput.value.trim();
 
-            if (!username) {
+        localStorage.setItem(
+            "sigmaJelloLoggedIn",
+            "true"
+        );
 
-                loginError.style.display =
-                    "block";
 
-                usernameInput.focus();
-
-                return;
-
-            }
-
-            localStorage.setItem(
-                "sigmaJelloUsername",
-                username
-            );
+        if (
+            localStorage.getItem(
+                "sigmaJelloTotalTime"
+            ) === null
+        ) {
 
             localStorage.setItem(
-                "sigmaJelloLoggedIn",
-                "true"
+                "sigmaJelloTotalTime",
+                "0"
             );
+
+        }
+
+
+        localStorage.setItem(
+            "sigmaJelloLastVisit",
+            Date.now().toString()
+        );
+
+
+        updateUserDisplay();
+
+        closeLoginPopup();
+
+    }
+
+
+    function updateUserDisplay() {
+
+        const username =
+            localStorage.getItem(
+                "sigmaJelloUsername"
+            );
+
+
+        const loggedIn =
+            localStorage.getItem(
+                "sigmaJelloLoggedIn"
+            ) === "true";
+
+
+        if (
+            loggedIn &&
+            username
+        ) {
+
+            helloUser.textContent =
+                "Hello " + username;
+
+            helloUser.style.display =
+                "block";
+
+            loginButton.style.display =
+                "none";
+
+            helloUser.onclick =
+                openProfilePopup;
+
 
             if (
                 localStorage.getItem(
@@ -1895,1412 +2003,1029 @@
 
             }
 
-            localStorage.setItem(
-                "sigmaJelloLastVisit",
-                Date.now().toString()
-            );
 
-            updateUserDisplay();
-
-            closeLoginPopup();
-
-        }
-
-
-        function updateUserDisplay() {
-
-            const username =
+            if (
                 localStorage.getItem(
-                    "sigmaJelloUsername"
-                );
-
-            const loggedIn =
-                localStorage.getItem(
-                    "sigmaJelloLoggedIn"
-                ) === "true";
-
-            if (loggedIn && username) {
-
-                helloUser.textContent =
-                    "Hello " + username;
-
-                helloUser.style.display =
-                    "block";
-
-                loginButton.style.display =
-                    "none";
-
-                helloUser.onclick =
-                    openProfilePopup;
-
-                if (
-                    localStorage.getItem(
-                        "sigmaJelloTotalTime"
-                    ) === null
-                ) {
-
-                    localStorage.setItem(
-                        "sigmaJelloTotalTime",
-                        "0"
-                    );
-
-                }
-
-                if (
-                    localStorage.getItem(
-                        "sigmaJelloLastVisit"
-                    ) === null
-                ) {
-
-                    localStorage.setItem(
-                        "sigmaJelloLastVisit",
-                        Date.now().toString()
-                    );
-
-                }
-
-            } else {
-
-                helloUser.textContent = "";
-
-                helloUser.style.display =
-                    "none";
-
-                helloUser.onclick = null;
-
-                loginButton.style.display =
-                    "block";
-
-            }
-
-        }
-
-
-        function updateTotalTime() {
-
-            const loggedIn =
-                localStorage.getItem(
-                    "sigmaJelloLoggedIn"
-                ) === "true";
-
-            if (!loggedIn) {
-                return;
-            }
-
-            const lastVisit =
-                Number(
-                    localStorage.getItem(
-                        "sigmaJelloLastVisit"
-                    )
-                );
-
-            if (!lastVisit) {
+                    "sigmaJelloLastVisit"
+                ) === null
+            ) {
 
                 localStorage.setItem(
                     "sigmaJelloLastVisit",
                     Date.now().toString()
                 );
 
-                return;
-
             }
 
-            const now =
-                Date.now();
+        } else {
 
-            const elapsed =
-                Math.max(
-                    0,
-                    now - lastVisit
-                );
+            helloUser.textContent =
+                "";
 
-            const oldTotal =
-                Number(
-                    localStorage.getItem(
-                        "sigmaJelloTotalTime"
-                    )
-                ) || 0;
+            helloUser.style.display =
+                "none";
 
-            localStorage.setItem(
-                "sigmaJelloTotalTime",
-                (
-                    oldTotal + elapsed
-                ).toString()
+            helloUser.onclick =
+                null;
+
+            loginButton.style.display =
+                "block";
+
+        }
+
+    }
+
+
+    /* =========================
+       TIME TRACKING
+       ========================= */
+
+    function updateTotalTime() {
+
+        const loggedIn =
+            localStorage.getItem(
+                "sigmaJelloLoggedIn"
+            ) === "true";
+
+
+        if (!loggedIn) {
+            return;
+        }
+
+
+        const lastVisit =
+            Number(
+                localStorage.getItem(
+                    "sigmaJelloLastVisit"
+                )
             );
+
+
+        if (!lastVisit) {
 
             localStorage.setItem(
                 "sigmaJelloLastVisit",
-                now.toString()
+                Date.now().toString()
             );
 
-        }
-
-
-        function formatProfileTime(seconds) {
-
-            seconds =
-                Math.floor(seconds);
-
-            const days =
-                Math.floor(seconds / 86400);
-
-            seconds %= 86400;
-
-            const hours =
-                Math.floor(seconds / 3600);
-
-            seconds %= 3600;
-
-            const minutes =
-                Math.floor(seconds / 60);
-
-            seconds =
-                seconds % 60;
-
-            let result = "";
-
-            if (days > 0) {
-
-                result +=
-                    days +
-                    (days === 1
-                        ? " day "
-                        : " days ");
-
-            }
-
-            if (hours > 0) {
-
-                result +=
-                    hours +
-                    (hours === 1
-                        ? " hour "
-                        : " hours ");
-
-            }
-
-            if (minutes > 0) {
-
-                result +=
-                    minutes +
-                    (minutes === 1
-                        ? " minute "
-                        : " minutes ");
-
-            }
-
-            if (
-                seconds > 0 ||
-                result === ""
-            ) {
-
-                result +=
-                    seconds +
-                    (seconds === 1
-                        ? " second"
-                        : " seconds");
-
-            }
-
-            return result.trim();
+            return;
 
         }
 
 
-        function openProfilePopup() {
+        const now =
+            Date.now();
 
-            updateTotalTime();
 
-            const username =
+        const elapsed =
+            Math.max(
+                0,
+                now - lastVisit
+            );
+
+
+        const oldTotal =
+            Number(
                 localStorage.getItem(
-                    "sigmaJelloUsername"
-                );
+                    "sigmaJelloTotalTime"
+                )
+            ) || 0;
 
-            const totalTime =
-                Number(
-                    localStorage.getItem(
-                        "sigmaJelloTotalTime"
-                    )
-                ) || 0;
 
-            profileTitle.textContent =
-                username + "'s Profile";
+        localStorage.setItem(
+            "sigmaJelloTotalTime",
+            (
+                oldTotal + elapsed
+            ).toString()
+        );
 
-            profileUsername.textContent =
-                username;
 
-            profileTime.textContent =
-                formatProfileTime(
-                    totalTime / 1000
-                );
+        localStorage.setItem(
+            "sigmaJelloLastVisit",
+            now.toString()
+        );
 
-            profilePopup.classList.add(
-                "show"
+    }
+
+
+    function formatProfileTime(seconds) {
+
+        seconds =
+            Math.floor(seconds);
+
+
+        const days =
+            Math.floor(
+                seconds / 86400
             );
 
-        }
+        seconds %= 86400;
 
 
-        function closeProfilePopup() {
-
-            profilePopup.classList.remove(
-                "show"
+        const hours =
+            Math.floor(
+                seconds / 3600
             );
 
-        }
+        seconds %= 3600;
 
 
-        updateUserDisplay();
+        const minutes =
+            Math.floor(
+                seconds / 60
+            );
+
+        seconds =
+            seconds % 60;
 
 
-        setInterval(
-            function() {
-
-                updateTotalTime();
-
-            },
-            1000
-        );
+        let result =
+            "";
 
 
-        usernameInput.addEventListener(
-            "keydown",
-            function(event) {
+        if (days > 0) {
 
-                if (event.key === "Enter") {
-
-                    signIn();
-
-                }
-
-            }
-        );
-
-
-        usernameInput.addEventListener(
-            "input",
-            function() {
-
-                loginError.style.display =
-                    "none";
-
-            }
-        );
-
-
-        loginPopup.addEventListener(
-            "click",
-            function(event) {
-
-                if (event.target === loginPopup) {
-
-                    closeLoginPopup();
-
-                }
-
-            }
-        );
-
-
-        profilePopup.addEventListener(
-            "click",
-            function(event) {
-
-                if (event.target === profilePopup) {
-
-                    closeProfilePopup();
-
-                }
-
-            }
-        );
-
-
-        window.addEventListener(
-            "beforeunload",
-            function() {
-
-                updateTotalTime();
-
-            }
-        );
-
-
-        /* =========================
-           NO TAB CLOSE
-           ========================= */
-
-        function enableNoTabClose() {
-
-            window.onbeforeunload =
-                function(event) {
-
-                    event.preventDefault();
-
-                    event.returnValue = "";
-
-                    return "";
-
-                };
+            result +=
+                days +
+                (
+                    days === 1
+                        ? " day "
+                        : " days "
+                );
 
         }
 
 
-        function disableNoTabClose() {
+        if (hours > 0) {
 
-            window.onbeforeunload = null;
+            result +=
+                hours +
+                (
+                    hours === 1
+                        ? " hour "
+                        : " hours "
+                );
+
+        }
+
+
+        if (minutes > 0) {
+
+            result +=
+                minutes +
+                (
+                    minutes === 1
+                        ? " minute "
+                        : " minutes "
+                );
 
         }
 
 
         if (
-            localStorage.getItem("noTabClose")
-            === "true"
+            seconds > 0 ||
+            result === ""
         ) {
 
-            quickNoTabClose.checked = true;
-
-            enableNoTabClose();
+            result +=
+                seconds +
+                (
+                    seconds === 1
+                        ? " second"
+                        : " seconds"
+                );
 
         }
 
 
-        quickNoTabClose.addEventListener(
-            "change",
-            function() {
+        return result.trim();
 
-                if (this.checked) {
+    }
 
-                    localStorage.setItem(
-                        "noTabClose",
-                        "true"
-                    );
 
-                    enableNoTabClose();
+    /* =========================
+       PROFILE
+       ========================= */
 
-                } else {
+    function openProfilePopup() {
 
-                    localStorage.setItem(
-                        "noTabClose",
-                        "false"
-                    );
+        updateTotalTime();
 
-                    disableNoTabClose();
 
-                }
-
-            }
-        );
-
-
-        /* =========================
-           AUTO CLOAK
-           ========================= */
-
-        quickAutoCloak.addEventListener(
-            "change",
-            function() {
-
-                if (!this.checked) {
-                    return;
-                }
-
-                const currentURL =
-                    window.location.href;
-
-                const cloakWindow =
-                    window.open(
-                        "about:blank",
-                        "_blank"
-                    );
-
-                if (!cloakWindow) {
-
-                    alert(
-                        "Your browser blocked the popup. Allow popups for this site."
-                    );
-
-                    this.checked = false;
-
-                    return;
-                }
-
-                cloakWindow.document.open();
-
-                cloakWindow.document.write(`
-
-                    <!DOCTYPE html>
-
-                    <html>
-
-                    <head>
-
-                        <title>about:blank</title>
-
-                        <style>
-
-                            html,
-                            body {
-
-                                margin: 0;
-                                padding: 0;
-
-                                width: 100%;
-                                height: 100%;
-
-                                overflow: hidden;
-
-                                background: black;
-
-                            }
-
-                            iframe {
-
-                                width: 100%;
-                                height: 100%;
-
-                                border: none;
-
-                            }
-
-                        </style>
-
-                    </head>
-
-                    <body>
-
-                        <iframe
-                            src="${currentURL}"
-                            allowfullscreen>
-                        </iframe>
-
-                    </body>
-
-                    </html>
-
-                `);
-
-                cloakWindow.document.close();
-
-            }
-        );
-
-
-        /* =========================
-           FULL SCREEN
-           ========================= */
-
-        quickFullscreen.addEventListener(
-            "change",
-            function() {
-
-                if (this.checked) {
-
-                    if (
-                        document.documentElement
-                            .requestFullscreen
-                    ) {
-
-                        document.documentElement
-                            .requestFullscreen();
-
-                    }
-
-                } else {
-
-                    if (document.fullscreenElement) {
-
-                        document.exitFullscreen();
-
-                    }
-
-                }
-
-            }
-        );
-
-
-        document.addEventListener(
-            "fullscreenchange",
-            function() {
-
-                quickFullscreen.checked =
-                    !!document.fullscreenElement;
-
-            }
-        );
-
-
-        /* =========================
-           BACKGROUND DOTS
-           ========================= */
-
-        function createBackgroundDots() {
-
-            backgroundDots.innerHTML = "";
-
-            for (let i = 0; i < 45; i++) {
-
-                const dot =
-                    document.createElement("span");
-
-                dot.className =
-                    "background-dot";
-
-                const size =
-                    Math.floor(Math.random() * 7) + 3;
-
-                const x =
-                    Math.floor(Math.random() * 80) - 40;
-
-                const y =
-                    Math.floor(Math.random() * 80) - 40;
-
-                const duration =
-                    (Math.random() * 5 + 5).toFixed(2) + "s";
-
-                const delay =
-                    (Math.random() * -8).toFixed(2) + "s";
-
-                dot.style.width =
-                    size + "px";
-
-                dot.style.height =
-                    size + "px";
-
-                dot.style.left =
-                    Math.random() * 100 + "%";
-
-                dot.style.top =
-                    Math.random() * 100 + "%";
-
-                dot.style.setProperty(
-                    "--dot-x",
-                    x + "px"
-                );
-
-                dot.style.setProperty(
-                    "--dot-y",
-                    y + "px"
-                );
-
-                dot.style.setProperty(
-                    "--dot-duration",
-                    duration
-                );
-
-                dot.style.setProperty(
-                    "--dot-delay",
-                    delay
-                );
-
-                backgroundDots.appendChild(dot);
-            }
-        }
-
-        createBackgroundDots();
-
-        let backgroundDotsEnabled =
-            localStorage.getItem("backgroundDots")
-            !== "false";
-
-        quickBackgroundDots.checked =
-            backgroundDotsEnabled;
-
-        if (!backgroundDotsEnabled) {
-
-            backgroundDots.classList.add(
-                "hidden"
+        const username =
+            localStorage.getItem(
+                "sigmaJelloUsername"
             );
 
-        }
 
-        quickBackgroundDots.addEventListener(
-            "change",
-            function() {
-
-                backgroundDotsEnabled =
-                    this.checked;
-
-                localStorage.setItem(
-                    "backgroundDots",
-                    backgroundDotsEnabled
-                );
-
-                if (backgroundDotsEnabled) {
-
-                    backgroundDots.classList.remove(
-                        "hidden"
-                    );
-
-                } else {
-
-                    backgroundDots.classList.add(
-                        "hidden"
-                    );
-
-                }
-
-            }
-        );
+        const totalTime =
+            Number(
+                localStorage.getItem(
+                    "sigmaJelloTotalTime"
+                )
+            ) || 0;
 
 
-        /* =========================
-           FALLING SNOW
-           ========================= */
+        profileTitle.textContent =
+            username + "'s Profile";
 
-        function createSnow() {
 
-            snowContainer.innerHTML = "";
+        profileUsername.textContent =
+            username;
 
-            for (let i = 0; i < 90; i++) {
 
-                const snowflake =
-                    document.createElement("span");
-
-                snowflake.className =
-                    "snowflake";
-
-                snowflake.textContent =
-                    Math.random() > 0.35 ? "•" : "❄";
-
-                const size =
-                    Math.floor(Math.random() * 9) + 5;
-
-                const duration =
-                    (Math.random() * 8 + 7).toFixed(2) + "s";
-
-                const delay =
-                    (Math.random() * -15).toFixed(2) + "s";
-
-                const drift =
-                    Math.floor(Math.random() * 180) - 90;
-
-                const opacity =
-                    (Math.random() * 0.45 + 0.35).toFixed(2);
-
-                snowflake.style.left =
-                    Math.random() * 100 + "%";
-
-                snowflake.style.top =
-                    -(Math.random() * 100 + 20) + "px";
-
-                snowflake.style.fontSize =
-                    size + "px";
-
-                snowflake.style.setProperty(
-                    "--snow-duration",
-                    duration
-                );
-
-                snowflake.style.setProperty(
-                    "--snow-delay",
-                    delay
-                );
-
-                snowflake.style.setProperty(
-                    "--snow-drift",
-                    drift + "px"
-                );
-
-                snowflake.style.setProperty(
-                    "--snow-opacity",
-                    opacity
-                );
-
-                snowContainer.appendChild(
-                    snowflake
-                );
-
-            }
-
-        }
-
-        createSnow();
-
-        let snowEnabled =
-            localStorage.getItem("fallingSnow")
-            === "true";
-
-        quickSnow.checked =
-            snowEnabled;
-
-        if (snowEnabled) {
-
-            snowContainer.classList.remove(
-                "hidden"
+        profileTime.textContent =
+            formatProfileTime(
+                totalTime / 1000
             );
 
-        }
 
-        quickSnow.addEventListener(
-            "change",
-            function() {
-
-                snowEnabled =
-                    this.checked;
-
-                localStorage.setItem(
-                    "fallingSnow",
-                    snowEnabled
-                );
-
-                if (snowEnabled) {
-
-                    snowContainer.classList.remove(
-                        "hidden"
-                    );
-
-                } else {
-
-                    snowContainer.classList.add(
-                        "hidden"
-                    );
-
-                }
-
-            }
+        profilePopup.classList.add(
+            "show"
         );
 
+    }
 
-        /* =========================
-           MOUSE BACKGROUND MOVEMENT
-           ========================= */
 
-        let mouseBackgroundEnabled =
-            localStorage.getItem("mouseBackground")
-            !== "false";
+    function closeProfilePopup() {
 
-        quickMouseBackground.checked =
-            mouseBackgroundEnabled;
+        profilePopup.classList.remove(
+            "show"
+        );
 
-        document.addEventListener(
-            "mousemove",
+    }
+
+
+    updateUserDisplay();
+
+
+    setInterval(
+        function() {
+
+            updateTotalTime();
+
+        },
+        1000
+    );
+
+
+    /* =========================
+       LOGIN EVENTS
+       ========================= */
+
+    usernameInput.addEventListener(
+        "keydown",
+        function(event) {
+
+            if (
+                event.key === "Enter"
+            ) {
+
+                signIn();
+
+            }
+
+        }
+    );
+
+
+    usernameInput.addEventListener(
+        "input",
+        function() {
+
+            loginError.style.display =
+                "none";
+
+        }
+    );
+
+
+    loginPopup.addEventListener(
+        "click",
+        function(event) {
+
+            if (
+                event.target === loginPopup
+            ) {
+
+                closeLoginPopup();
+
+            }
+
+        }
+    );
+
+
+    profilePopup.addEventListener(
+        "click",
+        function(event) {
+
+            if (
+                event.target === profilePopup
+            ) {
+
+                closeProfilePopup();
+
+            }
+
+        }
+    );
+
+
+    window.addEventListener(
+        "beforeunload",
+        function() {
+
+            updateTotalTime();
+
+        }
+    );
+
+
+    /* =========================
+       NO TAB CLOSE
+       ========================= */
+
+    function enableNoTabClose() {
+
+        window.onbeforeunload =
             function(event) {
-
-                if (!mouseBackgroundEnabled) {
-                    return;
-                }
-
-                const x =
-                    (event.clientX / window.innerWidth)
-                    - 0.5;
-
-                const y =
-                    (event.clientY / window.innerHeight)
-                    - 0.5;
-
-                const moveX =
-                    x * 35;
-
-                const moveY =
-                    y * 35;
-
-                background.style.transform =
-                    `translate(${moveX}px, ${moveY}px)`;
-
-            }
-        );
-
-
-        quickMouseBackground.addEventListener(
-            "change",
-            function() {
-
-                mouseBackgroundEnabled =
-                    this.checked;
-
-                localStorage.setItem(
-                    "mouseBackground",
-                    mouseBackgroundEnabled
-                );
-
-                if (!mouseBackgroundEnabled) {
-
-                    background.style.transform =
-                        "translate(0px, 0px)";
-
-                }
-
-            }
-        );
-
-
-        /* =========================
-           MUSIC PLAYER
-           ========================= */
-
-        const musicPopup =
-            document.getElementById("musicPopup");
-
-        const musicAudio =
-            document.getElementById("musicAudio");
-
-        const musicNowPlaying =
-            document.getElementById("musicNowPlaying");
-
-        const musicProgress =
-            document.getElementById("musicProgress");
-
-        const musicCurrentTime =
-            document.getElementById("musicCurrentTime");
-
-        const musicDuration =
-            document.getElementById("musicDuration");
-
-        const musicPlay =
-            document.getElementById("musicPlay");
-
-        const musicPrevious =
-            document.getElementById("musicPrevious");
-
-        const musicNext =
-            document.getElementById("musicNext");
-
-        const musicShuffle =
-            document.getElementById("musicShuffle");
-
-        const musicRepeat =
-            document.getElementById("musicRepeat");
-
-        const musicVolume =
-            document.getElementById("musicVolume");
-
-        const musicSearch =
-            document.getElementById("musicSearch");
-
-        const musicList =
-            document.getElementById("musicList");
-
-
-        const songs = [
-
-            "1. Bad Boy OG.mp3",
-            "1. Matt Hardy 999 OG.mp3",
-            "10. Boomerang.mp3",
-            "10. Nuketown OG.mp3",
-            "11. Blue Cash.mp3",
-            "2. Back And Forth (Stumblin_).mp3",
-            "2. Baguettes.mp3",
-            "2. Tell Me You Love Me OG.mp3",
-            "3. Bity.mp3",
-            "3. Trifling.mp3",
-            "3. Vicehurt (R.I.P. Jahseh).mp3",
-            "4. Hey Mister.mp3",
-            "4. Infrared.mp3",
-            "4. No Jumper (I Wonder Why).mp3",
-            "5. Knuck If You Buck.mp3",
-            "6. 2 Seats (Both Sides).mp3",
-            "6. Takeover.mp3",
-            "6. Wake Up!.mp3",
-            "7. Catch Up (Osama).mp3",
-            "7. Sky High.mp3",
-            "8. Knight Crawler OG.mp3",
-            "9. Bye Bye Baby.mp3",
-            "9. U Can_t Tell Me.mp3",
-            "Bottle.mp3",
-            "Burner.mp3",
-            "Cake - Juice WRLD .mp3",
-            "Call Me Whenever - Juice WRLD .mp3",
-            "Cursed.mp3",
-            "Dark Tints - Juice WRLD.mp3",
-            "Elevate - Juice WRLD.mp3",
-            "Emotional Overdose.mp3",
-            "Fall in love - Juice WRLD.mp3",
-            "Happy Life - Juice WRLD.mp3",
-            "Hypnotic.mp3",
-            "In The Mix (Be Here) - Juice WRLD.mp3",
-            "Tic Tac Toe - Juice WRLD.mp3",
-            "Usd - Juice WRLD.mp3",
-            "cali girl.mp3"
-
-        ];
-
-
-        let currentSongIndex = 0;
-        let isShuffle = false;
-        let isRepeat = false;
-
-
-        function formatTime(seconds) {
-
-            if (!isFinite(seconds)) {
-                return "0:00";
-            }
-
-            const minutes =
-                Math.floor(seconds / 60);
-
-            const remaining =
-                Math.floor(seconds % 60)
-                    .toString()
-                    .padStart(2, "0");
-
-            return minutes + ":" + remaining;
-
-        }
-
-
-        function loadSong(index, autoplay = false) {
-
-            if (!songs.length) {
-                return;
-            }
-
-            currentSongIndex =
-                (index + songs.length) % songs.length;
-
-            const song =
-                songs[currentSongIndex];
-
-            musicAudio.src =
-                "music/" +
-                encodeURIComponent(song);
-
-            musicNowPlaying.textContent =
-                song.replace(".mp3", "");
-
-            renderMusicList();
-
-            if (autoplay) {
-
-                musicAudio.play().catch(function() {});
-
-            }
-
-            updateMusicPlayButton();
-
-        }
-
-
-        function playPauseMusic() {
-
-            if (!musicAudio.src) {
-
-                loadSong(currentSongIndex, true);
-
-                return;
-
-            }
-
-            if (musicAudio.paused) {
-
-                musicAudio.play().catch(function() {});
-
-            } else {
-
-                musicAudio.pause();
-
-            }
-
-        }
-
-
-        function updateMusicPlayButton() {
-
-            musicPlay.textContent =
-                musicAudio.paused ? "▶" : "❚❚";
-
-        }
-
-
-        function playNextSong() {
-
-            if (isShuffle && songs.length > 1) {
-
-                let nextIndex;
-
-                do {
-
-                    nextIndex =
-                        Math.floor(
-                            Math.random() * songs.length
-                        );
-
-                } while (
-                    nextIndex === currentSongIndex
-                );
-
-                loadSong(nextIndex, true);
-
-            } else {
-
-                loadSong(
-                    currentSongIndex + 1,
-                    true
-                );
-
-            }
-
-        }
-
-
-        function playPreviousSong() {
-
-            if (musicAudio.currentTime > 3) {
-
-                musicAudio.currentTime = 0;
-
-                return;
-
-            }
-
-            loadSong(
-                currentSongIndex - 1,
-                true
-            );
-
-        }
-
-
-        function renderMusicList() {
-
-            const search =
-                musicSearch.value
-                    .toLowerCase()
-                    .trim();
-
-            musicList.innerHTML = "";
-
-            const filteredSongs =
-                songs
-                    .map(function(song, index) {
-
-                        return {
-                            song: song,
-                            index: index
-                        };
-
-                    })
-                    .filter(function(item) {
-
-                        return item.song
-                            .toLowerCase()
-                            .includes(search);
-
-                    });
-
-
-            if (!filteredSongs.length) {
-
-                musicList.innerHTML =
-                    '<div class="music-empty">No songs found</div>';
-
-                return;
-
-            }
-
-
-            filteredSongs.forEach(function(item) {
-
-                const songElement =
-                    document.createElement("div");
-
-                songElement.className =
-                    "music-song";
-
-                if (
-                    item.index === currentSongIndex
-                ) {
-
-                    songElement.classList.add(
-                        "active"
-                    );
-
-                }
-
-                songElement.textContent =
-                    item.song.replace(".mp3", "");
-
-                songElement.onclick =
-                    function() {
-
-                        loadSong(
-                            item.index,
-                            true
-                        );
-
-                    };
-
-                musicList.appendChild(
-                    songElement
-                );
-
-            });
-
-        }
-
-
-        function openMusicPopup() {
-
-            quickSettings.classList.remove(
-                "show"
-            );
-
-            musicPopup.classList.add(
-                "show"
-            );
-
-            if (!musicAudio.src) {
-
-                loadSong(
-                    currentSongIndex,
-                    false
-                );
-
-            }
-
-        }
-
-
-        function closeMusicPopup() {
-
-            musicPopup.classList.remove(
-                "show"
-            );
-
-        }
-
-
-        musicPlay.addEventListener(
-            "click",
-            playPauseMusic
-        );
-
-
-        musicPrevious.addEventListener(
-            "click",
-            playPreviousSong
-        );
-
-
-        musicNext.addEventListener(
-            "click",
-            playNextSong
-        );
-
-
-        musicShuffle.addEventListener(
-            "click",
-            function() {
-
-                isShuffle =
-                    !isShuffle;
-
-                musicShuffle.style.background =
-                    isShuffle ? "#111" : "#eee";
-
-                musicShuffle.style.color =
-                    isShuffle ? "white" : "black";
-
-            }
-        );
-
-
-        musicRepeat.addEventListener(
-            "click",
-            function() {
-
-                isRepeat =
-                    !isRepeat;
-
-                musicRepeat.style.background =
-                    isRepeat ? "#111" : "#eee";
-
-                musicRepeat.style.color =
-                    isRepeat ? "white" : "black";
-
-            }
-        );
-
-
-        musicAudio.addEventListener(
-            "play",
-            updateMusicPlayButton
-        );
-
-
-        musicAudio.addEventListener(
-            "pause",
-            updateMusicPlayButton
-        );
-
-
-        musicAudio.addEventListener(
-            "ended",
-            function() {
-
-                if (isRepeat) {
-
-                    musicAudio.currentTime = 0;
-
-                    musicAudio.play().catch(
-                        function() {}
-                    );
-
-                } else {
-
-                    playNextSong();
-
-                }
-
-            }
-        );
-
-
-        musicAudio.addEventListener(
-            "loadedmetadata",
-            function() {
-
-                musicDuration.textContent =
-                    formatTime(
-                        musicAudio.duration
-                    );
-
-            }
-        );
-
-
-        musicAudio.addEventListener(
-            "timeupdate",
-            function() {
-
-                if (
-                    musicAudio.duration &&
-                    isFinite(musicAudio.duration)
-                ) {
-
-                    musicProgress.value =
-                        (
-                            musicAudio.currentTime /
-                            musicAudio.duration
-                        ) * 100;
-
-                }
-
-                musicCurrentTime.textContent =
-                    formatTime(
-                        musicAudio.currentTime
-                    );
-
-            }
-        );
-
-
-        musicProgress.addEventListener(
-            "input",
-            function() {
-
-                if (
-                    musicAudio.duration &&
-                    isFinite(musicAudio.duration)
-                ) {
-
-                    musicAudio.currentTime =
-                        (
-                            this.value / 100
-                        ) *
-                        musicAudio.duration;
-
-                }
-
-            }
-        );
-
-
-        musicVolume.addEventListener(
-            "input",
-            function() {
-
-                musicAudio.volume =
-                    this.value;
-
-            }
-        );
-
-
-        musicSearch.addEventListener(
-            "input",
-            renderMusicList
-        );
-
-
-        musicPopup.addEventListener(
-            "click",
-            function(event) {
-
-                if (
-                    event.target === musicPopup
-                ) {
-
-                    closeMusicPopup();
-
-                }
-
-            }
-        );
-
-
-        renderMusicList();
-
-
-        /* =========================
-           P KEY
-           ========================= */
-
-        window.addEventListener(
-            "keydown",
-            function(event) {
-
-                if (event.code !== "KeyP") {
-                    return;
-                }
-
-                if (event.repeat) {
-                    return;
-                }
 
                 event.preventDefault();
 
+                event.returnValue = "";
 
-                if (musicPopup.classList.contains("show")) {
+                return "";
 
-                    closeMusicPopup();
+            };
 
-                    return;
+    }
+
+
+    function disableNoTabClose() {
+
+        window.onbeforeunload =
+            null;
+
+    }
+
+
+    if (
+        localStorage.getItem(
+            "noTabClose"
+        ) === "true"
+    ) {
+
+        quickNoTabClose.checked =
+            true;
+
+        enableNoTabClose();
+
+    }
+
+
+    quickNoTabClose.addEventListener(
+        "change",
+        function() {
+
+            if (this.checked) {
+
+                localStorage.setItem(
+                    "noTabClose",
+                    "true"
+                );
+
+                enableNoTabClose();
+
+            } else {
+
+                localStorage.setItem(
+                    "noTabClose",
+                    "false"
+                );
+
+                disableNoTabClose();
+
+            }
+
+        }
+    );
+
+
+    /* =========================
+       AUTO CLOAK
+       ========================= */
+
+    quickAutoCloak.addEventListener(
+        "change",
+        function() {
+
+            if (!this.checked) {
+                return;
+            }
+
+
+            const currentURL =
+                window.location.href;
+
+
+            const cloakWindow =
+                window.open(
+                    "about:blank",
+                    "_blank"
+                );
+
+
+            if (!cloakWindow) {
+
+                alert(
+                    "Your browser blocked the popup. Allow popups for this site."
+                );
+
+                this.checked =
+                    false;
+
+                return;
+
+            }
+
+
+            cloakWindow.document.open();
+
+
+            cloakWindow.document.write(`
+
+                <!DOCTYPE html>
+
+                <html>
+
+                <head>
+
+                    <title>
+                        about:blank
+                    </title>
+
+                    <style>
+
+                        html,
+                        body {
+
+                            margin: 0;
+                            padding: 0;
+
+                            width: 100%;
+                            height: 100%;
+
+                            overflow: hidden;
+
+                            background: black;
+
+                        }
+
+                        iframe {
+
+                            width: 100%;
+                            height: 100%;
+
+                            border: none;
+
+                        }
+
+                    </style>
+
+                </head>
+
+                <body>
+
+                    <iframe
+                        src="${currentURL}"
+                        allowfullscreen>
+                    </iframe>
+
+                </body>
+
+                </html>
+
+            `);
+
+
+            cloakWindow.document.close();
+
+        }
+    );
+
+
+    /* =========================
+       FULL SCREEN
+       ========================= */
+
+    quickFullscreen.addEventListener(
+        "change",
+        function() {
+
+            if (this.checked) {
+
+                if (
+                    document
+                        .documentElement
+                        .requestFullscreen
+                ) {
+
+                    document
+                        .documentElement
+                        .requestFullscreen();
 
                 }
 
+            } else {
 
-                quickSettings.classList.toggle(
+                if (
+                    document.fullscreenElement
+                ) {
+
+                    document.exitFullscreen();
+
+                }
+
+            }
+
+        }
+    );
+
+
+    document.addEventListener(
+        "fullscreenchange",
+        function() {
+
+            quickFullscreen.checked =
+                !!document.fullscreenElement;
+
+        }
+    );
+
+
+    /* =========================
+       BACKGROUND DOTS
+       ========================= */
+
+    function createBackgroundDots() {
+
+        backgroundDots.innerHTML =
+            "";
+
+
+        for (
+            let i = 0;
+            i < 45;
+            i++
+        ) {
+
+            const dot =
+                document.createElement(
+                    "span"
+                );
+
+
+            dot.className =
+                "background-dot";
+
+
+            const size =
+                Math.floor(
+                    Math.random() * 7
+                ) + 3;
+
+
+            const x =
+                Math.floor(
+                    Math.random() * 80
+                ) - 40;
+
+
+            const y =
+                Math.floor(
+                    Math.random() * 80
+                ) - 40;
+
+
+            const duration =
+                (
+                    Math.random() * 5 + 5
+                ).toFixed(2) + "s";
+
+
+            const delay =
+                (
+                    Math.random() * -8
+                ).toFixed(2) + "s";
+
+
+            dot.style.width =
+                size + "px";
+
+
+            dot.style.height =
+                size + "px";
+
+
+            dot.style.left =
+                Math.random() * 100 + "%";
+
+
+            dot.style.top =
+                Math.random() * 100 + "%";
+
+
+            dot.style.setProperty(
+                "--dot-x",
+                x + "px"
+            );
+
+
+            dot.style.setProperty(
+                "--dot-y",
+                y + "px"
+            );
+
+
+            dot.style.setProperty(
+                "--dot-duration",
+                duration
+            );
+
+
+            dot.style.setProperty(
+                "--dot-delay",
+                delay
+            );
+
+
+            backgroundDots.appendChild(
+                dot
+            );
+
+        }
+
+    }
+
+
+    createBackgroundDots();
+
+
+    let backgroundDotsEnabled =
+        localStorage.getItem(
+            "backgroundDots"
+        ) !== "false";
+
+
+    quickBackgroundDots.checked =
+        backgroundDotsEnabled;
+
+
+    if (!backgroundDotsEnabled) {
+
+        backgroundDots.classList.add(
+            "hidden"
+        );
+
+    }
+
+
+    quickBackgroundDots.addEventListener(
+        "change",
+        function() {
+
+            backgroundDotsEnabled =
+                this.checked;
+
+
+            localStorage.setItem(
+                "backgroundDots",
+                backgroundDotsEnabled
+            );
+
+
+            if (
+                backgroundDotsEnabled
+            ) {
+
+                backgroundDots.classList.remove(
+                    "hidden"
+                );
+
+            } else {
+
+                backgroundDots.classList.add(
+                    "hidden"
+                );
+
+            }
+
+        }
+    );
+
+
+    /* =========================
+       FALLING SNOW
+       ========================= */
+
+    function createSnow() {
+
+        snowContainer.innerHTML =
+            "";
+
+
+        for (
+            let i = 0;
+            i < 90;
+            i++
+        ) {
+
+            const snowflake =
+                document.createElement(
+                    "span"
+                );
+
+
+            snowflake.className =
+                "snowflake";
+
+
+            snowflake.textContent =
+                Math.random() > 0.35
+                    ? "•"
+                    : "❄";
+
+
+            const size =
+                Math.floor(
+                    Math.random() * 9
+                ) + 5;
+
+
+            const duration =
+                (
+                    Math.random() * 8 + 7
+                ).toFixed(2) + "s";
+
+
+            const delay =
+                (
+                    Math.random() * -15
+                ).toFixed(2) + "s";
+
+
+            const drift =
+                Math.floor(
+                    Math.random() * 180
+                ) - 90;
+
+
+            const opacity =
+                (
+                    Math.random() * 0.45 + 0.35
+                ).toFixed(2);
+
+
+            snowflake.style.left =
+                Math.random() * 100 + "%";
+
+
+            snowflake.style.top =
+                -(
+                    Math.random() * 100 + 20
+                ) + "px";
+
+
+            snowflake.style.fontSize =
+                size + "px";
+
+
+            snowflake.style.setProperty(
+                "--snow-duration",
+                duration
+            );
+
+
+            snowflake.style.setProperty(
+                "--snow-delay",
+                delay
+            );
+
+
+            snowflake.style.setProperty(
+                "--snow-drift",
+                drift + "px"
+            );
+
+
+            snowflake.style.setProperty(
+                "--snow-opacity",
+                opacity
+            );
+
+
+            snowContainer.appendChild(
+                snowflake
+            );
+
+        }
+
+    }
+
+
+    createSnow();
+
+
+    let snowEnabled =
+        localStorage.getItem(
+            "fallingSnow"
+        ) === "true";
+
+
+    quickSnow.checked =
+        snowEnabled;
+
+
+    if (snowEnabled) {
+
+        snowContainer.classList.remove(
+            "hidden"
+        );
+
+    }
+
+
+    quickSnow.addEventListener(
+        "change",
+        function() {
+
+            snowEnabled =
+                this.checked;
+
+
+            localStorage.setItem(
+                "fallingSnow",
+                snowEnabled
+            );
+
+
+            if (snowEnabled) {
+
+                snowContainer.classList.remove(
+                    "hidden"
+                );
+
+            } else {
+
+                snowContainer.classList.add(
+                    "hidden"
+                );
+
+            }
+
+        }
+    );
+
+
+    /* =========================
+       MOUSE BACKGROUND MOVEMENT
+       ========================= */
+
+    let mouseBackgroundEnabled =
+        localStorage.getItem(
+            "mouseBackground"
+        ) !== "false";
+
+
+    quickMouseBackground.checked =
+        mouseBackgroundEnabled;
+
+
+    document.addEventListener(
+        "mousemove",
+        function(event) {
+
+            if (
+                !mouseBackgroundEnabled
+            ) {
+
+                return;
+
+            }
+
+
+            const x =
+                (
+                    event.clientX /
+                    window.innerWidth
+                ) - 0.5;
+
+
+            const y =
+                (
+                    event.clientY /
+                    window.innerHeight
+                ) - 0.5;
+
+
+            const moveX =
+                x * 35;
+
+
+            const moveY =
+                y * 35;
+
+
+            background.style.transform =
+                `translate(${moveX}px, ${moveY}px)`;
+
+        }
+    );
+
+
+    quickMouseBackground.addEventListener(
+        "change",
+        function() {
+
+            mouseBackgroundEnabled =
+                this.checked;
+
+
+            localStorage.setItem(
+                "mouseBackground",
+                mouseBackgroundEnabled
+            );
+
+
+            if (
+                !mouseBackgroundEnabled
+            ) {
+
+                background.style.transform =
+                    "translate(0px, 0px)";
+
+            }
+
+        }
+    );
+
+
+    /* =========================
+       P KEY
+       ========================= */
+
+    window.addEventListener(
+        "keydown",
+        function(event) {
+
+            if (
+                event.code !== "KeyP"
+            ) {
+
+                return;
+
+            }
+
+
+            if (event.repeat) {
+                return;
+            }
+
+
+            event.preventDefault();
+
+
+            quickSettings.classList.toggle(
+                "show"
+            );
+
+        }
+    );
+
+
+    /* =========================
+       CLICK OUTSIDE
+       ========================= */
+
+    quickSettings.addEventListener(
+        "click",
+        function(event) {
+
+            if (
+                event.target ===
+                quickSettings
+            ) {
+
+                quickSettings.classList.remove(
                     "show"
                 );
 
             }
-        );
 
+        }
+    );
 
-        /* =========================
-           CLICK OUTSIDE QUICK SETTINGS
-           ========================= */
-
-        quickSettings.addEventListener(
-            "click",
-            function(event) {
-
-                if (
-                    event.target === quickSettings
-                ) {
-
-                    quickSettings.classList.remove(
-                        "show"
-                    );
-
-                }
-
-            }
-        );
-
-    </script>
+</script>
 </body>
 </html>
