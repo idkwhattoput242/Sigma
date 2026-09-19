@@ -97,7 +97,7 @@
                                             [
                                                 decodeURIComponent(
                                                     atob(
-                                                        'JTNDIURPQ1RZUEUlMjBodG1sJTNFJTNDaHRtbCUzRSUzQ2hlYWQlM0UlM0NtZXRhJTIwaHR0cC1lcXVpdiUzRCUyMnJlZnJlc2glMjIlMjBjb250ZW50JTNEJTIyMSUzQlVSTCUzRGh0dHBzJTNBJTJGJTJGcmV0cm9waWUub3JnLnVrJTJGZG9jcyUyRlJldHJvQXJjaC1Db25maWd1cmF0aW9uJTJGJTIzZGVmYXVsdC1jb3JlLWNvbnRyb2xzLWZvci1hbGwtZW11bGF0b3JzJTIyJTNFJTNDdGl0bGUlM0VSZWRpcmVjdGluZyUzQyUyRnRpdGxlJTNFJTNDJTJGaGVhZCUzRSUzQ2JvZHklM0UlM0NoMiUzRVJlZGlyZWN0aW5nLi4uJTNDJTJGaDIlM0UlM0MlMkZib2R5JTNFJTNDJTJGaHRtbCUzRQ=='
+                                                        'JTNDIURPQ1RZUEUlMjBodG1sJTNFJTNDaHRtbCUzRSUzQ2hlYWQlM0UlM0NtZXRhJTIwaHR0cC1lcXVpdiUzRCUyMnJlZnJlc2glMjIlMjBjb250ZW50JTNEJTIyMSUzQlVSTCUzRGh0dHBzJTNBJTJGJTJGcmV0cm9waWUub3JnLnVrJTJGZG9jcyUyRlJldHJvQXJjaC1Db25maWd1cmF0aW9uJTJGJTIzZGVmYXVsdC1jb3JlLWNvbnRyb2xzLWZvci1hbGwtZW11bGF0b3JzJTIyJTNFJTNDdGl0bGUlM0VSZWRpcmVjdGluZyUzQyUyRnRpdGxlJTNFJTNDJTJGaGVhZCUzRSUzQ2JvZHklM0UlM0NoMiUzRVJlZGlyZWN0aW5nLi4uJTNDJTJGaDIlM0UlM0MlMkZib2R5JTNFJTNDJTJGaHRtbCUzRQ==' 
                                                     )
                                                 )
                                             ],
@@ -109,7 +109,9 @@
                                 );
                                 return false;
                             ">
+
                             System Specifics
+
                         </a>
 
                     </li>
@@ -1242,39 +1244,37 @@
 
 
     /*
-        WEBRETRO MENU
+        WEBRETRO MENU FIX
 
-        Keep the original WebRetro menu,
-        but make sure it starts closed.
+        Keep the WebRetro taskbar above
+        the emulator canvas.
+
+        IMPORTANT:
+        We do NOT use pointer-events:none
+        here because that can cause the
+        menu to stop responding after
+        a ROM starts.
     */
 
     #menubar {
 
-        z-index: 1000 !important;
+        z-index: 1000000 !important;
+
+        pointer-events: auto !important;
 
     }
 
 
-    /*
-        Prevent a closed menu from blocking
-        the emulator underneath it.
-    */
+    #menu {
 
-    #menuhider:not(:checked) ~ #menu {
-
-        pointer-events: none;
+        pointer-events: auto !important;
 
     }
 
 
-    /*
-        Allow the original WebRetro menu
-        to work normally when opened.
-    */
+    #menuhider {
 
-    #menuhider:checked ~ #menu {
-
-        pointer-events: auto;
+        pointer-events: auto !important;
 
     }
 
@@ -1672,10 +1672,56 @@
         WEBRETRO MENU FIX
         =========================
 
-        WebRetro uses #menuhider as the
-        checkbox controlling the menu.
+        WebRetro normally lets the emulator
+        take keyboard focus after a ROM loads.
 
-        Make sure it starts CLOSED.
+        That is fine.
+
+        We only make sure the taskbar itself
+        can always receive mouse input.
+    */
+
+    function fixWebRetroMenu() {
+
+        const menubar =
+            document.getElementById("menubar");
+
+        const menu =
+            document.getElementById("menu");
+
+        const menuHider =
+            document.getElementById("menuhider");
+
+
+        if (!menubar || !menu) {
+
+            return;
+
+        }
+
+
+        menubar.style.zIndex =
+            "1000000";
+
+        menubar.style.pointerEvents =
+            "auto";
+
+        menu.style.pointerEvents =
+            "auto";
+
+
+        if (menuHider) {
+
+            menuHider.style.pointerEvents =
+                "auto";
+
+        }
+
+    }
+
+
+    /*
+        Close menu.
     */
 
     function closeWebRetroMenu() {
@@ -1686,7 +1732,8 @@
 
         if (menuHider) {
 
-            menuHider.checked = false;
+            menuHider.checked =
+                false;
 
         }
 
@@ -1694,22 +1741,24 @@
 
 
     /*
-        Close the menu immediately.
+        Initial setup.
     */
+
+    fixWebRetroMenu();
 
     closeWebRetroMenu();
 
 
     /*
-        WebRetro can initialize parts of
-        the interface after the HTML loads.
-
-        Close the menu again after loading.
+        WebRetro finishes initializing
+        after the page loads.
     */
 
     window.addEventListener(
         "load",
         function() {
+
+            fixWebRetroMenu();
 
             closeWebRetroMenu();
 
@@ -1718,14 +1767,14 @@
 
 
     /*
-        Additional safety delays for
-        ?core=opera and other core URLs.
+        ROM loading can modify the UI,
+        so reinforce the menu after startup.
     */
 
     setTimeout(
         function() {
 
-            closeWebRetroMenu();
+            fixWebRetroMenu();
 
         },
         500
@@ -1735,11 +1784,54 @@
     setTimeout(
         function() {
 
-            closeWebRetroMenu();
+            fixWebRetroMenu();
 
         },
         1500
     );
+
+
+    setTimeout(
+        function() {
+
+            fixWebRetroMenu();
+
+        },
+        3000
+    );
+
+
+    /*
+        If WebRetro replaces/rebuilds part of
+        the interface, automatically restore
+        the taskbar settings.
+    */
+
+    const webRetroMenuObserver =
+        new MutationObserver(
+            function() {
+
+                fixWebRetroMenu();
+
+            }
+        );
+
+
+    const mainArea =
+        document.getElementById("mainarea");
+
+
+    if (mainArea) {
+
+        webRetroMenuObserver.observe(
+            mainArea,
+            {
+                childList: true,
+                subtree: true
+            }
+        );
+
+    }
 
 </script>
 
