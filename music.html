@@ -194,10 +194,15 @@
             width: 150px;
         }
 
+        /* =========================
+           LIBRARY
+           ========================= */
+
         .library-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
+            gap: 12px;
             margin: 18px 0 10px;
             color: white;
         }
@@ -207,9 +212,89 @@
             font-weight: bold;
         }
 
+        .library-header-left {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .import-help {
+            color: #bbb;
+            font-size: 11px;
+        }
+
+        .library-header-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
         .song-count {
             font-size: 13px;
             color: #ccc;
+        }
+
+        .import-button {
+            border: none;
+            border-radius: 7px;
+            padding: 9px 13px;
+            background: white;
+            color: black;
+            font-weight: bold;
+            cursor: pointer;
+            transition:
+                background 0.15s ease,
+                transform 0.15s ease;
+        }
+
+        .import-button:hover {
+            background: #ddd;
+            transform: translateY(-1px);
+        }
+
+        .imported-badge {
+            display: inline-block;
+            margin-left: 8px;
+            padding: 3px 6px;
+            border-radius: 4px;
+            background: #ddd;
+            color: #555;
+            font-size: 9px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            vertical-align: middle;
+        }
+
+        .song.playing .imported-badge {
+            background: #333;
+            color: #ccc;
+        }
+
+        .remove-imported-button {
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: transparent;
+            color: #777;
+            font-size: 17px;
+            cursor: pointer;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .remove-imported-button:hover {
+            background: rgba(0, 0, 0, 0.08);
+            color: #b00000;
+        }
+
+        .song.playing .remove-imported-button {
+            color: #aaa;
+        }
+
+        .song.playing .remove-imported-button:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.12);
         }
 
         .search {
@@ -858,6 +943,20 @@
             .song-number {
                 width: 28px;
             }
+
+            .library-header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .library-header-right {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .import-button {
+                flex: 1;
+            }
         }
     </style>
 </head>
@@ -988,16 +1087,44 @@
 
         <div class="library-header">
 
-            <span class="library-title">
-                Library
-            </span>
+            <div class="library-header-left">
 
-            <span
-                id="songCount"
-                class="song-count"
-            >
-                0 songs
-            </span>
+                <span class="library-title">
+                    Library
+                </span>
+
+                <span class="import-help">
+                    Import your own MP3 files
+                </span>
+
+            </div>
+
+            <div class="library-header-right">
+
+                <span
+                    id="songCount"
+                    class="song-count"
+                >
+                    0 songs
+                </span>
+
+                <button
+                    id="importButton"
+                    class="import-button"
+                    type="button"
+                >
+                    + Import MP3
+                </button>
+
+                <input
+                    id="mp3FileInput"
+                    type="file"
+                    accept=".mp3,audio/mpeg"
+                    multiple
+                    style="display: none;"
+                >
+
+            </div>
 
         </div>
 
@@ -1203,16 +1330,6 @@
            MUSIC PAGE
            ========================= */
 
-        /*
-         * Jello Music is designed to run both:
-         *
-         * 1. Normally as music.html
-         * 2. Inside the about:blank Jello Music window
-         *
-         * The parent Sigma Jello page handles opening
-         * the about:blank window.
-         */
-
         function getSigmaHomeURL() {
 
             return new URL(
@@ -1234,7 +1351,7 @@
            SONG LIBRARY
            ========================= */
 
-        const songs = [
+        let songs = [
 
             "1. Bad Boy OG.mp3",
             "1. Matt Hardy 999 OG.mp3",
@@ -1299,6 +1416,609 @@
             "juice wrld bloody blade unreleased.mp3"
 
         ];
+
+        /* =========================
+           IMPORTED MP3 STORAGE
+           ========================= */
+
+        const importedSongURLs = {};
+
+        const importedSongKeys = new Set();
+
+        const IMPORTED_DB_NAME =
+            "JelloMusicDatabase";
+
+        const IMPORTED_DB_VERSION = 1;
+
+        const IMPORTED_STORE_NAME =
+            "mp3Files";
+
+        let importedDB = null;
+
+        function openImportedDatabase() {
+
+            return new Promise(
+                function(resolve, reject) {
+
+                    if (importedDB) {
+                        resolve(importedDB);
+                        return;
+                    }
+
+                    if (!window.indexedDB) {
+
+                        reject(
+                            new Error(
+                                "IndexedDB is not supported by this browser."
+                            )
+                        );
+
+                        return;
+                    }
+
+                    const request =
+                        indexedDB.open(
+                            IMPORTED_DB_NAME,
+                            IMPORTED_DB_VERSION
+                        );
+
+                    request.onupgradeneeded =
+                        function(event) {
+
+                            const db =
+                                event.target.result;
+
+                            if (
+                                !db.objectStoreNames.contains(
+                                    IMPORTED_STORE_NAME
+                                )
+                            ) {
+
+                                db.createObjectStore(
+                                    IMPORTED_STORE_NAME,
+                                    {
+                                        keyPath: "id"
+                                    }
+                                );
+
+                            }
+
+                        };
+
+                    request.onsuccess =
+                        function(event) {
+
+                            importedDB =
+                                event.target.result;
+
+                            resolve(importedDB);
+
+                        };
+
+                    request.onerror =
+                        function() {
+
+                            reject(
+                                request.error
+                            );
+
+                        };
+
+                }
+            );
+        }
+
+        function saveImportedMP3(
+            id,
+            name,
+            blob
+        ) {
+
+            return openImportedDatabase()
+                .then(
+                    function(db) {
+
+                        return new Promise(
+                            function(resolve, reject) {
+
+                                const transaction =
+                                    db.transaction(
+                                        IMPORTED_STORE_NAME,
+                                        "readwrite"
+                                    );
+
+                                const store =
+                                    transaction.objectStore(
+                                        IMPORTED_STORE_NAME
+                                    );
+
+                                store.put({
+                                    id: id,
+                                    name: name,
+                                    blob: blob
+                                });
+
+                                transaction.oncomplete =
+                                    function() {
+                                        resolve();
+                                    };
+
+                                transaction.onerror =
+                                    function() {
+                                        reject(
+                                            transaction.error
+                                        );
+                                    };
+
+                            }
+                        );
+
+                    }
+                );
+        }
+
+        function loadImportedMP3s() {
+
+            return openImportedDatabase()
+                .then(
+                    function(db) {
+
+                        return new Promise(
+                            function(resolve, reject) {
+
+                                const transaction =
+                                    db.transaction(
+                                        IMPORTED_STORE_NAME,
+                                        "readonly"
+                                    );
+
+                                const store =
+                                    transaction.objectStore(
+                                        IMPORTED_STORE_NAME
+                                    );
+
+                                const request =
+                                    store.getAll();
+
+                                request.onsuccess =
+                                    function() {
+
+                                        resolve(
+                                            request.result || []
+                                        );
+
+                                    };
+
+                                request.onerror =
+                                    function() {
+
+                                        reject(
+                                            request.error
+                                        );
+
+                                    };
+
+                            }
+                        );
+
+                    }
+                );
+        }
+
+        function deleteImportedMP3(id) {
+
+            return openImportedDatabase()
+                .then(
+                    function(db) {
+
+                        return new Promise(
+                            function(resolve, reject) {
+
+                                const transaction =
+                                    db.transaction(
+                                        IMPORTED_STORE_NAME,
+                                        "readwrite"
+                                    );
+
+                                const store =
+                                    transaction.objectStore(
+                                        IMPORTED_STORE_NAME
+                                    );
+
+                                store.delete(id);
+
+                                transaction.oncomplete =
+                                    function() {
+                                        resolve();
+                                    };
+
+                                transaction.onerror =
+                                    function() {
+                                        reject(
+                                            transaction.error
+                                        );
+                                    };
+
+                            }
+                        );
+
+                    }
+                );
+        }
+
+        function createImportedSongID(
+            name
+        ) {
+
+            let id =
+                "imported:" + name;
+
+            let number = 2;
+
+            while (
+                importedSongKeys.has(id) ||
+                songs.includes(name)
+            ) {
+
+                id =
+                    "imported:" +
+                    name +
+                    " (" +
+                    number +
+                    ")";
+
+                number++;
+
+            }
+
+            return id;
+        }
+
+        async function importMP3Files(files) {
+
+            const mp3Files =
+                files.filter(
+                    function(file) {
+
+                        return (
+                            file.type === "audio/mpeg" ||
+                            /\.mp3$/i.test(file.name)
+                        );
+
+                    }
+                );
+
+            if (
+                mp3Files.length === 0
+            ) {
+
+                alert(
+                    "Please select MP3 files."
+                );
+
+                return;
+            }
+
+            let importedCount = 0;
+
+            for (
+                const file of mp3Files
+            ) {
+
+                try {
+
+                    const id =
+                        createImportedSongID(
+                            file.name
+                        );
+
+                    await saveImportedMP3(
+                        id,
+                        file.name,
+                        file
+                    );
+
+                    const objectURL =
+                        URL.createObjectURL(
+                            file
+                        );
+
+                    importedSongURLs[id] =
+                        objectURL;
+
+                    importedSongKeys.add(id);
+
+                    songs.push(id);
+
+                    importedCount++;
+
+                } catch (error) {
+
+                    console.error(
+                        "Could not import:",
+                        file.name,
+                        error
+                    );
+
+                }
+
+            }
+
+            renderPlaylists();
+            renderPlaylistView();
+            renderSongs();
+
+            if (
+                importedCount === 1
+            ) {
+
+                nowPlaying.textContent =
+                    "Imported 1 MP3";
+
+            } else if (
+                importedCount > 1
+            ) {
+
+                nowPlaying.textContent =
+                    "Imported " +
+                    importedCount +
+                    " MP3s";
+
+            }
+
+        }
+
+        async function initializeImportedMP3s() {
+
+            try {
+
+                const records =
+                    await loadImportedMP3s();
+
+                records.forEach(
+                    function(record) {
+
+                        if (
+                            importedSongKeys.has(
+                                record.id
+                            )
+                        ) {
+
+                            return;
+                        }
+
+                        const objectURL =
+                            URL.createObjectURL(
+                                record.blob
+                            );
+
+                        importedSongURLs[
+                            record.id
+                        ] = objectURL;
+
+                        importedSongKeys.add(
+                            record.id
+                        );
+
+                        songs.push(
+                            record.id
+                        );
+
+                    }
+                );
+
+                renderPlaylists();
+                renderPlaylistView();
+                renderSongs();
+
+            } catch (error) {
+
+                console.error(
+                    "Could not load imported MP3s:",
+                    error
+                );
+
+            }
+        }
+
+        async function removeImportedSong(
+            index
+        ) {
+
+            const song =
+                songs[index];
+
+            if (
+                !importedSongKeys.has(song)
+            ) {
+
+                return;
+            }
+
+            const confirmed =
+                confirm(
+                    'Remove "' +
+                    getSongDisplayName(song) +
+                    '" from your imported music?'
+                );
+
+            if (!confirmed) {
+                return;
+            }
+
+            if (
+                currentIndex === index
+            ) {
+
+                audio.pause();
+                audio.removeAttribute("src");
+                audio.load();
+
+                currentIndex = -1;
+
+                nowPlaying.textContent =
+                    "Select a song";
+
+                currentTime.textContent =
+                    "0:00";
+
+                duration.textContent =
+                    "0:00";
+
+                progress.value = 0;
+
+            } else if (
+                currentIndex > index
+            ) {
+
+                currentIndex--;
+
+            }
+
+            const objectURL =
+                importedSongURLs[song];
+
+            if (objectURL) {
+
+                URL.revokeObjectURL(
+                    objectURL
+                );
+
+            }
+
+            delete importedSongURLs[song];
+
+            importedSongKeys.delete(song);
+
+            try {
+
+                await deleteImportedMP3(
+                    song
+                );
+
+            } catch (error) {
+
+                console.error(
+                    "Could not delete imported MP3:",
+                    error
+                );
+
+            }
+
+            songs.splice(
+                index,
+                1
+            );
+
+            favorites =
+                favorites.filter(
+                    function(item) {
+                        return item !== song;
+                    }
+                );
+
+            recentSongs =
+                recentSongs.filter(
+                    function(item) {
+                        return item !== song;
+                    }
+                );
+
+            Object.keys(playlists).forEach(
+                function(name) {
+
+                    playlists[name] =
+                        playlists[name].filter(
+                            function(item) {
+                                return item !== song;
+                            }
+                        );
+
+                }
+            );
+
+            saveFavorites();
+            saveRecent();
+            savePlaylists();
+
+            if (playlistPlayback) {
+
+                const playlistSongs =
+                    getPlaylistSongs(
+                        playlistPlayback.name
+                    );
+
+                if (
+                    playlistPlayback.index >=
+                    playlistSongs.length
+                ) {
+
+                    playlistPlayback.index =
+                        Math.max(
+                            0,
+                            playlistSongs.length - 1
+                        );
+
+                }
+
+                if (
+                    playlistSongs.length === 0
+                ) {
+
+                    playlistPlayback = null;
+
+                }
+
+            }
+
+            renderPlaylists();
+            renderPlaylistView();
+            renderSongs();
+
+        }
+
+        function getSongDisplayName(
+            song
+        ) {
+
+            if (
+                importedSongKeys.has(song)
+            ) {
+
+                const parts =
+                    song.split(":");
+
+                if (
+                    parts.length > 1
+                ) {
+
+                    let name =
+                        parts
+                            .slice(1)
+                            .join(":");
+
+                    const match =
+                        name.match(
+                            /^(.*) \((\d+)\)$/
+                        );
+
+                    if (match) {
+                        name = match[1];
+                    }
+
+                    return name.replace(
+                        /\.mp3$/i,
+                        ""
+                    );
+                }
+            }
+
+            return song.replace(
+                /\.mp3$/i,
+                ""
+            );
+
+        }
 
         /* =========================
            ELEMENTS
@@ -1409,6 +2129,16 @@
                 "addSongCancel"
             );
 
+        const importButton =
+            document.getElementById(
+                "importButton"
+            );
+
+        const mp3FileInput =
+            document.getElementById(
+                "mp3FileInput"
+            );
+
         let currentIndex = -1;
         let shuffleMode = false;
         let repeatMode = 0;
@@ -1436,6 +2166,34 @@
             localStorage.getItem(
                 "jelloMusicPlaylists"
             ) || "{}"
+        );
+
+        /* =========================
+           IMPORT BUTTON
+           ========================= */
+
+        importButton.addEventListener(
+            "click",
+            function() {
+
+                mp3FileInput.click();
+
+            }
+        );
+
+        mp3FileInput.addEventListener(
+            "change",
+            function() {
+
+                importMP3Files(
+                    Array.from(
+                        this.files
+                    )
+                );
+
+                this.value = "";
+
+            }
         );
 
         /* =========================
@@ -1825,10 +2583,7 @@
                         "playlist-song-name";
 
                     songName.textContent =
-                        song.replace(
-                            /\.mp3$/i,
-                            ""
-                        );
+                        getSongDisplayName(song);
 
                     const remove =
                         document.createElement("button");
@@ -2483,7 +3238,9 @@
                     indexes.filter(
                         function(index) {
 
-                            return songs[index]
+                            return getSongDisplayName(
+                                songs[index]
+                            )
                                 .toLowerCase()
                                 .includes(query);
 
@@ -2596,16 +3353,70 @@
                         "song-name";
 
                     name.textContent =
-                        song.replace(
-                            /\.mp3$/i,
-                            ""
+                        getSongDisplayName(song);
+
+                    if (
+                        importedSongKeys.has(song)
+                    ) {
+
+                        const badge =
+                            document.createElement("span");
+
+                        badge.className =
+                            "imported-badge";
+
+                        badge.textContent =
+                            "IMPORTED";
+
+                        name.appendChild(
+                            badge
                         );
+
+                    }
 
                     const actions =
                         document.createElement("div");
 
                     actions.className =
                         "song-actions";
+
+                    if (
+                        importedSongKeys.has(song)
+                    ) {
+
+                        const removeImported =
+                            document.createElement("button");
+
+                        removeImported.className =
+                            "remove-imported-button";
+
+                        removeImported.type =
+                            "button";
+
+                        removeImported.title =
+                            "Remove imported MP3";
+
+                        removeImported.textContent =
+                            "×";
+
+                        removeImported.addEventListener(
+                            "click",
+                            function(event) {
+
+                                event.stopPropagation();
+
+                                removeImportedSong(
+                                    index
+                                );
+
+                            }
+                        );
+
+                        actions.appendChild(
+                            removeImported
+                        );
+
+                    }
 
                     const addPlaylist =
                         document.createElement("button");
@@ -2738,15 +3549,24 @@
             const song =
                 songs[currentIndex];
 
-            audio.src =
-                "music/" +
-                encodeURIComponent(song);
+            if (
+                importedSongKeys.has(song) &&
+                importedSongURLs[song]
+            ) {
+
+                audio.src =
+                    importedSongURLs[song];
+
+            } else {
+
+                audio.src =
+                    "music/" +
+                    encodeURIComponent(song);
+
+            }
 
             nowPlaying.textContent =
-                song.replace(
-                    /\.mp3$/i,
-                    ""
-                );
+                getSongDisplayName(song);
 
             progress.value = 0;
 
@@ -3342,13 +4162,6 @@
                     }
                 }
 
-                /*
-                 * P intentionally does nothing.
-                 *
-                 * P is reserved for the Sigma Jello
-                 * Quick Settings system.
-                 */
-
             }
         );
 
@@ -3661,6 +4474,8 @@
         renderPlaylistView();
 
         renderSongs();
+
+        initializeImportedMP3s();
 
     </script>
 
