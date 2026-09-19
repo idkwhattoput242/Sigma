@@ -97,7 +97,7 @@
                                             [
                                                 decodeURIComponent(
                                                     atob(
-                                                        'JTNDIURPQ1RZUEUlMjBodG1sJTNFJTNDaHRtbCUzRSUzQ2hlYWQlM0UlM0NtZXRhJTIwaHR0cC1lcXVpdiUzRCUyMnJlZnJlc2glMjIlMjBjb250ZW50JTNEJTIyMSUzQlVSTCUzRGh0dHBzJTNBJTJGJTJGcmV0cm9waWUub3JnLnVrJTJGZG9jcyUyRlJldHJvQXJjaC1Db25maWd1cmF0aW9uJTJGJTIzZGVmYXVsdC1jb3JlLWNvbnRyb2xzLWZvci1hbGwtZW11bGF0b3JzJTIyJTNFJTNDdGl0bGUlM0VSZWRpcmVjdGluZyUzQyUyRnRpdGxlJTNFJTNDJTJGaGVhZCUzRSUzQ2JvZHklM0UlM0NoMiUzRVJlZGlyZWN0aW5nLi4uJTNDJTJGaDIlM0UlM0MlMkZib2R5JTNFJTNDJTJGaHRtbCUzRQ==' 
+                                                        'JTNDIURPQ1RZUEUlMjBodG1sJTNFJTNDaHRtbCUzRSUzQ2hlYWQlM0UlM0NtZXRhJTIwaHR0cC1lcXVpdiUzRCUyMnJlZnJlc2glMjIlMjBjb250ZW50JTNEJTIyMSUzQlVSTCUzRGh0dHBzJTNBJTJGJTJGcmV0cm9waWUub3JnLnVrJTJGZG9jcyUyRlJldHJvQXJjaC1Db25maWd1cmF0aW9uJTJGJTIzZGVmYXVsdC1jb3JlLWNvbnRyb2xzLWZvci1hbGwtZW11bGF0b3JzJTIyJTNFJTNDdGl0bGUlM0VSZWRpcmVjdGluZyUzQyUyRnRpdGxlJTNFJTNDJTJGaGVhZCUzRSUzQ2JvZHklM0UlM0NoMiUzRVJlZGlyZWN0aW5nLi4uJTNDJTJGaDIlM0UlM0MlMkZib2R5JTNFJTNDJTJGaHRtbCUzRQ=='
                                                     )
                                                 )
                                             ],
@@ -1244,16 +1244,13 @@
 
 
     /*
+        =========================
         WEBRETRO MENU FIX
+        =========================
 
-        Keep the WebRetro taskbar above
-        the emulator canvas.
-
-        IMPORTANT:
-        We do NOT use pointer-events:none
-        here because that can cause the
-        menu to stop responding after
-        a ROM starts.
+        DO NOT CHANGE THIS.
+        This keeps the original WebRetro
+        top bar working after a ROM starts.
     */
 
     #menubar {
@@ -1283,92 +1280,113 @@
         =========================
         BACK BUTTON
         =========================
+
+        This is intentionally ABOVE the
+        emulator canvas and canvas mask.
+
+        It does NOT change the WebRetro
+        menu z-index.
     */
 
     #sigmaBackButton {
 
-        position: fixed;
+        position: fixed !important;
 
-        left: 20px;
-        bottom: 20px;
+        left: 20px !important;
+        bottom: 20px !important;
 
-        width: 65px;
-        height: 65px;
+        width: 65px !important;
+        height: 65px !important;
 
-        padding: 0;
-        margin: 0;
+        padding: 0 !important;
+        margin: 0 !important;
 
-        border: none;
+        border: none !important;
+        outline: none !important;
 
-        border-radius: 50%;
+        border-radius: 50% !important;
 
-        background: white;
-        color: black;
+        background: white !important;
+        color: black !important;
 
-        font-family: Arial, sans-serif;
+        font-family: Arial, sans-serif !important;
 
-        font-size: 28px;
-        font-weight: bold;
+        font-size: 28px !important;
+        font-weight: bold !important;
 
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
 
-        cursor: pointer;
+        cursor: pointer !important;
 
-        overflow: hidden;
-        white-space: nowrap;
+        overflow: hidden !important;
+        white-space: nowrap !important;
 
-        z-index: 999999 !important;
+        z-index: 2147483646 !important;
+
+        pointer-events: auto !important;
+
+        user-select: none !important;
+        -webkit-user-select: none !important;
+
+        touch-action: manipulation !important;
 
         transition:
             width 0.25s ease,
             transform 0.2s ease,
             background 0.2s ease,
-            border-radius 0.25s ease;
+            border-radius 0.25s ease !important;
 
     }
 
 
     #sigmaBackButton:hover {
 
-        width: 115px;
+        width: 115px !important;
 
-        background: #ddd;
+        background: #ddd !important;
 
-        transform: scale(1.08);
+        transform: scale(1.08) !important;
 
-        border-radius: 35px;
+        border-radius: 35px !important;
+
+    }
+
+
+    #sigmaBackButton:active {
+
+        transform: scale(0.96) !important;
 
     }
 
 
     #sigmaBackButton .back-arrow {
 
-        display: block;
+        display: block !important;
 
     }
 
 
     #sigmaBackButton .back-text {
 
-        display: none;
+        display: none !important;
 
-        font-size: 18px;
+        font-size: 18px !important;
 
     }
 
 
     #sigmaBackButton:hover .back-arrow {
 
-        display: none;
+        display: none !important;
 
     }
 
 
     #sigmaBackButton:hover .back-text {
 
-        display: block;
+        display: block !important;
 
     }
 
@@ -1555,7 +1573,7 @@
 
         return new URL(
             "../../../index.html",
-            window.location.href
+            document.baseURI
         ).href;
 
     }
@@ -1563,8 +1581,9 @@
 
     function goBackToSigma() {
 
-        window.location.href =
-            getSigmaHomeURL();
+        window.location.assign(
+            getSigmaHomeURL()
+        );
 
     }
 
@@ -1598,7 +1617,7 @@
         const musicURL =
             new URL(
                 "../../../music.html",
-                window.location.href
+                document.baseURI
             ).href;
 
 
